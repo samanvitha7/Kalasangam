@@ -1,0 +1,1 @@
+//Moongoose schema for art data
