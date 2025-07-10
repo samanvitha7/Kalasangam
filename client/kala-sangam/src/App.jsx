@@ -1,28 +1,64 @@
-
-import IndiaMap from "./components/IndiaMap.jsx";
+import { useRef, useState } from 'react';
+import Header from './components/Header.jsx';
+import Footer from './components/Footer.jsx';
+import IndiaMap from './components/IndiaMap.jsx';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 function App() {
+  const [showMap, setShowMap] = useState(false);
+  const mapRef = useRef(null);
+  const location = useLocation();
+
   const handleStateClick = (stateName) => {
-    alert("You clicked: " + stateName);
+    alert(`You clicked on ${stateName}`);
+  };
+
+  const handleShowMap = () => {
+    setShowMap(true);
+    setTimeout(() => {
+      mapRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
-      <header className="bg-blue-600 text-white text-center py-4 shadow-md">
-        <h1 className="text-2xl font-bold">Interactive India Map</h1>
-        <p className="text-sm">Click on a state to get started</p>
-      </header>
+    <>
+      <Header onMapClick={handleShowMap} />
 
-      <main className="flex-grow flex items-center justify-center p-4">
-        <IndiaMap onStateClick={handleStateClick} />
+      <main className="min-h-screen px-6 py-10 bg-[#fffef2] text-center scroll-smooth">
+
+        {/* ✅ Only show this block on homepage */}
+        {location.pathname === '/' && (
+          <>
+            <h1 className="text-5xl font-bold font-serif text-[#9b2226]">
+              Welcome to KalaSangam
+            </h1>
+
+            <p className="text-lg text-[#582f0e] mt-4 max-w-2xl mx-auto">
+              Immerse yourself in the timeless traditions, stories, and colors of Indian art.
+            </p>
+
+            {showMap && (
+              <div
+                id="india-map"
+                ref={mapRef}
+                className="mt-16 flex items-center justify-center p-6"
+              >
+                <IndiaMap onStateClick={handleStateClick} />
+              </div>
+            )}
+          </>
+        )}
+
+        {/* ✅ You can define more <Routes> below if needed */}
+        <Routes>
+          <Route path="/" element={<></>} />
+          {/* Example: <Route path="/about" element={<About />} /> */}
+        </Routes>
       </main>
 
-      <footer className="bg-gray-800 text-white text-center py-3">
-        <p className="text-sm">© 2025 Made by You • React + Tailwind CSS</p>
-      </footer>
-    </div>
+      <Footer />
+    </>
   );
 }
 
 export default App;
-
