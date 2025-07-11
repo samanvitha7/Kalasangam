@@ -3,6 +3,13 @@ const mongoose=require("mongoose");
 require("dotenv").config();
 const Art=require("../models/Art.js");
 
+// helper function for urls
+const buildPhotoUrlsFromNames = (state, fileNames) => {
+  return fileNames.map((file) =>
+    `http://localhost:5000/images/all-pics/${state}/${file}`
+  );
+};
+
 const gallerydata=[
   {
     name:"Kalamkari",
@@ -14,7 +21,29 @@ const gallerydata=[
       "http://localhost:5000/images/all-pics/AP/kalamkari_img1.webp",
       "http://localhost:5000/images/all-pics/AP/kalamkari_img1.jpg"
     ]
+  },
+  {
+    name:"Nirmal",
+    state:"Andhra Pradesh",
+    photoUrl:["http://localhost:5000/images/all-pics/AP/nirmal_1.jpg",
+      "http://localhost:5000/images/all-pics/AP/nirmal_2.jpg",
+      "http://localhost:5000/images/all-pics/AP/nirmal_3.jpeg",
+      "http://localhost:5000/images/all-pics/AP/nirmal_4.jpg",
+      "http://localhost:5000/images/all-pics/AP/nirmal_5.jpg",
+      
+    ]
+  },
+  {
+    name:"Bhidri",
+    state:"Andhra Pradesh",
+    photoUrl:buildPhotoUrlsFromNames("AP",["bhidri_img1.jpg",
+      "bhidri_img2.jpg",
+       "bhidri_img3.jpg",
+       "bhidri_img4.webp",
+       "bhidri_img5.webp"
+    ])
   }
+
 ];
 
 async function seedDB(){
