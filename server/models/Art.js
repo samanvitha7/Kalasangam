@@ -1,10 +1,9 @@
 //Moongoose schema for art data
 const mongoose=require("mongoose");
 
-const ArtSchema=new MongooseError.Schema({
+const ArtSchema=new mongoose.Schema({
   name:String,
-  photoUrl:String,
-  info:String,
+  photoUrl:[String],
   state:String
 });
 
