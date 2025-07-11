@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Header({ onMapClick }) {
   return (
     <header className="bg-gradient-to-r from-[#fdf6e3] via-[#fae5d3] to-[#ffe6eb] shadow-md sticky top-0 z-50">
@@ -7,11 +9,10 @@ export default function Header({ onMapClick }) {
         </div>
 
         <nav className="hidden md:flex space-x-8 text-[#582f0e] font-medium text-lg">
-          <a href="#" className="hover:text-[#9b2226] transition">Home</a>
-          <a href="#" className="hover:text-[#9b2226] transition">Art Gallery</a>
-         
+          <Link to="/" className="hover:text-[#9b2226] transition">Home</Link>
+          <Link to="/gallery" className="hover:text-[#9b2226] transition">Art Gallery</Link>
 
-          {/* ✅ Call the click function passed as a prop */}
+          {/* India Map remains a button since it's triggering a scroll action */}
           <button
             onClick={onMapClick}
             className="hover:text-[#9b2226] transition"
@@ -19,8 +20,8 @@ export default function Header({ onMapClick }) {
             India Map
           </button>
 
-          <a href="#" className="hover:text-[#9b2226] transition">About</a>
-          <a href="#" className="hover:text-[#9b2226] transition">Contact</a>
+          <Link to="/about" className="hover:text-[#9b2226] transition">About</Link>
+          <Link to="/contact" className="hover:text-[#9b2226] transition">Contact</Link>
         </nav>
       </div>
     </header>
