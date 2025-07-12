@@ -4,7 +4,7 @@ export default function Home({ showMap, mapRef, onStateClick }) {
   return (
     <main className="min-h-screen px-6 py-10 bg-[#fffef2] text-center scroll-smooth">
       <h1 className="text-5xl font-bold font-serif text-[#9b2226]">
-        Welcome to KalaSangam
+        Welcome to <span className="yatra-font">KalaSangam</span>
       </h1>
 
       <p className="text-lg text-[#582f0e] mt-4 max-w-2xl mx-auto">
