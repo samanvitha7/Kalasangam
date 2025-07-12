@@ -11,15 +11,7 @@ export default function Header({ onMapClick }) {
         <nav className="hidden md:flex space-x-8 text-[#582f0e] font-medium text-lg">
           <Link to="/" className="hover:text-[#9b2226] transition">Home</Link>
           <Link to="/gallery" className="hover:text-[#9b2226] transition">Art Gallery</Link>
-
-          {/* India Map remains a button since it's triggering a scroll action */}
-          <button
-            onClick={onMapClick}
-            className="hover:text-[#9b2226] transition"
-          >
-            India Map
-          </button>
-
+          <Link to="/map" className="hover:text-[#9b2226] transition">India Map</Link>
           <Link to="/about" className="hover:text-[#9b2226] transition">About</Link>
           <Link to="/contact" className="hover:text-[#9b2226] transition">Contact</Link>
         </nav>

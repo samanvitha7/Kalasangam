@@ -1,0 +1,31 @@
+{
+  "Odisha": {
+    "collage": "/images/odisha-collage.jpg",
+    "intro": "Odisha is known for its rich cultural heritage and vibrant folk arts.",
+    "artForms": [
+      {
+        "name": "Pattachitra",
+        "image": "/images/pattachitra.jpg",
+        "description": "Scroll painting with mythological themes.",
+        "artists": ["Raghunath Mohapatra", "Jaga Mohan"]
+      }
+    ],
+    "facts": [
+      "Pattachitra dates back to the 12th century.",
+      "Often done on dried palm leaves."
+    ]
+  },
+  "Maharashtra": {
+    "collage": "/images/maharashtra-collage.jpg",
+    "intro": "Maharashtra's tribal communities express themselves through Warli art.",
+    "artForms": [
+      {
+        "name": "Warli",
+        "image": "/images/warli.jpg",
+        "description": "Tribal art with white figures on mud background.",
+        "artists": ["Jivya Soma Mashe"]
+      }
+    ],
+    "facts": ["Warli art uses only basic geometric shapes."]
+  }
+}

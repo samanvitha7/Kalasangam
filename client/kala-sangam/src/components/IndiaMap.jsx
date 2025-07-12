@@ -1,18 +1,26 @@
-
+import { useNavigate } from "react-router-dom"
 import React from "react";
 
-const IndiaMap = ({ onStateClick }) => {
-  const handleClick = (e) => {
-    const stateName = e.target.getAttribute("name");
-    if (stateName) {
-      onStateClick(stateName);
-    }
+export default function IndiaMap() {
+  const navigate = useNavigate();
+
+  const handleClick = (stateName) => {
+    navigate(`/gallery?state=${encodeURIComponent(stateName)}`);
   };
+
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
       <svg viewBox="0 0 1000 1000" className="w-full h-auto">
-        <g id="features">
+        <g id="features"
+    onClick={(e) => {
+      const target = e.target;
+      // get the name attribute of the clicked path
+      const stateName = target.getAttribute('name');
+      if(stateName) handleClick(stateName);
+    }}
+    className="cursor-pointer"
+  >
           <path
   id="INAN"
   name="Andaman and Nicobar"
@@ -236,4 +244,3 @@ const IndiaMap = ({ onStateClick }) => {
   );
 };
 
-export default IndiaMap;
