@@ -30,39 +30,39 @@ const galleryData = [
     name: "Bhidriware",
     origin: "Andhra Pradesh",
     photoUrl: [
-      "https://www.google.com/imgres?imgurl=http://www.dsource.in/sites/default/files/resource/bidri-ware-hyderabad/introduction/minigallery/3618/07.jpg&tbnid=1VFT5-FKnxz54M&vet=1&imgrefurl=http://www.dsource.in/resource/bidri-ware-hyderabad/introduction&docid=gp14RUYh-fBECM&w=800&h=533&hl=en-GB&source=sh/x/im/m1/4&kgs=2910ccab8dc99143",
-"https://www.google.com/imgres?imgurl=http://www.sahapedia.org/sites/default/files/styles/sp_inline_images/public/2.5.jpg?itok%3DaZmFPQ8Z&tbnid=KQjcWV9IuUQSXM&vet=1&imgrefurl=http://www.sahapedia.org/types-of-bidri-work&docid=l_J-Rb9BBjpRzM&w=620&h=710&itg=1&hl=en-GB&source=sh/x/im/m1/4&kgs=4869dd78296b8e35",
-"https://www.google.com/imgres?imgurl=https://3.imimg.com/data3/QX/YH/MY-3307545/bidri-art.jpg&tbnid=GA1A2iB3WxYitM&vet=1&imgrefurl=https://www.indiamart.com/proddetail/bidri-art-6866087873.html?srsltid%3DAfmBOoqvA1AI5ZISYHUJnqQkdECfC3vmE0C5v9oZ2AaBe0CIgn-qjL7Z&docid=r_u3PKy0Ps-LvM&w=300&h=241&hl=en-GB&source=sh/x/im/m1/4&kgs=64275fc49b6e4393",
-"https://www.google.com/imgres?imgurl=http://peachmode.com/cdn/shop/articles/the-lost-art-of-bidri-peachmode.jpg?v%3D1668998973%26width%3D1024&tbnid=sHJpWnPW15R8aM&vet=1&imgrefurl=https://peachmode.com/blogs/peachmode/the-lost-art-of-bidri&docid=PmFEJlv2E6IzEM&w=922&h=622&itg=1&hl=en-GB&source=sh/x/im/m1/4&kgs=b603ca31fbe2261b",
+      "http://www.dsource.in/sites/default/files/resource/bidri-ware-hyderabad/introduction/minigallery/3618/07.jpg",
+"http://www.sahapedia.org/sites/default/files/styles/sp_inline_images/public/2.5.jpg?itok=aZmFPQ8Z",
+"https://3.imimg.com/data3/QX/YH/MY-3307545/bidri-art.jpg",
+"http://peachmode.com/cdn/shop/articles/the-lost-art-of-bidri-peachmode.jpg?v=1668998973&width=1024",
     ]
   },
   {
     name: "Nirmal Paintings",
     origin: "Andhra Pradesh",
     photoUrl: [
-      "https://images.app.goo.gl/VGYak4AMUwbJXsto8",
-      "https://images.app.goo.gl/tdpmUCZxAziwqXFZA",
-      "https://images.app.goo.gl/ezAbJ34aapuyTvEF9"
+     "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCBnnbIIwul7d9FSeVomy54CAiojJJ2jxX6DCyITB0_myqxhvsAN9iWiiDkuD0-DPvuzPg_mRKa1LKLtF_wqrLoORG5ZeSjtzMO9Cdhyphenhyphen2j-k3Cdcng9Zx33rx5Ph2cDKjSUYnDrmmJV3M/s1600/nirmal_painting.jpg",
+"https://tsht.telangana.gov.in/GolkoCrafts/images/products/nirmal_paintngs/large/44.jpg",
+"https://i.pinimg.com/236x/38/fc/fe/38fcfe054a99bbff1e622812757bb3fb.jpg",
     ]
   },
   {
     name: "Etikoppaka Wooden Toys",
     origin: "Andhra Pradesh",
     photoUrl: [
-      "https://images.app.goo.gl/UdV5BPczbYV2Fg8P8",
-      "https://images.app.goo.gl/CyKR4oVe9RF1UkJj7",
-      "https://images.app.goo.gl/MbxYDz8exUm6jHDa8",
-      "https://images.app.goo.gl/yAot15iD6kRGCHov8"
+      "https://www.gitagged.com/wp-content/uploads/2024/01/ETIKOPPA-RAMA-SITA-SET-4P-2-300x300.jpg",
+"https://lsmedia.linker-cdn.net/282256/2021/7101297.jpeg",
+"https://www.gitagged.com/wp-content/uploads/2021/11/EKT3-FARMER-COUPLE-FGREEN-300x300.jpg",
+"https://assets.thehansindia.com/h-upload/2024/12/29/1510496-etikoppaka-toys.webp",
     ]
   },
   {
     name: "Leather Puppetry",
     origin: "Andhra Pradesh",
     photoUrl: [
-      "https://images.app.goo.gl/idABCVFKqfSxwJmd6",
-      "https://images.app.goo.gl/7TUFFZmSe9DX8FdH9",
-      "https://images.app.goo.gl/FrKk1mezWm98nWat5",
-      "https://images.app.goo.gl/QwseLtBhXdTNUit7A"
+      "https://theindiacrafthouse.com/cdn/shop/products/AndhraLeatherCraftStringPuppet-Lakshman_17_x9__-TTICH93b_eed274a9-1032-46cc-add8-fc086680ab03@2x.jpg",
+"https://www.gitagged.com/wp-content/uploads/2017/08/AP-Leather-Puppet.jpg",      
+"https://lsmedia.linker-cdn.net/282256/2021/7130415.jpeg",
+"https://www.nimmalakuntaleatherpuppetrycraft.com/images/portfolio-2.jpg",
     ]
   },  //Arunachal Pradesh
    {
