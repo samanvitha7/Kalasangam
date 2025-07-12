@@ -18,20 +18,22 @@ const galleryData = [
     name: "Kalamkari",
     origin: "Andhra Pradesh",
     photoUrl: [
-      "https://images.app.goo.gl/3HU1KCtK6aewwSDf9",
-      "https://images.app.goo.gl/Z78ZPRNdRCXMk21r6",
-      "https://images.app.goo.gl/M9ev24C6gBZT58k18",
-      "https://images.app.goo.gl/E8tYQiUzxGeD7D2s6"
-    ]
+      "https://images.saatchiart.com/saatchi/1723300/art/8177590/7243563-HSC00001-7.jpg",
+     " https://static.wixstatic.com/media/1b2c9f_cdbe02f1e009485a9236387343c8a688~mv2.jpeg/v1/fill/w_553,h_798,al_c,q_85,enc_avif,quality_auto/1b2c9f_cdbe02f1e009485a9236387343c8a688~mv2.jpeg",
+     "https://www.tallengestore.com/cdn/shop/products/kalamkari-cloth-painting-lord-tirupati-balaji-venkateshwara-srikalahasti-CE6TA2_large.jpg?v=1570230018",
+     "https://sunyaias-resources.s3.ap-south-1.amazonaws.com/content/d6ea171e-730c-11ec-b85f-477923514423.png"
+
+
+    ]  
   },
   {
     name: "Bhidriware",
     origin: "Andhra Pradesh",
     photoUrl: [
-      "https://images.app.goo.gl/M7E95pPnFcZCcMX68",
-      "https://images.app.goo.gl/7qbLXgGiox5qgJ9VA",
-      "https://images.app.goo.gl/cf3iNcf5tAdredwJA",
-      "https://images.app.goo.gl/iEjmTJAwDPSPFqkL6"
+      "https://www.google.com/imgres?imgurl=http://www.dsource.in/sites/default/files/resource/bidri-ware-hyderabad/introduction/minigallery/3618/07.jpg&tbnid=1VFT5-FKnxz54M&vet=1&imgrefurl=http://www.dsource.in/resource/bidri-ware-hyderabad/introduction&docid=gp14RUYh-fBECM&w=800&h=533&hl=en-GB&source=sh/x/im/m1/4&kgs=2910ccab8dc99143",
+"https://www.google.com/imgres?imgurl=http://www.sahapedia.org/sites/default/files/styles/sp_inline_images/public/2.5.jpg?itok%3DaZmFPQ8Z&tbnid=KQjcWV9IuUQSXM&vet=1&imgrefurl=http://www.sahapedia.org/types-of-bidri-work&docid=l_J-Rb9BBjpRzM&w=620&h=710&itg=1&hl=en-GB&source=sh/x/im/m1/4&kgs=4869dd78296b8e35",
+"https://www.google.com/imgres?imgurl=https://3.imimg.com/data3/QX/YH/MY-3307545/bidri-art.jpg&tbnid=GA1A2iB3WxYitM&vet=1&imgrefurl=https://www.indiamart.com/proddetail/bidri-art-6866087873.html?srsltid%3DAfmBOoqvA1AI5ZISYHUJnqQkdECfC3vmE0C5v9oZ2AaBe0CIgn-qjL7Z&docid=r_u3PKy0Ps-LvM&w=300&h=241&hl=en-GB&source=sh/x/im/m1/4&kgs=64275fc49b6e4393",
+"https://www.google.com/imgres?imgurl=http://peachmode.com/cdn/shop/articles/the-lost-art-of-bidri-peachmode.jpg?v%3D1668998973%26width%3D1024&tbnid=sHJpWnPW15R8aM&vet=1&imgrefurl=https://peachmode.com/blogs/peachmode/the-lost-art-of-bidri&docid=PmFEJlv2E6IzEM&w=922&h=622&itg=1&hl=en-GB&source=sh/x/im/m1/4&kgs=b603ca31fbe2261b",
     ]
   },
   {
