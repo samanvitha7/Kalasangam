@@ -12,7 +12,7 @@ export default function Home({ showMap, mapRef, onStateClick }) {
       </p>
 
       {/* 👇 India Map shown if `showMap` is true */}
-      {showMap && (
+      {/* {showMap && (
         <div
           id="india-map"
           ref={mapRef}
@@ -20,7 +20,7 @@ export default function Home({ showMap, mapRef, onStateClick }) {
         >
           <IndiaMap onStateClick={onStateClick} />
         </div>
-      )}
+      )} */}
     </main>
   );
 }
