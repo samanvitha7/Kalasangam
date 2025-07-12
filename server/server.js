@@ -1,27 +1,33 @@
 const express = require("express");
 const cors = require("cors");
-
+const mongoose = require("mongoose");
 const path=require("path");
-app.use("/images",express.static(path.join(__dirname,'public')));
+
 require("dotenv").config();
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
+//serve atatic image files from /public
+app.use("/images",express.static(path.join(__dirname,'public')));
+require("dotenv").config();
 
-app.get("/api/test", (req, res) => {
-  res.send("Backend is working!");
-});
+//routes
+const artRoutes=require("./routes/artRoutes");
+app.use("/api/artforms",artRoutes);
 
-app.use("/api/artforms", require("./routes/artforms"));
+//connect to mongodb
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
 
-const PORT = process.env.PORT || 5000;
+
+
+const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+

@@ -24,7 +24,7 @@ function ArtGallery() {
 
 
   const filtered = selectedState
-    ? artforms.filter((art) => art.origin === selectedState)
+    ? artforms.filter((art) => art.origin=== selectedState)
     : artforms;
 
   return (

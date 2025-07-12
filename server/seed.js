@@ -17,12 +17,14 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
      
       image: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Warli_art.jpg"
     },
+    /*
     {
       name: "Kalamkari",
       origin: "Andhra Pradesh",
      
       image: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Kalamkari_art.jpg"
     },
+    */
     {
       name: "Pattachitra",
       origin: "Odisha",
