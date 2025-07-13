@@ -46,3 +46,4 @@ const StateDetail = () => {
 };
 
 export default StateDetail;
+

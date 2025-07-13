@@ -7,6 +7,7 @@ import Footer from "./components/Footer.jsx";
 import ArtGallery from "./pages/ArtGallery.jsx";
 import Home from "./pages/Home.jsx";
 import IndiaMapPage from "./pages/IndiaMapPage.jsx";
+import About from "./pages/About.jsx";
 
 function App() {
   const location = useLocation();
@@ -36,6 +37,7 @@ function App() {
         />
         <Route path="/gallery" element={<ArtGallery />} />
         <Route path="/map" element={<IndiaMapPage />} />
+        <Route path="/about" element={<About />} />
       </Routes>
 
       <Footer />
