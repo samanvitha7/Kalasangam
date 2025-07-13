@@ -11,7 +11,7 @@ export default function Home({ showMap, mapRef, onStateClick }) {
         Immerse yourself in the timeless traditions, stories, and colors of Indian art.
       </p>
 
-      {/* 👇 India Map shown if `showMap` is true */}
+      {/* 👇 India Map shown if showMap is true */}
       {showMap && (
         <div
           id="india-map"

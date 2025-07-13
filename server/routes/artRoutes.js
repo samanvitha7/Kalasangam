@@ -3,7 +3,8 @@
 
 const express=require("express");
 const router=express.Router();
-const Art=require("../models/Art.js") //imports art model which is connected to mongodb
+const Art = require("../models/Art.js");
+
 
 
 //this function runs when someone visits localhost:5000/api/artforms
