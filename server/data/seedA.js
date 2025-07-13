@@ -69,191 +69,194 @@ const galleryData = [
     name: "Thangaka Paintings",
     origin: "Arunachal Pradesh",
     photoUrl: [
-      "https://images.app.goo.gl/khAR13xPwyw6EJSf9",
-      "https://images.app.goo.gl/A7d4qd73Qr6Q1JhH6",
-      "https://images.app.goo.gl/ZDQ1BE7Ju5g5c9yb7",
-      "https://images.app.goo.gl/khmP97fMfLq1McXq9"
+      "https://tawangtourism.in/wp-content/uploads/2015/02/thangka2-e1427971963354.jpg",
+"https://neocha-content.oss-cn-hongkong.aliyuncs.com/wp-content/uploads/sites/2/2021/09/lama-thanka-03.jpg",
+"https://lookaside.instagram.com/seo/google_widget/crawler/",
+"https://lookaside.instagram.com/seo/google_widget/crawler/",
     ]
   },
   {
     name: "Carpet Weaving",
     origin: "Arunachal Pradesh",
     photoUrl: [
-      "https://images.app.goo.gl/oy9xSUPUdKkup9Cv5",
-      "https://images.app.goo.gl/sCAppZnroXpBiyfV7",
-      "https://images.app.goo.gl/zB2LBE7XVLTiJDW48",
-      "https://images.app.goo.gl/VobHaQ4fEZd8R7ey6"
+     "https://kgnmarbleinlay.com/images/grid-mosaic-carpet-design-21-1-600x877-original.jpg",
+"https://kgnmarbleinlay.com/images/grid-mosaic-rug-flooring-5-2-580x800-original.jpg",
+"https://tibetancentredarjeeling.com/wp-content/uploads/2021/05/OTH-01.jpg",      
+"http://www.abhijna-emuseum.com/wp-content/uploads/2017/03/downloadfile-8-1024x768.jpeg",
     ]
   },
   {
     name: "Bamboo and Cane Craft",
     origin: "Arunachal Pradesh",
     photoUrl: [
-      "https://images.app.goo.gl/wACASRAqnKp9nszt6",
-      "https://images.app.goo.gl/6EDh8zEHXgyRQxTu6",
-      "https://images.app.goo.gl/DbP6VuocCT2ENaQN7",
-      "https://images.app.goo.gl/3up45bvjvPeqwAxw9"
+      "https://www.shutterstock.com/image-photo/baskets-woven-willow-twigs-container-600nw-565145395.jpg",
+"https://5.imimg.com/data5/IH/OU/MY-12266299/bamboo-work-handicraft-500x500.jpg", 
+"https://spaindustrialdesign.wordpress.com/wp-content/uploads/2020/12/1-7.jpg",   
+"https://i.pinimg.com/originals/9e/3b/80/9e3b80bf667137da577e0afcdb0e19fc.jpg",
+     
     ]
   },
   {
     name: "Wood Carving",
     origin: "Arunachal Pradesh",
     photoUrl: [
-      "https://images.app.goo.gl/sua78WyqMFQ3V45s6",
-      "https://images.app.goo.gl/aGkxpRdisBHKdDJ79",
-      "https://images.app.goo.gl/K8CUoRiVjbFBwELq8",
-      "https://images.app.goo.gl/79pFvHtKEaCx7Zeh9"
+      "https://www.indianetzone.com/public/admin/uploadImage/2_Wooden_Containers_of_Arunachal_Pradesh.jpg",
+"http://www.craftclustersofindia.in/upload/Photo/528_7_06.jpg",
+"https://5.imimg.com/data5/WY/TC/MY-3762395/wood-elephant-500x500.jpg",
+"https://cdn.shopify.com/s/files/1/2447/5025/files/PC010032.jpg",
+      
     ]
   },
   {
     name: "Tribal Masks",
     origin: "Arunachal Pradesh",
     photoUrl: [
-      "https://images.app.goo.gl/bbHXxuq3oD5WqgHv9",
-      "https://images.app.goo.gl/DEbycDpB1RPUGgp57",
-      "https://images.app.goo.gl/Bwzxg9iqruqNFySP9",
-      "https://images.app.goo.gl/vxWznD8565y2kDAJ9"
+    
+"https://ethnoflorence.wordpress.com/wp-content/uploads/2014/05/f6e0d-1724963487.jpg",
+"https://ethnoflorence.wordpress.com/wp-content/uploads/2024/03/bonhams-monpa-mask.jpg",
+"https://www.dorotheum.com/fileadmin/lot-images/39T151102/normal/monpa-indien-bundesstaat-arunachal-pradesh-eine-sehr-alte-maske-fuer-die-sogenannten-cham-taenze-2325190.jpg",
+"https://www.sftribal.com/wp-content/uploads/2020/11/9fc16ad4635aa4de8e11dcc4664d454d.jpg",
     ]
   },//assam
   {
     name: "Muga & Eri Silk Weaving",
     origin: "Assam",
     photoUrl: [
-      "https://images.app.goo.gl/Zc6mn4iJPD73pkZb7",
-      "https://images.app.goo.gl/KkUnwNWzike7gmvs9",
-      "https://images.app.goo.gl/JmFFAXJoi4jK8iRt9",
-      "https://images.app.goo.gl/NHbkq1Uo79cnxmjLA"
+      "https://upload.wikimedia.org/wikipedia/commons/c/c0/Assamese_Muga_With_Japi.jpg",
+"https://s7ap1.scene7.com/is/image/incredibleindia/muga-silk-assam-craft-hero",   
+"https://grandmaslegacy.wordpress.com/wp-content/uploads/2018/02/ahimsasilk.jpg", 
+"https://lahelooms.com/cdn/shop/files/DSCF4741.jpg",
     ]
   },
   {
     name: "Jaapi",
     origin: "Assam",
     photoUrl: [
-      "https://images.app.goo.gl/vG9VCyhMhojoEMW67",
-      "https://images.app.goo.gl/XW5xFhTV2csLQpWk9",
-      "https://images.app.goo.gl/GZrz8qSu4iMr9LTQ6",
-      "https://images.app.goo.gl/CozdkUvsDFBjKQ8V9"
+     "https://m.media-amazon.com/images/I/81C1F79G6FL._UF894,1000_QL80_.jpg",
+"https://5.imimg.com/data5/SELLER/Default/2021/9/GG/VI/QP/129682126/assamese-jaapi-500x500.jpg",
+"https://lookaside.instagram.com/seo/google_widget/crawler/",
+"https://live.staticflickr.com/2796/4505309617_e41b7486b5_b.jpg",
     ]
   },
   {
     name: "Gamusa Weaving",
     origin: "Assam",
     photoUrl: [
-      "https://images.app.goo.gl/SgbchdQmYvuFaq3z5",
-      "https://images.app.goo.gl/EMdB2fCyHx8Yx3UZA",
-      "https://images.app.goo.gl/y9Hx1Xh28JeAYYJSA",
-      "https://images.app.goo.gl/7umoN7jF55fz6xpR8"
+      "https://cf-img-a-in.tosshub.com/sites/visualstory/wp/2025/04/WhatsApp-Image-2025-04-08-at-44101-PMITG-1744110678212.jpeg",
+"https://images.meesho.com/images/products/417177424/xgejo_512.webp",
+"https://www.shutterstock.com/image-photo/handicrafts-various-handcrafted-gamusa-handmade-600nw-2613393867.jpg",
+"https://i.pinimg.com/736x/27/17/96/271796733dccb8989cd8a0c34bb107b2.jpg",
     ]
   },
   {
     name: "Bell Metal Craft",
     origin: "Assam",
     photoUrl: [
-      "https://images.app.goo.gl/s7hS4dTNRCEWW8G98",
-      "https://images.app.goo.gl/F9wvr1WG65YxhYXb9",
-      "https://images.app.goo.gl/VXiBGFqkpzEKzraR8",
-      "https://images.app.goo.gl/wY8P4CazR5heGLxg8"
+     "https://www.shutterstock.com/image-photo/xorai-traditional-symbols-assam-used-600nw-2272425707.jpg",
+"http://www.bharatonline.com/assam/pics/metal-crafts-of-assam.jpg",
+"https://www.gitagged.com/wp-content/uploads/2023/10/BDH-TRIBAL-KING-QUEEN-1-300x300.jpg",
+"https://i.pinimg.com/736x/74/06/b1/7406b17378f4b619d43dd4ede425d89e.jpg", 
     ]
   },//bihar
   {
     name: "Madhubani",
     origin: "Bihar",
     photoUrl: [
-      "https://images.app.goo.gl/QTvyn9Pd7UomnygR6",
-      "https://images.app.goo.gl/L7qgdG6TmKCFhE1aA",
-      "https://images.app.goo.gl/RsomMPf1FFbjMPMP7",
-      "https://images.app.goo.gl/rGeZjgnP9qbqaYUM8"
+     "https://www.tallengestore.com/cdn/shop/files/Peacock-MadhubaniPainting-FolkArtOfIndia_3779aadb-2eed-4832-a675-cfa74801e772.jpg",
+"https://cdn11.bigcommerce.com/s-x49po/images/stencil/1500x1500/products/130372/297360/handmade%2Fdownscaled%2Fh_o55aaeecwq_2000x2000__44375.1724735529.jpg",       
+"https://images.meesho.com/images/products/115146265/w3ro7_512.jpg",
+"https://5.imimg.com/data5/SELLER/Default/2021/2/HC/HB/NG/79888636/6c869061-0afa-47fd-a37e-9b6fe9e17ac2.jpg",
     ]
   },
   {
     name: "Sikki Grass Craft",
     origin: "Bihar",
     photoUrl: [
-      "https://images.app.goo.gl/E5iEzeLK51w2UFf78",
-      "https://images.app.goo.gl/btDKoN2h458LFfRE9",
-      "https://images.app.goo.gl/f1G6zXY6Dx86u5ib9",
-      "https://images.app.goo.gl/WBAYja6rdQ3ySm498"
+     "http://okhai.org/cdn/shop/products/BH04DU01_A.jpg",
+"https://lookaside.fbsbx.com/lookaside/crawler/media/",
+"https://shop.umsas.org.in/wp-content/uploads/2021/12/DSC_4858.jpg",
+"https://itokri.com/cdn/shop/products/0X2A6890_d689e618-57fd-4340-8c8b-1c9f04c1279b.jpg"
     ]
   },
   {
     name: "Sujani Embroidery",
     origin: "Bihar",
     photoUrl: [
-      "https://images.app.goo.gl/3bRc3wzwkUGppuWW9",
-      "https://images.app.goo.gl/P2VyoH8AMP1AYH7m7",
-      "https://images.app.goo.gl/HofR9HXiwSJJiJpL6",
-      "https://images.app.goo.gl/uaMYzFXkU85Q4epP8",
-      "https://images.app.goo.gl/3gLxo91NBty6qmsX7"
+     "https://lookaside.fbsbx.com/lookaside/crawler/media/",
+"https://shop.gaatha.com/image/data/paulami%20/K4.jpg",
+"https://shop.umsas.org.in/wp-content/uploads/2021/12/DSC_2192-scaled-350x500.jpg",
+"https://media.assettype.com/homegrown%2Fimport%2Farticle%2F14716-fhtsszjznu-1660901534.jpg",
+"https://oaklores.com/2024/12/15/evolution-of-sujani-embroidery-from-mothers-love-to-a-medium-of-social-expression/cushion-cover-amoulee/"
     ]
   },
   {
     name: "Tikuli Art",
     origin: "Bihar",
     photoUrl: [
-      "https://images.app.goo.gl/6vyfVyniGwjCrTji6",
-      "https://images.app.goo.gl/bJL9stgNsKniEnqo8",
-      "https://images.app.goo.gl/gUAn3w56YPeYupMx7",
-      "https://images.app.goo.gl/6XGxqbXBAj7rMnLaA"
+     "https://m.media-amazon.com/images/I/61exS0DS8RL._AC_UF1000,1000_QL80_.jpg",
+"https://umsas.org.in/wp-content/uploads/2020/07/4-1-1.jpg",
+"https://m.media-amazon.com/images/I/71j0K1-DXtL._AC_UF894,1000_QL80_.jpg",       
+"https://cdn.dollsofindia.com/images/p/madhubani-paintings/tikuli-painting-RM16_l.jpg",
     ]
   },
   {
     name: "Lac Bangles",
     origin: "Bihar",
     photoUrl: [
-      "https://images.app.goo.gl/pPaMv2181tTiPf1L9",
-      "https://images.app.goo.gl/8q72NC21zDxh7bZZ6",
-      "https://images.app.goo.gl/uU2fB5fhHxeGonDv7",
-      "https://images.app.goo.gl/cPdD9RvoHQhasfEp7"
+      "https://m.media-amazon.com/images/I/71i1IWieQ1L.jpg",
+"https://aarozandcompany.com/wp-content/uploads/2024/07/aarozandcompany.com-2024-07-03T224946.150-300x300.jpg",
+"https://aarozandcompany.com/wp-content/uploads/2025/04/arozandcompany.com-2025-03-08T190255.351.jpg",
+"https://rukminid2.flixcart.com/image/300/350/xif0q/bangle-bracelet-armlet/d/a/j/2-4-3-na-6-lac32-lahti-wala-lac-original-imaghn6myjcvzsh9.jpeg",
     ]
   }, //chatisgarh
    {
     name: "Bastar Dhokra Metal Craft",
     origin: "Chhattisgarh",
     photoUrl: [
-      "https://images.app.goo.gl/F2egMoCGXWueF3FM6",
-      "https://images.app.goo.gl/8ziBHiiCsV9gUPpY8",
-      "https://images.app.goo.gl/XuopQeCgLbfZPoRe8",
-      "https://images.app.goo.gl/FZ54YAXHYEfmkrri7"
+     "https://vedanshcraft.com/cdn/shop/products/SPPX0245_35a1017e-6205-4472-a0ff-553fff55096c.jpg",
+"https://i0.wp.com/beautifulbastar.com/wp-content/uploads/2025/04/bastar-handicrafts.webp",
+"http://www.shambhavicreations.co.in/cdn/shop/products/LRM_EXPORT_191263785104619_20191006_162413128_6685d87e-a762-4538-8715-c4319af32836.jpg",
+"https://d18x2uyjeekruj.cloudfront.net/wp-content/uploads/2022/12/dhokra.jpg"
     ]
   },
   {
     name: "Gond Painting",
     origin: "Chhattisgarh",
     photoUrl: [
-      "https://images.app.goo.gl/So8Mh4eivn9cUSU29",
-      "https://images.app.goo.gl/ohK9aEfdN2To4vLc8",
-      "https://images.app.goo.gl/c7CpYWS5z7sZZRjQA",
-      "https://images.app.goo.gl/dn6G1mGXcuvSP6rPA"
+     "https://images.jdmagicbox.com/quickquotes/images_main/handpainted-gond-art-on-mango-wood-wall-plate-d-10in-2219868445-94y200c3.jpg",
+"http://www.bridgebharat.com/cdn/shop/files/BBP0008G00002-F.jpg",
+"https://cdn11.bigcommerce.com/s-x49po/images/stencil/1500x1500/products/130739/297726/handmade%2Fdownscaled%2Fh_z3sj8ajwv1n_2000x2000__66689.1727420215.jpg",      
+"https://lookaside.instagram.com/seo/google_widget/crawler/"
     ]
   },
   {
     name: "Wood Carving",
     origin: "Chhattisgarh",
     photoUrl: [
-      "https://images.app.goo.gl/nA7fiMYsQY5g85gz8",
-      "https://images.app.goo.gl/U8oCei28Ynhxdww66",
-      "https://images.app.goo.gl/2fYmsNVpAM4ySGrB6",
-      "https://images.app.goo.gl/ZrYmdx7kJ4HJ1JQj8"
+      "https://i.pinimg.com/736x/39/91/1c/39911c097881081d045bffdd42c6e76d.jpg",
+"https://www.gitagged.com/wp-content/uploads/2018/06/Wooden-Crafts-Online-GI-TAGGED-1.jpg",
+"https://png.pngtree.com/thumb_back/fh260/background/20231029/pngtree-repeated-pattern-of-carved-mouldings-on-decorative-natural-brown-wood-panelling-image_13738529.png",
+"https://lsmedia.linker-cdn.net/282256/2021/7148019.jpeg",
     ]
   },
   {
     name: "Tumba Art",
     origin: "Chhattisgarh",
     photoUrl: [
-      "https://images.app.goo.gl/BMd2SWj1UHHMgbHNA",
-      "https://images.app.goo.gl/o4teAP2LXZfWsSu19",
-      "https://images.app.goo.gl/YjDdzgYYxux7jLus6",
-      "https://images.app.goo.gl/eD2i4c6P5BK427Zy5"
+      "https://5.imimg.com/data5/SELLER/Default/2020/8/LU/VS/EZ/90775844/tumba-art-lamp-cover-500x500.png",
+"https://m.media-amazon.com/images/I/61MgGrEeu2L._UF894,1000_QL80_.jpg",
+"https://upload.wikimedia.org/wikipedia/commons/9/9d/Tumba_shilp.JPG",
+"https://5.imimg.com/data5/SELLER/Default/2020/8/LT/YB/UN/90775844/tumba-art-lamp-cover-medium-500x500.png"
     ]
   },
   {
     name: "Terracotta",
     origin: "Chhattisgarh",
     photoUrl: [
-      "https://images.app.goo.gl/Pm4am2ThBpbogTcT8",
-      "https://images.app.goo.gl/MkEr87pYq5i9i3r49",
-      "https://images.app.goo.gl/LNSYwS6zNXLxLfNj8",
-      "https://images.app.goo.gl/bU3Xz1rc8teS2Mp29"
+      "https://reincarnatingraipur.com/wp-content/uploads/2023/11/3d460763b7012dc53e54088a10f43425-758x505.jpg",
+"https://srejonee.com/wp-content/uploads/2022/07/elephant-2-300x300.jpg",
+"https://www.dsource.in/sites/default/files/gallery/1389/1.jpg",
+"https://images.jdmagicbox.com/quickquotes/images_main/terracotta-lamp-diyas-for-home-decoration-set-of-six-oval-2022712522-h1eegsy5.jpg",
     ]
   }
 
