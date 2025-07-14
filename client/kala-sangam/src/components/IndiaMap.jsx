@@ -261,7 +261,7 @@ style={{fill : "url(#MEGHALAYA)"}}
 />
         </g>
       </svg>
-    </div>
+    </div> 
   );
 };
 
