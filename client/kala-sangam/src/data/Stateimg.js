@@ -79,7 +79,54 @@ const stateArt = {
     art: "Gond Painting",
     image:"https://i.pinimg.com/736x/57/39/f1/5739f1ef284f1ed9b77e4e4f85f002f2.jpg",
   },
-
+  "Delhi": {
+    art: "Zardozi",
+    image:"https://i.pinimg.com/1200x/ca/11/c7/ca11c7c50ce2d9a761b4e97f502d6d54.jpg",
+  },
+   "Uttar Pradesh": {
+    art: "Marble Inlay Work",
+    image:"https://i.pinimg.com/1200x/f2/1e/f1/f21ef1af9722dc77200c1bac05f726a0.jpg",
+  },
+  "Bihar": {
+    art: "Tikuli Art",
+    image:" https://i.pinimg.com/736x/9d/98/83/9d9883480cc2af653756492ec38ddcbd.jpg",
+  },
+  "Tripura": {
+    art: "Dokra Metal Art",
+    image:"https://i.pinimg.com/1200x/e8/30/68/e830684988703e812bd51bf963122fdb.jpg ",
+  },
+  "Jharkhand": {
+    art: "Sohrai and Khovar Wall Art",
+    image:"https://i.pinimg.com/1200x/c0/14/a7/c014a7a94b648ad5d6b6bb9caeac3475.jpg",
+  },
+  "Arunachal Pradesh": {
+    art: "Bamboo and Cane craft",
+    image:"https://i.pinimg.com/736x/05/03/71/0503718178cd6cf83769ed5120528675.jpg ",
+  },
+  "Nagaland": {
+    art: "Naga shawl",
+    image:"https://i.pinimg.com/736x/71/00/d4/7100d4a00ae658af17fb190fbb912e00.jpg",
+  },
+  "Manipur": {
+    art: "Phanek",
+    image:"https://i.pinimg.com/1200x/f9/0f/9a/f90f9a8eb9bf22f4909dfbcddf752620.jpg",
+  },
+  "Mizoram": {
+    art: "Pottery",
+    image:" https://i.pinimg.com/1200x/5d/35/46/5d3546446f5ab36db1ff9650b1040818.jpg",
+  },
+  "Assam":{
+    art: "Gamosa",
+    image:"https://i.pinimg.com/1200x/1a/48/6d/1a486d4d73368d04cdf6689eba4a8a2b.jpg"
+  },
+  "Sikkim":{
+    art: "Tibetian carpet",
+    image:"https://i.pinimg.com/736x/2c/3d/c8/2c3dc8ecf3e4037719def46b117e8c88.jpg"
+  },
+  "West Bengal":{
+    art: "Bankura Horses",
+    image:"https://i.pinimg.com/1200x/34/c7/26/34c726f8fbd485d9f7ff23bb31e6eff7.jpg"
+  }
 };
 
 export default stateArt;

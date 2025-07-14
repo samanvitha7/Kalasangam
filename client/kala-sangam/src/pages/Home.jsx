@@ -13,15 +13,7 @@ export default function Home({ showMap, mapRef, onStateClick }) {
       <p className="text-lg text-[#582f0e] mt-4 max-w-2xl mx-auto">
         Immerse yourself in the timeless traditions, stories, and colors of Indian art.
       </p>
-
-<<<<<<< Updated upstream
-      {/* 👇 India Map shown if showMap is true */}
-=======
-      
-
-
       {/* 👇 India Map shown if `showMap` is true */}
->>>>>>> Stashed changes
       {showMap && (
         <div
           id="india-map"
