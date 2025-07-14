@@ -126,7 +126,11 @@ const stateArt = {
   "West Bengal":{
     art: "Bankura Horses",
     image:"https://i.pinimg.com/1200x/34/c7/26/34c726f8fbd485d9f7ff23bb31e6eff7.jpg"
-  }
+  },
+   "Meghalaya": {
+    art: "Bamboo And Cane Work",
+    image:"https://i.pinimg.com/736x/35/7b/cb/357bcb76e32155e757302c73b69433b1.jpg",
+  },
 };
 
 export default stateArt;
