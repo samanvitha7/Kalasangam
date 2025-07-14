@@ -16,7 +16,10 @@ export default function Header({ onMapClick }) {
           <Link to="/gallery" className="hover:text-[#9b2226] transition">Art Gallery</Link>
           <Link to="/map" className="hover:text-[#9b2226] transition">India Map</Link>
           <Link to="/about" className="hover:text-[#9b2226] transition">About</Link>
-          <Link to="/contact" className="hover:text-[#9b2226] transition">Contact</Link>
+         <Link to="/try-art" className="text-lg text-[#462F1A] ">
+         🎨
+</Link>
+
         </nav>
       </div>
     </header>

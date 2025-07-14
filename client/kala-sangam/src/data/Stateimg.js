@@ -43,7 +43,42 @@ const stateArt = {
     art: "kachh",
     image: "https://i.pinimg.com/736x/c6/3d/e4/c63de479eef675d6a0c51fed0a45c4e8.jpg",
   },
-  
+  "Karnataka": {
+    art: "Mysore Painting",
+    image:"https://i.pinimg.com/1200x/61/f7/75/61f7754128375025e155a85583d2940a.jpg",
+  },
+  "Orissa": {
+    art: "Pattachitra",
+    image:"https://i.pinimg.com/736x/c8/8a/33/c88a336fd6e7a8f9b32f1ff0d91e65c3.jpg",
+  },
+  "Goa": {
+    art: "Christian Art Of Goa",
+    image:"https://i.pinimg.com/736x/3c/d6/d6/3cd6d62c896e8b109277822bf7865f3a.jpg",
+  },
+  "Puducherry": {
+    art: "Teracotta Work",
+    image:"https://i.pinimg.com/736x/4c/69/a1/4c69a196c0f28aff1c4423c3903b80ab.jpg",
+  },
+  "Andhra Pradesh": {
+    art: "Bidriware",
+    image:"https://i.pinimg.com/736x/c1/a9/88/c1a988cc8e9fbdaa603de9af38aa3f50.jpg",
+  },
+  "Telangana": {
+    art: "Cheriyal scroll paintings",
+    image:"https://i.pinimg.com/1200x/87/e5/47/87e547e90260f98226b83a848a881b6c.jpg",
+  },
+   "Chhattisgarh": {
+    art: "Wrought iron work (Loha Shilp)",
+    image:"https://i.pinimg.com/736x/05/3c/68/053c683c19a9574923cd22ff98a7fe33.jpg",
+  },
+  "Andaman and Nicobar": {
+    art: "Wood Carving",
+    image:"https://i.pinimg.com/1200x/11/8a/ea/118aea7d82efb964db214e7e65003e43.jpg",
+  },
+  "Madhya Pradesh": {
+    art: "Gond Painting",
+    image:"https://i.pinimg.com/736x/e8/82/ee/e882ee4e8fc17dd763d7babcc3b60903.jpgs",
+  },
 
 };
 
