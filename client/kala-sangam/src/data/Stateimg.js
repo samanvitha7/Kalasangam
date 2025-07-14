@@ -79,6 +79,43 @@ const stateArt = {
     art: "Gond Painting",
     image:"https://i.pinimg.com/736x/57/39/f1/5739f1ef284f1ed9b77e4e4f85f002f2.jpg",
   },
+  "West Bengal": {
+    art: "Kantha embroidery",
+    image:"https://i.pinimg.com/736x/3a/ad/07/3aad07f801faa343155ef46cac4d5505.jpg",
+  },
+  "Tripura": {
+    art: "Handloom Weaving",
+    image:"https://i.pinimg.com/736x/75/6c/40/756c4041c65ff3e0025c64fef3b6e6fd.jpg",
+  },
+   "Meghalaya": {
+    art: "Bamboo And Cane Work",
+    image:"https://i.pinimg.com/736x/35/7b/cb/357bcb76e32155e757302c73b69433b1.jpg",
+  },
+   "Mizoram": {
+    art: "Utilizing Bamboo And Cane",
+    image:"https://i.pinimg.com/736x/2c/66/bc/2c66bcffd12e2065c0e34c4e9f6353e5.jpg",
+  },
+   "Manipur": {
+    art: "Longpi pottery",
+    image:"https://i.pinimg.com/736x/cd/fd/2c/cdfd2c83191cb180dab4ab404029eaba.jpg",
+  },
+   "Nagaland": {
+    art: "Blacksmithy",
+    image:"https://i.pinimg.com/736x/8c/5b/09/8c5b095c822859220bf8056286eedac4.jpg",
+  },
+   "Arunachal Pradesh": {
+    art: "Thangka paintings",
+    image:"https://i.pinimg.com/1200x/99/d5/b1/99d5b131fe8b2926c6f31237986f6d0a.jpg",
+  },
+   "Assam": {
+    art: "Metal Crafts",
+    image:"https://i.pinimg.com/1200x/ca/d7/e0/cad7e05b58967a532e7c6b219cb3b36e.jpg",
+  },
+ "Sikkim": {
+    art: "Carpet weaving",
+    image:"https://i.pinimg.com/1200x/9a/84/d4/9a84d42bbe790f5c72662544f7d83a1a.jpg",
+  },
+
 
 };
 
