@@ -33,11 +33,11 @@ const stateArt = {
   },
    "Kerala": {
     art: "Mural Art",
-    image: "https://i.pinimg.com/1200x/b4/15/dc/b415dca29bcdb602169cf66fdc724324.jpg",
+    image: "https://i.pinimg.com/1200x/69/a7/cf/69a7cf02ac043c516e29a69b73877681.jpg",
   },
   "TamilNadu": {
     art: "Tanjore Painting",
-    image: "https://i.pinimg.com/1200x/64/ba/4a/64ba4ade5ac9e1a51d4b85b43f8379e3.jpg",
+    image: "https://i.pinimg.com/736x/50/74/5e/50745eeeb5d6c2d482c1e1b58fe5e1c8.jpg",
   },
   "Gujarat": {
     art: "kachh",
@@ -61,7 +61,7 @@ const stateArt = {
   },
   "Andhra Pradesh": {
     art: "Bidriware",
-    image:"https://i.pinimg.com/736x/c1/a9/88/c1a988cc8e9fbdaa603de9af38aa3f50.jpg",
+    image:"https://i.pinimg.com/736x/fa/a0/e1/faa0e104e5aff407d731a316e2f1f6d0.jpg",
   },
   "Telangana": {
     art: "Cheriyal scroll paintings",
@@ -77,7 +77,7 @@ const stateArt = {
   },
   "Madhya Pradesh": {
     art: "Gond Painting",
-    image:"https://i.pinimg.com/736x/e8/82/ee/e882ee4e8fc17dd763d7babcc3b60903.jpgs",
+    image:"https://i.pinimg.com/736x/57/39/f1/5739f1ef284f1ed9b77e4e4f85f002f2.jpg",
   },
 
 };
