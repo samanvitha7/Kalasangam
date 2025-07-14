@@ -1,8 +1,11 @@
 import IndiaMap from '../components/IndiaMap.jsx';
+//import TryArtCanvas from "../components/TryArtCanvas";
 
 export default function Home({ showMap, mapRef, onStateClick }) {
   return (
     <main className="min-h-screen px-6 py-10 bg-[#fffef2] text-center scroll-smooth">
+
+      {/* 👋 Original Hero Section */}
       <h1 className="text-5xl font-bold font-serif text-[#9b2226]">
         Welcome to <span className="yatra-font">KalaSangam</span>
       </h1>
@@ -11,7 +14,14 @@ export default function Home({ showMap, mapRef, onStateClick }) {
         Immerse yourself in the timeless traditions, stories, and colors of Indian art.
       </p>
 
+<<<<<<< Updated upstream
       {/* 👇 India Map shown if showMap is true */}
+=======
+      
+
+
+      {/* 👇 India Map shown if `showMap` is true */}
+>>>>>>> Stashed changes
       {showMap && (
         <div
           id="india-map"
