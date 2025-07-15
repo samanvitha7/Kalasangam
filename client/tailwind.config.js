@@ -8,6 +8,7 @@ export default {
     extend: {
       animation: {
         fadeInUp: "fadeInUp 0.6s ease-out forwards",
+        
       },
       keyframes: {
         fadeInUp: {
