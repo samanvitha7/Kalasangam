@@ -40,7 +40,7 @@ export default function IndiaMap() {
       const stateName = target.getAttribute('name');
       if(stateName) handleClick(stateName);
     }}
-    className="cursor-pointer"
+    className="cursor-none"
   >
           <path
   id="INAN"

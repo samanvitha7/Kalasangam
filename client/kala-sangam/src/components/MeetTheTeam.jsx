@@ -31,7 +31,7 @@ function MeetTheTeam() {
       <h2 className="text-3xl font-bold text-center mb-10">Meet the Team</h2>
       <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2 justify-items-center">
         {team.map((member, idx) => (
-          <div key={idx} className="perspective w-56 h-80 cursor-pointer">
+          <div key={idx} className="perspective w-56 h-80 cursor-none">
             <div className="relative w-full h-full duration-500 transform-style-preserve-3d transition-transform hover:rotate-y-180">
               {/* Front Side */}
               <div className="absolute w-full h-full bg-white rounded-lg shadow-md backface-hidden flex flex-col items-center p-6">

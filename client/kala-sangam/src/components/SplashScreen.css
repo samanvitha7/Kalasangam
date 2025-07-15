@@ -1,0 +1,149 @@
+/* === Splash Screen & Prompt Fullscreen === */
+.sound-screen {
+  background-image: url('/assets/splash-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #fef3c7; /* parchment fallback */
+  color: #7c2d12; /* brick red */
+  font-family: 'Yatra One', cursive;
+  z-index: 9999;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Remove any overlay from ::before for sound screen to avoid blocking buttons */
+}
+
+.sound-screen::before {
+  content: none; /* Disable the overlay on sound screen to ensure buttons clickable */
+}
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fef3c7; /* parchment color */
+  color: #7c2d12; /* brick red */
+  font-family: 'Yatra One', cursive;
+  z-index: 9999;
+}
+/* Overlay haze to soften background */
+.splash-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 250, 230, 0.6); /* parchment haze */
+  z-index: 1;
+}
+
+/* Chakra Spinner */
+.chakra-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  transform: translate(-50%, -50%);
+  animation: spinAndScale 3s ease-out forwards;
+  filter:
+    drop-shadow(0 0 20px #fffbe6)
+    drop-shadow(0 0 40px #fff6cc)
+    drop-shadow(0 0 60px #fff0b3)
+    drop-shadow(0 0 80px gold);
+  z-index: 20;
+}
+
+/* Chakra spin and grow animation */
+@keyframes spinAndScale {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(5) rotate(1080deg);
+    opacity: 1;
+  }
+}
+
+/* Welcome text bottom-left */
+.welcome-text {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  font-size: 2.5rem; /* big */
+  font-weight: 700;
+  color: #7c2d12;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 2s ease both;
+  z-index: 30;
+}
+
+@media (min-width: 768px) {
+  .welcome-text {
+    font-size: 3rem;
+  }
+}
+
+/* Buttons container in SoundPrompt */
+.splash-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .splash-buttons {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+/* Button base style */
+.btn {
+  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Yatra One', cursive;
+}
+
+/* Brick red glowing button */
+.btn-glow-brick {
+  background-color: #7c2d12;
+  color: white;
+  box-shadow: 0 0 15px #7c2d12;
+  transition: all 0.3s ease;
+}
+
+.btn-glow-brick:hover {
+  box-shadow: 0 0 25px #7c2d12;
+  background-color: #8e3a1c;
+}
+
+/* Outline button */
+.btn.outlined {
+  background: transparent;
+  color: #7c2d12;
+  border: 2px solid #7c2d12;
+}
+
+.btn.outlined:hover {
+  background: #7c2d12;
+  color: white;
+}
+
+/* Fade + zoom text on prompt */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

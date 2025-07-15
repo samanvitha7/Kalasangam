@@ -7,6 +7,8 @@ import ArtGallery from "./pages/ArtGallery.jsx";
 import Home from "./pages/Home.jsx";
 import IndiaMapPage from "./pages/IndiaMapPage.jsx";
 import About from "./pages/About.jsx";
+import CustomCursor from "./components/CustomCursor";
+
 
 // 👇 Import Try Art Canvas Page
 import TryArtCanvas from "./pages/TryArtCanvas.jsx"; // Make sure this path is correct
@@ -19,13 +21,14 @@ function App() {
   const handleStateClick = (stateName) => {
     navigate(`/gallery?state=${encodeURIComponent(stateName)}`);
   };
-
+ 
   const handleShowMap = () => {
     navigate("/map");
   };
 
   return (
     <>
+      <CustomCursor />
       <Header onMapClick={handleShowMap} />
 
       <Routes>

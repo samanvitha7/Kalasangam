@@ -1,0 +1,60 @@
+.carousel-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-overlay {
+  position: absolute;
+  bottom: 3rem;
+  left: 3rem;
+  color: white;
+  text-shadow: 0 0 10px black;
+  max-width: 50%;
+  animation: fadeIn 1s ease;
+}
+
+.carousel-overlay h2 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  font-family: 'Rasa', serif;
+}
+
+.carousel-overlay p {
+  font-size: 1.2rem;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3rem;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  z-index: 10;
+  user-select: none;
+}
+
+.arrow.left {
+  left: 1rem;
+}
+
+.arrow.right {
+  right: 1rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

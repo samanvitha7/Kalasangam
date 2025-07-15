@@ -3,6 +3,21 @@
 .yatra-font {
   font-family: 'Yatra One', cursive;
 }
+
+html, body, * {
+  cursor: none !important;
+}
+*:hover,
+button:hover,
+a:hover,
+input:hover {
+  cursor: none !important;
+}
+
+body {
+  font-family: 'Yatra One', cursive;
+}
+
 .perspective {
   perspective: 1000px;
 }
@@ -17,4 +32,10 @@
 
 .rotate-y-180 {
   transform: rotateY(180deg);
+}
+
+@media (pointer: fine) {
+  body, * {
+    cursor: none !important;
+  }
 }
