@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import IndiaMap from "../components/IndiaMap.jsx";
 import HeroSection from "../components/HeroSection";
+import ArtMosaicGrid from "../components/ArtMosaicGrid";
 import SoundToggle from "../components/SoundToggle";
 import FloatingVisuals from "../components/FloatingVisuals";
 import SplashScreen from "../components/SplashScreen";
+import StorytellingScroll from "../components/StorytellingScroll"
 import ArtShowCase from "../components/ArtShowCase";
 
-export default function Home({ showMap, mapRef, onStateClick }) {
+export default function Home({ showMap, mapRef, onStateClick, audio }) {
   const [showMain, setShowMain] = useState(false);
   const [playSound, setPlaySound] = useState(false);
   const audioRef = useRef(null);
@@ -35,13 +37,17 @@ export default function Home({ showMap, mapRef, onStateClick }) {
 
   return (
     <>
+  
       {!showMain && <SplashScreen onContinue={handleContinue} />}
 
       {showMain && (
         <main className="min-h-screen px-6 py-10 bg-[#fffef2] text-center scroll-smooth">
           <SoundToggle soundOn={playSound} setSoundOn={setPlaySound} />
+          <HeroSection audio = {audio}/>
           <HeroSection />
+          <ArtMosaicGrid />
           <FloatingVisuals />
+          <StorytellingScroll />
           <ArtShowCase />
 
           <h1 className="text-5xl font-bold font-serif text-[#9b2226]">
