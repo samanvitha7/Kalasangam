@@ -6,16 +6,25 @@ import ArtGallery from "./pages/ArtGallery.jsx";
 import Home from "./pages/Home.jsx";
 import IndiaMapPage from "./pages/IndiaMapPage.jsx";
 import About from "./pages/About.jsx";
-import Login from "./pages/Loginn.jsx";
+import CustomCursor from "./components/CustomCursor";
+
 
 // 👇 Import Try Art Canvas Page
 import TryArtCanvas from "./pages/TryArtCanvas.jsx"; // Make sure this path is correct
+import SplashScreen from "./components/SplashScreen.jsx";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const mapRef = useRef(null);
+  const [playSound, setPlaySound] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
+  const handleSplashContinue = (withSound) => {
+    setPlaySound(withSound);          // start or not start music
+    navigate("/home", { replace: true }); // then navigate to home
+    setShowSplash(false); // hide splash screen
+  };
   const handleStateClick = (stateName) => {
     navigate(`/gallery?state=${encodeURIComponent(stateName)}`);
   };
@@ -26,6 +35,7 @@ function App() {
 
   return (
     <>
+      <CustomCursor />
       <Header onMapClick={handleShowMap} />
 
       <Routes>
@@ -36,15 +46,10 @@ function App() {
 
         {/* ✅ New Route for Try Art Canvas */}
         <Route path="/try-art" element={<TryArtCanvas />} />
-         <Route path="/login" element={<Login />} />
-        {/* <Route path="/signup" element={<Signup />} /> */}
-        {/* Add your homepage or other routes */}
       </Routes>
-      
 
       <Footer />
     </>
   );
 }
-
 export default App;
