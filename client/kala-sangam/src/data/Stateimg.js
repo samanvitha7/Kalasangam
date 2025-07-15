@@ -100,8 +100,8 @@ const stateArt = {
     image:"https://i.pinimg.com/1200x/c0/14/a7/c014a7a94b648ad5d6b6bb9caeac3475.jpg",
   },
   "Arunachal Pradesh": {
-    art: "Bamboo and Cane craft",
-    image:"https://i.pinimg.com/736x/05/03/71/0503718178cd6cf83769ed5120528675.jpg ",
+    art: "wooden masks",
+    image:"https://i.pinimg.com/1200x/6e/fe/5e/6efe5ecbacb628465432233b6a0c09a7.jpg",
   },
   "Nagaland": {
     art: "Naga shawl",
@@ -113,7 +113,7 @@ const stateArt = {
   },
   "Mizoram": {
     art: "Pottery",
-    image:" https://i.pinimg.com/1200x/5d/35/46/5d3546446f5ab36db1ff9650b1040818.jpg",
+    image:" https://i.pinimg.com/1200x/e7/7a/ca/e77acad26cbf6271b0cef2c6d8759081.jpg",
   },
   "Assam":{
     art: "Gamosa",
@@ -130,6 +130,10 @@ const stateArt = {
    "Meghalaya": {
     art: "Bamboo And Cane Work",
     image:"https://i.pinimg.com/736x/35/7b/cb/357bcb76e32155e757302c73b69433b1.jpg",
+  },
+  "Lakshadweep": {
+    art: "Shell art",
+    image:"https://i.pinimg.com/736x/38/ce/a9/38cea90b13457e42ac5ca82d4d60b8de.jpg",
   },
 };
 
