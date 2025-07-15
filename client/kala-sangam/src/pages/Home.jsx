@@ -6,7 +6,7 @@ import SoundToggle from "../components/SoundToggle";
 import FloatingVisuals from "../components/FloatingVisuals";
 import SplashScreen from "../components/SplashScreen";
 import StorytellingScroll from "../components/StorytellingScroll"
-import ArtShowCase from "../components/ArtShowCase";
+import CinematicCarousel from "../components/CinematicCarousel";
 import KaleidoscopeArt from "../components/KaleidoscopeArt.jsx";
 
 export default function Home({ showMap, mapRef, onStateClick, audio }) {
@@ -50,7 +50,7 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
           <KaleidoscopeArt />
           <FloatingVisuals />
           <StorytellingScroll />
-          <ArtShowCase />
+          <CinematicCarousel />
 
           <h1 className="text-5xl font-bold font-serif text-[#9b2226]">
             Welcome to <span className="yatra-font">KalaSangam</span>
