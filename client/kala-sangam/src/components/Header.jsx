@@ -12,7 +12,7 @@ export default function Header({ onMapClick }) {
         </div>
 
         <nav className="hidden md:flex space-x-8 text-[#582f0e] font-medium text-lg">
-          <Link to="/" className="hover:text-[#9b2226] transition">Home</Link>
+          <Link to="/home" className="hover:text-[#9b2226] transition">Home</Link>
           <Link to="/gallery" className="hover:text-[#9b2226] transition">Art Gallery</Link>
           <Link to="/map" className="hover:text-[#9b2226] transition">India Map</Link>
           <Link to="/about" className="hover:text-[#9b2226] transition">About</Link>

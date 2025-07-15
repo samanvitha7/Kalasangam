@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom"; 
 import "./SplashScreen.css";
 
 export function LoadingScreen({ onFinish }) {
@@ -52,10 +53,9 @@ export function SoundPrompt({ onContinue }) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center sound-screen text-[#7c2d12] transition-opacity duration-1000 ${
-        hidden ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
-      }`}
-      style={{ backgroundColor: "rgba(254, 243, 199, 0.95)" }} // slightly opaque parchment to ensure no fading
+      className="fixed inset-0 z-50 flex items-center justify-center sound-screen text-[#7c2d12] opacity-100 pointer-events-auto"
+      style={{ backgroundColor: "rgba(254, 243, 199, 0.95)" }}
+
     >
       <div className="text-center px-4 max-w-xl">
         <motion.div

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 function SoundVisualizer({ audio }) {
   const canvasRef = useRef(null);
@@ -61,43 +61,36 @@ function SoundVisualizer({ audio }) {
   );
 }
 
-export default function HeroSection() {
-  const audioRef = useRef(null);
-  const [playing, setPlaying] = useState(false);
-
-  useEffect(() => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio("/sitar-loop.mp3");
-      audioRef.current.loop = true;
-    }
-  }, []);
-
-  // Handle play with AudioContext resume to fix browser autoplay policies
+export default function HeroSection({ audioRef, isPlaying, setPlaying }) {
+  // Play/pause handler uses passed props
   const togglePlay = async () => {
-    if (!audioRef.current) return;
+  console.log("togglePlay clicked, isPlaying:", isPlaying);
+  if (!audioRef?.current) return;
 
-    try {
-      if (!playing) {
-        if (audioRef.current.context && audioRef.current.context.state === "suspended") {
-          await audioRef.current.context.resume();
-        }
-        await audioRef.current.play();
-        setPlaying(true);
-      } else {
-        audioRef.current.pause();
-        setPlaying(false);
+  try {
+    if (!isPlaying) {
+      if (audioRef.current.context && audioRef.current.context.state === "suspended") {
+        await audioRef.current.context.resume();
       }
-    } catch {
-      // fallback play/pause
-      if (!playing) {
-        audioRef.current.play();
-        setPlaying(true);
-      } else {
-        audioRef.current.pause();
-        setPlaying(false);
-      }
+      await audioRef.current.play();
+      setPlaying(true);
+      console.log("Audio playing");
+    } else {
+      audioRef.current.pause();
+      setPlaying(false);
+      console.log("Audio paused");
     }
-  };
+  } catch (err) {
+    console.error("Error in togglePlay:", err);
+    if (!isPlaying) {
+      audioRef.current.play();
+      setPlaying(true);
+    } else {
+      audioRef.current.pause();
+      setPlaying(false);
+    }
+  }
+};
 
   return (
     <section
@@ -114,7 +107,10 @@ export default function HeroSection() {
 
       <button
         className="mt-6 px-6 py-3 rounded-full bg-[#7c2d12] text-white shadow-[0_0_15px_#7c2d12] hover:shadow-[0_0_30px_#7c2d12] transition yatra-font"
-        onClick={() => alert("Why Kala Sangam? Coming soon!")}
+        onClick={() => {
+        console.log("Why Kala Sangam button clicked");
+        alert("Why Kala Sangam? Coming soon!");
+  }}
       >
         Why Kala Sangam?
       </button>
@@ -133,10 +129,10 @@ export default function HeroSection() {
         className="mt-10 px-6 py-3 rounded-full border border-[#7c2d12] text-[#7c2d12] hover:bg-[#7c2d12] hover:text-white transition yatra-font"
         onClick={togglePlay}
       >
-        {playing ? "Pause Music" : "Play Music"}
+        {isPlaying ? "Pause Music" : "Play Music"}
       </button>
 
-      {playing && <SoundVisualizer audio={audioRef.current} />}
+      {isPlaying && audioRef?.current && <SoundVisualizer audio={audioRef.current} />}
     </section>
   );
 }

@@ -1,18 +1,30 @@
 import { useEffect, useRef, useState } from "react";
-import IndiaMap from "../components/IndiaMap.jsx";
-import HeroSection from "../components/HeroSection";
-import ArtMosaicGrid from "../components/ArtMosaicGrid";
-import SoundToggle from "../components/SoundToggle";
-import FloatingVisuals from "../components/FloatingVisuals";
-import SplashScreen from "../components/SplashScreen";
-import StorytellingScroll from "../components/StorytellingScroll"
-import CinematicCarousel from "../components/CinematicCarousel";
+import { useNavigate } from "react-router-dom";
+import HeroSection from "../components/HeroSection.jsx";
+import ArtMosaicGrid from "../components/ArtMosaicGrid.jsx";
 import KaleidoscopeArt from "../components/KaleidoscopeArt.jsx";
+import FloatingVisuals from "../components/FloatingVisuals.jsx";
+import StorytellingScroll from "../components/StorytellingScroll.jsx";
+import CinematicCarousel from "../components/CinematicCarousel.jsx";
+import IndiaMap from "../components/IndiaMap.jsx";
+import SoundToggle from "../components/SoundToggle.jsx";
+import SplashScreen from "../components/SplashScreen.jsx";
+import ArtGallery from "./ArtGallery.jsx";
 
 export default function Home({ showMap, mapRef, onStateClick, audio }) {
   const [showMain, setShowMain] = useState(false);
-  const [playSound, setPlaySound] = useState(false);
+  const [isPlaying, setPlaying] = useState(false);
   const audioRef = useRef(null);
+
+  useEffect(() => {
+    // On component mount, check if splash was already shown
+    const splashShown = localStorage.getItem("splashShown");
+    if (splashShown) {
+      // If splash was shown before, show main content directly
+      setShowMain(true);
+      setPlaying(true); // optionally start sound automatically if you want
+    }
+  }, []);
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -20,32 +32,35 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
       audioRef.current.loop = true;
     }
 
-    if (playSound) {
-      audioRef.current.play();
+    if (isPlaying) {
+      audioRef.current.play().catch((error) => {
+        console.error("Error playing audio:", error);
+      });
     } else {
       audioRef.current.pause();
+      audioRef.current.currentTime = 0; // Reset audio position
     }
 
     return () => {
-      if (audioRef.current) audioRef.current.pause();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0; // Reset audio position
+      }
     };
-  }, [playSound]);
+  }, [isPlaying]);
 
   const handleContinue = (sound) => {
-    setPlaySound(sound);
+    localStorage.setItem("splashShown", "true");
+    setPlaying(sound);
     setShowMain(true);
   };
 
   return (
     <>
-  
-      {!showMain && <SplashScreen onContinue={handleContinue} />}
-
       {showMain && (
         <main className="min-h-screen px-6 py-10 bg-[#fffef2] text-center scroll-smooth">
-          <SoundToggle soundOn={playSound} setSoundOn={setPlaySound} />
-          <HeroSection audio = {audio}/>
-          <HeroSection />
+          <SoundToggle soundOn={isPlaying} setSoundOn={setPlaying} />
+          <HeroSection audioRef={audioRef} isPlaying={isPlaying} setPlaying={setPlaying} />
           <ArtMosaicGrid />
           <KaleidoscopeArt />
           <FloatingVisuals />
