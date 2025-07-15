@@ -7,6 +7,7 @@ import FloatingVisuals from "../components/FloatingVisuals";
 import SplashScreen from "../components/SplashScreen";
 import StorytellingScroll from "../components/StorytellingScroll"
 import ArtShowCase from "../components/ArtShowCase";
+import KaleidoscopeArt from "../components/KaleidoscopeArt.jsx";
 
 export default function Home({ showMap, mapRef, onStateClick, audio }) {
   const [showMain, setShowMain] = useState(false);
@@ -46,6 +47,7 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
           <HeroSection audio = {audio}/>
           <HeroSection />
           <ArtMosaicGrid />
+          <KaleidoscopeArt />
           <FloatingVisuals />
           <StorytellingScroll />
           <ArtShowCase />
