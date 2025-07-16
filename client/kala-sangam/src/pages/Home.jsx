@@ -67,13 +67,7 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
           <StorytellingScroll />
           <CinematicCarousel />
 
-          <h1 className="text-5xl font-bold font-serif text-[#9b2226]">
-            Welcome to <span className="yatra-font">KalaSangam</span>
-          </h1>
-
-          <p className="text-lg text-[#582f0e] mt-4 max-w-2xl mx-auto">
-            Immerse yourself in the timeless traditions, stories, and colors of Indian art.
-          </p>
+          
 
           {showMap && (
             <div
