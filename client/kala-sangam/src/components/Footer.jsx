@@ -1,6 +1,10 @@
-export default function Footer() {
+export default function Footer({ isVisible = true }) {
   return (
-    <footer className="bg-gradient-to-r from-[#ffe6eb] via-[#fdf2e9] to-[#fefae0] text-[#582f0e] pt-12 pb-6 mt-16 border-t border-[#e9dcc9]">
+    <footer
+      className={`transition-transform duration-300 ${
+        isVisible ? 'translate-y-0' : 'translate-y-full'
+      } fixed bottom-0 left-0 w-full h-[100px] bg-[#fff6] backdrop-blur-md text-[#582f0e] z-50 border-t border-[#e9dcc9] px-6 py-4`}
+    >
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
 
         {/* About Section */}

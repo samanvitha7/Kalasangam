@@ -14,7 +14,7 @@ const team = [
   {
     name: "SHREYA",
     role: "",
-    image: "https://upload.wikimedia.org/wikipedia/commons/5/57/Playing_card_club_A.svg",
+    image: "/images/shreya.jpg",
     funFact: "Owns a flute signed by Hariprasad Chaurasia."
   },
   {
