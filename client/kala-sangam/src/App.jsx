@@ -13,6 +13,8 @@ import CustomCursor from "./components/CustomCursor";
 // 👇 Import Try Art Canvas Page
 import TryArtCanvas from "./pages/TryArtCanvas.jsx"; // Make sure this path is correct
 
+import DanceGallery from "./pages/DanceGallery";
+
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -36,6 +38,9 @@ function App() {
         <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
         <Route path="/gallery" element={<ArtGallery />} />
         <Route path="/about" element={<About />} />
+        <Route path="/explore/state" element={<IndiaMapPage />} />
+        <Route path="/explore/art" element={<ArtGallery />} />
+        <Route path="/explore/dance" element={<DanceGallery />} />
 
         {/* ✅ New Route for Try Art Canvas */}
         <Route path="/try-art" element={<TryArtCanvas />} />
