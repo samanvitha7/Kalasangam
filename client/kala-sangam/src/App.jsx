@@ -11,7 +11,6 @@ import Login from "./pages/LoginPage.jsx";
 import Signup from "./pages/Signup.jsx";
 import ForgotPassword from "./pages/ForgotPw.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
-
 import DanceGallery from "./pages/DanceGallery";
 
 function App() {
@@ -45,8 +44,8 @@ function App() {
 
   const handleSplashContinue = (withSound) => {
     setPlaySound(withSound);
-    navigate("/home", { replace: true });
-    setShowSplash(false);
+    setShowSplash(false); // hide splash screen
+    navigate("/home", { replace: true }); // redirect to home
   };
 
   const handleStateClick = (stateName) => {
@@ -59,24 +58,31 @@ function App() {
 
   return (
     <>
-      <Header isVisible={isHeaderVisible} onMapClick={handleShowMap} />
+      {showSplash ? (
+        <SplashScreen onContinue={handleSplashContinue} />
+      ) : (
+        <>
+          <Header isVisible={isHeaderVisible} onMapClick={handleShowMap} />
 
-      <div className="pt-[80px] pb-[120px] min-h-screen">
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
-          <Route path="/gallery" element={<ArtGallery />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/explore/state" element={<IndiaMapPage />} />
-          <Route path="/explore/art" element={<ArtGallery />} />
-          <Route path="/explore/dance" element={<DanceGallery />} />
-        </Routes>
-      </div>
+          <div className="pt-[80px] pb-[120px] min-h-screen">
+            <Routes>
+              <Route path="/home" element={<Home />} />
+              <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
+              <Route path="/gallery" element={<ArtGallery />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/explore/state" element={<IndiaMapPage />} />
+              <Route path="/explore/art" element={<ArtGallery />} />
+              <Route path="/explore/dance" element={<DanceGallery />} />
+              <Route path="/" element={<Home />} />
+            </Routes>
+          </div>
 
-      <Footer isVisible={isFooterVisible} />
+          <Footer isVisible={isFooterVisible} />
+        </>
+      )}
     </>
   );
 }
