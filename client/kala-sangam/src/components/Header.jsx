@@ -76,7 +76,7 @@ export default function Header({ isVisible = true, onMapClick }) {
             )}
           </div>
 
-          <Link to="/map" className="hover:text-[#9b2226] transition">India Map</Link>
+          
           <Link to="/about" className="hover:text-[#9b2226] transition">About</Link>
           <Link to="/login" className="hover:text-[#9b2226] transition">Login</Link>
           <Link to="/signup" className="hover:text-[#9b2226] transition">Sign Up</Link>
