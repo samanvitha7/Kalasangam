@@ -17,7 +17,7 @@ const ParallaxSection = () => {
       <section className="relative w-screen h-screen overflow-hidden">
         {/* Background Image */}
         <img
-          src="/assets/waterfall.jpg"
+          src="https://i.pinimg.com/736x/f6/a4/88/f6a4884e06dee87423a5b3da2ed20c4c.jpg"
           alt="Waterfall"
           className="absolute top-0 left-0 w-full h-full object-cover object-center z-0"
         />
