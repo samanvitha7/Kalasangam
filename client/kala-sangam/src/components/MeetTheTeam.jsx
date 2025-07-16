@@ -2,14 +2,14 @@ const team = [
   {
     name: "NAINA",
     role: "",
-    image:  "/images/naina.jpg",
-    funFact: "Knows 4 languages & crocheted the team mascot!"
+    image: "/images/naina.jpg",
+    funFact: "Wrote her first JavaScript app before learning to ride a bike."
   },
   {
     name: "SAMANVITHA",
     role: "",
     image: "/images/sam.jpg",
-    funFact: "Once debugged code at a wedding."
+    funFact: "Has a playlist for debugging — and it actually works!"
   },
   {
     name: "SHREYA",
@@ -20,8 +20,8 @@ const team = [
   {
     name: "VAISHALI",
     role: "",
-    image:"/images/Vaishalii.jpg",
-    funFact: "Can draw perfect rangolis with her non-dominant hand."
+    image: "/images/Vaishalii.jpg",
+    funFact: "Her debug sessions are so calm, even the console errors feel shy."
   }
 ];
 
