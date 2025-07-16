@@ -30,19 +30,25 @@ export default function Header({ isVisible = true, onMapClick }) {
   return (
     <header
       className={`transition-transform duration-300 ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
+        isVisible ? "translate-y-0" : "-translate-y-full"
       } bg-gradient-to-r from-[#fdf6e3] via-[#fae5d3] to-[#ffe6eb] shadow-md fixed top-0 left-0 w-full z-50`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* 🔆 Logo */}
-        <div className="text-3xl font-serif font-bold text-[#9b2226] tracking-wide">
-          <h1 className="text-5xl text-[#9b2226] yatra-font">KalaSangam</h1>
-        </div>
+        {/* 🔆 Logo - now a Link to /home */}
+        <Link
+          to="/home"
+          className="text-3xl font-serif font-bold text-[#9b2226] tracking-wide no-underline"
+        >
+          <h1 className="text-5xl text-[#9b2226] yatra-font cursor-pointer">KalaSangam</h1>
+        </Link>
 
         {/* 🔗 Navigation Links */}
         <nav className="hidden md:flex space-x-8 text-[#582f0e] font-medium text-lg items-center relative">
-          <Link to="/" className="hover:text-[#9b2226] transition">Home</Link>
-          <Link to="/gallery" className="hover:text-[#9b2226] transition">Art Gallery</Link>
+          {/* Removed Home link */}
+
+          <Link to="/gallery" className="hover:text-[#9b2226] transition">
+            Art Gallery
+          </Link>
 
           {/* 🔽 Explore Dropdown */}
           <div className="relative" ref={dropdownRef}>
@@ -65,13 +71,13 @@ export default function Header({ isVisible = true, onMapClick }) {
                   className="px-4 py-2 hover:bg-rose-100 cursor-pointer"
                   onClick={() => handleExplore("art")}
                 >
-                  Explore Art 
+                  Explore Art
                 </li>
                 <li
                   className="px-4 py-2 hover:bg-rose-100 cursor-pointer"
                   onClick={() => handleExplore("dance")}
                 >
-                  Explore Dance 
+                  Explore Dance
                 </li>
                 <li
                   className="px-4 py-2 hover:bg-rose-100 cursor-pointer"
@@ -83,10 +89,18 @@ export default function Header({ isVisible = true, onMapClick }) {
             )}
           </div>
 
-          <Link to="/map" className="hover:text-[#9b2226] transition">India Map</Link>
-          <Link to="/about" className="hover:text-[#9b2226] transition">About</Link>
-          <Link to="/login" className="hover:text-[#9b2226] transition">Login</Link>
-          <Link to="/signup" className="hover:text-[#9b2226] transition">Sign Up</Link>
+          <Link to="/map" className="hover:text-[#9b2226] transition">
+            India Map
+          </Link>
+          <Link to="/about" className="hover:text-[#9b2226] transition">
+            About
+          </Link>
+          <Link to="/login" className="hover:text-[#9b2226] transition">
+            Login
+          </Link>
+          <Link to="/signup" className="hover:text-[#9b2226] transition">
+            Sign Up
+          </Link>
         </nav>
       </div>
     </header>
