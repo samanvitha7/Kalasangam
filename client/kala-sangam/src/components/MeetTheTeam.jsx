@@ -1,26 +1,26 @@
 const team = [
   {
-    name: "Shreya (Queen ♛)",
-    role: "Frontend + Content",
-    image: "https://upload.wikimedia.org/wikipedia/commons/e/e6/Playing_card_heart_Q.svg",
+    name: "NAINA",
+    role: "",
+    image:  "/images/naina.jpg",
     funFact: "Knows 4 languages & crocheted the team mascot!"
   },
   {
-    name: "Raj (King ♚)",
-    role: "Backend + Auth",
-    image: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Playing_card_spade_K.svg",
+    name: "SAMANVITHA",
+    role: "",
+    image: "/images/sam.jpg",
     funFact: "Once debugged code at a wedding."
   },
   {
-    name: "Ishaan (Ace ♠)",
-    role: "Fullstack + Mongo",
+    name: "SHREYA",
+    role: "",
     image: "https://upload.wikimedia.org/wikipedia/commons/5/57/Playing_card_club_A.svg",
     funFact: "Owns a flute signed by Hariprasad Chaurasia."
   },
   {
-    name: "Meera (Jack ♜)",
-    role: "Frontend + Design",
-    image: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Playing_card_diamond_J.svg",
+    name: "VAISHALI",
+    role: "",
+    image:"/images/Vaishalii.jpg",
     funFact: "Can draw perfect rangolis with her non-dominant hand."
   }
 ];

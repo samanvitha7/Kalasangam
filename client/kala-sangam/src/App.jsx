@@ -8,8 +8,10 @@ import Home from "./pages/Home.jsx";
 import IndiaMapPage from "./pages/IndiaMapPage.jsx";
 import About from "./pages/About.jsx";
 import CustomCursor from "./components/CustomCursor";
-
-
+import Login from "./pages/LoginPage.jsx";
+import Signup from "./pages/Signup.jsx";
+import ForgotPassword from "./pages/ForgotPw.jsx";
+ 
 // 👇 Import Try Art Canvas Page
 import TryArtCanvas from "./pages/TryArtCanvas.jsx"; // Make sure this path is correct
 
@@ -39,6 +41,9 @@ function App() {
 
         {/* ✅ New Route for Try Art Canvas */}
         <Route path="/try-art" element={<TryArtCanvas />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
 
       <Footer />
