@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from "react";
 
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
-import ArtGallery from "./pages/ArtGallery.jsx";
+import Art from "./pages/ArtGallery.jsx";
 import Home from "./pages/Home.jsx";
 import IndiaMapPage from "./pages/IndiaMapPage.jsx";
 import About from "./pages/About.jsx";
@@ -11,7 +11,8 @@ import Login from "./pages/LoginPage.jsx";
 import Signup from "./pages/Signup.jsx";
 import ForgotPassword from "./pages/ForgotPw.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
-import DanceGallery from "./pages/DanceGallery";
+import Dance from "./pages/DanceGallery";
+import Music from "./pages/MusicPage.jsx";
 function App() {
   // Initialize splash from localStorage
   const [showSplash, setShowSplash] = useState(() => {
@@ -69,14 +70,15 @@ function App() {
             <Routes>
               <Route path="/home" element={<Home />} />
               <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
-              <Route path="/gallery" element={<ArtGallery />} />
+              <Route path="/gallery" element={<Art />} />
               <Route path="/about" element={<About />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />
-              <Route path="/explore/art" element={<ArtGallery />} />
-              <Route path="/explore/dance" element={<DanceGallery />} />
+              <Route path="/explore/art" element={<Art />} />
+              <Route path="/explore/dance" element={<Dance />} />
+              <Route path="/explore/music" element={<Music />} />
             </Routes>
           </main>
 
@@ -88,5 +90,6 @@ function App() {
 }
 
 import SoundToggle from "./components/SoundToggle.jsx";
+import MusicPage from "./pages/MusicPage.jsx";
 
 export default App;

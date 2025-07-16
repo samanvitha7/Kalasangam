@@ -24,6 +24,7 @@ export default function Header({ isVisible = true, onMapClick }) {
     if (type === "state") navigate("/explore/state");
     else if (type === "art") navigate("/explore/art");
     else if (type === "dance") navigate("/explore/dance");
+    else if (type === "music") navigate("/explore/music");
   };
 
   return (
@@ -64,13 +65,19 @@ export default function Header({ isVisible = true, onMapClick }) {
                   className="px-4 py-2 hover:bg-rose-100 cursor-pointer"
                   onClick={() => handleExplore("art")}
                 >
-                  Explore by Art Form
+                  Explore Art 
                 </li>
                 <li
                   className="px-4 py-2 hover:bg-rose-100 cursor-pointer"
                   onClick={() => handleExplore("dance")}
                 >
-                  Explore by Dance Form
+                  Explore Dance 
+                </li>
+                <li
+                  className="px-4 py-2 hover:bg-rose-100 cursor-pointer"
+                  onClick={() => handleExplore("music")}
+                >
+                  Explore Music
                 </li>
               </ul>
             )}
