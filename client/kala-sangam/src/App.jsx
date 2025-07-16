@@ -12,13 +12,16 @@ import Signup from "./pages/Signup.jsx";
 import ForgotPassword from "./pages/ForgotPw.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
 import DanceGallery from "./pages/DanceGallery";
-
 function App() {
+  // Initialize splash from localStorage
+  const [showSplash, setShowSplash] = useState(() => {
+    return !localStorage.getItem("splashShown");
+  });
+
+  const [playSound, setPlaySound] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const mapRef = useRef(null);
-  const [playSound, setPlaySound] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isFooterVisible, setIsFooterVisible] = useState(true);
   const lastScrollY = useRef(0);
@@ -26,7 +29,6 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
       if (currentScrollY > lastScrollY.current) {
         setIsHeaderVisible(false);
         setIsFooterVisible(false);
@@ -34,15 +36,14 @@ function App() {
         setIsHeaderVisible(true);
         setIsFooterVisible(true);
       }
-
       lastScrollY.current = currentScrollY;
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleSplashContinue = (withSound) => {
+    localStorage.setItem("splashShown", "true");
     setPlaySound(withSound);
     setShowSplash(false);
     navigate("/home", { replace: true });
@@ -57,37 +58,35 @@ function App() {
   };
 
   return (
-  <>
-    {showSplash ? (
-      <SplashScreen onContinue={handleSplashContinue} />
-    ) : (
-      // NEW WRAPPER STARTS HERE
-      <div className="flex flex-col min-h-screen">
-        <Header isVisible={isHeaderVisible} onMapClick={handleShowMap} />
+    <>
+      {showSplash ? (
+        <SplashScreen onContinue={handleSplashContinue} />
+      ) : (
+        <div className="flex flex-col min-h-screen">
+          <Header isVisible={isHeaderVisible} onMapClick={handleShowMap} />
 
-        <main className="flex-grow pt-[80px]">
-          <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
-            <Route path="/gallery" element={<ArtGallery />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />
-          <Route path="/explore/art" element={<ArtGallery />} />
-          <Route path="/explore/dance" element={<DanceGallery />} />
+          <main className="flex-grow pt-[80px]">
+            <Routes>
+              <Route path="/home" element={<Home />} />
+              <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
+              <Route path="/gallery" element={<ArtGallery />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />
+              <Route path="/explore/art" element={<ArtGallery />} />
+              <Route path="/explore/dance" element={<DanceGallery />} />
+            </Routes>
+          </main>
 
-        </Routes>
-        </main>
-
-        <Footer isVisible={isFooterVisible} />
-      </div>
-    )}
+          <Footer isVisible={isFooterVisible} />
+        </div>
+      )}
     </>
   );
-
 }
+
 import SoundToggle from "./components/SoundToggle.jsx";
 
 export default App;
