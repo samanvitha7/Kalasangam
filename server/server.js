@@ -32,7 +32,7 @@ app.get("/api/danceforms", async (req, res) => {
 //connect to mongodb
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+  .catch(err => console.log("MongoDB connection error:", err));
 
 
 

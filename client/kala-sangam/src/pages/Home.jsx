@@ -55,31 +55,34 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
   };
 
   return (
-    <>
-      {!showMain ? (
-        <SplashScreen onContinue={handleContinue}/>
-      ):(
-        <main className="min-h-screen px-6 py-10 bg-[#fffef2] text-center scroll-smooth">
-          <SoundToggle soundOn={isPlaying} setSoundOn={setPlaying} />
-          <div className="w-screen h-screen overflow-hidden">
-            <ParallaxSection />
+  <>
+    {!showMain ? (
+      <SplashScreen onContinue={handleContinue} />
+    ) : (
+      <main className="relative min-h-screen w-full overflow-x-hidden bg-[#fffef2] text-center">
+        <SoundToggle soundOn={isPlaying} setSoundOn={setPlaying} />
+
+        {/* Fullscreen Parallax Section */}
+        <div className="w-full h-screen overflow-hidden">
+          <ParallaxSection />
+        </div>
+
+        <StorytellingScroll />
+        <CinematicCarousel />
+
+        {showMap && (
+          <div
+            id="india-map"
+            ref={mapRef}
+            className="mt-16 flex items-center justify-center p-6"
+          >
+            <IndiaMap onStateClick={onStateClick} />
           </div>
-          <StorytellingScroll />
-          <CinematicCarousel />
+        )}
+      </main>
+    )}
+  </>
+);
 
-          
-
-          {showMap && (
-            <div
-              id="india-map"
-              ref={mapRef}
-              className="mt-16 flex items-center justify-center p-6"
-            >
-              <IndiaMap onStateClick={onStateClick} />
-            </div>
-          )}
-        </main>
-      )}
-    </>
-  );
 }
+

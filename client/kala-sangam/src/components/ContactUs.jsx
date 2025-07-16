@@ -15,7 +15,7 @@ return (
                 Contact Us
             </a>
         </div>
-        <div className="md:flex-1 mt-10 md:mt-0">
+        <div className="md:flex-1 md:mt-0">
             <img
                 src="https://muselot.in/cdn/shop/articles/gond_painting.jpg?v=1676631899&width=1080"
                 alt="Collaboration Illustration"
