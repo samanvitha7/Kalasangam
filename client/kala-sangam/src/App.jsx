@@ -60,7 +60,7 @@ function App() {
     <>
       <Header isVisible={isHeaderVisible} onMapClick={handleShowMap} />
 
-      {/* Page content wrapper with padding */}
+
       <div className="pt-[80px] pb-[120px] min-h-screen">
         <Routes>
           <Route path="/home" element={<Home />} />

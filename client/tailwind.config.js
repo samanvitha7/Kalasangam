@@ -8,6 +8,7 @@ export default {
     extend: {
       animation: {
         popFade: "popFade 1.2s ease-out both",
+        sinkFade: "sinkFade 2s ease-out forwards",
       },
       keyframes: {
         popFade: {
@@ -18,6 +19,16 @@ export default {
           "100%": {
             opacity: "1",
             transform: "scale(1) translateY(0)",
+          },
+        },
+        sinkFade: {
+          "0%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(60vh)",
           },
         },
       },

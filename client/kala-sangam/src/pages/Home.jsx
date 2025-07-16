@@ -8,6 +8,7 @@ import IndiaMap from "../components/IndiaMap.jsx";
 import SoundToggle from "../components/SoundToggle.jsx";
 import SplashScreen from "../components/SplashScreen.jsx";
 import ArtGallery from "./ArtGallery.jsx";
+import ParallaxSection from "../components/ParallaxSection.jsx";  
 
 export default function Home({ showMap, mapRef, onStateClick, audio }) {
   const [showMain, setShowMain] = useState(false);
@@ -58,8 +59,9 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
       {showMain && (
         <main className="min-h-screen px-6 py-10 bg-[#fffef2] text-center scroll-smooth">
           <SoundToggle soundOn={isPlaying} setSoundOn={setPlaying} />
-          <HeroSection audioRef={audioRef} isPlaying={isPlaying} setPlaying={setPlaying} />mois
-          <FloatingVisuals />
+          <div className="w-screen h-screen overflow-hidden">
+            <ParallaxSection />
+          </div>
           <StorytellingScroll />
           <CinematicCarousel />
 

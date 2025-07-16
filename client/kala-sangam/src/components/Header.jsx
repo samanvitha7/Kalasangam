@@ -3,7 +3,7 @@ export default function Header({ isVisible = true, onMapClick }) {
     <header
       className={`transition-transform duration-300 ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
-      } bg-gradient-to-r from-[#fdf6e3] via-[#fae5d3] to-[#ffe6eb] shadow-md fixed top-0 left-0 w-full z-50`}
+      } bg-white/30 backdrop-blur-sm shadow-sm fixed top-0 left-0 w-full z-50`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <h1 className="text-5xl text-[#9b2226] font-serif font-bold yatra-font">KalaSangam</h1>
