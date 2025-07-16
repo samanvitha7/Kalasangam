@@ -5,13 +5,13 @@
 }
 
 html, body, * {
-  cursor: none !important;
+  cursor: default !important;
 }
 *:hover,
 button:hover,
 a:hover,
 input:hover {
-  cursor: none !important;
+  cursor: default !important;
 }
 
 body {
@@ -36,6 +36,6 @@ body {
 
 @media (pointer: fine) {
   body, * {
-    cursor: none !important;
+    cursor: default !important;
   }
 }

@@ -55,10 +55,12 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
 
   return (
     <>
-      {showMain && (
+      {!showMain ? (
+        <SplashScreen onContinue={handleContinue}/>
+      ):(
         <main className="min-h-screen px-6 py-10 bg-[#fffef2] text-center scroll-smooth">
           <SoundToggle soundOn={isPlaying} setSoundOn={setPlaying} />
-          <HeroSection audioRef={audioRef} isPlaying={isPlaying} setPlaying={setPlaying} />mois
+          <HeroSection audioRef={audioRef} isPlaying={isPlaying} setPlaying={setPlaying} />
           <FloatingVisuals />
           <StorytellingScroll />
           <CinematicCarousel />
