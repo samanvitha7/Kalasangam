@@ -1,11 +1,9 @@
-export default function Footer({ isVisible = true }) {
+import { Link } from "react-router-dom";
+
+export default function Footer() {
   return (
-    <footer
-      className={`transition-transform duration-300 ${
-        isVisible ? 'translate-y-0' : 'translate-y-full'
-      } fixed bottom-0 left-0 w-full h-[100px] bg-[#fff6] backdrop-blur-md text-[#582f0e] z-50 border-t border-[#e9dcc9] px-6 py-4`}
-    >
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+    <footer className="bg-gradient-to-r from-[#fdf6e3] via-[#fae5d3] to-[#ffe6eb] text-[#582f0e] border-t border-[#e9dcc9] px-6 py-10 mt-20">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
 
         {/* About Section */}
         <div>
@@ -21,15 +19,17 @@ export default function Footer({ isVisible = true }) {
         <div>
           <h2 className="text-xl font-bold font-serif mb-4">Explore</h2>
           <ul className="text-sm space-y-2 text-[#7b3e19]">
-            <li><a href="#" className="hover:underline">Home</a></li>
-            <li><a href="#" className="hover:underline">Traditional Arts</a></li>
-            <li><a href="#" className="hover:underline">States</a></li>
-            <li><a href="#" className="hover:underline">Gallery</a></li>
-            <li><a href="#" className="hover:underline">Contact Us</a></li>
+            <li><Link to="/" className="hover:underline">Home</Link></li>
+            <li><Link to="/gallery" className="hover:underline">Traditional Arts</Link></li>
+            <li><Link to="/map" className="hover:underline">States</Link></li>
+            <li><Link to="/gallery" className="hover:underline">Gallery</Link></li>
+            <li><Link to="/login" className="hover:underline">Login</Link></li>
+            <li><Link to="/signup" className="hover:underline">Sign Up</Link></li>
+            
           </ul>
         </div>
 
-        {/* Newsletter or Contact */}
+        {/* Contact Form */}
         <div>
           <h2 className="text-xl font-bold font-serif mb-4">Get In Touch</h2>
           <p className="text-sm text-[#7b3e19] mb-4">
