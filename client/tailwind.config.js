@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       animation: {
-        fadeInUp: "fadeInUp 0.6s ease-out forwards",
-        
-      },
+                      "fadeInUp": "fadeInUp 0.6s ease-out forwards",
+                    },
+     
       keyframes: {
         fadeInUp: {
           "0%": { opacity: "0", transform: "translateY(20px)" },
