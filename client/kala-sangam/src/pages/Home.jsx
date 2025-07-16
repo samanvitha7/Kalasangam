@@ -36,7 +36,9 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-[#fffef2] text-center">
+      
       <SoundToggle soundOn={isPlaying} setSoundOn={setPlaying} />
+      
 
       {/* Fullscreen Parallax Section */}
       <div className="w-full h-screen overflow-hidden">

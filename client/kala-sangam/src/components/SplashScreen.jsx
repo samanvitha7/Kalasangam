@@ -35,7 +35,7 @@ export function LoadingScreen({ onFinish }) {
       />
 
       <div className="absolute bottom-6 left-6 welcome-text z-30">
-        Welcome to an experience
+        Welcome to an experience...
       </div>
     </div>
   );

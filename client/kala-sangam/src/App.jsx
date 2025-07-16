@@ -68,6 +68,8 @@ function App() {
 
           <main className="flex-grow pt-[80px]">
             <Routes>
+              <Route path="/" element={<SplashScreen onContinue={handleSplashContinue} />} />
+
               <Route path="/home" element={<Home />} />
               <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
               <Route path="/gallery" element={<Art />} />
@@ -89,7 +91,5 @@ function App() {
   );
 }
 
-import SoundToggle from "./components/SoundToggle.jsx";
-import MusicPage from "./pages/MusicPage.jsx";
 
 export default App;
