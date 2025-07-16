@@ -6,7 +6,6 @@ import ArtGallery from "./pages/ArtGallery.jsx";
 import Home from "./pages/Home.jsx";
 import IndiaMapPage from "./pages/IndiaMapPage.jsx";
 import About from "./pages/About.jsx";
-import CustomCursor from "./components/CustomCursor";
 
 
 // 👇 Import Try Art Canvas Page
@@ -35,7 +34,6 @@ function App() {
 
   return (
     <>
-      <CustomCursor />
       <Header onMapClick={handleShowMap} />
 
       <Routes>

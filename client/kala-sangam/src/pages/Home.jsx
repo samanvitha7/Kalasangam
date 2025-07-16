@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HeroSection from "../components/HeroSection.jsx";
-import KaleidoscopeArt from "../components/KaleidoscopeArt.jsx";
 import FloatingVisuals from "../components/FloatingVisuals.jsx";
 import StorytellingScroll from "../components/StorytellingScroll.jsx";
 import CinematicCarousel from "../components/CinematicCarousel.jsx";
@@ -60,7 +59,6 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
         <main className="min-h-screen px-6 py-10 bg-[#fffef2] text-center scroll-smooth">
           <SoundToggle soundOn={isPlaying} setSoundOn={setPlaying} />
           <HeroSection audioRef={audioRef} isPlaying={isPlaying} setPlaying={setPlaying} />mois
-          <KaleidoscopeArt />
           <FloatingVisuals />
           <StorytellingScroll />
           <CinematicCarousel />
