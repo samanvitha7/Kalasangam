@@ -44,8 +44,8 @@ function App() {
 
   const handleSplashContinue = (withSound) => {
     setPlaySound(withSound);
-    setShowSplash(false); // hide splash screen
-    navigate("/home", { replace: true }); // redirect to home
+    setShowSplash(false);
+    navigate("/home", { replace: true });
   };
 
   const handleStateClick = (stateName) => {
@@ -57,31 +57,33 @@ function App() {
   };
 
   return (
-    <>
-      {showSplash ? (
-        <SplashScreen onContinue={handleSplashContinue} />
-      ) : (
-        <>
-          <Header isVisible={isHeaderVisible} onMapClick={handleShowMap} />
+  <>
+    {showSplash ? (
+      <SplashScreen onContinue={handleSplashContinue} />
+    ) : (
+      // NEW WRAPPER STARTS HERE
+      <div className="flex flex-col min-h-screen">
+        <Header isVisible={isHeaderVisible} onMapClick={handleShowMap} />
 
-      {/* Page content wrapper with padding */}
-      <div className="pt-[80px] pb-[120px] min-h-screen">
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
-          <Route path="/gallery" element={<ArtGallery />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-        </Routes>
+        <main className="flex-grow pt-[80px]">
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
+            <Route path="/gallery" element={<ArtGallery />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+          </Routes>
+        </main>
+
+        <Footer isVisible={isFooterVisible} />
       </div>
-
-          <Footer isVisible={isFooterVisible} />
-        </>
-      )}
+    )}
     </>
   );
+
 }
+import SoundToggle from "./components/SoundToggle.jsx";
 
 export default App;

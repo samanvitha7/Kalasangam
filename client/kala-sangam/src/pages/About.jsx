@@ -36,10 +36,11 @@ export default function About() {
 
     
       <div className="h-1 mx-16 rounded-full bg-gradient-to-r from-[#ffc799] to-[#e6a97b] my-8"></div>
+    <ContactUsSection />
+    <svg className="w-full h-16" viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0,0 C150,100 350,0 500,100 L500,00 L0,0 Z" fill="#fff4e8" />
+    </svg>
 
-      <section className="bg-white rounded-3xl shadow-xl mx-6 md:mx-20 mb-14 p-8 md:p-12">
-        <ContactUsSection />
-      </section>
     </div>
   );
 }
