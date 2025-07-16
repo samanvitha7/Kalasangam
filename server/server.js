@@ -17,10 +17,23 @@ require("dotenv").config();
 const artRoutes=require("./routes/artRoutes");
 app.use("/api/artforms",artRoutes);
 
+const DanceForm = require("./models/DanceForm");
+
+app.get("/api/danceforms", async (req, res) => {
+  try {
+    const dances = await DanceForm.find();
+    res.json(dances);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch dance forms" });
+  }
+});
+
+
 //connect to mongodb
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
+
 
 
 

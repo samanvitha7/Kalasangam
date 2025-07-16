@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
+
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import ArtGallery from "./pages/ArtGallery.jsx";
@@ -10,6 +11,8 @@ import Login from "./pages/LoginPage.jsx";
 import Signup from "./pages/Signup.jsx";
 import ForgotPassword from "./pages/ForgotPw.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
+
+import DanceGallery from "./pages/DanceGallery";
 
 function App() {
   const location = useLocation();
@@ -26,11 +29,9 @@ function App() {
       const currentScrollY = window.scrollY;
 
       if (currentScrollY > lastScrollY.current) {
-        // scrolling down → hide header/footer
         setIsHeaderVisible(false);
         setIsFooterVisible(false);
       } else {
-        // scrolling up → show header/footer
         setIsHeaderVisible(true);
         setIsFooterVisible(true);
       }
@@ -40,12 +41,12 @@ function App() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-    }, []);  
+  }, []);
 
-    const handleSplashContinue = (withSound) => {
-      setPlaySound(withSound);
-      navigate("/home", { replace: true });
-      setShowSplash(false);
+  const handleSplashContinue = (withSound) => {
+    setPlaySound(withSound);
+    navigate("/home", { replace: true });
+    setShowSplash(false);
   };
 
   const handleStateClick = (stateName) => {
@@ -60,7 +61,6 @@ function App() {
     <>
       <Header isVisible={isHeaderVisible} onMapClick={handleShowMap} />
 
-      {/* Page content wrapper with padding */}
       <div className="pt-[80px] pb-[120px] min-h-screen">
         <Routes>
           <Route path="/home" element={<Home />} />
@@ -70,10 +70,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/explore/state" element={<IndiaMapPage />} />
+          <Route path="/explore/art" element={<ArtGallery />} />
+          <Route path="/explore/dance" element={<DanceGallery />} />
         </Routes>
       </div>
 
-      <Footer isVisible={isFooterVisible}/>
+      <Footer isVisible={isFooterVisible} />
     </>
   );
 }
