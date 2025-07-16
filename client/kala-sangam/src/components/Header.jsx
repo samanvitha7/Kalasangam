@@ -29,25 +29,28 @@ export default function Header({ isVisible = true, onMapClick }) {
 
   return (
     <header
-      className={`transition-transform duration-300 ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
-      } bg-white/30 backdrop-blur-sm shadow-sm fixed top-0 left-0 w-full z-50`}
+      className= {`transition-transform duration-300 ${
+    isVisible ? 'translate-y-0' : '-translate-y-full'
+  } bg-[#093C34] backdrop-blur-sm shadow-sm fixed top-0 left-0 w-full z-50`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* 🔆 Logo */}
-        <div className="text-3xl font-serif font-bold text-[#9b2226] tracking-wide">
-          <h1 className="text-5xl text-[#9b2226] yatra-font">KalaSangam</h1>
-        </div>
+        
+         <h1 className="text-5xl text-[#F5F3EF] yatra-font font-extrabold tracking-wide">
+          KalaSangam
+         </h1>
+
+
 
         {/* 🔗 Navigation Links */}
-        <nav className="hidden md:flex space-x-8 text-[#582f0e] font-medium text-lg items-center relative">
-          <Link to="/" className="hover:text-[#9b2226] transition">Home</Link>
-          <Link to="/gallery" className="hover:text-[#9b2226] transition">Art Gallery</Link>
+        <nav className="hidden md:flex space-x-8 text-[#F5F3EF] font-medium text-lg items-center relative">
+          <Link to="/" className="text-[#F5F3EF] hover:text-[#D66037] transition">Home</Link>
+          
 
           {/* 🔽 Explore Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <span
-              className="hover:text-rose-700 font-semibold cursor-pointer"
+              className="text-[#F5F3EF] hover:text-[#D66037] transition font-semibold cursor-pointer"
               onClick={() => setShowDropdown(!showDropdown)}
             >
               Explore ▾
@@ -82,11 +85,11 @@ export default function Header({ isVisible = true, onMapClick }) {
               </ul>
             )}
           </div>
-
-          
-          <Link to="/about" className="hover:text-[#9b2226] transition">About</Link>
-          <Link to="/login" className="hover:text-[#9b2226] transition">Login</Link>
-          <Link to="/signup" className="hover:text-[#9b2226] transition">Sign Up</Link>
+          <Link to="/gallery" className="text-[#F5F3EF] hover:text-[#D66037] transition">Art Gallery</Link>
+          <Link to="/map" className="text-[#F5F3EF] hover:text-[#D66037] transition">India Map</Link>
+          <Link to="/about" className="text-[#F5F3EF] hover:text-[#D66037] transition">About</Link>
+          <Link to="/login" className="text-[#F5F3EF] hover:text-[#D66037] transition">Login</Link>
+          <Link to="/signup"className="text-[#F5F3EF] hover:text-[#D66037] transition">Sign Up</Link>
         </nav>
       </div>
     </header>
