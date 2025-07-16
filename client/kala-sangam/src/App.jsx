@@ -74,7 +74,11 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-          </Routes>
+            <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />
+          <Route path="/explore/art" element={<ArtGallery />} />
+          <Route path="/explore/dance" element={<DanceGallery />} />
+
+        </Routes>
         </main>
 
         <Footer isVisible={isFooterVisible} />
