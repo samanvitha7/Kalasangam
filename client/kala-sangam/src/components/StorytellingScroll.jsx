@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 // Define each section
 const sections = [
@@ -8,8 +9,10 @@ const sections = [
     title: "The Rhythm of India",
     description:
       "Feel the heartbeat of the land through vibrant dance and music.",
-    bg: "/images/rhythm.jpg",
-    videoEmbed: "https://www.youtube.com/embed/rsOTjPYOAak",
+    bg: "https://www.youtube.com/embed/ErtbifqxJwA?autoplay=1&mute=1&controls=0&loop=1&playlist=ErtbifqxJwA&showinfo=0&rel=0",
+    isVideo: true,
+    exploreRoute: "/explore/dance",
+    exploreText: "Explore Dance"
   },
   {
     id: 2,
@@ -17,6 +20,9 @@ const sections = [
     description:
       "Discover the palettes that paint stories on canvas, fabric, and skin.",
     bg: "https://i.pinimg.com/736x/79/0a/c9/790ac9eb3b1362f14cafb3c3669aba31.jpg",
+    isVideo: false,
+    exploreRoute: "/explore/art",
+    exploreText: "Explore Art"
   },
   {
     id: 3,
@@ -24,13 +30,17 @@ const sections = [
     description:
       "Ancient tales woven into the fabric of Indian art and culture.",
     bg: "https://i.pinimg.com/1200x/87/79/51/87795197ea4e7dae982c92e4ac677825.jpg",
+    isVideo: false,
+    exploreRoute: "/map",
+    exploreText: "Explore States"
   },
 ];
 
 // Single section component
-function Section({ title, description, bg, videoEmbed }) {
+function Section({ title, description, bg, isVideo, exploreRoute, exploreText }) {
   const ref = useRef(null);
   const controls = useAnimation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -51,13 +61,33 @@ function Section({ title, description, bg, videoEmbed }) {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center snap-start"
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className="relative min-h-screen flex items-center justify-center snap-start overflow-hidden"
     >
+      {/* Background - either video or image */}
+      {isVideo ? (
+        <iframe
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          src={bg}
+          title={title}
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          style={{
+            width: "100vw",
+            height: "100vh",
+            transform: "scale(1.2)", // Scale to hide borders
+          }}
+        />
+      ) : (
+        <div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            backgroundImage: `url(${bg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      )}
+      
       {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20 z-10" />
 
@@ -78,19 +108,6 @@ function Section({ title, description, bg, videoEmbed }) {
           {description}
         </p>
 
-        {/* Embedded video if available */}
-        {videoEmbed && (
-          <div className="w-full max-w-4xl mx-auto h-[500px] mb-6">
-            <iframe
-              className="w-full h-full rounded-lg shadow-lg"
-              src={`${videoEmbed}?autoplay=1&mute=1&controls=0&loop=1&playlist=rsOTjPYOAak`}
-              title={title}
-              frameBorder="0"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-            />
-          </div>
-        )}
 
         {/* Pink underline */}
         <motion.div
@@ -99,6 +116,19 @@ function Section({ title, description, bg, videoEmbed }) {
           animate={{ scaleX: 1 }}
           transition={{ duration: 1 }}
         />
+        
+        {/* Explore Button */}
+        <motion.button
+          onClick={() => navigate(exploreRoute)}
+          className="mt-8 px-8 py-3 bg-gradient-to-r from-pink-600 to-red-600 text-white font-semibold rounded-full shadow-lg hover:from-pink-700 hover:to-red-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {exploreText}
+        </motion.button>
       </motion.div>
     </section>
   );
