@@ -37,23 +37,19 @@ export default function Header({ scrolled, onMapClick }) {
   return (
     <header
       className={`
-        fixed top-0 left-1/2 -translate-x-1/2 z-50
+        fixed top-0 left-1/2 -translate-x-1/2 w-full z-50
         transition-all duration-500 ease-in-out
-        w-full max-w-full
-        h-16
         ${scrolled
-          ? "max-w-5xl bg-rose-100/90 backdrop-blur-md rounded-full px-6 shadow-md border-none"
-          : "bg-transparent px-6"
-        }
+          ? "bg-rose-100/90 backdrop-blur-md rounded-full shadow-md px-6 border-none"
+          : "bg-transparent px-6"}
+        h-16
       `}
       style={{ width: scrolled ? "80vw" : "100vw" }}
     >
       <div
         className={`
           flex items-center h-full
-          max-w-full
           ${scrolled ? "justify-between" : "justify-center"}
-          relative
         `}
       >
         {/* Logo */}

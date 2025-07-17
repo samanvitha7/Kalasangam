@@ -67,10 +67,11 @@ function App() {
       ) : (
         <div className="flex flex-col min-h-screen relative">
           <Header scrolled={scrolled} onMapClick={handleShowMap} />
-
+          
           {/* Invisible sentinel to track scroll position */}
           <div ref={sentinelRef} className="h-[1px] w-full" />
 
+          {/* Start main content */}
           <main className="flex-grow pt-[100px]">
             <Routes>
               <Route path="/" element={<SplashScreen onContinue={handleSplashContinue} />} />
