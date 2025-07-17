@@ -39,12 +39,12 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
       <SoundToggle soundOn={isPlaying} setSoundOn={setPlaying} />
 
       {/* Fullscreen Parallax Section */}
-      <div className="w-full h-screen overflow-hidden">
+      <div className="w-full overflow-hidden">
         <ParallaxSection />
       </div>
 
-      <StorytellingScroll />
       <CinematicCarousel />
+      <StorytellingScroll />
 
       {showMap && (
         <div

@@ -1,32 +1,57 @@
 // src/pages/Signup.jsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isEmailValid, isPasswordStrong } from "../utils/validators";
+import { useAuth } from "../context/AuthContext";
 
 export default function Signup() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { register, isAuthenticated, loading, clearError } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/home");
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    clearError();
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password } = form;
 
     if (!name || !email || !password) {
       setError("All fields are required.");
-    } else if (!isEmailValid(email)) {
+      return;
+    }
+    
+    if (!isEmailValid(email)) {
       setError("Enter a valid email.");
-    } else if (!isPasswordStrong(password)) {
+      return;
+    }
+    
+    if (!isPasswordStrong(password)) {
       setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    const result = await register(form);
+    if (result.success) {
+      toast.success("Account created successfully!");
+      navigate("/home");
     } else {
-      toast.success("Account created!");
-      setTimeout(() => navigate("/login"), 1500);
+      setError(result.error);
+      toast.error(result.error);
     }
   };
 
@@ -73,13 +98,14 @@ export default function Signup() {
 
         <button
           type="submit"
-          className="w-full bg-[#74404b] hover:bg-[#5f343d] text-white font-bold py-3 rounded-xl transition-all"
+          disabled={loading}
+          className="w-full bg-[#74404b] hover:bg-[#5f343d] text-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Sign Up
+          {loading ? "Creating Account..." : "Sign Up"}
         </button>
 
         <p className="text-center mt-6 text-sm text-[#74404b]">
-          Already have an account? <a href="/login" className="underline font-semibold">Login</a>
+          Already have an account? <Link to="/login" className="underline font-semibold">Login</Link>
         </p>
       </form>
     </div>

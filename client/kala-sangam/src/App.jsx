@@ -13,6 +13,7 @@ import ForgotPassword from "./pages/ForgotPw.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
 import Dance from "./pages/DanceGallery";
 import Music from "./pages/MusicPage.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 function App() {
   const [showSplash, setShowSplash] = useState(() => !localStorage.getItem("splashShown"));
@@ -61,7 +62,7 @@ function App() {
   };
 
   return (
-    <>
+    <AuthProvider>
       {showSplash ? (
         <SplashScreen onContinue={handleSplashContinue} />
       ) : (
@@ -92,7 +93,7 @@ function App() {
           <Footer />
         </div>
       )}
-    </>
+    </AuthProvider>
   );
 }
 

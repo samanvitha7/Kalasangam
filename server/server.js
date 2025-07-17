@@ -15,7 +15,9 @@ require("dotenv").config();
 
 //routes
 const artRoutes=require("./routes/artRoutes");
+const authRoutes=require("./routes/auth");
 app.use("/api/artforms",artRoutes);
+app.use("/api/auth",authRoutes);
 
 const DanceForm = require("./models/DanceForm");
 

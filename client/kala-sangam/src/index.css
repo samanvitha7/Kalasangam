@@ -72,3 +72,12 @@ body {
   animation: bob 4s ease-in-out infinite;
 }
 
+/* Text stroke utilities for parallax effect */
+.text-stroke-2 {
+  -webkit-text-stroke-width: 2px;
+}
+
+.text-stroke-black {
+  -webkit-text-stroke-color: rgba(0, 0, 0, 0.6);
+}
+

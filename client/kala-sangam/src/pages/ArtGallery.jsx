@@ -68,17 +68,28 @@ export default function ArtGallery() {
   };
 
   return (
-    <div className="px-4 md:px-8 py-6 pt-24 max-w-screen-2xl mx-auto">
-
-      <div data-aos="fade-up" className="mb-8">
-        {/* Full-bleed border */}
-        <div className="w-full h-[2px] bg-rose-600"></div>
-
-        {/* Heading with padding top and bottom equal to border height */}
-        <h1 className="text-4xl font-bold text-center text-rose-800 mt-8">
-          Explore Indian Art Forms
-        </h1>
+    <div className="">
+      {/* Full Bleed Divider */}
+      <div className="w-full h-20 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-700/20 via-purple-700/20 to-pink-700/20"></div>
+        <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,0L50,10C100,20,200,40,300,45C400,50,500,40,600,35C700,30,800,30,900,35C1000,40,1100,50,1150,55L1200,60L1200,120L1150,120C1100,120,1000,120,900,120C800,120,700,120,600,120C500,120,400,120,300,120C200,120,100,120,50,120L0,120Z" 
+            fill="#2563eb" 
+            opacity="0.8"
+          />
+          <path d="M0,20L50,25C100,30,200,40,300,42C400,45,500,40,600,38C700,35,800,35,900,40C1000,45,1100,55,1150,60L1200,65L1200,120L1150,120C1100,120,1000,120,900,120C800,120,700,120,600,120C500,120,400,120,300,120C200,120,100,120,50,120L0,120Z" 
+            fill="#7c3aed"
+            opacity="0.9"
+          />
+        </svg>
       </div>
+      
+      <div className="px-4 md:px-8 py-6 pt-12 max-w-screen-2xl mx-auto">
+        <div data-aos="fade-up" className="mb-8">
+          <h1 className="text-4xl font-bold text-center text-rose-800 mb-8">
+            Explore Indian Art Forms
+          </h1>
+        </div>
 
 
 
@@ -148,6 +159,7 @@ export default function ArtGallery() {
         >
           ← Back to India Map
         </button>
+      </div>
       </div>
     </div>
   );
