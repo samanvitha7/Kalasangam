@@ -27,13 +27,13 @@ const sections = [
   {
     id: 3,
     title: "Soulful Stories",
-    description:
-      "Ancient tales woven into the fabric of Indian art and culture.",
-    bg: "https://i.pinimg.com/1200x/87/79/51/87795197ea4e7dae982c92e4ac677825.jpg",
-    isVideo: false,
+    description: "Ancient tales woven into the fabric of Indian art and culture.",
+    bg: "https://www.youtube.com/embed/EbRoWCsh7mc?autoplay=1&mute=1&controls=0&loop=1&playlist=EbRoWCsh7mc&showinfo=0&rel=0",
+    isVideo: true,
     exploreRoute: "/map",
     exploreText: "Explore States"
-  },
+  }
+
 ];
 
 // Single section component
