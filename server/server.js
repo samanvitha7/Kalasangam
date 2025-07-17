@@ -7,7 +7,43 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+// CORS configuration for development
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Allow localhost on any port
+    if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      return callback(null, true);
+    }
+    
+    // Allow local network IPs (for teammates on same network)
+    if (origin.match(/^http:\/\/192\.168\./)) {
+      return callback(null, true);
+    }
+    
+    // Allow local network IPs (for teammates on same network)
+    if (origin.match(/^http:\/\/10\./)) {
+      return callback(null, true);
+    }
+    
+    // Allow file:// protocol for local development
+    if (origin.startsWith('file://')) {
+      return callback(null, true);
+    }
+    
+    // For production, you'd want to add your actual domain here
+    // if (origin === 'https://yourdomain.com') {
+    //   return callback(null, true);
+    // }
+    
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true // Allow cookies and credentials
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 //serve atatic image files from /public
 app.use("/images",express.static(path.join(__dirname,'public')));
