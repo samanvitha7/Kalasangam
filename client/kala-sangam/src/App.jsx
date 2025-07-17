@@ -65,14 +65,14 @@ function App() {
       {showSplash ? (
         <SplashScreen onContinue={handleSplashContinue} />
       ) : (
-        <div className="flex flex-col min-h-screen relative">
+        <div className="min-h-screen flex flex-col relative">
           <Header scrolled={scrolled} onMapClick={handleShowMap} />
           
           {/* Invisible sentinel to track scroll position */}
           <div ref={sentinelRef} className="h-[1px] w-full" />
 
           {/* Start main content */}
-          <main className="flex-grow pt-[100px]">
+          <main className="flex-1">
             <Routes>
               <Route path="/" element={<SplashScreen onContinue={handleSplashContinue} />} />
               <Route path="/home" element={<Home />} />

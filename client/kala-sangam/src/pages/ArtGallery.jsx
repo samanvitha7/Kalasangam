@@ -68,7 +68,7 @@ export default function ArtGallery() {
   };
 
   return (
-    <div className="px-4 md:px-8 py-6 max-w-screen-2xl mx-auto">
+    <div className="px-4 md:px-8 py-6 pt-24 max-w-screen-2xl mx-auto">
 
       <div data-aos="fade-up" className="mb-8">
         {/* Full-bleed border */}

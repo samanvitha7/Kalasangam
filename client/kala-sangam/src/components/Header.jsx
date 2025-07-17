@@ -41,25 +41,14 @@ export default function Header({ scrolled, onMapClick }) {
         transition-all duration-500 ease-in-out
         ${scrolled
           ? "bg-rose-100/90 backdrop-blur-md rounded-full shadow-md px-6 border-none"
-          : "bg-transparent px-6"}
+          : "bg-transparent px-6 flex justify-between items-center"}
         h-16
       `}
       style={{ width: scrolled ? "80vw" : "100vw" }}
     >
-      <div
-        className={`
-          flex items-center h-full
-          ${scrolled ? "justify-between" : "justify-center"}
-        `}
-      >
-        {/* Logo */}
-        <div
-          className={`
-            transition-all duration-500 flex-shrink-0
-            ${scrolled ? "flex justify-start" : ""}
-            ${!scrolled ? "ml-[25vw]" : ""}
-          `}
-        >
+      <div className="flex items-center justify-between h-full w-full">
+        {/* Logo - Far Left */}
+        <div className="flex-shrink-0">
           <Link to="/home" className="no-underline">
             <h1
               className={`
@@ -74,15 +63,8 @@ export default function Header({ scrolled, onMapClick }) {
           </Link>
         </div>
 
-        {/* Navigation links */}
-        <nav
-          className={`
-            flex space-x-10 text-[#582f0e] font-medium text-lg
-            transition-all duration-500
-            ${scrolled ? "flex-1 justify-center" : "absolute left-1/2 top-16 -translate-x-1/2"}
-          `}
-          style={!scrolled ? { top: "4rem" } : {}}
-        >
+        {/* Navigation links - Center */}
+        <nav className="flex space-x-10 text-[#582f0e] font-medium text-lg">
           <Link
             to="/gallery"
             className="hover:text-rose-700 hover:underline hover:italic transition-all duration-200"
@@ -144,14 +126,8 @@ export default function Header({ scrolled, onMapClick }) {
           </Link>
         </nav>
 
-        {/* Login/Signup buttons */}
-        <div
-          className={`
-            transition-all duration-500 flex-shrink-0
-            ${scrolled ? "flex space-x-4" : "absolute top-4 right-6 flex space-x-4"}
-          `}
-          style={!scrolled ? { top: "1rem", right: "1.5rem" } : {}}
-        >
+        {/* Login/Signup buttons - Far Right */}
+        <div className="flex-shrink-0 flex space-x-4">
           <Link
             to="/login"
             className="bg-rose-600 text-white px-5 py-2 rounded-md font-semibold shadow hover:bg-rose-700 transition"

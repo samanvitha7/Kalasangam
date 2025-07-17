@@ -7,7 +7,7 @@ export default function About() {
     <div className="bg-gradient-to-br from-[#FFF4E0] via-[#FFE0B5] to-[#FFD6A5] text-[#462F1A]">
       
      
-      <section className="text-center py-20 px-6 relative overflow-hidden">
+      <section className="text-center py-20 px-6 relative overflow-hidden pt-32">
         <div className="absolute w-96 h-96 bg-[#f5c796] rounded-full blur-3xl opacity-30 top-0 left-0 animate-pulse"></div>
         <h1 className="text-5xl md:text-6xl font-extrabold font-[Yatra One] mb-6 drop-shadow-lg">
           About KalaSangam 
