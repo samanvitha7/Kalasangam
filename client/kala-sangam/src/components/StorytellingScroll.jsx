@@ -8,7 +8,7 @@ const sections = [
     id: 1,
     title: "The Rhythm of India",
     description:
-      "Feel the heartbeat of the land through vibrant dance and music.",
+      "Feel the heartbeat of the land through vibrant dance.",
     bg: "https://www.youtube.com/embed/ErtbifqxJwA?autoplay=1&mute=1&controls=0&loop=1&playlist=ErtbifqxJwA&showinfo=0&rel=0",
     isVideo: true,
     exploreRoute: "/explore/dance",
@@ -16,13 +16,13 @@ const sections = [
   },
   {
     id: 2,
-    title: "Colors of Tradition",
+    title: "Melodies of Tradition",
     description:
-      "Discover the palettes that paint stories on canvas, fabric, and skin.",
-    bg: "https://i.pinimg.com/736x/79/0a/c9/790ac9eb3b1362f14cafb3c3669aba31.jpg",
-    isVideo: false,
-    exploreRoute: "/explore/art",
-    exploreText: "Explore Art"
+      "Immerse yourself in the rhythms and harmonies that echo through time.",
+    bg: "https://www.youtube.com/embed/EyeJOyKf48I?autoplay=1&mute=1&controls=0&loop=1&playlist=EyeJOyKf48I&showinfo=0&rel=0",
+    isVideo: true,
+    exploreRoute: "/explore/music",
+    exploreText: "Explore Music"
   },
   {
     id: 3,
