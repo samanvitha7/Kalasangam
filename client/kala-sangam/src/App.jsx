@@ -11,7 +11,7 @@ import Login from "./pages/LoginPage.jsx";
 import Signup from "./pages/Signup.jsx";
 import ForgotPassword from "./pages/ForgotPw.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
-import Dance from "./pages/DanceGallery";
+import Dance from "./pages/DanceGallery.jsx";
 import Music from "./pages/MusicPage.jsx";
 import ArtWall from "./pages/ArtWall.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
