@@ -2,8 +2,19 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ArtFormCard from "../components/ArtFormCard";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+
+
 
 export default function ArtGallery() {
+  useEffect(() => {
+  AOS.init({
+    duration: 1000, // adjust animation speed
+    once: true,     // animation happens only once
+  });
+ }, []);
   const navigate = useNavigate();
   const [artforms, setArtforms] = useState([]);
   const [searchParams] = useSearchParams();
@@ -59,9 +70,19 @@ export default function ArtGallery() {
   return (
     <div className="px-4 md:px-8 py-6 max-w-screen-2xl mx-auto">
 
-      <h1 className="text-4xl font-bold mb-8 text-center text-rose-800">
-        Explore Indian Art Forms
-      </h1>
+      <div data-aos="fade-up" className="mb-8">
+        {/* Full-bleed border */}
+        <div className="w-full h-[2px] bg-rose-600"></div>
+
+        {/* Heading with padding top and bottom equal to border height */}
+        <h1 className="text-4xl font-bold text-center text-rose-800 mt-8">
+          Explore Indian Art Forms
+        </h1>
+      </div>
+
+
+
+
 
       <div className="mb-8 flex justify-center">
         <select

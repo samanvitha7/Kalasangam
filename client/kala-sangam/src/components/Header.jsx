@@ -1,59 +1,102 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
-export default function Header({ isVisible = true, onMapClick }) {
+export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef();
   const navigate = useNavigate();
 
-  // 🔄 Close dropdown if clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // 🚀 Navigation handler for dropdown
   const handleExplore = (type) => {
     setShowDropdown(false);
-    if (type === "state") navigate("/explore/state");
-    else if (type === "art") navigate("/explore/art");
-    else if (type === "dance") navigate("/explore/dance");
-    else if (type === "music") navigate("/explore/music");
+    switch (type) {
+      case "state":
+        navigate("/explore/state");
+        break;
+      case "art":
+        navigate("/explore/art");
+        break;
+      case "dance":
+        navigate("/explore/dance");
+        break;
+      case "music":
+        navigate("/explore/music");
+        break;
+    }
   };
 
   return (
     <header
-      className={`transition-transform duration-300 ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
-      } bg-gradient-to-r from-[#fdf6e3] via-[#fae5d3] to-[#ffe6eb] shadow-md fixed top-0 left-0 w-full z-50`}
+      className={`
+        fixed top-0 left-1/2 -translate-x-1/2 z-50
+        transition-all duration-500 ease-in-out
+        w-full max-w-full
+        h-16
+        ${scrolled
+          ? "max-w-5xl bg-rose-100/90 backdrop-blur-md rounded-full px-6 shadow-md border-none"
+          : "bg-transparent px-6"
+        }
+      `}
+      style={{ width: scrolled ? "80vw" : "100vw" }}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* 🔆 Logo - now a Link to /home */}
-        <Link
-          to="/home"
-          className="text-3xl font-serif font-bold text-[#9b2226] tracking-wide no-underline"
+      <div
+        className={`
+          flex items-center h-full
+          max-w-full
+          ${scrolled ? "justify-between" : "justify-center"}
+          relative
+        `}
+      >
+        {/* Logo */}
+        <div
+          className={`
+            transition-all duration-500 flex-shrink-0
+            ${scrolled ? "flex justify-start" : ""}
+            ${!scrolled ? "ml-[25vw]" : ""}
+          `}
         >
-          <h1 className="text-5xl text-[#9b2226] yatra-font cursor-pointer">KalaSangam</h1>
-        </Link>
+          <Link to="/home" className="no-underline">
+            <h1
+              className={`
+                yatra-font font-serif font-bold text-[#9b2226] tracking-wide cursor-pointer
+                transition-all duration-500
+                ${scrolled ? "text-3xl" : "text-4xl"}
+                leading-none
+              `}
+            >
+              KalaSangam
+            </h1>
+          </Link>
+        </div>
 
-        {/* 🔗 Navigation Links */}
-        <nav className="hidden md:flex space-x-8 text-[#582f0e] font-medium text-lg items-center relative">
-          {/* Removed Home link */}
-
-          <Link to="/gallery" className="hover:text-[#9b2226] transition">
+        {/* Navigation links */}
+        <nav
+          className={`
+            flex space-x-10 text-[#582f0e] font-medium text-lg
+            transition-all duration-500
+            ${scrolled ? "flex-1 justify-center" : "absolute left-1/2 top-16 -translate-x-1/2"}
+          `}
+          style={!scrolled ? { top: "4rem" } : {}}
+        >
+          <Link
+            to="/gallery"
+            className="hover:text-rose-700 hover:underline hover:italic transition-all duration-200"
+          >
             Art Gallery
           </Link>
 
-          {/* 🔽 Explore Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <span
-              className="hover:text-rose-700 font-semibold cursor-pointer"
+              className="hover:text-rose-700 hover:underline hover:italic font-semibold cursor-pointer transition-all duration-200"
               onClick={() => setShowDropdown(!showDropdown)}
             >
               Explore ▾
@@ -89,19 +132,43 @@ export default function Header({ isVisible = true, onMapClick }) {
             )}
           </div>
 
-          <Link to="/map" className="hover:text-[#9b2226] transition">
+          <Link
+            to="/map"
+            className="hover:text-rose-700 hover:underline hover:italic transition-all duration-200"
+            onClick={onMapClick}
+          >
             India Map
           </Link>
-          <Link to="/about" className="hover:text-[#9b2226] transition">
+
+          <Link
+            to="/about"
+            className="hover:text-rose-700 hover:underline hover:italic transition-all duration-200"
+          >
             About
           </Link>
-          <Link to="/login" className="hover:text-[#9b2226] transition">
+        </nav>
+
+        {/* Login/Signup buttons */}
+        <div
+          className={`
+            transition-all duration-500 flex-shrink-0
+            ${scrolled ? "flex space-x-4" : "absolute top-4 right-6 flex space-x-4"}
+          `}
+          style={!scrolled ? { top: "1rem", right: "1.5rem" } : {}}
+        >
+          <Link
+            to="/login"
+            className="bg-rose-600 text-white px-5 py-2 rounded-md font-semibold shadow hover:bg-rose-700 transition"
+          >
             Login
           </Link>
-          <Link to="/signup" className="hover:text-[#9b2226] transition">
+          <Link
+            to="/signup"
+            className="bg-rose-600 text-white px-5 py-2 rounded-md font-semibold shadow hover:bg-rose-700 transition"
+          >
             Sign Up
           </Link>
-        </nav>
+        </div>
       </div>
     </header>
   );

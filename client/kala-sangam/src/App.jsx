@@ -13,34 +13,36 @@ import ForgotPassword from "./pages/ForgotPw.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
 import Dance from "./pages/DanceGallery";
 import Music from "./pages/MusicPage.jsx";
-function App() {
-  // Initialize splash from localStorage
-  const [showSplash, setShowSplash] = useState(() => {
-    return !localStorage.getItem("splashShown");
-  });
 
+function App() {
+  const [showSplash, setShowSplash] = useState(() => !localStorage.getItem("splashShown"));
   const [playSound, setPlaySound] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const mapRef = useRef(null);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [isFooterVisible, setIsFooterVisible] = useState(true);
-  const lastScrollY = useRef(0);
+
+  const sentinelRef = useRef(null);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY.current) {
-        setIsHeaderVisible(false);
-        setIsFooterVisible(false);
-      } else {
-        setIsHeaderVisible(true);
-        setIsFooterVisible(true);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setScrolled(!entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0,
       }
-      lastScrollY.current = currentScrollY;
+    );
+
+    if (sentinelRef.current) {
+      observer.observe(sentinelRef.current);
+    }
+
+    return () => {
+      if (sentinelRef.current) {
+        observer.unobserve(sentinelRef.current);
+      }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleSplashContinue = (withSound) => {
@@ -63,13 +65,15 @@ function App() {
       {showSplash ? (
         <SplashScreen onContinue={handleSplashContinue} />
       ) : (
-        <div className="flex flex-col min-h-screen">
-          <Header isVisible={isHeaderVisible} onMapClick={handleShowMap} />
+        <div className="flex flex-col min-h-screen relative">
+          <Header scrolled={scrolled} onMapClick={handleShowMap} />
 
-          <main className="flex-grow pt-[80px]">
+          {/* Invisible sentinel to track scroll position */}
+          <div ref={sentinelRef} className="h-[1px] w-full" />
+
+          <main className="flex-grow pt-[100px]">
             <Routes>
               <Route path="/" element={<SplashScreen onContinue={handleSplashContinue} />} />
-
               <Route path="/home" element={<Home />} />
               <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
               <Route path="/gallery" element={<Art />} />
@@ -84,12 +88,11 @@ function App() {
             </Routes>
           </main>
 
-          <Footer isVisible={isFooterVisible} />
+          <Footer />
         </div>
       )}
     </>
   );
 }
-
 
 export default App;
