@@ -1,5 +1,6 @@
 // src/pages/MusicPage.jsx
 import InstrumentBubble from "../components/InstrumentBubble";
+import GuessInstrument from "../components/GuessInstruments.jsx";
 import sitar from "../assets/instruments/sitar.png";
 import tabla from "../assets/instruments/tabla.png";
 import flute from "../assets/instruments/flute.png";
@@ -7,6 +8,11 @@ import sitarSound from "../assets/sounds/sitar.mp3";
 import tablaSound from "../assets/sounds/sitar.mp3";
 import fluteSound from "../assets/sounds/sitar.mp3";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+
 
 const instruments = [
   {
@@ -30,15 +36,22 @@ const instruments = [
 ];
 
 export default function MusicPage() {
+  useEffect(() => {
+  AOS.init({ duration: 1200, once: true });
+  }, []);
+
   return (
+    
     <main className="relative min-h-screen bg-[#fffaf2] py-20 px-6 text-center text-[#462F1A] overflow-hidden">
       {/* Heading */}
-      <h1 className="text-5xl font-extrabold mb-6 font-[Yatra One]">
-        Explore by Music
-      </h1>
-      <p className="max-w-xl mx-auto mb-16 text-lg">
-        Click the bubbles to hear the sounds of India’s legendary instruments.
-      </p>
+      <div data-aos="fade-down">
+        <h1 className="text-5xl font-extrabold mb-6 font-[Yatra One]">
+          Explore by Music
+        </h1>
+        <p className="max-w-xl mx-auto mb-16 text-lg">
+          Click the bubbles to hear the sounds of India’s legendary instruments.
+        </p>
+      </div>
 
       {/* Animated Blurry Background */}
       <div
@@ -62,9 +75,38 @@ export default function MusicPage() {
       {/* Floating Bubbles */}
       <div className="flex flex-wrap gap-20 justify-center relative z-10">
         {instruments.map((inst, idx) => (
-          <InstrumentBubble key={idx} {...inst} />
+          <div key={idx} data-aos="zoom-in" data-aos-delay={idx * 200}>
+            <InstrumentBubble {...inst} />
+          </div>
         ))}
       </div>
+      {/* Guess the Instrument Section */}
+      <section
+        className="mt-32 max-w-3xl mx-auto text-center text-[#462F1A] relative"
+        data-aos="fade-up"
+      >
+        <motion.h2
+          className="text-4xl font-bold font-[Yatra One] mb-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          Now it's your turn!
+        </motion.h2>
+        <motion.p
+          className="text-lg mb-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          Guess the instrument based on the sound.
+        </motion.p>
+
+        <GuessInstrument />
+      </section>
+
     </main>
   );
 }

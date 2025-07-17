@@ -1,12 +1,14 @@
-// src/components/InstrumentBubble.jsx
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
 
 export default function InstrumentBubble({ name, image, sound, description }) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showInfo, setShowInfo] = useState(false); // <-- new state for speech bubble
 
   const handlePlay = () => {
+    setShowInfo((prev) => !prev); // toggle the info box visibility
+
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -21,7 +23,7 @@ export default function InstrumentBubble({ name, image, sound, description }) {
   };
 
   return (
-    <div className="relative flex flex-col items-center gap-4">
+    <div className="relative flex flex-col items-center gap-4 animate-bob">
       {/* Floating Instrument Bubble */}
       <motion.div
         className={`relative w-40 h-40 rounded-full bg-white p-4 shadow-2xl flex items-center justify-center transition-all duration-300 cursor-pointer
@@ -40,7 +42,7 @@ export default function InstrumentBubble({ name, image, sound, description }) {
       >
         <img src={image} alt={name} className="w-24 h-24 object-contain" />
 
-        {/* Waveform */}
+        {/* Waveform Animation */}
         {isPlaying && (
           <div className="absolute bottom-2 flex gap-1">
             {[...Array(6)].map((_, i) => (
@@ -62,18 +64,19 @@ export default function InstrumentBubble({ name, image, sound, description }) {
         <audio src={sound} ref={audioRef} />
       </motion.div>
 
-      {/* Speech Bubble Info */}
-      <motion.div
-        className="relative bg-[#fff1dc] border border-orange-200 text-[#462F1A] px-4 py-3 rounded-2xl shadow-md max-w-xs text-center text-sm"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        <strong className="block mb-1 text-lg font-semibold">{name}</strong>
-        {description}
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#fff1dc] rotate-45 border-l border-t border-orange-200"></div>
-      </motion.div>
+      {/* Conditional Speech Bubble Info */}
+      {showInfo && (
+        <motion.div
+          className="relative bg-[#fff1dc] border border-orange-200 text-[#462F1A] px-4 py-3 rounded-2xl shadow-md max-w-xs text-center text-sm"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <strong className="block mb-1 text-lg font-semibold">{name}</strong>
+          {description}
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#fff1dc] rotate-45 border-l border-t border-orange-200"></div>
+        </motion.div>
+      )}
     </div>
   );
 }

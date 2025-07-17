@@ -6,7 +6,6 @@ import CinematicCarousel from "../components/CinematicCarousel.jsx";
 import IndiaMap from "../components/IndiaMap.jsx";
 import SoundToggle from "../components/SoundToggle.jsx";
 import ParallaxSection from "../components/ParallaxSection.jsx";
-
 export default function Home({ showMap, mapRef, onStateClick, audio }) {
   const [isPlaying, setPlaying] = useState(false);
   const audioRef = useRef(null);
@@ -35,10 +34,9 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
   }, [isPlaying]);
 
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden bg-[#fffef2] text-center">
+    <main className="relative w-full overflow-x-hidden bg-[#fffef2] text-center">
       
       <SoundToggle soundOn={isPlaying} setSoundOn={setPlaying} />
-      
 
       {/* Fullscreen Parallax Section */}
       <div className="w-full h-screen overflow-hidden">

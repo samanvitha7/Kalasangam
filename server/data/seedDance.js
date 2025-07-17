@@ -12,7 +12,7 @@ const danceForms = [
     
     description: "Bharatanatyam is a classical dance form from Tamil Nadu known for its fixed upper torso, bent legs, intricate footwork, and expressive gestures. It originated in Hindu temples and is one of the oldest and most widely practiced dance styles in India.",
     photos: [
-      "https://upload.wikimedia.org/wikipedia/commons/9/91/Bharata_Natyam_Performance_DS.jpg",
+      "https://i.pinimg.com/474x/ac/03/2f/ac032f4de79c1bd13e23661954e25276.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/5/54/Bharatanatyam_Performance%2C_India_2011.jpg"
     ]
   },
