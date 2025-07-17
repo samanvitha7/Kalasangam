@@ -13,6 +13,7 @@ import ForgotPassword from "./pages/ForgotPw.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
 import Dance from "./pages/DanceGallery";
 import Music from "./pages/MusicPage.jsx";
+import ArtWall from "./pages/ArtWall.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
               <Route path="/gallery" element={<Art />} />
+              <Route path="/art-wall" element={<ArtWall />} />
               <Route path="/about" element={<About />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
