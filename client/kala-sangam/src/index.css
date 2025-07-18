@@ -34,6 +34,45 @@ body,
 
 body {
   font-family: 'Yatra One', cursive;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode styles */
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+.dark .bg-white {
+  background-color: #1e293b !important;
+}
+
+.dark .text-black {
+  color: #f1f5f9 !important;
+}
+
+.dark .text-gray-600 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-gray-800 {
+  color: #e2e8f0 !important;
+}
+
+.dark .border-gray-200 {
+  border-color: #374151 !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #374151 !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #4b5563 !important;
 }
 
 .perspective {
@@ -79,5 +118,169 @@ body {
 
 .text-stroke-black {
   -webkit-text-stroke-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Custom Calendar Styles */
+.react-calendar-custom {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+.react-calendar-custom .react-calendar__navigation {
+  display: flex;
+  height: 44px;
+  margin-bottom: 1rem;
+}
+
+.react-calendar-custom .react-calendar__navigation button {
+  min-width: 44px;
+  background: none;
+  border: none;
+  color: #9b2226;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.react-calendar-custom .react-calendar__navigation button:hover {
+  background-color: #f97316;
+  color: white;
+}
+
+.react-calendar-custom .react-calendar__navigation button:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.react-calendar-custom .react-calendar__navigation__label {
+  font-weight: 600;
+  color: #9b2226;
+  font-size: 1rem;
+}
+
+.react-calendar-custom .react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.react-calendar-custom .react-calendar__month-view__weekdays__weekday {
+  padding: 0.5rem 0;
+}
+
+.react-calendar-custom .react-calendar__tile {
+  max-width: 100%;
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.react-calendar-custom .react-calendar__tile:hover {
+  background-color: #fed7aa;
+  color: #9b2226;
+}
+
+.react-calendar-custom .react-calendar__tile--active {
+  background-color: #f97316;
+  color: white;
+}
+
+.react-calendar-custom .react-calendar__tile--active:hover {
+  background-color: #ea580c;
+}
+
+.react-calendar-custom .react-calendar__tile.has-events::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: #f97316;
+  border-radius: 50%;
+}
+
+.react-calendar-custom .react-calendar__tile--active.has-events::after {
+  background-color: white;
+}
+
+.react-calendar-custom .react-calendar__tile--now {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.react-calendar-custom .react-calendar__tile--now:hover {
+  background-color: #fde68a;
+}
+
+/* Custom range slider styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 4px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: #059669;
+  transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  background: #059669;
+  transform: scale(1.1);
 }
 
