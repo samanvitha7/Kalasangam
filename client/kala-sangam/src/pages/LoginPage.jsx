@@ -1,32 +1,57 @@
 // src/pages/LoginPage.jsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isEmailValid, isPasswordStrong } from "../utils/validators";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login, isAuthenticated, loading, clearError } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/home");
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    clearError();
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = form;
 
     if (!email || !password) {
       setError("All fields are required.");
-    } else if (!isEmailValid(email)) {
+      return;
+    }
+    
+    if (!isEmailValid(email)) {
       setError("Enter a valid email.");
-    } else if (!isPasswordStrong(password)) {
+      return;
+    }
+    
+    if (!isPasswordStrong(password)) {
       setError("Password must be at least 6 characters.");
-    } else {
+      return;
+    }
+
+    const result = await login(form);
+    if (result.success) {
       toast.success("Login successful!");
-      setTimeout(() => navigate("/"), 1500);
+      navigate("/home");
+    } else {
+      setError(result.error);
+      toast.error(result.error);
     }
   };
 
@@ -63,18 +88,19 @@ export default function LoginPage() {
         />
 
         <div className="text-right text-sm text-[#74404b] mb-6">
-          <a href="/forgot-password" className="hover:underline">Forgot Password?</a>
+          <Link to="/forgot-password" className="hover:underline">Forgot Password?</Link>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-[#74404b] hover:bg-[#5f343d] text-white font-bold py-3 rounded-xl transition-all"
+          disabled={loading}
+          className="w-full bg-[#74404b] hover:bg-[#5f343d] text-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <p className="text-center mt-6 text-sm text-[#74404b]">
-          Don’t have an account? <a href="/signup" className="underline font-semibold">Sign Up</a>
+          Don't have an account? <Link to="/signup" className="underline font-semibold">Sign Up</Link>
         </p>
       </form>
     </div>
