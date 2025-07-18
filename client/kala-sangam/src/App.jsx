@@ -15,13 +15,10 @@ import ForgotPassword from "./pages/ForgotPw.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
 import Dance from "./pages/DanceGallery.jsx";
 import Music from "./pages/MusicPage.jsx";
-import ArtWall from "./pages/ArtWall.jsx";
 import CraftsPage from "./pages/CraftsPage.jsx";
 import EventsPage from "./pages/EventsPage.jsx";
 import ArtWall from "./pages/ArtWall.jsx";
  import { AuthProvider } from "./context/AuthContext.jsx";
-import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
-import FloatingSoundToggle from "./components/FloatingSoundToggle.jsx";
 import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
 import FloatingSoundToggle from "./components/FloatingSoundToggle.jsx";
 
