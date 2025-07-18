@@ -1,5 +1,6 @@
-@import "tailwindcss"
-;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .yatra-font {
   font-family: 'Yatra One', cursive;
