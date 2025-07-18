@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
+//import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import ArtCard from '../components/ArtCard';
 import ContributeModal from '../components/ContributeModal';

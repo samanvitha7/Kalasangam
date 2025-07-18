@@ -14,7 +14,7 @@ import SplashScreen from "./components/SplashScreen.jsx";
 import Dance from "./pages/DanceGallery.jsx";
 import Music from "./pages/MusicPage.jsx";
 import ArtWall from "./pages/ArtWall.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
+// import { AuthProvider } from "./context/AuthContext.jsx";
 import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
 import FloatingSoundToggle from "./components/FloatingSoundToggle.jsx";
 
@@ -116,7 +116,7 @@ function App() {
   };
 
   return (
-    <AuthProvider>
+    //<AuthProvider>
       <SoundProvider>
         {showSplash ? (
           <SplashScreen onContinue={handleSplashContinue} />
@@ -124,7 +124,7 @@ function App() {
           <AppContent />
         )}
       </SoundProvider>
-    </AuthProvider>
+    //</AuthProvider>
   );
 }
 
