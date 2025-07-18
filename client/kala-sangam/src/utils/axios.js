@@ -14,18 +14,20 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token'); // Retrieve token from LocalStorage
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // Attach token to headers if present
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   (error) => {
-    return Promise.reject(error); // Reject if request fails
+    return Promise.reject(error);
   }
 );
 
 // Response interceptor to handle token expiration
 api.interceptors.response.use(
-  (response) => response, 
+  (response) => {
+    return response;
+  },
   (error) => {
     if (error.response?.status === 401) {
       // Token expired or invalid (Unauthorized)
