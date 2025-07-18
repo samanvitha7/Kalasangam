@@ -1,5 +1,7 @@
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
@@ -13,6 +15,8 @@ import ForgotPassword from "./pages/ForgotPw.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
 import Dance from "./pages/DanceGallery.jsx";
 import Music from "./pages/MusicPage.jsx";
+import CraftsPage from "./pages/CraftsPage.jsx";
+import EventsPage from "./pages/EventsPage.jsx";
 import ArtWall from "./pages/ArtWall.jsx";
  import { AuthProvider } from "./context/AuthContext.jsx";
 import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
@@ -93,6 +97,8 @@ function AppContent() {
           <Route path="/explore/art" element={<Art />} />
           <Route path="/explore/dance" element={<Dance />} />
           <Route path="/explore/music" element={<Music />} />
+          <Route path="/explore/crafts" element={<CraftsPage />} />
+          <Route path="/events" element={<EventsPage />} />
         </Routes>
       </main>
 
@@ -102,6 +108,20 @@ function AppContent() {
       {(location.pathname === "/" || location.pathname === "/home") && (
         <FloatingSoundToggle />
       )}
+      
+      {/* Toast notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

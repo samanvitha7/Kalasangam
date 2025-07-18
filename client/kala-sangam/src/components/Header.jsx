@@ -32,6 +32,9 @@ export default function Header({ scrolled, onMapClick }) {
       case "music":
         navigate("/explore/music");
         break;
+      case "crafts":
+        navigate("/explore/crafts");
+        break;
     }
   };
 
@@ -134,6 +137,14 @@ export default function Header({ scrolled, onMapClick }) {
                 >
                   Explore Music
                 </li>
+                <li
+                  className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
+                    scrolled ? "hover:bg-teal-600/20 hover:text-teal-400" : "hover:bg-rose-100"
+                  }`}
+                  onClick={() => handleExplore("crafts")}
+                >
+                  Explore Crafts
+                </li>
               </ul>
             )}
           </div>
@@ -146,6 +157,15 @@ export default function Header({ scrolled, onMapClick }) {
             onClick={onMapClick}
           >
             India Map
+          </Link>
+
+          <Link
+            to="/events"
+            className={`hover:underline hover:italic transition-all duration-200 ${
+              scrolled ? "hover:text-teal-400" : "hover:text-rose-700"
+            }`}
+          >
+            Events
           </Link>
 
           <Link
