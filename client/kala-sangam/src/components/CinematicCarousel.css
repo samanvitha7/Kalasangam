@@ -33,8 +33,8 @@
 }
 
 .cinema-slide {
-  flex: 0 0 80vw;
-  height: 60vh;
+  flex: 0 0 50vw;
+  height: 40vh;
 }
 
 .cinema-image {
@@ -47,10 +47,10 @@
 
 .cinema-fade {
   position: absolute;
-  bottom: 5.5rem;
+  bottom: 7rem;
   left: 0;
   width: 100%;
-  height: 4rem;
+  height: 2rem;
   background: linear-gradient(to bottom, transparent, white);
   pointer-events: none;
 }

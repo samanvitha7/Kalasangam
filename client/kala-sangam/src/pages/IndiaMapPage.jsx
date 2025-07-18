@@ -5,7 +5,7 @@ import sunAnim from "../assets/sun.json";
 
 export default function IndiaMapPage({ onStateClick }) {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#fff4d1] via-[#ffd97d] to-[#ffbc4b] text-center pb-24">
+    <main className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#fff4d1] via-[#ffd97d] to-[#ffbc4b] text-center">
       {/* 🌊 Ocean Lottie at Bottom */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div
@@ -20,7 +20,7 @@ export default function IndiaMapPage({ onStateClick }) {
       <div className="absolute inset-0 z-5 bg-black/5 pointer-events-none" />
 
       {/* ────── Top Heading ────── */}
-      <div className="relative z-10 max-w-screen-lg mx-auto pt-8">
+      <div className="relative z-10 max-w-screen-lg mx-auto pt-24">
         <h2 className="text-4xl sm:text-5xl font-serif font-bold tracking-wide text-[#9b2226]">
           Explore States
         </h2>
