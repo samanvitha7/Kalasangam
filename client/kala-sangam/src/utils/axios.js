@@ -13,7 +13,6 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token'); // Retrieve token from LocalStorage
-    console.log('Token:', token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`; // Attach token to headers if present
     }
@@ -26,14 +25,12 @@ api.interceptors.request.use(
 
 // Response interceptor to handle token expiration
 api.interceptors.response.use(
-  (response) => {
-    return response; // Return response as-is if no error
-  },
+  (response) => response, 
   (error) => {
     if (error.response?.status === 401) {
       // Token expired or invalid (Unauthorized)
-      localStorage.removeItem('token'); // Remove invalid token
-      window.location.href = '/login'; // Redirect to login page
+      localStorage.removeItem('token');
+      // Don't redirect here; handle redirects in your app routing logic
     }
     return Promise.reject(error); // Reject the error to propagate it
   }
