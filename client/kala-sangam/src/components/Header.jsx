@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import DarkModeToggle from "./DarkModeToggle.jsx";
 
 export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -76,6 +77,18 @@ export default function Header({ scrolled, onMapClick }) {
             Art Gallery
           </Link>
 
+<<<<<<< HEAD
+=======
+          <Link
+            to="/art-wall"
+            className={`hover:underline hover:italic transition-all duration-200 ${
+              scrolled ? "hover:text-teal-400" : "hover:text-rose-700"
+            }`}
+          >
+            Art Wall
+          </Link>
+
+>>>>>>> 3679e650e422a55cda1b9a2f6b93fa0844cda0c7
           <div className="relative" ref={dropdownRef}>
             <span
               className={`hover:underline hover:italic font-semibold cursor-pointer transition-all duration-200 ${
@@ -148,8 +161,14 @@ export default function Header({ scrolled, onMapClick }) {
           </Link>
         </nav>
 
+<<<<<<< HEAD
         {/* Login/Signup buttons - Far Right */}
         <div className="flex-shrink-0 flex space-x-4">
+=======
+        {/* Dark Mode Toggle and Login/Signup buttons - Far Right */}
+        <div className="flex-shrink-0 flex items-center space-x-4">
+          <DarkModeToggle scrolled={scrolled} />
+>>>>>>> 3679e650e422a55cda1b9a2f6b93fa0844cda0c7
           <Link
             to="/login"
             className={`px-5 py-2 rounded-lg font-semibold shadow-lg transition-all duration-300 ${

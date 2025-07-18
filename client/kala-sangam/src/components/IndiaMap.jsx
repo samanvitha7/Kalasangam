@@ -8,7 +8,8 @@ export default function IndiaMap() {
    const [hoveredState, setHoveredState] = useState(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const handleMouseEnter = (e, name) => {
-     updateTooltipPosition(e);
+    if (["Goa", "Andaman and Nicobar", "Lakshadweep"].includes(name)) return;
+    updateTooltipPosition(e);
     setHoveredState(name);
   };
 
@@ -39,6 +40,7 @@ export default function IndiaMap() {
         viewBox="0 0 1000 1000"
         className="w-full h-auto"
         onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
         {/* Define pattern fills for states */}
         <defs>

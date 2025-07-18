@@ -28,12 +28,20 @@ const sections = [
     id: 3,
     title: "Soulful Stories",
     description: "Ancient tales woven into the fabric of Indian art and culture.",
+<<<<<<< HEAD
     bg: "https://www.youtube.com/embed/EbRoWCsh7mc?autoplay=1&mute=1&controls=0&loop=1&playlist=EbRoWCsh7mc&showinfo=0&rel=0",
+=======
+    bg: "https://www.youtube.com/embed/rTDaZoDDW5g?autoplay=1&mute=1&controls=0&loop=1&playlist=rTDaZoDDW5g&showinfo=0&rel=0",
+>>>>>>> 3679e650e422a55cda1b9a2f6b93fa0844cda0c7
     isVideo: true,
     exploreRoute: "/map",
     exploreText: "Explore States"
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3679e650e422a55cda1b9a2f6b93fa0844cda0c7
 ];
 
 // Single section component

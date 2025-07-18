@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom"; 
+import { useSoundContext } from "../context/SoundContext.jsx";
 import "./SplashScreen.css";
 
 export function LoadingScreen({ onFinish }) {
@@ -43,9 +44,17 @@ export function LoadingScreen({ onFinish }) {
 
 export function SoundPrompt({ onContinue }) {
   const [hidden, setHidden] = useState(false);
+  const { enableSound, disableSound } = useSoundContext();
 
   const handleContinue = (withSound) => {
     setHidden(true);
+    
+    if (withSound) {
+      enableSound();
+    } else {
+      disableSound();
+    }
+    
     setTimeout(() => {
       onContinue(withSound);
     }, 1000);

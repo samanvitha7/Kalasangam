@@ -21,6 +21,10 @@ export default function Footer() {
           <ul className="text-sm space-y-2 text-slate-300">
             <li><Link to="/" className="hover:underline hover:text-teal-400 transition-colors duration-200">Home</Link></li>
             <li><Link to="/gallery" className="hover:underline hover:text-teal-400 transition-colors duration-200">Traditional Arts</Link></li>
+<<<<<<< HEAD
+=======
+            <li><Link to="/art-wall" className="hover:underline hover:text-teal-400 transition-colors duration-200">Art Wall</Link></li>
+>>>>>>> 3679e650e422a55cda1b9a2f6b93fa0844cda0c7
             <li><Link to="/map" className="hover:underline hover:text-teal-400 transition-colors duration-200">States</Link></li>
             <li><Link to="/gallery" className="hover:underline hover:text-teal-400 transition-colors duration-200">Gallery</Link></li>
             <li><Link to="/login" className="hover:underline hover:text-teal-400 transition-colors duration-200">Login</Link></li>
