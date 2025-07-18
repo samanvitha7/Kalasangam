@@ -32,6 +32,15 @@ const sections = [
     isVideo: true,
     exploreRoute: "/map",
     exploreText: "Explore States"
+  },
+  {
+    id: 4,
+    title: "Crafted with Love",
+    description: "Master the ancient art of traditional Indian crafts through immersive video tutorials. From pottery to weaving, discover the secrets passed down through generations of skilled artisans.",
+    bg: "https://www.youtube.com/embed/oWubGUwxudc?autoplay=1&mute=1&controls=0&loop=1&playlist=oWubGUwxudc&showinfo=0&rel=0",
+    isVideo: true,
+    exploreRoute: "/explore/crafts",
+    exploreText: "Learn Crafts"
   }
 
 

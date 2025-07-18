@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 const links = [
   { path: "/map", label: "Explore the Map", color: "bg-green-600" },
   { path: "/gallery", label: "View Art Gallery", color: "bg-purple-600" },
+  { path: "/explore/crafts", label: "Learn Traditional Crafts", color: "bg-amber-600" },
   { path: "/contact", label: "Join or Collaborate", color: "bg-blue-600" },
 ];
 

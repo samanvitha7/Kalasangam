@@ -1,22 +1,39 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isEmailValid } from "../utils/validators";
+import { useAuth } from "../context/AuthContext";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { forgotPassword } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email) {
       setError("Email is required.");
-    } else if (!isEmailValid(email)) {
+      return;
+    }
+    
+    if (!isEmailValid(email)) {
       setError("Enter a valid email.");
-    } else {
-      toast.success("Reset link sent to your email!");
+      return;
+    }
+
+    setLoading(true);
+    const result = await forgotPassword(email);
+    setLoading(false);
+    
+    if (result.success) {
+      toast.success("Password reset link sent to your email!");
       setEmail("");
       setError("");
+    } else {
+      setError(result.error);
+      toast.error(result.error);
     }
   };
 
@@ -50,13 +67,14 @@ export default function ForgotPassword() {
 
         <button
           type="submit"
-          className="w-full bg-[#74404b] hover:bg-[#5f343d] text-white font-bold py-3 rounded-xl transition-all"
+          disabled={loading}
+          className="w-full bg-[#74404b] hover:bg-[#5f343d] text-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Send Reset Link
+          {loading ? "Sending..." : "Send Reset Link"}
         </button>
 
         <p className="text-center mt-6 text-sm text-[#74404b]">
-          <a href="/login" className="underline font-semibold">Back to Login</a>
+          <Link to="/login" className="underline font-semibold">Back to Login</Link>
         </p>
       </form>
     </div>
