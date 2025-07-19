@@ -204,7 +204,7 @@ function EventsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 pt-24 pb-8">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div

@@ -75,14 +75,15 @@ function AppContent() {
   }, [location.pathname, disableSound]);
 
   return (
-    <div className="min-h-screen flex flex-col relative">
-      <Header scrolled={scrolled} onMapClick={handleShowMap} />
-      
-      {/* Invisible sentinel to track scroll position */}
-      <div ref={sentinelRef} className="h-[1px] w-full" />
+    <div className="app-container relative">
+      <div className="content-wrapper">
+        <Header scrolled={scrolled} onMapClick={handleShowMap} />
+        
+        {/* Invisible sentinel to track scroll position */}
+        <div ref={sentinelRef} className="h-[1px] w-full" />
 
-      {/* Start main content */}
-      <main className="flex-1">
+        {/* Start main content */}
+        <main className="page-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
@@ -100,9 +101,10 @@ function AppContent() {
           <Route path="/explore/crafts" element={<CraftsPage />} />
           <Route path="/events" element={<EventsPage />} />
         </Routes>
-      </main>
+        </main>
 
-      <Footer />
+        <Footer />
+      </div>
       
       {/* Sound toggle visible only on home path */}
       {(location.pathname === "/" || location.pathname === "/home") && (
