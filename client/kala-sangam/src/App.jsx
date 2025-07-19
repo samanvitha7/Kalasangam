@@ -12,6 +12,7 @@ import About from "./pages/About.jsx";
 import Login from "./pages/LoginPage.jsx";
 import Signup from "./pages/Signup.jsx";
 import ForgotPassword from "./pages/ForgotPw.jsx";
+import ResetPassword from "./pages/ResetPassword";
 import SplashScreen from "./components/SplashScreen.jsx";
 import Dance from "./pages/DanceGallery.jsx";
 import Music from "./pages/MusicPage.jsx";
@@ -93,6 +94,7 @@ function AppContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />
           <Route path="/explore/art" element={<Art />} />
           <Route path="/explore/dance" element={<Dance />} />
