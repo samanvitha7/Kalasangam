@@ -18,6 +18,8 @@ import Music from "./pages/MusicPage.jsx";
 import CraftsPage from "./pages/CraftsPage.jsx";
 import EventsPage from "./pages/EventsPage.jsx";
 import ArtWall from "./pages/ArtWall.jsx";
+import ArtistsList from "./pages/ArtistsList.jsx";
+import ArtistProfile from "./pages/ArtistProfile.jsx";
  import { AuthProvider } from "./context/AuthContext.jsx";
 import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
 import FloatingSoundToggle from "./components/FloatingSoundToggle.jsx";
@@ -90,6 +92,8 @@ function AppContent() {
           <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
           <Route path="/gallery" element={<Art />} />
           <Route path="/art-wall" element={<ArtWall />} />
+          <Route path="/artists" element={<ArtistsList />} />
+          <Route path="/artist/:artistId" element={<ArtistProfile />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

@@ -84,7 +84,7 @@ export default function ArtGallery() {
         </svg>
       </div>
       
-      <div className="px-4 md:px-8 py-6 pt-12 max-w-screen-2xl mx-auto">
+      <div className="container mx-auto px-4 py-6 pt-24">
         <div data-aos="fade-up" className="mb-8">
           <h1 className="text-4xl font-bold text-center text-rose-800 mb-8">
             Explore Indian Art Forms
