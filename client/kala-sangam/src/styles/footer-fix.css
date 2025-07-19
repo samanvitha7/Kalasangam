@@ -1,0 +1,63 @@
+/* Global footer positioning fix */
+html, body {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main app container should be flex */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Content wrapper that pushes footer down */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page content should expand to fill space */
+.page-content {
+  flex: 1;
+}
+
+/* Footer positioning fixes */
+footer {
+  margin-top: auto;
+}
+
+/* Garland background styling */
+.garland-background {
+  background-image: url('/assets/garland.png');
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+/* Additional styles for India Map page */
+.india-map-container {
+  min-height: calc(100vh - 120px); /* Account for header and footer */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Events page specific styling */
+.events-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.events-content {
+  flex: 1;
+}

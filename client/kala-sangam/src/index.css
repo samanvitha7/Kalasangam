@@ -1,6 +1,10 @@
+@import './styles/footer-fix.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 
 .yatra-font {
   font-family: 'Yatra One', cursive;
@@ -17,15 +21,21 @@ input:hover {
 }
 /* At the very top of your CSS */
 html,
-body,
-#root {
+body {
   padding: 0;
   margin: 0;
   height: 100%;
-  min-height: 200vh;
-  min-height: 200vh;
   width: 100%;
   overflow-x: hidden;
+}
+
+#root {
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 * {
