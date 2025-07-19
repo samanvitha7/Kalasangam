@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import DarkModeToggle from "./DarkModeToggle.jsx";
 
 export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -64,7 +63,7 @@ export default function Header({ scrolled, onMapClick }) {
 
         {/* Navigation links - Center */}
         <nav className={`flex space-x-10 font-bold text-xl transition-colors duration-500 ${
-          scrolled ? "text-deep-charcoal" : "text-teal-blue"
+          scrolled ? "text-teal-blue" : "text-teal-blue"
         }`}>
           <Link
             to="/gallery"
@@ -182,9 +181,8 @@ export default function Header({ scrolled, onMapClick }) {
           </Link>
         </nav>
 
-        {/* Dark Mode Toggle and Login/Signup buttons - Far Right */}
+        {/* Login/Signup buttons - Far Right */}
         <div className="flex-shrink-0 flex items-center space-x-4">
-          <DarkModeToggle scrolled={scrolled} />
           <Link
             to="/login"
             className={`px-5 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${

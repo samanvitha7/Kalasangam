@@ -53,14 +53,15 @@ export default function LoginPage() {
   return (
     <div
       className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
-      style={{ backgroundImage: `url('/images/bg-login.jpg')` }}
+      style={{ backgroundImage: `url('/assets/parallaximg.png')` }}
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-mist-blush p-10 rounded-3xl max-w-md w-full shadow-xl border border-coral-red/20 backdrop-blur-sm font-lora"
+        className="p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora
+                  bg-[linear-gradient(to_bottom,rgba(255,190,152,0.7),rgba(255,187,233,0.7),rgba(44,165,141,0.67))]"
       >
         <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">Welcome Back!</h2>
-        <p className="text-center mb-6 text-sm text-deep-charcoal">Login to continue</p>
+        <p className="text-center mb-6 text-sm text-teal-200">Login to continue</p>
 
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
 
@@ -70,7 +71,7 @@ export default function LoginPage() {
           placeholder="Email"
           value={form.email}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-off-white border border-coral-red/30 placeholder-deep-charcoal text-deep-charcoal focus:ring-2 focus:ring-teal-blue outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
         />
 
         <input
@@ -79,10 +80,10 @@ export default function LoginPage() {
           placeholder="Password"
           value={form.password}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-off-white border border-coral-red/30 placeholder-deep-charcoal text-deep-charcoal focus:ring-2 focus:ring-teal-blue outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
         />
 
-        <div className="text-right text-sm text-deep-charcoal mb-6">
+        <div className="text-right text-sm text-teal-200 mb-6">
           <Link to="/forgot-password" className="hover:underline hover:text-coral-red">Forgot Password?</Link>
         </div>
 
@@ -94,10 +95,13 @@ export default function LoginPage() {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <p className="text-center mt-6 text-sm text-deep-charcoal">
+        <p className="text-center mt-6 text-sm text-teal-200">
           Don't have an account? <Link to="/signup" className="underline font-semibold hover:text-coral-red">Sign Up</Link>
         </p>
       </form>
+
+
+
     </div>
   );
 }
