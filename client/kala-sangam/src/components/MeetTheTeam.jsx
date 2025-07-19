@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const team = [
   {
@@ -77,11 +78,14 @@ function MeetTheTeam() {
         {team.map((member, idx) => (
           <motion.div 
             key={idx} 
-            className="perspective w-64 h-96 cursor-none"
+            className="perspective w-64 h-96 group cursor-pointer"
             initial={{ opacity: 0, y: 50, rotateY: -30 }}
             whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-            transition={{ duration: 0.8, delay: idx * 0.2 }}
+            transition={{ duration: 0.6, delay: idx * 0.15 }}
             viewport={{ once: true }}
+            style={{
+              perspective: "1000px"
+            }}
           >
             <motion.div 
               className="relative w-full h-full duration-700 transform-style-preserve-3d transition-transform hover:rotate-y-180"
