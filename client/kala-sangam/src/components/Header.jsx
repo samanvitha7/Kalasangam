@@ -89,6 +89,15 @@ export default function Header({ scrolled, onMapClick }) {
             Art Wall
           </Link>
 
+          <Link
+            to="/artists"
+            className={`hover:underline hover:italic transition-all duration-200 ${
+              scrolled ? "hover:text-teal-400" : "hover:text-rose-700"
+            }`}
+          >
+            Artists
+          </Link>
+
           <div className="relative" ref={dropdownRef}>
             <span
               className={`hover:underline hover:italic font-semibold cursor-pointer transition-all duration-200 ${
