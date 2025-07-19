@@ -62,10 +62,10 @@ export default function LoginPage() {
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-[#fbebd8] p-10 rounded-3xl max-w-md w-full shadow-xl border border-yellow-200 backdrop-blur-sm"
+        className="bg-mist-blush p-10 rounded-3xl max-w-md w-full shadow-xl border border-coral-red/20 backdrop-blur-sm font-lora"
       >
-        <h2 className="text-4xl font-bold text-center mb-3 text-[#74404b]">Welcome Back!</h2>
-        <p className="text-center mb-6 text-sm text-[#74404b]">Login to continue</p>
+        <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">Welcome Back!</h2>
+        <p className="text-center mb-6 text-sm text-deep-charcoal">Login to continue</p>
 
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
 
@@ -75,7 +75,7 @@ export default function LoginPage() {
           placeholder="Email"
           value={form.email}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white border border-yellow-300 placeholder-[#74404b] text-[#74404b] focus:ring-2 focus:ring-[#74404b] outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-off-white border border-coral-red/30 placeholder-deep-charcoal text-deep-charcoal focus:ring-2 focus:ring-teal-blue outline-none"
         />
 
         <input
@@ -84,23 +84,23 @@ export default function LoginPage() {
           placeholder="Password"
           value={form.password}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white border border-yellow-300 placeholder-[#74404b] text-[#74404b] focus:ring-2 focus:ring-[#74404b] outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-off-white border border-coral-red/30 placeholder-deep-charcoal text-deep-charcoal focus:ring-2 focus:ring-teal-blue outline-none"
         />
 
-        <div className="text-right text-sm text-[#74404b] mb-6">
-          <Link to="/forgot-password" className="hover:underline">Forgot Password?</Link>
+        <div className="text-right text-sm text-deep-charcoal mb-6">
+          <Link to="/forgot-password" className="hover:underline hover:text-coral-red">Forgot Password?</Link>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#74404b] hover:bg-[#5f343d] text-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-teal-blue hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <p className="text-center mt-6 text-sm text-[#74404b]">
-          Don't have an account? <Link to="/signup" className="underline font-semibold">Sign Up</Link>
+        <p className="text-center mt-6 text-sm text-deep-charcoal">
+          Don't have an account? <Link to="/signup" className="underline font-semibold hover:text-coral-red">Sign Up</Link>
         </p>
       </form>
     </div>

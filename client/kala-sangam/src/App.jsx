@@ -26,10 +26,16 @@ import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
 import FloatingSoundToggle from "./components/FloatingSoundToggle.jsx";
 
 function AppContent() {
-  const [showSplash, setShowSplash] = useState(() => !localStorage.getItem("splashShown"));
   const location = useLocation();
   const navigate = useNavigate();
   const { disableSound } = useSoundContext();
+
+  // Redirect root URL to home if splash was already shown
+  useEffect(() => {
+    if (location.pathname === '/' && sessionStorage.getItem("splashShown")) {
+      navigate('/home', { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   const sentinelRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
@@ -56,10 +62,6 @@ function AppContent() {
     };
   }, []);
 
-  const handleSplashContinue = (withSound) => {
-    setShowSplash(false);
-    navigate("/home", { replace: true });
-  };
 
   const handleStateClick = (stateName) => {
     navigate(`/gallery?state=${encodeURIComponent(stateName)}`);
@@ -135,12 +137,15 @@ function AppContent() {
 }
 
 function App() {
-  const [showSplash, setShowSplash] = useState(() => !localStorage.getItem("splashShown"));
-  const navigate = useNavigate();
+  const [showSplash, setShowSplash] = useState(() => {
+    // Show splash screen only when visiting root URL and it hasn't been shown in this session
+    return window.location.pathname === '/' && !sessionStorage.getItem("splashShown");
+  });
 
   const handleSplashContinue = (withSound) => {
+    sessionStorage.setItem("splashShown", "true");
     setShowSplash(false);
-    navigate("/home", { replace: true });
+    // The navigation is now handled within the SplashScreen component
   };
 
   return (

@@ -27,7 +27,7 @@ export default function FloatingSoundToggle() {
           return (
             <div
               key={index}
-              className="bg-gradient-to-t from-green-500 to-green-300 rounded-sm transition-all duration-100"
+              className="bg-gradient-to-t from-teal-blue to-coral-red rounded-sm transition-all duration-100"
               style={{
                 width: '2px',
                 height: `${height}px`,
@@ -45,11 +45,11 @@ export default function FloatingSoundToggle() {
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
       {/* Controls Panel */}
       {showControls && (
-        <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-xl border border-gray-200 min-w-[200px]">
+        <div className="bg-mist-blush/95 backdrop-blur-sm rounded-lg p-4 shadow-xl border border-coral-red/20 min-w-[200px]">
           {/* Audio Visualizer */}
           <div className="mb-4">
-            <div className="text-xs font-medium text-gray-600 mb-2">Audio Visualizer</div>
-            <div className="bg-gray-100 rounded-lg p-2">
+            <div className="text-xs font-medium text-teal-blue mb-2">Audio Visualizer</div>
+            <div className="bg-warm-sand rounded-lg p-2">
               <AudioVisualizer />
             </div>
           </div>
@@ -57,8 +57,8 @@ export default function FloatingSoundToggle() {
           {/* Volume Control */}
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-medium text-gray-600">Volume</label>
-              <span className="text-xs text-gray-500">{Math.round(volume * 100)}%</span>
+              <label className="text-xs font-medium text-teal-blue">Volume</label>
+              <span className="text-xs text-deep-charcoal/70">{Math.round(volume * 100)}%</span>
             </div>
             <input
               type="range"
@@ -69,7 +69,7 @@ export default function FloatingSoundToggle() {
               onChange={handleVolumeChange}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #10b981 0%, #10b981 ${volume * 100}%, #e5e7eb ${volume * 100}%, #e5e7eb 100%)`
+                background: `linear-gradient(to right, #1E5E75 0%, #1E5E75 ${volume * 100}%, #e5e7eb ${volume * 100}%, #e5e7eb 100%)`
               }}
             />
           </div>
@@ -78,13 +78,13 @@ export default function FloatingSoundToggle() {
           <div className="flex gap-2">
             <button
               onClick={forceStopAllAudio}
-              className="flex-1 px-3 py-2 bg-red-500 text-white text-xs rounded-md hover:bg-red-600 transition-colors"
+              className="flex-1 px-3 py-2 bg-coral-red text-white text-xs rounded-md hover:bg-muted-fuchsia transition-colors"
             >
               Force Stop
             </button>
             <button
               onClick={() => changeVolume(0.5)}
-              className="flex-1 px-3 py-2 bg-gray-500 text-white text-xs rounded-md hover:bg-gray-600 transition-colors"
+              className="flex-1 px-3 py-2 bg-teal-blue text-white text-xs rounded-md hover:bg-indigo-purple transition-colors"
             >
               Reset Volume
             </button>
@@ -99,8 +99,8 @@ export default function FloatingSoundToggle() {
         className={`
           p-3 rounded-full shadow-lg transition-all duration-300
           ${soundEnabled 
-            ? 'bg-green-500 hover:bg-green-600 text-white' 
-            : 'bg-gray-500 hover:bg-gray-600 text-white'
+            ? 'bg-teal-blue hover:bg-coral-red text-white' 
+            : 'bg-deep-charcoal hover:bg-muted-fuchsia text-white'
           }
           hover:scale-105 active:scale-95
         `}
@@ -136,10 +136,10 @@ export default function FloatingSoundToggle() {
         className={`
           px-3 py-1 rounded-full text-xs font-medium transition-all duration-300
           ${showControls 
-            ? 'bg-blue-500 text-white' 
+            ? 'bg-teal-blue text-white' 
             : soundEnabled 
-              ? 'bg-green-100 text-green-800 hover:bg-green-200' 
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'bg-saffron-mist text-coral-red hover:bg-golden-saffron' 
+              : 'bg-mist-blush text-deep-charcoal hover:bg-warm-sand'
           }
         `}
       >

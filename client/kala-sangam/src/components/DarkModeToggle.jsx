@@ -28,8 +28,8 @@ export default function DarkModeToggle({ scrolled }) {
       className={`
         relative overflow-hidden rounded-full p-2 transition-all duration-300 
         ${scrolled 
-          ? 'bg-slate-800/50 hover:bg-slate-700/50 border border-teal-400/30' 
-          : 'bg-amber-100 hover:bg-amber-200 border border-amber-300/50'
+          ? 'bg-teal-blue/50 hover:bg-coral-red/50 border border-muted-fuchsia/30' 
+          : 'bg-saffron-mist hover:bg-golden-saffron/30 border border-golden-saffron/50'
         }
         hover:scale-105 shadow-lg hover:shadow-xl
       `}
@@ -42,7 +42,7 @@ export default function DarkModeToggle({ scrolled }) {
         }`}>
           <svg
             className={`w-full h-full ${
-              scrolled ? 'text-yellow-400' : 'text-orange-500'
+              scrolled ? 'text-golden-saffron' : 'text-coral-red'
             }`}
             fill="currentColor"
             viewBox="0 0 24 24"
@@ -57,7 +57,7 @@ export default function DarkModeToggle({ scrolled }) {
         }`}>
           <svg
             className={`w-full h-full ${
-              scrolled ? 'text-blue-300' : 'text-slate-600'
+              scrolled ? 'text-muted-fuchsia' : 'text-teal-blue'
             }`}
             fill="currentColor"
             viewBox="0 0 24 24"
