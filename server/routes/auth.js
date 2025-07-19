@@ -7,7 +7,9 @@ const {
   forgotPassword,
   resetPassword,
   getMe,
-  logout
+  logout,
+  verifyEmail,
+  resendVerificationEmail
 } = require('../controllers/auth.controller');
 
 const router = express.Router();
@@ -45,5 +47,11 @@ router.put(
 
 router.get('/me', auth, getMe);
 router.post('/logout', auth, logout);
+
+// Email verification routes
+router.get('/verify-email/:token', verifyEmail);
+router.post('/resend-verification', [
+  body('email').isEmail().normalizeEmail().withMessage('Please provide a valid email')
+], resendVerificationEmail);
 
 module.exports = router;

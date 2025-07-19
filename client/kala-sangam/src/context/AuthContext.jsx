@@ -185,6 +185,28 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Verify email
+  const verifyEmail = async (token) => {
+    try {
+      const res = await api.get(`/api/auth/verify-email/${token}`);
+      return { success: true, message: res.data.message };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Email verification failed';
+      return { success: false, error: errorMessage };
+    }
+  };
+
+  // Resend verification email
+  const resendVerificationEmail = async (email) => {
+    try {
+      const res = await api.post('/api/auth/resend-verification', { email });
+      return { success: true, message: res.data.message };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Failed to resend verification email';
+      return { success: false, error: errorMessage };
+    }
+  };
+
   // Clear error
   const clearError = () => {
     dispatch({ type: 'CLEAR_ERROR' });
@@ -203,6 +225,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         forgotPassword,
         resetPassword,
+        verifyEmail,
+        resendVerificationEmail,
         clearError,
         loadUser
       }}

@@ -1,15 +1,23 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
   const dropdownRef = useRef();
+  const userDropdownRef = useRef();
   const navigate = useNavigate();
+  const { user, logout, isAuthenticated } = useAuth();
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
+      }
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+        setShowUserDropdown(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -34,6 +42,17 @@ export default function Header({ scrolled, onMapClick }) {
       case "crafts":
         navigate("/explore/crafts");
         break;
+    }
+  };
+
+  const handleLogout = async () => {
+    setShowUserDropdown(false);
+    try {
+      await logout();
+      toast.success('Logged out successfully!');
+      navigate('/home');
+    } catch (error) {
+      toast.error('Error logging out');
     }
   };
 
@@ -181,28 +200,115 @@ export default function Header({ scrolled, onMapClick }) {
           </Link>
         </nav>
 
-        {/* Login/Signup buttons - Far Right */}
+        {/* User Profile or Login/Signup buttons - Far Right */}
         <div className="flex-shrink-0 flex items-center space-x-4">
-          <Link
-            to="/login"
-            className={`px-5 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
-              scrolled 
-                ? "bg-gradient-to-r from-teal-blue to-coral-red text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
-                : "bg-teal-blue text-off-white hover:bg-coral-red"
-            }`}
-          >
-            Login
-          </Link>
-          <Link
-            to="/signup"
-            className={`px-5 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
-              scrolled 
-                ? "bg-gradient-to-r from-coral-red to-muted-fuchsia text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
-                : "bg-coral-red text-off-white hover:bg-muted-fuchsia"
-            }`}
-          >
-            Sign Up
-          </Link>
+          {isAuthenticated ? (
+            <div className="relative" ref={userDropdownRef}>
+              <button
+                onClick={() => setShowUserDropdown(!showUserDropdown)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
+                  scrolled 
+                    ? "bg-gradient-to-r from-teal-blue to-coral-red text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
+                    : "bg-teal-blue text-off-white hover:bg-coral-red"
+                }`}
+              >
+                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                  <span className="text-sm font-bold">
+                    {user?.name?.charAt(0)?.toUpperCase() || '?'}
+                  </span>
+                </div>
+                <span>{user?.name || 'Artist'}</span>
+                <span className="text-xs">▾</span>
+              </button>
+
+              {showUserDropdown && (
+                <ul className={`absolute right-0 top-full mt-2 shadow-2xl rounded-lg w-56 z-50 font-medium ${
+                  scrolled 
+                    ? "bg-white text-teal-blue border border-coral-red/20" 
+                    : "bg-white text-teal-blue shadow-md border border-teal-blue/10"
+                }`}>
+                  <li className="px-4 py-3 border-b border-gray-100">
+                    <div className="text-sm text-gray-500">Signed in as</div>
+                    <div className="font-semibold truncate">{user?.email}</div>
+                  </li>
+                  
+                  <li>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-3 hover:bg-teal-50 hover:text-coral-red transition-colors duration-200"
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>👤</span>
+                        <span>My Profile</span>
+                      </div>
+                    </Link>
+                  </li>
+                  
+                  <li>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-3 hover:bg-teal-50 hover:text-coral-red transition-colors duration-200"
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>🎨</span>
+                        <span>My Artworks</span>
+                      </div>
+                    </Link>
+                  </li>
+                  
+                  <li>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-3 hover:bg-teal-50 hover:text-coral-red transition-colors duration-200"
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>⚙️</span>
+                        <span>Settings</span>
+                      </div>
+                    </Link>
+                  </li>
+                  
+                  <li className="border-t border-gray-100">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-colors duration-200"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>🚪</span>
+                        <span>Sign Out</span>
+                      </div>
+                    </button>
+                  </li>
+                </ul>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className={`px-5 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
+                  scrolled 
+                    ? "bg-gradient-to-r from-teal-blue to-coral-red text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
+                    : "bg-teal-blue text-off-white hover:bg-coral-red"
+                }`}
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className={`px-5 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
+                  scrolled 
+                    ? "bg-gradient-to-r from-coral-red to-muted-fuchsia text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
+                    : "bg-coral-red text-off-white hover:bg-muted-fuchsia"
+                }`}
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

@@ -11,6 +11,7 @@ import IndiaMapPage from "./pages/IndiaMapPage.jsx";
 import About from "./pages/About.jsx";
 import Login from "./pages/LoginPage.jsx";
 import Signup from "./pages/Signup.jsx";
+import UserPage from "./pages/UserPage.jsx";
 import ForgotPassword from "./pages/ForgotPw.jsx";
 import ResetPassword from "./pages/ResetPassword";
 import SplashScreen from "./components/SplashScreen.jsx";
@@ -100,6 +101,7 @@ function AppContent() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<UserPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />

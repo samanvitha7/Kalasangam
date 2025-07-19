@@ -69,10 +69,12 @@ require("dotenv").config();
 //routes
 const artRoutes=require("./routes/artRoutes");
 const authRoutes=require("./routes/auth");
+const userRoutes=require("./routes/user");
 const contactRoutes=require("./routes/contactRoutes");
 const eventRoutes=require("./routes/eventRoutes");
 app.use("/api/artforms",artRoutes);
 app.use("/api/auth",authRoutes);
+app.use("/api/users",userRoutes);
 app.use("/api/contact",contactRoutes);
 app.use("/api/events",eventRoutes);
 

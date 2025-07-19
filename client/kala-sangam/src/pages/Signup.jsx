@@ -42,13 +42,14 @@ export default function Signup() {
 
     const result = await register(form);
     if (result.success) {
-      toast.success("Account created successfully!");
+      toast.success("Account created successfully! Welcome to KalaSangam!");
       navigate("/home");
     } else {
       setError(result.error);
       toast.error(result.error);
     }
   };
+
 
   return (
     <div
@@ -82,6 +83,25 @@ export default function Signup() {
           onChange={handleChange}
           className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
         />
+
+        {/* Password Requirements */}
+        <div className="mb-3">
+          <p className="text-sm font-semibold text-[#284139] mb-2">Password Requirements:</p>
+          <ul className="text-xs text-teal-200 space-y-1 ml-4">
+            <li className="flex items-center">
+              <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
+              At least 6 characters long
+            </li>
+            <li className="flex items-center">
+              <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
+              Mix of letters and numbers recommended
+            </li>
+            <li className="flex items-center">
+              <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
+              Avoid common passwords
+            </li>
+          </ul>
+        </div>
 
         <input
           type="password"

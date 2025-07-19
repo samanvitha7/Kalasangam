@@ -21,7 +21,7 @@ export default function LoginPage() {
     setError("");
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = form;
 
