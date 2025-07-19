@@ -11,11 +11,6 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const { login, isAuthenticated, loading, clearError } = useAuth();
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/home");
-    }
-  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     clearError();

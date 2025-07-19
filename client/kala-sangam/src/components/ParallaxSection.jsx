@@ -14,7 +14,7 @@ const ParallaxSection = () => {
       <section className="relative w-screen h-screen overflow-hidden bg-black">
         {/* Background Image */}
         <img
-          src="/assets/parallaximg.jpg"
+          src="/assets/parallaximg.png"
           alt="Hero Background"
 className="absolute inset-0 w-full h-full object-cover z-0"
           style={{
@@ -42,8 +42,8 @@ className="absolute inset-0 w-full h-full object-cover z-0"
         <img
           src="/assets/lotus-hidden.png"
           alt="Lotus"
-          className="absolute left-1/2 transform -translate-x-1/2 w-[180vw] max-w-[1800px] z-30 pointer-events-none"
-          style={{ bottom: '-200px' }}
+          className="absolute left-1/2 transform -translate-x-1/2 w-[130vw] max-w-[1260px] z-30 pointer-events-none"
+          style={{ bottom: '-100px' }}
         />
       </section>
 

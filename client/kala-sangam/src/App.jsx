@@ -30,7 +30,7 @@ function AppContent() {
   const navigate = useNavigate();
   const { disableSound } = useSoundContext();
 
-  // Redirect root URL to home if splash was already shown
+  // Simple redirect root URL to home if splash was already shown
   useEffect(() => {
     if (location.pathname === '/' && sessionStorage.getItem("splashShown")) {
       navigate('/home', { replace: true });

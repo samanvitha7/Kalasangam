@@ -11,11 +11,6 @@ export default function Signup() {
   const navigate = useNavigate();
   const { register, isAuthenticated, loading, clearError } = useAuth();
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/home");
-    }
-  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     clearError();
