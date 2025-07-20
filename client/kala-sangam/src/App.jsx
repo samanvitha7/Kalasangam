@@ -11,6 +11,11 @@ import IndiaMapPage from "./pages/IndiaMapPage.jsx";
 import About from "./pages/About.jsx";
 import Login from "./pages/LoginPage.jsx";
 import Signup from "./pages/Signup.jsx";
+import PhoneLogin from "./pages/PhoneLogin.jsx";
+import PhoneSignup from "./pages/PhoneSignup.jsx";
+import TermsOfService from "./pages/TermsOfService.jsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
+import CommunityGuidelines from "./pages/CommunityGuidelines.jsx";
 import UserPage from "./pages/UserPage.jsx";
 import ForgotPassword from "./pages/ForgotPw.jsx";
 import ResetPassword from "./pages/ResetPassword";
@@ -116,6 +121,8 @@ function AppContent() {
           } />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/phone-login" element={<PhoneLogin />} />
+          <Route path="/phone-signup" element={<PhoneSignup />} />
           <Route path="/profile" element={<UserPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
@@ -125,6 +132,9 @@ function AppContent() {
           <Route path="/explore/music" element={<Music />} />
           <Route path="/explore/crafts" element={<CraftsPage />} />
           <Route path="/events" element={<EventsPage />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/community-guidelines" element={<CommunityGuidelines />} />
         </Routes>
         </main>
 

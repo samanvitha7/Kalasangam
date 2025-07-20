@@ -9,9 +9,21 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
+    required: function() {
+      return !this.phoneNumber; // Email required only if no phone number
+    },
     unique: true,
+    sparse: true,
     lowercase: true,
+    trim: true
+  },
+  phoneNumber: {
+    type: String,
+    required: function() {
+      return !this.email; // Phone required only if no email
+    },
+    unique: true,
+    sparse: true,
     trim: true
   },
   password: {

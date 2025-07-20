@@ -3,7 +3,9 @@ const { body } = require('express-validator');
 const { auth } = require('../middleware/auth');
 const { 
   register, 
+  registerWithPhone,
   login, 
+  loginWithPhone,
   adminLogin,
   forgotPassword, 
   resetPassword, 
@@ -25,6 +27,17 @@ router.post(
   register
 );
 
+// Phone registration route
+router.post(
+  '/register-phone',
+  [
+    body('name').trim().isLength({ min: 2 }).withMessage('Name must be at least 2 characters'),
+    body('phoneNumber').trim().isMobilePhone().withMessage('Please provide a valid phone number'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
+  ],
+  registerWithPhone
+);
+
 router.post(
   '/login',
   [
@@ -32,6 +45,16 @@ router.post(
     body('password').exists().withMessage('Password is required')
   ],
   login
+);
+
+// Phone login route
+router.post(
+  '/login-phone',
+  [
+    body('phoneNumber').trim().isMobilePhone().withMessage('Please provide a valid phone number'),
+    body('password').exists().withMessage('Password is required')
+  ],
+  loginWithPhone
 );
 
 router.post(

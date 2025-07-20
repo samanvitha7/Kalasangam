@@ -124,12 +124,56 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Register user with phone
+  const registerWithPhone = async (formData) => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+    
+    try {
+      const res = await api.post('/api/auth/register-phone', formData);
+      dispatch({
+        type: 'REGISTER_SUCCESS',
+        payload: res.data
+      });
+      setAuthToken(res.data.token);
+      return { success: true, data: res.data };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Registration failed';
+      dispatch({
+        type: 'REGISTER_FAIL',
+        payload: errorMessage
+      });
+      return { success: false, error: errorMessage };
+    }
+  };
+
   // Login user
   const login = async (formData) => {
     dispatch({ type: 'SET_LOADING', payload: true });
     
     try {
       const res = await api.post('/api/auth/login', formData);
+      dispatch({
+        type: 'LOGIN_SUCCESS',
+        payload: res.data
+      });
+      setAuthToken(res.data.token);
+      return { success: true, data: res.data };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Login failed';
+      dispatch({
+        type: 'LOGIN_FAIL',
+        payload: errorMessage
+      });
+      return { success: false, error: errorMessage };
+    }
+  };
+
+  // Login user with phone
+  const loginWithPhone = async (formData) => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+    
+    try {
+      const res = await api.post('/api/auth/login-phone', formData);
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: res.data
@@ -221,7 +265,9 @@ export const AuthProvider = ({ children }) => {
       value={{
         ...state,
         register,
+        registerWithPhone,
         login,
+        loginWithPhone,
         logout,
         forgotPassword,
         resetPassword,

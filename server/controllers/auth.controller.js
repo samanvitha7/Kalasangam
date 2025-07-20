@@ -44,6 +44,49 @@ const register = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        phoneNumber: user.phoneNumber,
+        isEmailVerified: user.isEmailVerified
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Signup failed', error: error.message });
+  }
+};
+
+// ✅ PHONE REGISTER CONTROLLER
+const registerWithPhone = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: errors.array()[0].msg });
+  }
+
+  const { name, phoneNumber, password } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ phoneNumber });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Phone number already in use' });
+    }
+
+    // Create user with phone number
+    const user = await User.create({ 
+      name, 
+      phoneNumber, 
+      password,
+      isEmailVerified: true  // Auto-verify for immediate access
+    });
+
+    // Generate JWT token immediately
+    const token = generateToken(user._id);
+
+    res.status(201).json({
+      message: 'Account created successfully!',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
         isEmailVerified: user.isEmailVerified
       }
     });
@@ -83,6 +126,46 @@ const login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        phoneNumber: user.phoneNumber,
+        role: user.role,
+        isEmailVerified: user.isEmailVerified
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Login failed', error: error.message });
+  }
+};
+
+// ✅ PHONE LOGIN CONTROLLER
+const loginWithPhone = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: errors.array()[0].msg });
+  }
+
+  const { phoneNumber, password } = req.body;
+
+  try {
+    const user = await User.findOne({ phoneNumber });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    const token = generateToken(user._id);
+
+    res.status(200).json({
+      message: 'Login successful',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
         role: user.role,
         isEmailVerified: user.isEmailVerified
       },
@@ -277,7 +360,9 @@ const resendVerificationEmail = async (req, res) => {
 // ✅ EXPORT ALL CONTROLLERS
 module.exports = {
   register,
+  registerWithPhone,
   login,
+  loginWithPhone,
   adminLogin,
   forgotPassword,
   resetPassword,

@@ -1,16 +1,15 @@
-// src/pages/LoginPage.jsx
+// src/pages/PhoneLogin.jsx
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { isEmailValid, isPasswordStrong } from "../utils/validators";
+import { isPhoneNumberValid, isPasswordStrong } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
 
-export default function LoginPage() {
-  const [form, setForm] = useState({ email: "", password: "" });
+export default function PhoneLogin() {
+  const [form, setForm] = useState({ phoneNumber: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login, isAuthenticated, loading, clearError } = useAuth();
-
+  const { loginWithPhone, isAuthenticated, loading, clearError } = useAuth();
 
   useEffect(() => {
     clearError();
@@ -21,17 +20,17 @@ export default function LoginPage() {
     setError("");
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = form;
+    const { phoneNumber, password } = form;
 
-    if (!email || !password) {
+    if (!phoneNumber || !password) {
       setError("All fields are required.");
       return;
     }
     
-    if (!isEmailValid(email)) {
-      setError("Enter a valid email.");
+    if (!isPhoneNumberValid(phoneNumber)) {
+      setError("Enter a valid phone number.");
       return;
     }
     
@@ -40,7 +39,7 @@ const handleSubmit = async (e) => {
       return;
     }
 
-    const result = await login(form);
+    const result = await loginWithPhone(form);
     if (result.success) {
       toast.success("Login successful!");
       navigate("/home");
@@ -61,27 +60,15 @@ const handleSubmit = async (e) => {
                   bg-[linear-gradient(to_bottom,rgba(255,190,152,0.7),rgba(255,187,233,0.7),rgba(44,165,141,0.67))]"
       >
         <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">Welcome Back!</h2>
-        <p className="text-center mb-4 text-sm text-teal-200">Login to continue</p>
+        <p className="text-center mb-4 text-sm text-teal-200">Login with your phone number</p>
         
-        {/* Admin Login Option */}
-        <div className="text-center mb-6">
-          <p className="text-xs text-teal-200 mb-2">Need admin access?</p>
-          <button
-            type="button"
-            onClick={() => navigate('/admin/login')}
-            className="text-xs bg-coral-red/20 hover:bg-coral-red/30 text-coral-red font-semibold py-2 px-4 rounded-lg border border-coral-red/30 transition-all"
-          >
-            🔐 Login as Admin
-          </button>
-        </div>
-
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
 
         <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
+          type="tel"
+          name="phoneNumber"
+          placeholder="Phone Number (e.g., +1234567890)"
+          value={form.phoneNumber}
           onChange={handleChange}
           className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
         />
@@ -95,10 +82,6 @@ const handleSubmit = async (e) => {
           className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
         />
 
-        <div className="text-right text-sm text-teal-200 mb-6">
-          <Link to="/forgot-password" className="hover:underline hover:text-coral-red">Forgot Password?</Link>
-        </div>
-
         <button
           type="submit"
           disabled={loading}
@@ -107,24 +90,21 @@ const handleSubmit = async (e) => {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        {/* Switch to phone login */}
+        {/* Switch to email login */}
         <div className="text-center mt-4">
           <button
             type="button"
-            onClick={() => navigate('/phone-login')}
+            onClick={() => navigate('/login')}
             className="text-sm bg-white/20 hover:bg-white/30 text-teal-blue font-semibold py-2 px-4 rounded-lg border border-teal-blue/30 transition-all"
           >
-            📱 Continue with Phone Number Instead
+            📧 Continue with Email Instead
           </button>
         </div>
 
         <p className="text-center mt-6 text-sm text-teal-200">
-          Don't have an account? <Link to="/signup" className="underline font-semibold hover:text-coral-red">Sign Up</Link>
+          Don't have an account? <Link to="/phone-signup" className="underline font-semibold hover:text-coral-red">Sign Up with Phone</Link>
         </p>
       </form>
-
-
-
     </div>
   );
 }

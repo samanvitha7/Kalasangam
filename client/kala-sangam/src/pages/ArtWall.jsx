@@ -4,7 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import ArtCard from '../components/ArtCard';
 import ContributeModal from '../components/ContributeModal';
-import { FaPlus, FaFilter, FaSearch, FaTimes, FaDownload, FaHeart, FaBookmark } from 'react-icons/fa';
+import { FaPlus, FaFilter, FaSearch, FaTimes, FaDownload, FaHeart, FaBookmark, FaUsers } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const ArtWall = () => {
   const { user, isAuthenticated } = useAuth();
@@ -313,16 +314,31 @@ const ArtWall = () => {
             Discover, appreciate, and contribute to our growing collection of artistic expressions.
           </p>
           
-          {/* Contribute Button */}
-          <motion.button
-            onClick={handleContribute}
-            className="mt-8 bg-gradient-to-r from-amber-600 to-orange-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 mx-auto"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FaPlus className="text-white" />
-            Contribute
-          </motion.button>
+          {/* Action Buttons */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <motion.button
+              onClick={handleContribute}
+              className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaPlus className="text-white" />
+              Contribute Your Art
+            </motion.button>
+            
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link 
+                to="/community-guidelines"
+                className="bg-gradient-to-r from-teal-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+              >
+                <FaUsers className="text-white" />
+                Community Guidelines
+              </Link>
+            </motion.div>
+          </div>
         </motion.div>
 
         {/* Search and Filter Controls */}
