@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark, FaFlag } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import LazyImage from './LazyImage';
+import ReportModal from './ReportModal';
 
 const ArtCard = ({ artwork, index, currentUser, onLike, onBookmark, onImageClick }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   
   const animations = {
     initial: { opacity: 0, y: 20 },
@@ -71,12 +73,13 @@ const ArtCard = ({ artwork, index, currentUser, onLike, onBookmark, onImageClick
   };
 
   return (
-    <motion.div 
-      className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer"
-      {...animations}
-      whileHover={{ y: -5, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-    >
+    <>
+      <motion.div 
+        className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer"
+        {...animations}
+        whileHover={{ y: -5, scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
       {/* Image Container */}
       <div className="relative overflow-hidden">
         <LazyImage
@@ -97,6 +100,31 @@ const ArtCard = ({ artwork, index, currentUser, onLike, onBookmark, onImageClick
         
         {/* Action Buttons */}
         <div className="absolute top-3 right-3 flex space-x-2">
+          {/* Report Button */}
+          <motion.button
+            className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm bg-white/80 text-gray-600 hover:bg-red-50 hover:text-red-500 transition-all duration-300"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!currentUser) {
+                toast.error('Please login to report content', {
+                  position: 'top-center',
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                });
+                return;
+              }
+              setIsReportModalOpen(true);
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            title="Report artwork"
+          >
+            <FaFlag size={14} />
+          </motion.button>
+          
           {/* Bookmark Button */}
           <motion.button
             className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
@@ -181,6 +209,16 @@ const ArtCard = ({ artwork, index, currentUser, onLike, onBookmark, onImageClick
         </motion.div>
       </div>
     </motion.div>
+    
+    {/* Report Modal */}
+    <ReportModal
+      isOpen={isReportModalOpen}
+      onClose={() => setIsReportModalOpen(false)}
+      reportType="artwork"
+      reportedItemId={artwork.id}
+      reportedItemTitle={artwork.title}
+    />
+    </>
   );
 };
 

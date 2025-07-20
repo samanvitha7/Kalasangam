@@ -22,6 +22,10 @@ import EventsPage from "./pages/EventsPage.jsx";
 import ArtWall from "./pages/ArtWall.jsx";
 import ArtistsList from "./pages/ArtistsList.jsx";
 import ArtistProfile from "./pages/ArtistProfile.jsx";
+import AdminLogin from "./components/AdminLogin.jsx";
+import AdminPanel from "./components/AdminPanel.jsx";
+import AdminDashboard from "./components/AdminDashboard.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
  import { AuthProvider } from "./context/AuthContext.jsx";
 import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
 import FloatingSoundToggle from "./components/FloatingSoundToggle.jsx";
@@ -99,6 +103,17 @@ function AppContent() {
           <Route path="/artists" element={<ArtistsList />} />
           <Route path="/artist/:artistId" element={<ArtistProfile />} />
           <Route path="/about" element={<About />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={
+            <ProtectedRoute allowedRoles={['Admin', 'Artist', 'Viewer']}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/panel" element={
+            <ProtectedRoute allowedRoles={['Admin', 'Artist']}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<UserPage />} />

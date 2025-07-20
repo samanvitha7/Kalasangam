@@ -1,15 +1,16 @@
 const express = require('express');
 const { body } = require('express-validator');
-const auth = require('../middleware/auth');
-const {
-  register,
-  login,
-  forgotPassword,
-  resetPassword,
-  getMe,
-  logout,
-  verifyEmail,
-  resendVerificationEmail
+const { auth } = require('../middleware/auth');
+const { 
+  register, 
+  login, 
+  adminLogin,
+  forgotPassword, 
+  resetPassword, 
+  getMe, 
+  logout, 
+  verifyEmail, 
+  resendVerificationEmail 
 } = require('../controllers/auth.controller');
 
 const router = express.Router();
@@ -31,6 +32,15 @@ router.post(
     body('password').exists().withMessage('Password is required')
   ],
   login
+);
+
+router.post(
+  '/admin-login',
+  [
+    body('email').isEmail().normalizeEmail().withMessage('Please provide a valid email'),
+    body('password').exists().withMessage('Password is required')
+  ],
+  adminLogin
 );
 
 router.post(

@@ -83,11 +83,55 @@ const login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
         isEmailVerified: user.isEmailVerified
       },
     });
   } catch (error) {
     res.status(500).json({ message: 'Login failed', error: error.message });
+  }
+};
+
+// ✅ ADMIN LOGIN CONTROLLER
+const adminLogin = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: errors.array()[0].msg });
+  }
+
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Check if user has admin role
+    if (user.role !== 'Admin') {
+      return res.status(403).json({ message: 'Access denied. Admin role required.' });
+    }
+
+    const token = generateToken(user._id);
+
+    res.status(200).json({
+      message: 'Admin login successful',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isEmailVerified: user.isEmailVerified
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Admin login failed', error: error.message });
   }
 };
 
@@ -234,6 +278,7 @@ const resendVerificationEmail = async (req, res) => {
 module.exports = {
   register,
   login,
+  adminLogin,
   forgotPassword,
   resetPassword,
   getMe,
