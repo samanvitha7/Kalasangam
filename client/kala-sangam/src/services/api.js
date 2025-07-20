@@ -85,6 +85,107 @@ export const adminApi = {
     }
 
     return response.json();
+  },
+
+  // User management functions
+  // Get all users with pagination and filters
+  getAllUsers: async (filters = {}) => {
+    const queryParams = new URLSearchParams();
+    
+    if (filters.page) queryParams.append('page', filters.page);
+    if (filters.limit) queryParams.append('limit', filters.limit);
+    if (filters.search) queryParams.append('search', filters.search);
+    if (filters.role) queryParams.append('role', filters.role);
+    
+    const url = `${API_URL}/api/users/admin/all${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to fetch users: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Get user statistics for admin dashboard
+  getUserStatsAdmin: async () => {
+    const response = await fetch(`${API_URL}/api/users/admin/stats`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch user statistics');
+    }
+
+    return response.json();
+  },
+
+  // Create new user (admin only)
+  createUser: async (userData) => {
+    const response = await fetch(`${API_URL}/api/users/admin/create`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+      throw new Error(errorData.message || 'Failed to create user');
+    }
+
+    return response.json();
+  },
+
+  // Update user role (admin only)
+  updateUserRole: async (userId, role) => {
+    const response = await fetch(`${API_URL}/api/users/admin/${userId}/role`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ role }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+      throw new Error(errorData.message || 'Failed to update user role');
+    }
+
+    return response.json();
+  },
+
+  // Delete user (admin only)
+  deleteUser: async (userId) => {
+    const response = await fetch(`${API_URL}/api/users/admin/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+      throw new Error(errorData.message || 'Failed to delete user');
+    }
+
+    return response.json();
   }
 };
 
