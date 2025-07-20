@@ -143,11 +143,7 @@ const DanceItem = ({ dance, index }) => {
         }}
       >
         <h2 className="text-5xl font-bold text-rose-800 mb-8">{dance.name}</h2>
-        <img
-          src={dance.photos?.[0]}
-          alt={dance.name}
-          className="rounded-md mb-8 object-cover max-h-[28rem] w-full"
-        />
+       
         <p className="text-gray-800 leading-relaxed text-lg">
           {dance.description?.slice(0, 300) ||
             "This classical dance form is celebrated for its rich heritage and traditional significance across Indian culture."}
