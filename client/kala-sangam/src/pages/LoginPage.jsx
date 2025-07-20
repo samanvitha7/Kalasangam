@@ -61,7 +61,19 @@ const handleSubmit = async (e) => {
                   bg-[linear-gradient(to_bottom,rgba(255,190,152,0.7),rgba(255,187,233,0.7),rgba(44,165,141,0.67))]"
       >
         <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">Welcome Back!</h2>
-        <p className="text-center mb-6 text-sm text-teal-200">Login to continue</p>
+        <p className="text-center mb-4 text-sm text-teal-200">Login to continue</p>
+        
+        {/* Admin Login Option */}
+        <div className="text-center mb-6">
+          <p className="text-xs text-teal-200 mb-2">Need admin access?</p>
+          <button
+            type="button"
+            onClick={() => navigate('/admin/login')}
+            className="text-xs bg-coral-red/20 hover:bg-coral-red/30 text-coral-red font-semibold py-2 px-4 rounded-lg border border-coral-red/30 transition-all"
+          >
+            🔐 Login as Admin
+          </button>
+        </div>
 
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
 

@@ -258,7 +258,20 @@ const galleryData = [
 "https://www.dsource.in/sites/default/files/gallery/1389/1.jpg",
 "https://images.jdmagicbox.com/quickquotes/images_main/terracotta-lamp-diyas-for-home-decoration-set-of-six-oval-2022712522-h1eegsy5.jpg",
     ]
+  },
+  //goa
+  {
+    name:"Kaavi Mural Art",
+    origin:"Goa",
+    photoUrl:[
+"https://i.pinimg.com/1200x/5c/4b/ae/5c4bae970dd6fa68db43d9b01db4c85e.jpg",
+"https://i.pinimg.com/1200x/bb/ae/0e/bbae0e285b19ecf5ab4fe192788fde39.jpg",
+"https://i.pinimg.com/1200x/c7/c0/51/c7c05104eda459e58147a1b99de376cd.jpg",
+"https://i.pinimg.com/736x/3c/e8/5c/3ce85c2a7d19cfb2c3ebe8c3c402a543.jpg"
+
+    ]
   }
+
 
 ];
 

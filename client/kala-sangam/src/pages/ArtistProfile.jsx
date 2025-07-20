@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowLeft, FaHeart, FaComment, FaEye, FaMapMarkerAlt, FaCalendarAlt, FaShare } from 'react-icons/fa';
+import { FaArrowLeft, FaHeart, FaComment, FaEye, FaMapMarkerAlt, FaCalendarAlt, FaShare, FaFlag } from 'react-icons/fa';
 import LazyImage from '../components/LazyImage';
 import useSmoothScroll from '../hooks/useSmoothScroll';
+import ReportModal from '../components/ReportModal';
 
 const ArtistProfile = () => {
   const { artistId } = useParams();
@@ -13,6 +14,7 @@ const ArtistProfile = () => {
   const [loading, setLoading] = useState(true);
   const [selectedArtwork, setSelectedArtwork] = useState(null);
   const [views, setViews] = useState(0);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   useSmoothScroll();
 
@@ -183,11 +185,22 @@ const ArtistProfile = () => {
         {/* Share button */}
         <motion.button
           onClick={handleShare}
-          className="absolute top-6 right-6 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all"
+          className="absolute top-6 right-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
           <FaShare size={18} />
+        </motion.button>
+
+        {/* Report button */}
+        <motion.button
+          onClick={() => setShowReportModal(true)}
+          className="absolute top-6 right-6 bg-red-500/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-red-500/40 transition-all"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          title="Report Artist"
+        >
+          <FaFlag size={18} />
         </motion.button>
 
         {/* Profile info overlay */}
@@ -434,6 +447,16 @@ const ArtistProfile = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Report Modal */}
+      {showReportModal && (
+        <ReportModal
+          type="artist"
+          targetId={artist.id}
+          targetName={artist.name}
+          onClose={() => setShowReportModal(false)}
+        />
+      )}
     </div>
   );
 };

@@ -296,6 +296,212 @@ const getUserStats = async (req, res) => {
   }
 };
 
+// Admin-only functions
+// Get all users for admin management
+const getAllUsers = async (req, res) => {
+  try {
+    // Check if user is admin
+    const currentUser = await User.findById(req.user.id);
+    if (currentUser.role !== 'Admin') {
+      return res.status(403).json({ message: 'Access denied. Admin role required.' });
+    }
+
+    const { page = 1, limit = 10, search = '', role = '' } = req.query;
+    const skip = (page - 1) * limit;
+
+    // Build filter query
+    let filter = {};
+    if (search) {
+      filter.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } }
+      ];
+    }
+    if (role && role !== 'all') {
+      filter.role = role;
+    }
+
+    const users = await User.find(filter)
+      .select('-password -resetPasswordToken -resetPasswordExpire -emailVerificationToken')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit));
+
+    const totalUsers = await User.countDocuments(filter);
+
+    res.status(200).json({
+      users,
+      pagination: {
+        currentPage: parseInt(page),
+        totalPages: Math.ceil(totalUsers / limit),
+        totalUsers,
+        hasMore: skip + users.length < totalUsers
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch users', error: error.message });
+  }
+};
+
+// Create new user (admin only)
+const createUser = async (req, res) => {
+  try {
+    // Check if user is admin
+    const currentUser = await User.findById(req.user.id);
+    if (currentUser.role !== 'Admin') {
+      return res.status(403).json({ message: 'Access denied. Admin role required.' });
+    }
+
+    const { name, email, password, role = 'Viewer' } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'Name, email, and password are required' });
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already in use' });
+    }
+
+    // Create new user
+    const newUser = await User.create({
+      name,
+      email,
+      password,
+      role,
+      isEmailVerified: true // Admin-created users are auto-verified
+    });
+
+    // Return user without password
+    const userResponse = await User.findById(newUser._id).select('-password');
+
+    res.status(201).json({
+      message: 'User created successfully',
+      user: userResponse
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create user', error: error.message });
+  }
+};
+
+// Update user role (admin only)
+const updateUserRole = async (req, res) => {
+  try {
+    // Check if user is admin
+    const currentUser = await User.findById(req.user.id);
+    if (currentUser.role !== 'Admin') {
+      return res.status(403).json({ message: 'Access denied. Admin role required.' });
+    }
+
+    const { userId } = req.params;
+    const { role } = req.body;
+
+    // Validate role
+    const validRoles = ['Admin', 'Artist', 'Viewer'];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ message: 'Invalid role. Must be Admin, Artist, or Viewer.' });
+    }
+
+    // Prevent admin from changing their own role
+    if (userId === req.user.id) {
+      return res.status(400).json({ message: 'Cannot change your own role' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.role = role;
+    await user.save();
+
+    const updatedUser = await User.findById(userId).select('-password');
+
+    res.status(200).json({
+      message: 'User role updated successfully',
+      user: updatedUser
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update user role', error: error.message });
+  }
+};
+
+// Delete user (admin only)
+const deleteUser = async (req, res) => {
+  try {
+    // Check if user is admin
+    const currentUser = await User.findById(req.user.id);
+    if (currentUser.role !== 'Admin') {
+      return res.status(403).json({ message: 'Access denied. Admin role required.' });
+    }
+
+    const { userId } = req.params;
+
+    // Prevent admin from deleting their own account
+    if (userId === req.user.id) {
+      return res.status(400).json({ message: 'Cannot delete your own account' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Remove user from other users' follows
+    await User.updateMany(
+      { follows: userId },
+      { $pull: { follows: userId } }
+    );
+
+    // Delete the user
+    await User.findByIdAndDelete(userId);
+
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to delete user', error: error.message });
+  }
+};
+
+// Get user statistics for admin dashboard
+const getUserStatsAdmin = async (req, res) => {
+  try {
+    // Check if user is admin
+    const currentUser = await User.findById(req.user.id);
+    if (currentUser.role !== 'Admin') {
+      return res.status(403).json({ message: 'Access denied. Admin role required.' });
+    }
+
+    const totalUsers = await User.countDocuments();
+    const adminUsers = await User.countDocuments({ role: 'Admin' });
+    const artistUsers = await User.countDocuments({ role: 'Artist' });
+    const viewerUsers = await User.countDocuments({ role: 'Viewer' });
+    const verifiedUsers = await User.countDocuments({ isEmailVerified: true });
+    const unverifiedUsers = await User.countDocuments({ isEmailVerified: false });
+
+    // Get recent users (last 7 days)
+    const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const recentUsers = await User.countDocuments({ createdAt: { $gte: oneWeekAgo } });
+
+    res.status(200).json({
+      totalUsers,
+      usersByRole: {
+        admin: adminUsers,
+        artist: artistUsers,
+        viewer: viewerUsers
+      },
+      verificationStatus: {
+        verified: verifiedUsers,
+        unverified: unverifiedUsers
+      },
+      recentUsers
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch user statistics', error: error.message });
+  }
+};
+
 module.exports = {
   getUserProfile,
   getPublicProfile,
@@ -306,5 +512,11 @@ module.exports = {
   deleteAccount,
   getUserStats,
   toggleBookmark,
-  getBookmarks
+  getBookmarks,
+  // Admin functions
+  getAllUsers,
+  createUser,
+  updateUserRole,
+  deleteUser,
+  getUserStatsAdmin
 };

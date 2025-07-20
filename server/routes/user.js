@@ -1,6 +1,6 @@
 const express = require('express');
 const { body } = require('express-validator');
-const auth = require('../middleware/auth');
+const { auth } = require('../middleware/auth');
 const {
   getUserProfile,
   getPublicProfile,
@@ -11,7 +11,13 @@ const {
   deleteAccount,
   getUserStats,
   toggleBookmark,
-  getBookmarks
+  getBookmarks,
+  // Admin functions
+  getAllUsers,
+  createUser,
+  updateUserRole,
+  deleteUser,
+  getUserStatsAdmin
 } = require('../controllers/user.controller');
 
 const router = express.Router();
@@ -53,5 +59,28 @@ router.post('/bookmark/:artworkId', auth, toggleBookmark);
 
 // Get user's bookmarks
 router.get('/bookmarks', auth, getBookmarks);
+
+// Admin routes
+// Get all users (admin only)
+router.get('/admin/all', auth, getAllUsers);
+
+// Get user statistics for admin dashboard
+router.get('/admin/stats', auth, getUserStatsAdmin);
+
+// Create new user (admin only)
+router.post('/admin/create', auth, [
+  body('name').trim().isLength({ min: 2 }).withMessage('Name must be at least 2 characters'),
+  body('email').isEmail().withMessage('Valid email is required'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  body('role').optional().isIn(['Admin', 'Artist', 'Viewer']).withMessage('Invalid role')
+], createUser);
+
+// Update user role (admin only)
+router.put('/admin/:userId/role', auth, [
+  body('role').isIn(['Admin', 'Artist', 'Viewer']).withMessage('Invalid role')
+], updateUserRole);
+
+// Delete user (admin only)
+router.delete('/admin/:userId', auth, deleteUser);
 
 module.exports = router;
