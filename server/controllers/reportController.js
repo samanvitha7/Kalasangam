@@ -101,14 +101,23 @@ const getAllReports = async (req, res) => {
       .limit(limit * 1)
       .skip((page - 1) * limit);
 
-    const totalReports = await Report.countDocuments(filter);
+    // Transform reports to match client expectations
+    const transformedReports = reports.map(report => ({
+      _id: report._id,
+      reason: report.reason,
+      status: report.status,
+      targetType: report.reportType,
+      targetArtist: report.reportedUser || null,
+      description: report.description,
+      reportedBy: {
+        name: report.reporter?.username || 'Unknown User'
+      },
+      createdAt: report.createdAt,
+      adminNotes: report.adminNotes || '',
+      reviewedAt: report.reviewedAt
+    }));
 
-    res.json({
-      reports,
-      totalPages: Math.ceil(totalReports / limit),
-      currentPage: page,
-      totalReports
-    });
+    res.json(transformedReports);
   } catch (error) {
     console.error('Error fetching reports:', error);
     res.status(500).json({ message: 'Failed to fetch reports' });
@@ -191,30 +200,34 @@ const getReportStats = async (req, res) => {
       }
     ]);
 
-    const reasonStats = await Report.aggregate([
-      {
-        $group: {
-          _id: '$reason',
-          count: { $sum: 1 }
-        }
-      },
-      { $sort: { count: -1 } }
-    ]);
+    // Transform stats to match client expectations
+    const statusMap = {
+      pending: 0,
+      approved: 0,
+      rejected: 0,
+      reviewed: 0,
+      resolved: 0,
+      dismissed: 0
+    };
 
-    const typeStats = await Report.aggregate([
-      {
-        $group: {
-          _id: '$reportType',
-          count: { $sum: 1 }
-        }
+    stats.forEach(stat => {
+      if (statusMap.hasOwnProperty(stat._id)) {
+        statusMap[stat._id] = stat.count;
       }
-    ]);
-
-    res.json({
-      statusStats: stats,
-      reasonStats,
-      typeStats
     });
+
+    // Calculate total
+    const total = Object.values(statusMap).reduce((sum, count) => sum + count, 0);
+
+    // Map 'reviewed'/'resolved' to 'approved' and 'dismissed' to 'rejected' for client
+    const clientStats = {
+      total: total,
+      pending: statusMap.pending,
+      approved: statusMap.reviewed + statusMap.resolved,
+      rejected: statusMap.dismissed
+    };
+
+    res.json(clientStats);
   } catch (error) {
     console.error('Error fetching report stats:', error);
     res.status(500).json({ message: 'Failed to fetch report statistics' });

@@ -17,7 +17,7 @@ router.get('/my-reports', auth, getUserReports);
 
 // Admin routes
 router.get('/', auth, adminOnly, getAllReports);
-router.patch('/:reportId', auth, adminOnly, updateReportStatus);
+router.put('/:reportId/status', auth, adminOnly, updateReportStatus);
 router.get('/stats', auth, adminOnly, getReportStats);
 
 module.exports = router;

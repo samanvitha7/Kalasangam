@@ -38,7 +38,10 @@ const AdminPanel = () => {
 
   const handleStatusUpdate = async (reportId, newStatus, notes = '') => {
     try {
-      await adminApi.updateReportStatus(reportId, newStatus, notes);
+      // Map frontend status to backend status
+      const backendStatus = newStatus === 'approved' ? 'resolved' : newStatus === 'rejected' ? 'dismissed' : newStatus;
+      
+      await adminApi.updateReportStatus(reportId, backendStatus, notes);
       
       setReports(reports.map(report => 
         report._id === reportId 
