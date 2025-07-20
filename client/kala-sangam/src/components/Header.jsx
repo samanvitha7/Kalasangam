@@ -74,7 +74,7 @@ export default function Header({ scrolled, onMapClick }) {
           <Link to="/home" className="no-underline">
             <img
               className={`transition-all duration-500 ${scrolled ? "h-12" : "h-16"}`}
-              src="/assets/logo.png"
+              src="/assets/logo-header.png"
               alt="Logo"
             />
           </Link>
