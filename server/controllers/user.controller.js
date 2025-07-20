@@ -502,6 +502,82 @@ const getUserStatsAdmin = async (req, res) => {
   }
 };
 
+// Get all artists with their public information
+const getArtists = async (req, res) => {
+  try {
+    const { 
+      featured, 
+      search, 
+      limit = 20, 
+      page = 1,
+      sortBy = 'createdAt',
+      sortOrder = 'desc'
+    } = req.query;
+
+    // Build filter object
+    let filter = { role: 'Artist' };
+    
+    if (featured === 'true') {
+      // For now, we'll consider recently joined artists as featured
+      // You can add a 'featured' field to User model later
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+      filter.createdAt = { $gte: oneMonthAgo };
+    }
+    
+    if (search) {
+      filter.$or = [
+        { name: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    // Build sort object
+    const sortOptions = {};
+    sortOptions[sortBy] = sortOrder === 'asc' ? 1 : -1;
+
+    const skip = (page - 1) * limit;
+
+    const artists = await User.find(filter)
+      .select('-password -email -resetPasswordToken -resetPasswordExpire -emailVerificationToken -phoneNumber')
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(parseInt(limit));
+
+    const totalArtists = await User.countDocuments(filter);
+
+    // Add computed fields
+    const artistsWithExtras = artists.map(artist => {
+      const artistObj = artist.toObject();
+      return {
+        ...artistObj,
+        isNew: artist.createdAt > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days
+        followersCount: 0, // You can populate this from follows if needed
+        artworkCount: 0, // You can populate this from Art collection if needed
+        signatureWork: artist.avatar || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop'
+      };
+    });
+
+    res.json({
+      success: true,
+      data: artistsWithExtras,
+      pagination: {
+        currentPage: parseInt(page),
+        totalPages: Math.ceil(totalArtists / limit),
+        totalArtists,
+        hasNextPage: skip + artists.length < totalArtists,
+        hasPrevPage: page > 1
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching artists:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch artists'
+    });
+  }
+};
+
 module.exports = {
   getUserProfile,
   getPublicProfile,
@@ -518,5 +594,6 @@ module.exports = {
   createUser,
   updateUserRole,
   deleteUser,
-  getUserStatsAdmin
+  getUserStatsAdmin,
+  getArtists
 };

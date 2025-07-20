@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { motion } from "framer-motion";
-import axios from "axios";
+import { api } from '../services/api';
 
 function EventsPage() {
   const [events, setEvents] = useState([]);
@@ -22,8 +22,8 @@ function EventsPage() {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/events');
-      setEvents(response.data.data || []);
+      const response = await api.getEvents({ upcoming: 'false' });
+      setEvents(response.data || []);
     } catch (error) {
       console.error('Failed to fetch events:', error);
       setEvents([]);
