@@ -76,7 +76,7 @@ const CraftCard = ({ craft, onPlay, isPlaying }) => {
 
   return (
     <motion.div
-      className="relative group bg-gradient-to-br from-amber-50 to-orange-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden shadow-xl"
+      className="relative group bg-gradient-to-br from-amber-50 to-orange-100 rounded-2xl overflow-hidden shadow-xl"
       whileHover={{ scale: 1.02, y: -5 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -120,13 +120,13 @@ const CraftCard = ({ craft, onPlay, isPlaying }) => {
       {/* Content */}
       <div className="p-6">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="text-xl font-bold text-gray-800 dark:text-white">{craft.name}</h3>
-          <span className="text-sm text-amber-600 dark:text-amber-400 font-medium">{craft.duration}</span>
+          <h3 className="text-xl font-bold text-gray-800">{craft.name}</h3>
+          <span className="text-sm text-amber-600 font-medium">{craft.duration}</span>
         </div>
         
-        <p className="text-sm text-amber-700 dark:text-amber-300 mb-2 font-medium">{craft.region}</p>
+        <p className="text-sm text-amber-700 mb-2 font-medium">{craft.region}</p>
         
-        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
+        <p className="text-gray-600 text-sm mb-4 leading-relaxed">
           {craft.description}
         </p>
 
@@ -135,13 +135,13 @@ const CraftCard = ({ craft, onPlay, isPlaying }) => {
           {craft.materials.slice(0, 3).map((material, idx) => (
             <span
               key={idx}
-              className="text-xs bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 px-2 py-1 rounded-full"
+              className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full"
             >
               {material}
             </span>
           ))}
           {craft.materials.length > 3 && (
-            <span className="text-xs text-amber-600 dark:text-amber-400">
+            <span className="text-xs text-amber-600">
               +{craft.materials.length - 3} more
             </span>
           )}
@@ -169,21 +169,21 @@ const VideoModal = ({ craft, isOpen, onClose }) => {
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.5, opacity: 0 }}
-          className="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+          className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Modal Header */}
-          <div className="p-6 border-b dark:border-gray-700">
+          <div className="p-6 border-b border-gray-200">
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">
                   {craft.name} Tutorial
                 </h2>
-                <p className="text-amber-600 dark:text-amber-400">{craft.region}</p>
+                <p className="text-amber-600">{craft.region}</p>
               </div>
               <button
                 onClick={onClose}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="text-gray-500 hover:text-gray-700"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -205,21 +205,21 @@ const VideoModal = ({ craft, isOpen, onClose }) => {
           </div>
 
           {/* Modal Footer */}
-          <div className="p-6 border-t dark:border-gray-700">
+          <div className="p-6 border-t border-gray-200">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h3 className="font-semibold text-gray-800 dark:text-white mb-2">About this Craft</h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
+                <h3 className="font-semibold text-gray-800 mb-2">About this Craft</h3>
+                <p className="text-gray-600 text-sm">
                   {craft.description}
                 </p>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Materials Needed</h3>
+                <h3 className="font-semibold text-gray-800 mb-2">Materials Needed</h3>
                 <div className="flex flex-wrap gap-2">
                   {craft.materials.map((material, idx) => (
                     <span
                       key={idx}
-                      className="text-xs bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 px-2 py-1 rounded-full"
+                      className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full"
                     >
                       {material}
                     </span>
@@ -249,7 +249,9 @@ export default function CraftsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 relative">
+      {/* Garland background on top half */}
+      <div className="absolute top-0 left-0 w-full h-1/2 bg-top bg-no-repeat bg-cover opacity-30" style={{ backgroundImage: "url('/assets/garland.png')" }}></div>
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Animated Background */}
@@ -259,7 +261,7 @@ export default function CraftsPage() {
           <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-red-400 rounded-full animate-pulse"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="relative z-10 container mx-auto px-4 py-24">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -275,7 +277,7 @@ export default function CraftsPage() {
               CRAFTS
             </motion.h1>
             <motion.p 
-              className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
+              className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.8 }}
@@ -288,17 +290,17 @@ export default function CraftsPage() {
       </section>
 
       {/* Crafts Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <section className="container mx-auto px-4 py-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">
             Master Traditional Crafts
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Each craft tells a story of heritage, skill, and artistic excellence. 
             Click on any craft to start your interactive learning journey.
           </p>
@@ -323,8 +325,8 @@ export default function CraftsPage() {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-gradient-to-r from-amber-600 to-orange-600 dark:from-amber-700 dark:to-orange-700 py-20">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-r from-amber-600 to-orange-600 py-20">
+        <div className="container mx-auto text-center px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

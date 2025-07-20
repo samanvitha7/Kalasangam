@@ -187,7 +187,7 @@ export default function About() {
           />
         </motion.div>
         
-        <div className="relative max-w-6xl mx-auto px-6 text-center">
+        <div className="relative container mx-auto px-4 text-center">
           <motion.h1 
             className="text-6xl md:text-7xl font-extrabold font-[Yatra One] mb-8 drop-shadow-lg leading-tight"
             initial={{ y: 50, opacity: 0 }}
@@ -233,7 +233,7 @@ export default function About() {
 
       {/* Our Journey Section */}
       <motion.section className="relative py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="container mx-auto px-4">
           <motion.div 
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
@@ -340,7 +340,7 @@ export default function About() {
 
       {/* Why We Built This - Enhanced */}
       <section className="relative py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="container mx-auto px-4">
           <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 border border-white/20">
             <WhyWeBuiltThis />
           </div>
@@ -348,8 +348,48 @@ export default function About() {
       </section>
 
       {/* Our Vision Section */}
-      <motion.section className="relative py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+      <motion.section className="relative py-20 px-6 overflow-hidden">
+        {/* Floating Team Images */}
+        <motion.div 
+          className="absolute -left-32 top-20 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
+          initial={{ x: -200, y: 100, rotate: -45, scale: 0.5, opacity: 0 }}
+          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
+          transition={{ duration: 1.5, delay: 0.5, ease: "easeOutBack" }}
+          viewport={{ once: true }}
+        >
+          <img src="/images/naina.jpg" alt="Naina" className="w-full h-full object-cover" />
+        </motion.div>
+        
+        <motion.div 
+          className="absolute -right-32 top-32 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
+          initial={{ x: 200, y: -50, rotate: 45, scale: 0.5, opacity: 0 }}
+          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
+          transition={{ duration: 1.5, delay: 0.7, ease: "easeOutBack" }}
+          viewport={{ once: true }}
+        >
+          <img src="/images/sam.jpg" alt="Samanvitha" className="w-full h-full object-cover" />
+        </motion.div>
+        
+        <motion.div 
+          className="absolute -left-24 bottom-32 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
+          initial={{ x: -250, y: 50, rotate: -30, scale: 0.5, opacity: 0 }}
+          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
+          transition={{ duration: 1.5, delay: 0.9, ease: "easeOutBack" }}
+          viewport={{ once: true }}
+        >
+          <img src="/images/shreya.jpg" alt="Shreya" className="w-full h-full object-cover" />
+        </motion.div>
+        
+        <motion.div 
+          className="absolute -right-24 bottom-20 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
+          initial={{ x: 250, y: -80, rotate: 30, scale: 0.5, opacity: 0 }}
+          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
+          transition={{ duration: 1.5, delay: 1.1, ease: "easeOutBack" }}
+          viewport={{ once: true }}
+        >
+          <img src="/images/Vaishalii.jpg" alt="Vaishali" className="w-full h-full object-cover" />
+        </motion.div>
+        <div className="container mx-auto px-4">
           <motion.div 
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
@@ -442,7 +482,7 @@ export default function About() {
 
       {/* Meet The Team */}
       <section className="relative py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="container mx-auto px-4">
           <div className="bg-gradient-to-br from-[#fff4e8] to-white rounded-3xl shadow-2xl p-8 md:p-12 border border-white/20">
             <MeetTheTeam />
           </div>
@@ -506,7 +546,7 @@ export default function About() {
           />
         ))}
         
-        <div className="max-w-6xl mx-auto relative z-10">
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
@@ -607,7 +647,7 @@ export default function About() {
 
       {/* Contact Us - Call to Action */}
       <section className="relative py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="container mx-auto px-4">
           <div className="bg-gradient-to-br from-[#8b4513] to-[#5c3d24] rounded-3xl shadow-2xl p-8 md:p-12 text-white text-center">
             <h2 className="text-4xl md:text-5xl font-bold font-[Yatra One] mb-6">
               Join Our Cultural Revolution

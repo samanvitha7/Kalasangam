@@ -11,22 +11,32 @@ import IndiaMapPage from "./pages/IndiaMapPage.jsx";
 import About from "./pages/About.jsx";
 import Login from "./pages/LoginPage.jsx";
 import Signup from "./pages/Signup.jsx";
+import UserPage from "./pages/UserPage.jsx";
 import ForgotPassword from "./pages/ForgotPw.jsx";
+import ResetPassword from "./pages/ResetPassword";
 import SplashScreen from "./components/SplashScreen.jsx";
 import Dance from "./pages/DanceGallery.jsx";
 import Music from "./pages/MusicPage.jsx";
 import CraftsPage from "./pages/CraftsPage.jsx";
 import EventsPage from "./pages/EventsPage.jsx";
 import ArtWall from "./pages/ArtWall.jsx";
+import ArtistsList from "./pages/ArtistsList.jsx";
+import ArtistProfile from "./pages/ArtistProfile.jsx";
  import { AuthProvider } from "./context/AuthContext.jsx";
 import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
 import FloatingSoundToggle from "./components/FloatingSoundToggle.jsx";
 
 function AppContent() {
-  const [showSplash, setShowSplash] = useState(() => !localStorage.getItem("splashShown"));
   const location = useLocation();
   const navigate = useNavigate();
   const { disableSound } = useSoundContext();
+
+  // Simple redirect root URL to home if splash was already shown
+  useEffect(() => {
+    if (location.pathname === '/' && sessionStorage.getItem("splashShown")) {
+      navigate('/home', { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   const sentinelRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
@@ -53,10 +63,6 @@ function AppContent() {
     };
   }, []);
 
-  const handleSplashContinue = (withSound) => {
-    setShowSplash(false);
-    navigate("/home", { replace: true });
-  };
 
   const handleStateClick = (stateName) => {
     navigate(`/gallery?state=${encodeURIComponent(stateName)}`);
@@ -75,24 +81,29 @@ function AppContent() {
   }, [location.pathname, disableSound]);
 
   return (
-    <div className="min-h-screen flex flex-col relative">
-      <Header scrolled={scrolled} onMapClick={handleShowMap} />
-      
-      {/* Invisible sentinel to track scroll position */}
-      <div ref={sentinelRef} className="h-[1px] w-full" />
+    <div className="app-container relative">
+      <div className="content-wrapper">
+        <Header scrolled={scrolled} onMapClick={handleShowMap} />
+        
+        {/* Invisible sentinel to track scroll position */}
+        <div ref={sentinelRef} className="h-[1px] w-full" />
 
-      {/* Start main content */}
-      <main className="flex-1">
+        {/* Start main content */}
+        <main className="page-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
           <Route path="/gallery" element={<Art />} />
           <Route path="/art-wall" element={<ArtWall />} />
+          <Route path="/artists" element={<ArtistsList />} />
+          <Route path="/artist/:artistId" element={<ArtistProfile />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<UserPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />
           <Route path="/explore/art" element={<Art />} />
           <Route path="/explore/dance" element={<Dance />} />
@@ -100,9 +111,10 @@ function AppContent() {
           <Route path="/explore/crafts" element={<CraftsPage />} />
           <Route path="/events" element={<EventsPage />} />
         </Routes>
-      </main>
+        </main>
 
-      <Footer />
+        <Footer />
+      </div>
       
       {/* Sound toggle visible only on home path */}
       {(location.pathname === "/" || location.pathname === "/home") && (
@@ -127,12 +139,15 @@ function AppContent() {
 }
 
 function App() {
-  const [showSplash, setShowSplash] = useState(() => !localStorage.getItem("splashShown"));
-  const navigate = useNavigate();
+  const [showSplash, setShowSplash] = useState(() => {
+    // Show splash screen only when visiting root URL and it hasn't been shown in this session
+    return window.location.pathname === '/' && !sessionStorage.getItem("splashShown");
+  });
 
   const handleSplashContinue = (withSound) => {
+    sessionStorage.setItem("splashShown", "true");
     setShowSplash(false);
-    navigate("/home", { replace: true });
+    // The navigation is now handled within the SplashScreen component
   };
 
   return (

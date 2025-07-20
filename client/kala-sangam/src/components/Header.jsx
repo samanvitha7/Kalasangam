@@ -1,16 +1,23 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import DarkModeToggle from "./DarkModeToggle.jsx";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
   const dropdownRef = useRef();
+  const userDropdownRef = useRef();
   const navigate = useNavigate();
+  const { user, logout, isAuthenticated } = useAuth();
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
+      }
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+        setShowUserDropdown(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -38,43 +45,49 @@ export default function Header({ scrolled, onMapClick }) {
     }
   };
 
+  const handleLogout = async () => {
+    setShowUserDropdown(false);
+    try {
+      await logout();
+      toast.success('Logged out successfully!');
+      navigate('/home');
+    } catch (error) {
+      toast.error('Error logging out');
+    }
+  };
+
   return (
     <header
       className={`
         fixed top-0 left-1/2 -translate-x-1/2 w-full z-50
-        transition-all duration-500 ease-in-out
+        transition-all duration-500 ease-in-out font-lora
         ${scrolled
-          ? "bg-slate-900/95 backdrop-blur-md rounded-full shadow-2xl px-6 border border-teal-400/20"
+          ? "bg-light-rose-pink/95 backdrop-blur-md rounded-full shadow-2xl px-6 border border-coral-red/20"
           : "bg-transparent px-6 flex justify-between items-center"}
         h-16
       `}
       style={{ width: scrolled ? "80vw" : "100vw" }}
     >
       <div className="flex items-center justify-between h-full w-full">
-        {/* Logo - Far Left */}
+{/* Logo - Far Left */}
         <div className="flex-shrink-0">
           <Link to="/home" className="no-underline">
-            <h1
-              className={`
-                yatra-font font-serif font-bold text-[#9b2226] tracking-wide cursor-pointer
-                transition-all duration-500
-                ${scrolled ? "text-3xl" : "text-4xl"}
-                leading-none
-              `}
-            >
-              KalaSangam
-            </h1>
+            <img
+              className={`transition-all duration-500 ${scrolled ? "h-12" : "h-16"}`}
+              src="/assets/logo.png"
+              alt="Logo"
+            />
           </Link>
         </div>
 
         {/* Navigation links - Center */}
-        <nav className={`flex space-x-10 font-medium text-lg transition-colors duration-500 ${
-          scrolled ? "text-slate-200" : "text-[#582f0e]"
+        <nav className={`flex space-x-10 font-bold text-xl transition-colors duration-500 ${
+          scrolled ? "text-teal-blue" : "text-teal-blue"
         }`}>
           <Link
             to="/gallery"
-            className={`hover:underline hover:italic transition-all duration-200 ${
-              scrolled ? "hover:text-teal-400" : "hover:text-rose-700"
+            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
+              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
             }`}
           >
             Art Gallery
@@ -82,17 +95,26 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/art-wall"
-            className={`hover:underline hover:italic transition-all duration-200 ${
-              scrolled ? "hover:text-teal-400" : "hover:text-rose-700"
+            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
+              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
             }`}
           >
             Art Wall
           </Link>
 
+          <Link
+            to="/artists"
+            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
+              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
+            }`}
+          >
+            Artists
+          </Link>
+
           <div className="relative" ref={dropdownRef}>
             <span
-              className={`hover:underline hover:italic font-semibold cursor-pointer transition-all duration-200 ${
-                scrolled ? "hover:text-teal-400" : "hover:text-rose-700"
+              className={`hover:underline hover:italic font-bold cursor-pointer transition-all duration-200 ${
+                scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
               }`}
               onClick={() => setShowDropdown(!showDropdown)}
             >
@@ -100,14 +122,14 @@ export default function Header({ scrolled, onMapClick }) {
             </span>
 
             {showDropdown && (
-              <ul className={`absolute top-full mt-2 shadow-2xl rounded-lg w-48 z-50 ${
+              <ul className={`absolute top-full mt-2 shadow-2xl rounded-lg w-48 z-50 font-bold ${
                 scrolled 
-                  ? "bg-slate-800 text-slate-200 border border-teal-400/20" 
-                  : "bg-white text-[#582f0e] shadow-md"
+                  ? "bg-teal-blue text-off-white border border-coral-red/20" 
+                  : "bg-mist-blush text-teal-blue shadow-md border border-teal-blue/10"
               }`}>
                 <li
                   className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
-                    scrolled ? "hover:bg-teal-600/20 hover:text-teal-400" : "hover:bg-rose-100"
+                    scrolled ? "hover:bg-coral-red/20 hover:text-golden-saffron" : "hover:bg-warm-sand hover:text-muted-fuchsia"
                   }`}
                   onClick={() => handleExplore("state")}
                 >
@@ -115,7 +137,7 @@ export default function Header({ scrolled, onMapClick }) {
                 </li>
                 <li
                   className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
-                    scrolled ? "hover:bg-teal-600/20 hover:text-teal-400" : "hover:bg-rose-100"
+                    scrolled ? "hover:bg-coral-red/20 hover:text-golden-saffron" : "hover:bg-warm-sand hover:text-muted-fuchsia"
                   }`}
                   onClick={() => handleExplore("art")}
                 >
@@ -123,7 +145,7 @@ export default function Header({ scrolled, onMapClick }) {
                 </li>
                 <li
                   className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
-                    scrolled ? "hover:bg-teal-600/20 hover:text-teal-400" : "hover:bg-rose-100"
+                    scrolled ? "hover:bg-coral-red/20 hover:text-golden-saffron" : "hover:bg-warm-sand hover:text-muted-fuchsia"
                   }`}
                   onClick={() => handleExplore("dance")}
                 >
@@ -131,7 +153,7 @@ export default function Header({ scrolled, onMapClick }) {
                 </li>
                 <li
                   className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
-                    scrolled ? "hover:bg-teal-600/20 hover:text-teal-400" : "hover:bg-rose-100"
+                    scrolled ? "hover:bg-coral-red/20 hover:text-golden-saffron" : "hover:bg-warm-sand hover:text-muted-fuchsia"
                   }`}
                   onClick={() => handleExplore("music")}
                 >
@@ -139,7 +161,7 @@ export default function Header({ scrolled, onMapClick }) {
                 </li>
                 <li
                   className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
-                    scrolled ? "hover:bg-teal-600/20 hover:text-teal-400" : "hover:bg-rose-100"
+                    scrolled ? "hover:bg-coral-red/20 hover:text-golden-saffron" : "hover:bg-warm-sand hover:text-muted-fuchsia"
                   }`}
                   onClick={() => handleExplore("crafts")}
                 >
@@ -151,8 +173,8 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/map"
-            className={`hover:underline hover:italic transition-all duration-200 ${
-              scrolled ? "hover:text-teal-400" : "hover:text-rose-700"
+            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
+              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
             }`}
             onClick={onMapClick}
           >
@@ -161,8 +183,8 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/events"
-            className={`hover:underline hover:italic transition-all duration-200 ${
-              scrolled ? "hover:text-teal-400" : "hover:text-rose-700"
+            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
+              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
             }`}
           >
             Events
@@ -170,37 +192,123 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/about"
-            className={`hover:underline hover:italic transition-all duration-200 ${
-              scrolled ? "hover:text-teal-400" : "hover:text-rose-700"
+            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
+              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
             }`}
           >
             About
           </Link>
         </nav>
 
-        {/* Dark Mode Toggle and Login/Signup buttons - Far Right */}
+        {/* User Profile or Login/Signup buttons - Far Right */}
         <div className="flex-shrink-0 flex items-center space-x-4">
-          <DarkModeToggle scrolled={scrolled} />
-          <Link
-            to="/login"
-            className={`px-5 py-2 rounded-lg font-semibold shadow-lg transition-all duration-300 ${
-              scrolled 
-                ? "bg-gradient-to-r from-blue-600 to-blue-700 text-slate-100 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl" 
-                : "bg-rose-600 text-white hover:bg-rose-700"
-            }`}
-          >
-            Login
-          </Link>
-          <Link
-            to="/signup"
-            className={`px-5 py-2 rounded-lg font-semibold shadow-lg transition-all duration-300 ${
-              scrolled 
-                ? "bg-gradient-to-r from-red-600 to-red-700 text-slate-100 hover:from-red-700 hover:to-red-800 hover:shadow-xl" 
-                : "bg-rose-600 text-white hover:bg-rose-700"
-            }`}
-          >
-            Sign Up
-          </Link>
+          {isAuthenticated ? (
+            <div className="relative" ref={userDropdownRef}>
+              <button
+                onClick={() => setShowUserDropdown(!showUserDropdown)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
+                  scrolled 
+                    ? "bg-gradient-to-r from-teal-blue to-coral-red text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
+                    : "bg-teal-blue text-off-white hover:bg-coral-red"
+                }`}
+              >
+                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                  <span className="text-sm font-bold">
+                    {user?.name?.charAt(0)?.toUpperCase() || '?'}
+                  </span>
+                </div>
+                <span>{user?.name || 'Artist'}</span>
+                <span className="text-xs">▾</span>
+              </button>
+
+              {showUserDropdown && (
+                <ul className={`absolute right-0 top-full mt-2 shadow-2xl rounded-lg w-56 z-50 font-medium ${
+                  scrolled 
+                    ? "bg-white text-teal-blue border border-coral-red/20" 
+                    : "bg-white text-teal-blue shadow-md border border-teal-blue/10"
+                }`}>
+                  <li className="px-4 py-3 border-b border-gray-100">
+                    <div className="text-sm text-gray-500">Signed in as</div>
+                    <div className="font-semibold truncate">{user?.email}</div>
+                  </li>
+                  
+                  <li>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-3 hover:bg-teal-50 hover:text-coral-red transition-colors duration-200"
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>👤</span>
+                        <span>My Profile</span>
+                      </div>
+                    </Link>
+                  </li>
+                  
+                  <li>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-3 hover:bg-teal-50 hover:text-coral-red transition-colors duration-200"
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>🎨</span>
+                        <span>My Artworks</span>
+                      </div>
+                    </Link>
+                  </li>
+                  
+                  <li>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-3 hover:bg-teal-50 hover:text-coral-red transition-colors duration-200"
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>⚙️</span>
+                        <span>Settings</span>
+                      </div>
+                    </Link>
+                  </li>
+                  
+                  <li className="border-t border-gray-100">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-colors duration-200"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>🚪</span>
+                        <span>Sign Out</span>
+                      </div>
+                    </button>
+                  </li>
+                </ul>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className={`px-5 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
+                  scrolled 
+                    ? "bg-gradient-to-r from-teal-blue to-coral-red text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
+                    : "bg-teal-blue text-off-white hover:bg-coral-red"
+                }`}
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className={`px-5 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
+                  scrolled 
+                    ? "bg-gradient-to-r from-coral-red to-muted-fuchsia text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
+                    : "bg-coral-red text-off-white hover:bg-muted-fuchsia"
+                }`}
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

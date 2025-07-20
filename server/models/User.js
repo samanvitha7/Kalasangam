@@ -44,7 +44,12 @@ const userSchema = new mongoose.Schema({
   emailVerificationToken: {
     type: String,
     default: null
-  }
+  },
+  
+  // Track likes, follows, and bookmarks
+  likes: [{ type: mongoose.Schema.Types.ObjectId }],
+  follows: [{ type: mongoose.Schema.Types.ObjectId }],
+  bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Art' }]
 }, {
   timestamps: true
 });
@@ -79,6 +84,11 @@ userSchema.methods.getResetPasswordToken = function() {
   this.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
   
   return resetToken;
+};
+
+// Generate password reset token (for compatibility)
+userSchema.methods.generatePasswordReset = function() {
+  return this.getResetPasswordToken();
 };
 
 module.exports = mongoose.model('User', userSchema);

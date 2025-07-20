@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import ArtCard from '../components/ArtCard';
 import ContributeModal from '../components/ContributeModal';
-import { FaPlus, FaFilter, FaSearch } from 'react-icons/fa';
+import { FaPlus, FaFilter, FaSearch, FaTimes, FaDownload, FaHeart, FaBookmark } from 'react-icons/fa';
 
 const ArtWall = () => {
   const { user, isAuthenticated } = useAuth();
@@ -14,6 +14,9 @@ const ArtWall = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
+  const [userBookmarks, setUserBookmarks] = useState(new Set());
+  const [fullscreenImage, setFullscreenImage] = useState(null);
+  const [showFullscreen, setShowFullscreen] = useState(false);
 
   // Sample data - replace with actual API calls
   const sampleArtworks = [
@@ -25,6 +28,7 @@ const ArtWall = () => {
       imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
       category: "Landscape",
       likes: 24,
+      bookmarks: 5,
       createdAt: "2024-01-15T10:30:00Z",
       userId: "user123"
     },
@@ -36,6 +40,7 @@ const ArtWall = () => {
       imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
       category: "Abstract",
       likes: 31,
+      bookmarks: 8,
       createdAt: "2024-01-14T14:20:00Z",
       userId: "user456"
     },
@@ -47,6 +52,7 @@ const ArtWall = () => {
       imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
       category: "Traditional",
       likes: 67,
+      bookmarks: 12,
       createdAt: "2024-01-13T09:15:00Z",
       userId: "user789"
     },
@@ -58,6 +64,7 @@ const ArtWall = () => {
       imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
       category: "Contemporary",
       likes: 18,
+      bookmarks: 3,
       createdAt: "2024-01-12T16:45:00Z",
       userId: "user321"
     },
@@ -69,6 +76,7 @@ const ArtWall = () => {
       imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
       category: "Traditional",
       likes: 45,
+      bookmarks: 9,
       createdAt: "2024-01-11T11:30:00Z",
       userId: "user654"
     },
@@ -80,6 +88,7 @@ const ArtWall = () => {
       imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
       category: "Digital",
       likes: 28,
+      bookmarks: 6,
       createdAt: "2024-01-10T13:20:00Z",
       userId: "user987"
     }
@@ -91,7 +100,31 @@ const ArtWall = () => {
       setArtworks(sampleArtworks);
       setLoading(false);
     }, 1000);
-  }, []);
+    
+    // Load user bookmarks if authenticated
+    if (isAuthenticated && user) {
+      fetchUserBookmarks();
+    }
+  }, [isAuthenticated, user]);
+
+  const fetchUserBookmarks = async () => {
+    try {
+      const response = await fetch('/api/users/bookmarks', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        const bookmarks = await response.json();
+        const bookmarkIds = new Set(bookmarks.map(bookmark => bookmark._id || bookmark.id));
+        setUserBookmarks(bookmarkIds);
+      }
+    } catch (error) {
+      console.error('Error fetching bookmarks:', error);
+    }
+  };
 
   const filteredArtworks = artworks
     .filter(artwork => 
@@ -136,6 +169,7 @@ const ArtWall = () => {
       id: artworks.length + 1,
       artist: user?.name || 'Anonymous',
       likes: 0,
+      bookmarks: 0,
       createdAt: new Date().toISOString(),
       userId: user?.id
     };
@@ -143,6 +177,120 @@ const ArtWall = () => {
     setShowModal(false);
     toast.success('Your artwork has been added to the Art Wall!');
   };
+
+  const handleBookmark = async (artworkId) => {
+    if (!isAuthenticated) {
+      toast.error('Please login to bookmark artworks', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/users/bookmark/${artworkId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Update local bookmarks state
+        setUserBookmarks(prev => {
+          const newBookmarks = new Set(prev);
+          if (data.bookmarked) {
+            newBookmarks.add(artworkId);
+            toast.success('Artwork bookmarked!', { position: 'top-center', autoClose: 2000 });
+          } else {
+            newBookmarks.delete(artworkId);
+            toast.success('Bookmark removed!', { position: 'top-center', autoClose: 2000 });
+          }
+          return newBookmarks;
+        });
+
+        // Update artwork bookmark count
+        setArtworks(prev => prev.map(art => 
+          art.id === artworkId 
+            ? { ...art, bookmarks: data.bookmarkCount }
+            : art
+        ));
+      } else {
+        throw new Error('Failed to toggle bookmark');
+      }
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+      toast.error('Failed to update bookmark. Please try again.', {
+        position: 'top-center',
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const handleImageClick = (artwork) => {
+    setFullscreenImage(artwork);
+    setShowFullscreen(true);
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  };
+
+  const closeFullscreen = () => {
+    setShowFullscreen(false);
+    setFullscreenImage(null);
+    document.body.style.overflow = 'unset'; // Restore scrolling
+  };
+
+  const handleDownloadImage = async (imageUrl, title) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${title.replace(/\s+/g, '_')}.jpg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      toast.success('Image downloaded successfully!');
+    } catch (error) {
+      console.error('Error downloading image:', error);
+      toast.error('Failed to download image. Please try again.');
+    }
+  };
+
+  // Handle ESC key and browser back button
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && showFullscreen) {
+        closeFullscreen();
+      }
+    };
+
+    const handlePopState = () => {
+      if (showFullscreen) {
+        closeFullscreen();
+      }
+    };
+
+    if (showFullscreen) {
+      document.addEventListener('keydown', handleKeyDown);
+      window.addEventListener('popstate', handlePopState);
+      // Push a state to handle back button
+      window.history.pushState({ fullscreen: true }, '');
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [showFullscreen]);
 
   const categories = ['all', 'traditional', 'contemporary', 'abstract', 'landscape', 'digital'];
 
@@ -250,11 +398,14 @@ const ArtWall = () => {
                 artwork={artwork} 
                 index={index}
                 currentUser={user}
+                isBookmarked={userBookmarks.has(artwork.id)}
                 onLike={(id) => {
                   setArtworks(prev => prev.map(art => 
                     art.id === id ? { ...art, likes: art.likes + 1 } : art
                   ));
                 }}
+                onBookmark={handleBookmark}
+                onImageClick={handleImageClick}
               />
             ))}
           </motion.div>
@@ -273,6 +424,106 @@ const ArtWall = () => {
             <p className="text-gray-500">Try adjusting your search or filter criteria</p>
           </motion.div>
         )}
+
+        {/* Fullscreen Image Modal */}
+        <AnimatePresence>
+          {showFullscreen && fullscreenImage && (
+            <motion.div
+              className="fixed inset-0 bg-black bg-opacity-95 z-50 flex items-center justify-center p-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={closeFullscreen}
+            >
+              {/* Close Button */}
+              <motion.button
+                className="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 transition-colors z-60"
+                onClick={closeFullscreen}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                <FaTimes />
+              </motion.button>
+
+              {/* Download Button */}
+              <motion.button
+                className="absolute top-4 right-16 text-white text-xl hover:text-gray-300 transition-colors z-60"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDownloadImage(fullscreenImage.imageUrl, fullscreenImage.title);
+                }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
+              >
+                <FaDownload />
+              </motion.button>
+
+              {/* Image Container */}
+              <motion.div
+                className="relative max-w-screen-lg max-h-screen-80 w-full h-full flex items-center justify-center"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Main Image */}
+                <img
+                  src={fullscreenImage.imageUrl}
+                  alt={fullscreenImage.title}
+                  className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                  style={{ maxHeight: '85vh' }}
+                />
+
+                {/* Image Info Overlay */}
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent p-6 rounded-b-lg"
+                  initial={{ y: 50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.4, duration: 0.3 }}
+                >
+                  <h3 className="text-white text-2xl font-bold mb-2">
+                    {fullscreenImage.title}
+                  </h3>
+                  <p className="text-gray-300 text-lg mb-3">
+                    by {fullscreenImage.artist}
+                  </p>
+                  <p className="text-gray-400 text-sm mb-4">
+                    {fullscreenImage.description}
+                  </p>
+                  
+                  {/* Action Buttons */}
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 text-white">
+                      <FaHeart className="text-red-500" />
+                      <span>{fullscreenImage.likes}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-white">
+                      <FaBookmark className="text-blue-500" />
+                      <span>{fullscreenImage.bookmarks}</span>
+                    </div>
+                    <span className="text-gray-400 text-sm">
+                      {fullscreenImage.category}
+                    </span>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Instructions */}
+              <motion.div
+                className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <p>Press ESC or click outside to close</p>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Contribute Modal */}
         <ContributeModal

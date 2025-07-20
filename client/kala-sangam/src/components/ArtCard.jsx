@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import LazyImage from './LazyImage';
 
-const ArtCard = ({ artwork, index, currentUser, onLike }) => {
+const ArtCard = ({ artwork, index, currentUser, onLike, onBookmark, onImageClick }) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   
   const animations = {
@@ -30,6 +33,35 @@ const ArtCard = ({ artwork, index, currentUser, onLike }) => {
     onLike(artwork.id);
   };
 
+  const handleBookmark = () => {
+    if (!currentUser) {
+      toast.error('Please login or create an account to bookmark artworks', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+    setIsBookmarked(!isBookmarked);
+    onBookmark(artwork.id);
+    
+    // Show success message
+    toast.success(
+      isBookmarked ? 'Removed from bookmarks' : 'Added to bookmarks', 
+      {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      }
+    );
+  };
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -47,22 +79,14 @@ const ArtCard = ({ artwork, index, currentUser, onLike }) => {
     >
       {/* Image Container */}
       <div className="relative overflow-hidden">
-        <motion.img 
-          src={artwork.imageUrl} 
-          alt={artwork.title} 
-          className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-          onLoad={() => setImageLoaded(true)}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: imageLoaded ? 1 : 0 }}
-          transition={{ duration: 0.5 }}
+        <LazyImage
+          src={artwork.imageUrl}
+          alt={artwork.title}
+          className="w-full h-64 group-hover:scale-110 transition-transform duration-500 cursor-pointer"
+          aspectRatio=""
+          placeholder="🎨"
+          onClick={() => onImageClick && onImageClick(artwork)}
         />
-        
-        {/* Loading placeholder */}
-        {!imageLoaded && (
-          <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-            <div className="text-gray-400 text-4xl">🎨</div>
-          </div>
-        )}
         
         {/* Category Badge */}
         <div className="absolute top-3 left-3">
@@ -71,17 +95,34 @@ const ArtCard = ({ artwork, index, currentUser, onLike }) => {
           </span>
         </div>
         
-        {/* Like Button */}
-        <motion.button
-          className={`absolute top-3 right-3 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
-            isLiked ? 'bg-red-500 text-white' : 'bg-white/80 text-red-500 hover:bg-red-50'
-          }`}
-          onClick={handleLike}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          {isLiked ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
-        </motion.button>
+        {/* Action Buttons */}
+        <div className="absolute top-3 right-3 flex space-x-2">
+          {/* Bookmark Button */}
+          <motion.button
+            className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
+              isBookmarked ? 'bg-amber-600 text-white' : 'bg-white/80 text-amber-600 hover:bg-amber-50'
+            }`}
+            onClick={handleBookmark}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            title={isBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}
+          >
+            {isBookmarked ? <FaBookmark size={16} /> : <FaRegBookmark size={16} />}
+          </motion.button>
+          
+          {/* Like Button */}
+          <motion.button
+            className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
+              isLiked ? 'bg-red-500 text-white' : 'bg-white/80 text-red-500 hover:bg-red-50'
+            }`}
+            onClick={handleLike}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            title={isLiked ? 'Unlike' : 'Like'}
+          >
+            {isLiked ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
+          </motion.button>
+        </div>
       </div>
       
       {/* Content */}
@@ -114,14 +155,27 @@ const ArtCard = ({ artwork, index, currentUser, onLike }) => {
           transition={{ delay: index * 0.1 + 0.4 }}
         >
           <div className="flex flex-col">
-            <span className="text-sm font-semibold text-amber-800">By: {artwork.artist}</span>
+            <div className="text-sm">
+              <span className="text-amber-700">By: </span>
+              <Link 
+                to={`/artist/${artwork.artist.toLowerCase().replace(' ', '-')}`}
+                className="font-semibold text-amber-800 hover:text-amber-600 hover:underline transition-colors cursor-pointer"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {artwork.artist}
+              </Link>
+            </div>
             <span className="text-xs text-gray-500">{formatDate(artwork.createdAt)}</span>
           </div>
           
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-1 text-red-500">
               <FaHeart size={14} />
               <span className="text-sm font-medium">{artwork.likes}</span>
+            </div>
+            <div className="flex items-center space-x-1 text-amber-600">
+              <FaBookmark size={14} />
+              <span className="text-sm font-medium">{artwork.bookmarks || 0}</span>
             </div>
           </div>
         </motion.div>

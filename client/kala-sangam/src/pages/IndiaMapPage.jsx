@@ -20,7 +20,7 @@ export default function IndiaMapPage({ onStateClick }) {
       <div className="absolute inset-0 z-5 bg-black/5 pointer-events-none" />
 
       {/* ────── Top Heading ────── */}
-      <div className="relative z-10 max-w-screen-lg mx-auto pt-24">
+      <div className="relative z-10 container mx-auto px-4 pt-24">
         <h2 className="text-4xl sm:text-5xl font-serif font-bold tracking-wide text-[#9b2226]">
           Explore States
         </h2>
@@ -30,7 +30,7 @@ export default function IndiaMapPage({ onStateClick }) {
       </div>
 
       {/* ────── Sun and Map on Same Row ────── */}
-      <div className="relative z-10 flex items-start justify-between max-w-screen-lg mx-auto pt-10">
+      <div className="relative z-10 flex items-start justify-between container mx-auto px-4 pt-10">
         {/* 🗺️ India Map */}
         <div className="flex-1 flex justify-start scale-110 sm:scale-125">
           <IndiaMap onStateClick={onStateClick} />
@@ -59,6 +59,9 @@ export default function IndiaMapPage({ onStateClick }) {
           <Lottie animationData={sunAnim} loop autoplay />
         </div>
       </div>
+      
+      {/* Bottom padding to continue with ocean animation */}
+      <div className="relative z-10 h-32"></div>
     </main>
   );
 }
