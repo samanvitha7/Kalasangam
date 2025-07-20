@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const createTestAdmins = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/kalasangam');
+    await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/kalasangam');
     
     // Create test admin
     const adminUser = await User.create({
