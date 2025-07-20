@@ -19,9 +19,19 @@ const AdminPanel = () => {
     try {
       const filters = filter !== 'all' ? { status: filter } : {};
       const data = await adminApi.getReports(filters);
-      setReports(data);
+      
+      // Ensure data is an array
+      if (Array.isArray(data)) {
+        setReports(data);
+      } else {
+        console.error('API returned non-array data:', data);
+        setReports([]);
+        setError('Invalid data format received from server');
+      }
     } catch (err) {
-      setError('Error fetching reports');
+      console.error('Error fetching reports:', err);
+      setError(`Error fetching reports: ${err.message || 'Unknown error'}`);
+      setReports([]);
     } finally {
       setLoading(false);
     }

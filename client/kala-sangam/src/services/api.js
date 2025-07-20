@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
 
 // Admin API functions
 export const adminApi = {
@@ -13,6 +13,9 @@ export const adminApi = {
     
     const url = `${API_URL}/api/reports${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
     
+    console.log('Fetching reports from:', url);
+    console.log('Using token:', localStorage.getItem('token') ? 'Present' : 'Missing');
+    
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -22,10 +25,14 @@ export const adminApi = {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch reports');
+      const errorData = await response.text();
+      console.error('API Error Response:', errorData);
+      throw new Error(`Failed to fetch reports: ${response.status} - ${errorData}`);
     }
 
-    return response.json();
+    const data = await response.json();
+    console.log('API Response data:', data);
+    return data;
   },
 
   // Update report status with admin notes
