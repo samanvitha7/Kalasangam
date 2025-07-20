@@ -11,6 +11,12 @@ import IndiaMapPage from "./pages/IndiaMapPage.jsx";
 import About from "./pages/About.jsx";
 import Login from "./pages/LoginPage.jsx";
 import Signup from "./pages/Signup.jsx";
+import PhoneLogin from "./pages/PhoneLogin.jsx";
+import PhoneSignup from "./pages/PhoneSignup.jsx";
+import TermsOfService from "./pages/TermsOfService.jsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
+import CommunityGuidelines from "./pages/CommunityGuidelines.jsx";
+import UserPage from "./pages/UserPage.jsx";
 import ForgotPassword from "./pages/ForgotPw.jsx";
 import ResetPassword from "./pages/ResetPassword";
 import SplashScreen from "./components/SplashScreen.jsx";
@@ -21,15 +27,25 @@ import EventsPage from "./pages/EventsPage.jsx";
 import ArtWall from "./pages/ArtWall.jsx";
 import ArtistsList from "./pages/ArtistsList.jsx";
 import ArtistProfile from "./pages/ArtistProfile.jsx";
+import AdminLogin from "./components/AdminLogin.jsx";
+import AdminPanel from "./components/AdminPanel.jsx";
+import AdminDashboard from "./components/AdminDashboard.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
  import { AuthProvider } from "./context/AuthContext.jsx";
 import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
 import FloatingSoundToggle from "./components/FloatingSoundToggle.jsx";
 
 function AppContent() {
-  const [showSplash, setShowSplash] = useState(() => !localStorage.getItem("splashShown"));
   const location = useLocation();
   const navigate = useNavigate();
   const { disableSound } = useSoundContext();
+
+  // Simple redirect root URL to home if splash was already shown
+  useEffect(() => {
+    if (location.pathname === '/' && sessionStorage.getItem("splashShown")) {
+      navigate('/home', { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   const sentinelRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
@@ -56,10 +72,6 @@ function AppContent() {
     };
   }, []);
 
-  const handleSplashContinue = (withSound) => {
-    setShowSplash(false);
-    navigate("/home", { replace: true });
-  };
 
   const handleStateClick = (stateName) => {
     navigate(`/gallery?state=${encodeURIComponent(stateName)}`);
@@ -96,8 +108,22 @@ function AppContent() {
           <Route path="/artists" element={<ArtistsList />} />
           <Route path="/artist/:artistId" element={<ArtistProfile />} />
           <Route path="/about" element={<About />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={
+            <ProtectedRoute allowedRoles={['Admin', 'Artist', 'Viewer']}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/panel" element={
+            <ProtectedRoute allowedRoles={['Admin', 'Artist']}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/phone-login" element={<PhoneLogin />} />
+          <Route path="/phone-signup" element={<PhoneSignup />} />
+          <Route path="/profile" element={<UserPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />
@@ -106,6 +132,9 @@ function AppContent() {
           <Route path="/explore/music" element={<Music />} />
           <Route path="/explore/crafts" element={<CraftsPage />} />
           <Route path="/events" element={<EventsPage />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/community-guidelines" element={<CommunityGuidelines />} />
         </Routes>
         </main>
 
@@ -135,12 +164,15 @@ function AppContent() {
 }
 
 function App() {
-  const [showSplash, setShowSplash] = useState(() => !localStorage.getItem("splashShown"));
-  const navigate = useNavigate();
+  const [showSplash, setShowSplash] = useState(() => {
+    // Show splash screen only when visiting root URL and it hasn't been shown in this session
+    return window.location.pathname === '/' && !sessionStorage.getItem("splashShown");
+  });
 
   const handleSplashContinue = (withSound) => {
+    sessionStorage.setItem("splashShown", "true");
     setShowSplash(false);
-    navigate("/home", { replace: true });
+    // The navigation is now handled within the SplashScreen component
   };
 
   return (

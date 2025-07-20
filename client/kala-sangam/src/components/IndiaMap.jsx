@@ -12,7 +12,7 @@ export default function IndiaMap() {
     y: 0,
     });
      const handleClick = (stateName) => {
-    navigate(`/art/${stateName}`);
+    navigate(`/gallery?state=${encodeURIComponent(stateName)}`);
   };
    const showTooltip = (e, name) => {
     if (["Goa", "Andaman and Nicobar", "Lakshadweep"].includes(name)) return;
@@ -20,8 +20,8 @@ export default function IndiaMap() {
     setTooltip({
       visible: true,
       name,
-      x: e.clientX - rect.left - 10,
-      y: e.clientY - rect.top - 10,
+      x: e.clientX - rect.left - 100,
+      y: e.clientY - rect.top - 100,
     });
   };
 
@@ -29,8 +29,8 @@ export default function IndiaMap() {
     const rect = svgRef.current.getBoundingClientRect();
     setTooltip((prev) => ({
       ...prev,
-      x: e.clientX - rect.left - 10,
-      y: e.clientY - rect.top - 10,
+      x: e.clientX - rect.left - 100,
+      y: e.clientY - rect.top - 100,
     }));
   };
 
@@ -44,7 +44,7 @@ export default function IndiaMap() {
   };
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
-      <div  className="relative w-full h-auto translate-x-11 translate-y+6">
+      <div  className="relative w-full h-auto translate-x-16 translate-y+6">
       <svg
          ref={svgRef}
             viewBox="0 0 1000 1000"

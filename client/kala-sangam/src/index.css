@@ -1,13 +1,34 @@
 @import './styles/footer-fix.css';
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Custom CSS Variables for the new color scheme */
+:root {
+  /* Primary Colors */
+  --teal-blue: #1E5E75;
+  --coral-red: #E85A4F;
+  --golden-saffron: #F6A100;
+  
+  /* Accent Colors */
+  --muted-fuchsia: #DA639B;
+  --indigo-purple: #6D47A2;
+  
+  /* Background Colors */
+  --warm-sand: #F8E6DA;
+  --mist-blush: #FBEDEE;
+  --saffron-mist: #FFE5B2;
+  --light-rose-pink: #FADADD;
+  
+  /* Text Colors */
+  --deep-charcoal: #2E2E2E;
+  --off-white: #FFF8F1;
+}
 
-
-.yatra-font {
-  font-family: 'Yatra One', cursive;
+.lora-font {
+  font-family: 'Lora', serif;
 }
 
 html, body, * {
@@ -44,47 +65,12 @@ body {
 
 
 body {
-  font-family: 'Yatra One', cursive;
+  font-family: 'Lora', serif;
+  background-color: var(--warm-sand);
+  color: var(--deep-charcoal);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark mode styles */
-.dark {
-  color-scheme: dark;
-}
-
-.dark body {
-  background-color: #0f172a;
-  color: #f1f5f9;
-}
-
-.dark .bg-white {
-  background-color: #1e293b !important;
-}
-
-.dark .text-black {
-  color: #f1f5f9 !important;
-}
-
-.dark .text-gray-600 {
-  color: #94a3b8 !important;
-}
-
-.dark .text-gray-800 {
-  color: #e2e8f0 !important;
-}
-
-.dark .border-gray-200 {
-  border-color: #374151 !important;
-}
-
-.dark .bg-gray-50 {
-  background-color: #374151 !important;
-}
-
-.dark .bg-gray-100 {
-  background-color: #4b5563 !important;
-}
 
 .perspective {
   perspective: 1000px;
@@ -109,7 +95,7 @@ body {
 }
 
 .glow {
-  box-shadow: 0 0 15px 4px rgba(255, 153, 0, 0.6);
+  box-shadow: 0 0 15px 4px rgba(232, 90, 79, 0.6);
   transition: box-shadow 0.3s ease-in-out;
 }
 
@@ -164,9 +150,9 @@ body {
   min-width: 44px;
   background: none;
   border: none;
-  color: #9b2226;
+  color: var(--teal-blue);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
   cursor: pointer;
   padding: 0 0.5rem;
   border-radius: 4px;
@@ -174,7 +160,7 @@ body {
 }
 
 .react-calendar-custom .react-calendar__navigation button:hover {
-  background-color: #f97316;
+  background-color: var(--coral-red);
   color: white;
 }
 
@@ -185,8 +171,8 @@ body {
 }
 
 .react-calendar-custom .react-calendar__navigation__label {
-  font-weight: 600;
-  color: #9b2226;
+  font-weight: 700;
+  color: var(--teal-blue);
   font-size: 1rem;
 }
 
@@ -216,17 +202,17 @@ body {
 }
 
 .react-calendar-custom .react-calendar__tile:hover {
-  background-color: #fed7aa;
-  color: #9b2226;
+  background-color: var(--mist-blush);
+  color: var(--teal-blue);
 }
 
 .react-calendar-custom .react-calendar__tile--active {
-  background-color: #f97316;
+  background-color: var(--coral-red);
   color: white;
 }
 
 .react-calendar-custom .react-calendar__tile--active:hover {
-  background-color: #ea580c;
+  background-color: var(--muted-fuchsia);
 }
 
 .react-calendar-custom .react-calendar__tile.has-events::after {
@@ -237,7 +223,7 @@ body {
   transform: translateX(-50%);
   width: 6px;
   height: 6px;
-  background-color: #f97316;
+  background-color: var(--coral-red);
   border-radius: 50%;
 }
 
@@ -246,12 +232,12 @@ body {
 }
 
 .react-calendar-custom .react-calendar__tile--now {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: var(--golden-saffron);
+  color: var(--deep-charcoal);
 }
 
 .react-calendar-custom .react-calendar__tile--now:hover {
-  background-color: #fde68a;
+  background-color: var(--mist-blush);
 }
 
 /* Custom range slider styling */
@@ -269,14 +255,14 @@ input[type="range"]::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #10b981;
+  background: var(--teal-blue);
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  background: #059669;
+  background: var(--muted-fuchsia);
   transform: scale(1.1);
 }
 
@@ -284,14 +270,28 @@ input[type="range"]::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #10b981;
+  background: var(--teal-blue);
   cursor: pointer;
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 input[type="range"]::-moz-range-thumb:hover {
-  background: #059669;
+  background: var(--muted-fuchsia);
   transform: scale(1.1);
+}
+
+/* Floating animation for parallax text */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
 

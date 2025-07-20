@@ -124,12 +124,56 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Register user with phone
+  const registerWithPhone = async (formData) => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+    
+    try {
+      const res = await api.post('/api/auth/register-phone', formData);
+      dispatch({
+        type: 'REGISTER_SUCCESS',
+        payload: res.data
+      });
+      setAuthToken(res.data.token);
+      return { success: true, data: res.data };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Registration failed';
+      dispatch({
+        type: 'REGISTER_FAIL',
+        payload: errorMessage
+      });
+      return { success: false, error: errorMessage };
+    }
+  };
+
   // Login user
   const login = async (formData) => {
     dispatch({ type: 'SET_LOADING', payload: true });
     
     try {
       const res = await api.post('/api/auth/login', formData);
+      dispatch({
+        type: 'LOGIN_SUCCESS',
+        payload: res.data
+      });
+      setAuthToken(res.data.token);
+      return { success: true, data: res.data };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Login failed';
+      dispatch({
+        type: 'LOGIN_FAIL',
+        payload: errorMessage
+      });
+      return { success: false, error: errorMessage };
+    }
+  };
+
+  // Login user with phone
+  const loginWithPhone = async (formData) => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+    
+    try {
+      const res = await api.post('/api/auth/login-phone', formData);
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: res.data
@@ -185,6 +229,28 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Verify email
+  const verifyEmail = async (token) => {
+    try {
+      const res = await api.get(`/api/auth/verify-email/${token}`);
+      return { success: true, message: res.data.message };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Email verification failed';
+      return { success: false, error: errorMessage };
+    }
+  };
+
+  // Resend verification email
+  const resendVerificationEmail = async (email) => {
+    try {
+      const res = await api.post('/api/auth/resend-verification', { email });
+      return { success: true, message: res.data.message };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Failed to resend verification email';
+      return { success: false, error: errorMessage };
+    }
+  };
+
   // Clear error
   const clearError = () => {
     dispatch({ type: 'CLEAR_ERROR' });
@@ -199,10 +265,14 @@ export const AuthProvider = ({ children }) => {
       value={{
         ...state,
         register,
+        registerWithPhone,
         login,
+        loginWithPhone,
         logout,
         forgotPassword,
         resetPassword,
+        verifyEmail,
+        resendVerificationEmail,
         clearError,
         loadUser
       }}

@@ -68,17 +68,17 @@ export default function ArtGallery() {
   };
 
   return (
-    <div className="">
+    <div className="bg-warm-sand min-h-screen font-lora">
       {/* Full Bleed Divider */}
-      <div className="w-full h-20 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-700/20 via-purple-700/20 to-pink-700/20"></div>
+      <div className="w-full h-20 bg-gradient-to-r from-teal-blue via-coral-red to-muted-fuchsia relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-teal-blue/20 via-coral-red/20 to-muted-fuchsia/20"></div>
         <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
           <path d="M0,0L50,10C100,20,200,40,300,45C400,50,500,40,600,35C700,30,800,30,900,35C1000,40,1100,50,1150,55L1200,60L1200,120L1150,120C1100,120,1000,120,900,120C800,120,700,120,600,120C500,120,400,120,300,120C200,120,100,120,50,120L0,120Z" 
-            fill="#2563eb" 
+            fill="#1E5E75" 
             opacity="0.8"
           />
           <path d="M0,20L50,25C100,30,200,40,300,42C400,45,500,40,600,38C700,35,800,35,900,40C1000,45,1100,55,1150,60L1200,65L1200,120L1150,120C1100,120,1000,120,900,120C800,120,700,120,600,120C500,120,400,120,300,120C200,120,100,120,50,120L0,120Z" 
-            fill="#7c3aed"
+            fill="#E85A4F"
             opacity="0.9"
           />
         </svg>
@@ -86,7 +86,7 @@ export default function ArtGallery() {
       
       <div className="container mx-auto px-4 py-6 pt-24">
         <div data-aos="fade-up" className="mb-8">
-          <h1 className="text-4xl font-bold text-center text-rose-800 mb-8">
+          <h1 className="text-5xl font-bold text-center text-teal-blue mb-8 font-lora">
             Explore Indian Art Forms
           </h1>
         </div>
@@ -97,7 +97,7 @@ export default function ArtGallery() {
 
       <div className="mb-8 flex justify-center">
         <select
-          className="border border-rose-400 rounded px-5 py-3 text-lg shadow-sm"
+          className="border border-coral-red/50 rounded px-5 py-3 text-lg shadow-sm bg-mist-blush text-deep-charcoal font-lora"
           value={selectedState}
           onChange={(e) => setSelectedState(e.target.value)}
         >
@@ -141,11 +141,11 @@ export default function ArtGallery() {
           />
 
           <button
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
-              setIsFullscreen((f) => !f);
+              setIsFullscreen(f => !f);
             }}
-            className="mt-6 px-6 py-2 bg-rose-600 text-white rounded-full shadow-lg hover:bg-rose-700 focus:outline-none focus:ring-4 focus:ring-rose-400 transition"
+            className="mt-6 px-6 py-2 bg-teal-blue text-white rounded-full shadow-lg hover:bg-coral-red focus:outline-none focus:ring-4 focus:ring-golden-saffron transition font-lora font-bold"
           >
             {isFullscreen ? "Fit to Screen" : "Full Screen"}
           </button>
@@ -155,7 +155,7 @@ export default function ArtGallery() {
       <div className="flex justify-center mt-12">
         <button
           onClick={() => navigate("/map")}
-          className="px-8 py-3 bg-rose-600 text-white font-semibold rounded-full shadow-md hover:bg-rose-700 transition"
+          className="px-8 py-3 bg-teal-blue text-white font-bold rounded-full shadow-md hover:bg-coral-red transition font-lora"
         >
           ← Back to India Map
         </button>

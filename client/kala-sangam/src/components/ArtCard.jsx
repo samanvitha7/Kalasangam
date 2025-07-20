@@ -1,13 +1,16 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark, FaFlag } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import LazyImage from './LazyImage';
+import ReportModal from './ReportModal';
 
-const ArtCard = ({ artwork, index, currentUser, onLike }) => {
+const ArtCard = ({ artwork, index, currentUser, onLike, onBookmark, onImageClick }) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   
   const animations = {
     initial: { opacity: 0, y: 20 },
@@ -32,6 +35,35 @@ const ArtCard = ({ artwork, index, currentUser, onLike }) => {
     onLike(artwork.id);
   };
 
+  const handleBookmark = () => {
+    if (!currentUser) {
+      toast.error('Please login or create an account to bookmark artworks', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+    setIsBookmarked(!isBookmarked);
+    onBookmark(artwork.id);
+    
+    // Show success message
+    toast.success(
+      isBookmarked ? 'Removed from bookmarks' : 'Added to bookmarks', 
+      {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      }
+    );
+  };
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -41,20 +73,22 @@ const ArtCard = ({ artwork, index, currentUser, onLike }) => {
   };
 
   return (
-    <motion.div 
-      className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer"
-      {...animations}
-      whileHover={{ y: -5, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-    >
+    <>
+      <motion.div 
+        className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer"
+        {...animations}
+        whileHover={{ y: -5, scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
       {/* Image Container */}
       <div className="relative overflow-hidden">
         <LazyImage
           src={artwork.imageUrl}
           alt={artwork.title}
-          className="w-full h-64 group-hover:scale-110 transition-transform duration-500"
+          className="w-full h-64 group-hover:scale-110 transition-transform duration-500 cursor-pointer"
           aspectRatio=""
           placeholder="🎨"
+          onClick={() => onImageClick && onImageClick(artwork)}
         />
         
         {/* Category Badge */}
@@ -64,17 +98,59 @@ const ArtCard = ({ artwork, index, currentUser, onLike }) => {
           </span>
         </div>
         
-        {/* Like Button */}
-        <motion.button
-          className={`absolute top-3 right-3 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
-            isLiked ? 'bg-red-500 text-white' : 'bg-white/80 text-red-500 hover:bg-red-50'
-          }`}
-          onClick={handleLike}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          {isLiked ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
-        </motion.button>
+        {/* Action Buttons */}
+        <div className="absolute top-3 right-3 flex space-x-2">
+          {/* Report Button */}
+          <motion.button
+            className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm bg-white/80 text-gray-600 hover:bg-red-50 hover:text-red-500 transition-all duration-300"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!currentUser) {
+                toast.error('Please login to report content', {
+                  position: 'top-center',
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                });
+                return;
+              }
+              setIsReportModalOpen(true);
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            title="Report artwork"
+          >
+            <FaFlag size={14} />
+          </motion.button>
+          
+          {/* Bookmark Button */}
+          <motion.button
+            className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
+              isBookmarked ? 'bg-amber-600 text-white' : 'bg-white/80 text-amber-600 hover:bg-amber-50'
+            }`}
+            onClick={handleBookmark}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            title={isBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}
+          >
+            {isBookmarked ? <FaBookmark size={16} /> : <FaRegBookmark size={16} />}
+          </motion.button>
+          
+          {/* Like Button */}
+          <motion.button
+            className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
+              isLiked ? 'bg-red-500 text-white' : 'bg-white/80 text-red-500 hover:bg-red-50'
+            }`}
+            onClick={handleLike}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            title={isLiked ? 'Unlike' : 'Like'}
+          >
+            {isLiked ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
+          </motion.button>
+        </div>
       </div>
       
       {/* Content */}
@@ -120,15 +196,29 @@ const ArtCard = ({ artwork, index, currentUser, onLike }) => {
             <span className="text-xs text-gray-500">{formatDate(artwork.createdAt)}</span>
           </div>
           
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-1 text-red-500">
               <FaHeart size={14} />
               <span className="text-sm font-medium">{artwork.likes}</span>
+            </div>
+            <div className="flex items-center space-x-1 text-amber-600">
+              <FaBookmark size={14} />
+              <span className="text-sm font-medium">{artwork.bookmarks || 0}</span>
             </div>
           </div>
         </motion.div>
       </div>
     </motion.div>
+    
+    {/* Report Modal */}
+    <ReportModal
+      isOpen={isReportModalOpen}
+      onClose={() => setIsReportModalOpen(false)}
+      reportType="artwork"
+      reportedItemId={artwork.id}
+      reportedItemTitle={artwork.title}
+    />
+    </>
   );
 };
 

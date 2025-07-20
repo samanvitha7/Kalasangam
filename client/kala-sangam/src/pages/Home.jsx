@@ -8,7 +8,7 @@ import ParallaxSection from "../components/ParallaxSection.jsx";
 export default function Home({ showMap, mapRef, onStateClick, audio }) {
 
   return (
-    <main className="relative w-full overflow-x-hidden bg-[#fffef2] text-center">
+    <main className="relative w-full overflow-x-hidden bg-gradient-to-b from-warm-sand via-mist-blush to-saffron-mist text-center font-lora">
 
       {/* Fullscreen Parallax Section */}
       <div className="w-full overflow-hidden">

@@ -348,7 +348,47 @@ export default function About() {
       </section>
 
       {/* Our Vision Section */}
-      <motion.section className="relative py-20 px-6">
+      <motion.section className="relative py-20 px-6 overflow-hidden">
+        {/* Floating Team Images */}
+        <motion.div 
+          className="absolute -left-32 top-20 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
+          initial={{ x: -200, y: 100, rotate: -45, scale: 0.5, opacity: 0 }}
+          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
+          transition={{ duration: 1.5, delay: 0.5, ease: "easeOutBack" }}
+          viewport={{ once: true }}
+        >
+          <img src="/images/naina.jpg" alt="Naina" className="w-full h-full object-cover" />
+        </motion.div>
+        
+        <motion.div 
+          className="absolute -right-32 top-32 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
+          initial={{ x: 200, y: -50, rotate: 45, scale: 0.5, opacity: 0 }}
+          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
+          transition={{ duration: 1.5, delay: 0.7, ease: "easeOutBack" }}
+          viewport={{ once: true }}
+        >
+          <img src="/images/sam.jpg" alt="Samanvitha" className="w-full h-full object-cover" />
+        </motion.div>
+        
+        <motion.div 
+          className="absolute -left-24 bottom-32 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
+          initial={{ x: -250, y: 50, rotate: -30, scale: 0.5, opacity: 0 }}
+          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
+          transition={{ duration: 1.5, delay: 0.9, ease: "easeOutBack" }}
+          viewport={{ once: true }}
+        >
+          <img src="/images/shreya.jpg" alt="Shreya" className="w-full h-full object-cover" />
+        </motion.div>
+        
+        <motion.div 
+          className="absolute -right-24 bottom-20 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
+          initial={{ x: 250, y: -80, rotate: 30, scale: 0.5, opacity: 0 }}
+          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
+          transition={{ duration: 1.5, delay: 1.1, ease: "easeOutBack" }}
+          viewport={{ once: true }}
+        >
+          <img src="/images/Vaishalii.jpg" alt="Vaishali" className="w-full h-full object-cover" />
+        </motion.div>
         <div className="container mx-auto px-4">
           <motion.div 
             className="text-center mb-16"

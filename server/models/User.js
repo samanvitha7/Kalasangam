@@ -9,9 +9,21 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
+    required: function() {
+      return !this.phoneNumber; // Email required only if no phone number
+    },
     unique: true,
+    sparse: true,
     lowercase: true,
+    trim: true
+  },
+  phoneNumber: {
+    type: String,
+    required: function() {
+      return !this.email; // Phone required only if no email
+    },
+    unique: true,
+    sparse: true,
     trim: true
   },
   password: {
@@ -44,7 +56,17 @@ const userSchema = new mongoose.Schema({
   emailVerificationToken: {
     type: String,
     default: null
-  }
+  },
+  role: {
+    type: String,
+    enum: ['Admin', 'Artist', 'Viewer'],
+    default: 'Viewer'
+  },
+  
+  // Track likes, follows, and bookmarks
+  likes: [{ type: mongoose.Schema.Types.ObjectId }],
+  follows: [{ type: mongoose.Schema.Types.ObjectId }],
+  bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Art' }]
 }, {
   timestamps: true
 });
@@ -79,6 +101,11 @@ userSchema.methods.getResetPasswordToken = function() {
   this.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
   
   return resetToken;
+};
+
+// Generate password reset token (for compatibility)
+userSchema.methods.generatePasswordReset = function() {
+  return this.getResetPasswordToken();
 };
 
 module.exports = mongoose.model('User', userSchema);

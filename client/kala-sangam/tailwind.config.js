@@ -4,9 +4,31 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        // Primary Colors
+        'teal-blue': '#1E5E75',
+        'coral-red': '#E85A4F',
+        'golden-saffron': '#F6A100',
+        // Accent Colors
+        'muted-fuchsia': '#DA639B',
+        'indigo-purple': '#6D47A2',
+        // Background Colors
+        'warm-sand': '#F8E6DA',
+        'mist-blush': '#FBEDEE',
+        'saffron-mist': '#FFE5B2',
+        'light-rose-pink': '#FADADD',
+        // Text Colors
+        'deep-charcoal': '#2E2E2E',
+        'off-white': '#FFF8F1',
+      },
+      fontFamily: {
+        'lora': ['Lora', 'serif'],
+        'tac-one': ['Tac One', 'cursive'],
+        'dm-serif-display': ['DM Serif Display', 'serif'],
+
+      },
       animation: {
         popFade: "popFade 1.2s ease-out both",
         sinkFade: "sinkFade 2s ease-out forwards",
