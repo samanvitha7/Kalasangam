@@ -522,7 +522,83 @@ const galleryData = [
     "https://i.pinimg.com/736x/c2/90/d1/c290d149a4776f847784cb78aaf2e06e.jpg",
     "https://i.pinimg.com/1200x/6e/51/68/6e51689b945926fb0397bd577a9a801c.jpg"
   ]
+},//maharashtra
+{
+  "name": "Warli Painting",
+  "origin": "Maharashtra",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/6c/26/c3/6c26c37f51136ad7782cfb3fc03e7ff0.jpg",
+    "https://i.pinimg.com/1200x/9b/9c/1a/9b9c1a6cdaf0f0cd9616fd9a1c2d6fc8.jpg",
+    "https://i.pinimg.com/736x/db/21/75/db2175c474266fe1b28d3ecc6a3dd2dc.jpg",
+    "https://i.pinimg.com/1200x/25/d4/76/25d476044a6f55eae912430723c996aa.jpg"
+  ]
 },
+{
+  "name": "Paithani Sarees",
+  "origin": "Maharashtra",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/ae/fd/42/aefd4228af97d73e59c9d2baff1cda69.jpg",
+    "https://i.pinimg.com/736x/37/22/c2/3722c287ac3eae28d9243e14d33b79ae.jpg",
+    "https://i.pinimg.com/1200x/4c/aa/2c/4caa2c33a348564baaff3081e1365099.jpg",
+    "https://i.pinimg.com/1200x/53/75/a9/5375a9978b72d1a21d474762c7727102.jpg"
+  ]
+},
+{
+  "name": "Mashru Weaving",
+  "origin": "Maharashtra",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/bb/16/6c/bb166ce5eb64952390bd5aeabe442fe3.jpg",
+    "https://i.pinimg.com/736x/74/00/1a/74001a192881fa632d1512d772261356.jpg",
+    "https://i.pinimg.com/1200x/86/6a/15/866a153a03785159e7c83fc82afbec90.jpg",
+    "https://i.pinimg.com/1200x/43/56/02/435602fb3b86fd1ff91c337616ae6b7d.jpg"
+  ]
+},
+{
+  "name": "Kolhapuri Chappals",
+  "origin": "Maharashtra",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/94/e1/aa/94e1aa918f17c60d88192b2018f48672.jpg",
+    "https://i.pinimg.com/736x/cb/10/16/cb10169675674ecf8f497e7476231013.jpg",
+    "https://i.pinimg.com/1200x/d4/5a/8d/d45a8d50b2c78a847f46fd3192b08dcc.jpg",
+    "https://i.pinimg.com/1200x/e9/59/b7/e959b7e4c5a18ed84ba998ae452b95fa.jpg"
+  ]
+},//manipur
+{
+  "name": "Kauna Grass Weaving",
+  "origin": "Manipur",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/03/2e/d7/032ed717df014c738f3d85a043289fc8.jpg",
+    "https://i.pinimg.com/736x/1e/0b/40/1e0b40956864ee6888f4483c231ac5ca.jpg",
+    "https://i.pinimg.com/1200x/76/7d/3b/767d3b8f0cd0330813a1ad9e6420b15e.jpg",
+    "https://i.pinimg.com/1200x/78/02/f9/7802f91023936a8d55437264a2e1122a.jpg"
+  ]
+},
+{
+  "name": "Dance Costumes",
+  "origin": "Manipur",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/17/ad/6c/17ad6ceea19acf87a7880425f62c4d7b.jpg",
+    "https://i.pinimg.com/736x/ee/8a/d6/ee8ad64dcf44872b9ab086468eedf797.jpg",
+    "https://i.pinimg.com/736x/5d/e4/5b/5de45b672551f3478eba19c6ac9c8a07.jpg",
+    "https://i.pinimg.com/736x/5d/e4/5b/5de45b672551f3478eba19c6ac9c8a07.jpg"
+  ]
+},
+{
+  "name": "Pung Cholom Art",
+  "origin": "Manipur",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/71/2c/86/712c8626d35df017c49db72f220b4ce5.jpg",
+    "https://i.pinimg.com/1200x/f9/08/d4/f908d4f41ef30cc9fc553c523bfdfb01.jpg",
+    "https://i.pinimg.com/1200x/a4/ad/a4/a4ada4a3ced65bcb760c903469b86005.jpg",
+    "https://i.pinimg.com/1200x/ef/4a/96/ef4a961d3e74ed33cde3c6ff11b2adad.jpg"
+  ]
+},
+
+
+
+
+
+
 
 
 
