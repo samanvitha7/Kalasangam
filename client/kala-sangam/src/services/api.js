@@ -186,6 +186,80 @@ export const adminApi = {
     }
 
     return response.json();
+  },
+
+  // Artwork management functions
+  // Get all artworks (admin only)
+  getAllArtworks: async () => {
+    const response = await fetch(`${API_URL}/api/artforms`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to fetch artworks: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Delete artwork (admin only)
+  deleteArtwork: async (artworkId) => {
+    const response = await fetch(`${API_URL}/api/artforms/${artworkId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+      throw new Error(errorData.message || 'Failed to delete artwork');
+    }
+
+    return response.json();
+  },
+
+  // Event management functions
+  // Get all events (admin only)
+  getAllEvents: async () => {
+    const response = await fetch(`${API_URL}/api/events`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to fetch events: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Delete event (admin only)
+  deleteEvent: async (eventId) => {
+    const response = await fetch(`${API_URL}/api/events/${eventId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+      throw new Error(errorData.message || 'Failed to delete event');
+    }
+
+    return response.json();
   }
 };
 

@@ -19,4 +19,21 @@ router.get("/",async(req,res)=>{
 
 })
 
+// DELETE /api/artforms/:id - Delete an artwork (admin only)
+router.delete("/:id", async(req,res)=>{
+  try{
+    const artId = req.params.id;
+    const deletedArt = await Art.findByIdAndDelete(artId);
+    
+    if (!deletedArt) {
+      return res.status(404).json({error: "Artwork not found"});
+    }
+    
+    res.json({message: "Artwork deleted successfully", data: deletedArt});
+  }
+  catch(err){
+    res.status(500).json({error: "Server error while deleting artwork"});
+  }
+})
+
 module.exports=router; //this can be imported in server.js and used again
