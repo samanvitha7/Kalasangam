@@ -11,21 +11,52 @@ function EventsPage() {
   const [filters, setFilters] = useState({
     category: 'all',
     type: 'all',
-    city: ''
+    city: '',
+    organizer: 'eventbrite' // Default to Eventbrite events instead of hardcoded ones
   });
   const [loading, setLoading] = useState(true);
 
 useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [filters.organizer]);
 
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      console.log('Fetching events...');
-      const data = await api.getEvents(); // Fetch all events by default
+      console.log('Fetching events with organizer:', filters.organizer);
+      
+      let data;
+      if (filters.organizer === 'all' || filters.organizer === '') {
+        // Fetch all events from database
+        data = await api.getEvents();
+      } else if (filters.organizer === 'eventbrite') {
+        // Fetch events from Eventbrite API
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/eventbrite/events`);
+        if (response.ok) {
+          const eventbriteData = await response.json();
+          data = { 
+            success: true, 
+            data: eventbriteData.events || [],
+            count: eventbriteData.events?.length || 0
+          };
+        } else {
+          throw new Error('Failed to fetch Eventbrite events');
+        }
+      } else {
+        // Fetch events filtered by specific organizer
+        data = await api.getEvents({ organizer: filters.organizer });
+      }
+      
       console.log('API Response:', data);
-      setEvents(Array.isArray(data) ? data : data.data || []);
+      console.log('Data type:', typeof data);
+      console.log('Is Array:', Array.isArray(data));
+      console.log('Data.data:', data?.data);
+      console.log('Events to set:', Array.isArray(data) ? data : data.data || []);
+      
+      const eventsToSet = Array.isArray(data) ? data : data.data || [];
+      console.log('Final events array:', eventsToSet);
+      console.log('Events array length:', eventsToSet.length);
+      setEvents(eventsToSet);
     } catch (error) {
       console.error('Failed to fetch events:', error);
       setEvents([]);
@@ -34,18 +65,9 @@ useEffect(() => {
     }
   };
 
-  // Modify fetch logic for organizer selection
-  const fetchEventsByOrganizer = async (organizer) => {
-    try {
-      setLoading(true);
-      const data = await api.getEvents(organizer ? { organizer } : {});
-      setEvents(Array.isArray(data) ? data : data.data || []);
-    } catch (error) {
-      console.error('Failed to fetch events with organizer:', error);
-      setEvents([]);
-    } finally {
-      setLoading(false);
-    }
+  // Handle organizer change
+  const handleOrganizerChange = (organizer) => {
+    setFilters(prev => ({ ...prev, organizer }));
   };
 
   const handleFilterChange = (filterType, value) => {
@@ -53,6 +75,8 @@ useEffect(() => {
   };
 
   const getFilteredEvents = () => {
+    console.log('getFilteredEvents - events length:', events.length);
+    console.log('getFilteredEvents - first event:', events[0]);
     let filtered = [...events];
 
     // Apply filters
@@ -68,6 +92,7 @@ useEffect(() => {
       );
     }
 
+    console.log('getFilteredEvents - filtered length:', filtered.length);
     return filtered;
   };
 
@@ -80,81 +105,110 @@ useEffect(() => {
 
   const getUpcomingEvents = () => {
     const filteredEvents = getFilteredEvents();
+    console.log('getUpcomingEvents - filtered events:', filteredEvents.length);
     const now = new Date();
-    return filteredEvents
-      .filter(event => new Date(event.date) >= now)
+    const upcoming = filteredEvents
+      .filter(event => {
+        const eventDate = new Date(event.date);
+        console.log('Comparing event date:', eventDate, 'with now:', now, 'upcoming?', eventDate >= now);
+        return eventDate >= now;
+      })
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .slice(0, 6);
+    console.log('getUpcomingEvents - final upcoming events:', upcoming.length);
+    return upcoming;
   };
 
-  const renderEventCard = (event) => (
-    <motion.div
-      key={event._id}
-      className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border border-orange-100"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xl font-bold text-[#9b2226] font-[Yatra One]">{event.title}</h3>
-        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-          event.category === 'dance' ? 'bg-pink-100 text-pink-800' :
-          event.category === 'music' ? 'bg-blue-100 text-blue-800' :
-          event.category === 'art' ? 'bg-green-100 text-green-800' :
-          event.category === 'crafts' ? 'bg-yellow-100 text-yellow-800' :
-          'bg-gray-100 text-gray-800'
-        }`}>
-          {event.category}
-        </span>
-      </div>
-      
-      <p className="text-gray-600 mb-4 line-clamp-2">{event.description}</p>
-      
-      <div className="space-y-2 text-sm">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-          <span><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</span>
+  const renderEventCard = (event) => {
+    console.log('RENDERING EVENT:', event.title, event);
+    // Normalize event data for different sources
+    const normalizedEvent = {
+      _id: event._id || event.id,
+      title: event.title || event.name?.text || 'Untitled Event',
+      description: event.description || event.description?.text || 'No description available',
+      category: event.category || 'general',
+      type: event.type || 'event',
+      date: event.date || event.start?.local || event.created,
+      time: event.time || (event.start?.local ? new Date(event.start.local).toLocaleTimeString() : 'Time TBD'),
+      location: {
+        venue: event.location?.venue || event.venue?.name || 'Venue TBD',
+        city: event.location?.city || event.venue?.address?.city || 'City TBD'
+      },
+      price: event.price || (event.ticket_availability?.minimum_ticket_price?.major_value / 100) || 0,
+      instructor: event.instructor,
+      registrationRequired: event.registrationRequired || event.status === 'live'
+    };
+    console.log('NORMALIZED EVENT:', normalizedEvent.title, normalizedEvent);
+
+    return (
+      <motion.div
+        key={normalizedEvent._id}
+        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border border-orange-100"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="flex justify-between items-start mb-4">
+          <h3 className="text-xl font-bold text-[#9b2226] font-[Yatra One]">{normalizedEvent.title}</h3>
+          <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+            normalizedEvent.category === 'dance' ? 'bg-pink-100 text-pink-800' :
+            normalizedEvent.category === 'music' ? 'bg-blue-100 text-blue-800' :
+            normalizedEvent.category === 'art' ? 'bg-green-100 text-green-800' :
+            normalizedEvent.category === 'crafts' ? 'bg-yellow-100 text-yellow-800' :
+            'bg-gray-100 text-gray-800'
+          }`}>
+            {normalizedEvent.category}
+          </span>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-          <span><strong>Time:</strong> {event.time}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-          <span><strong>Location:</strong> {event.location.venue}, {event.location.city}</span>
-        </div>
-        {event.price > 0 && (
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-            <span><strong>Price:</strong> ₹{event.price}</span>
-          </div>
-        )}
-        {event.instructor && (
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-            <span><strong>Instructor:</strong> {event.instructor}</span>
-          </div>
-        )}
-      </div>
-      
-      <div className="flex justify-between items-center mt-4">
-        <span className={`px-2 py-1 rounded text-xs font-medium ${
-          event.type === 'workshop' ? 'bg-purple-100 text-purple-800' :
-          event.type === 'event' ? 'bg-indigo-100 text-indigo-800' :
-          event.type === 'exhibition' ? 'bg-teal-100 text-teal-800' :
-          'bg-red-100 text-red-800'
-        }`}>
-          {event.type}
-        </span>
         
-        {event.registrationRequired && (
-          <button className="bg-gradient-to-r from-[#582f0e] to-[#8b4513] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform">
-            Register
-          </button>
-        )}
-      </div>
-    </motion.div>
-  );
+        <p className="text-gray-600 mb-4 line-clamp-2">{normalizedEvent.description}</p>
+        
+        <div className="space-y-2 text-sm">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+            <span><strong>Date:</strong> {new Date(normalizedEvent.date).toLocaleDateString()}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+            <span><strong>Time:</strong> {normalizedEvent.time}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+            <span><strong>Location:</strong> {normalizedEvent.location.venue}, {normalizedEvent.location.city}</span>
+          </div>
+          {normalizedEvent.price > 0 && (
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+              <span><strong>Price:</strong> ₹{normalizedEvent.price}</span>
+            </div>
+          )}
+          {normalizedEvent.instructor && (
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+              <span><strong>Instructor:</strong> {normalizedEvent.instructor}</span>
+            </div>
+          )}
+        </div>
+        
+        <div className="flex justify-between items-center mt-4">
+          <span className={`px-2 py-1 rounded text-xs font-medium ${
+            normalizedEvent.type === 'workshop' ? 'bg-purple-100 text-purple-800' :
+            normalizedEvent.type === 'event' ? 'bg-indigo-100 text-indigo-800' :
+            normalizedEvent.type === 'exhibition' ? 'bg-teal-100 text-teal-800' :
+            'bg-red-100 text-red-800'
+          }`}>
+            {normalizedEvent.type}
+          </span>
+          
+          {normalizedEvent.registrationRequired && (
+            <button className="bg-gradient-to-r from-[#582f0e] to-[#8b4513] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform">
+              Register
+            </button>
+          )}
+        </div>
+      </motion.div>
+    );
+  };
 
   const renderCalendarView = () => {
     const selectedDateEvents = getEventsForDate(selectedDate);
@@ -271,12 +325,15 @@ useEffect(() => {
 
 {/* Organizer Filter */}
           <select
-            onChange={(e) => fetchEventsByOrganizer(e.target.value)}
+            value={filters.organizer}
+            onChange={(e) => handleOrganizerChange(e.target.value)}
             className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
           >
-            <option value="">All Organizers</option>
-            <option value="organizer-xyz">Organizer XYZ</option>
-            {/* Add more options if needed */}
+            <option value="eventbrite">Eventbrite Events (Real API)</option>
+            <option value="all">All Organizers</option>
+            <option value="local">Local Database (Hardcoded)</option>
+            <option value="cultural-center">Cultural Center</option>
+            <option value="arts-academy">Arts Academy</option>
           </select>
           
           {/* Filters */}
