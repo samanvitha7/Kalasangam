@@ -373,6 +373,16 @@ const galleryData = [
     "https://i.pinimg.com/736x/80/43/a6/8043a65b4826a36cd7defcec12b5b1fb.jpg"
   ]
 },
+{
+  "name": "Miniature Painting",
+  "origin": "Himachal Pradesh",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/15/3c/86/153c8694141a7bc8db7fc41591ce121b.jpg",
+    "https://i.pinimg.com/736x/a4/b2/5d/a4b25d44e473f548c010ff73a708e758.jpg",
+    "https://i.pinimg.com/736x/7b/36/fc/7b36fcf56339eeb164429d9d4763ac93.jpg",
+    "https://i.pinimg.com/736x/9a/8c/88/9a8c886dc72217e04adf6c0da9639e70.jpg"
+  ]
+},
 
 
 
