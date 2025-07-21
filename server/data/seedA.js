@@ -383,6 +383,158 @@ const galleryData = [
     "https://i.pinimg.com/736x/9a/8c/88/9a8c886dc72217e04adf6c0da9639e70.jpg"
   ]
 },
+{
+  "name": "Kullu Shawl Weaving",
+  "origin": "Himachal Pradesh",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/01/f8/ab/01f8ab0f4b3c210b1212e193dd2efd4f.jpg",
+    "https://i.pinimg.com/1200x/63/eb/1f/63eb1f09793f606b1bd50f9ceda0c006.jpg",
+    "https://i.pinimg.com/1200x/f2/d4/0f/f2d40fc084ae1f8c911c86a92f86a70a.jpg",
+    "https://i.pinimg.com/736x/cd/b2/fb/cdb2fb7e60e94567677609e92bd6f8e9.jpg"
+  ]
+},//jharkhand
+{
+  "name": "Sohrai & Khovar Painting",
+  "origin": "Jharkhand",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/45/5e/32/455e32b0c9adc713654671b3b37fa57a.jpg",
+    "https://i.pinimg.com/736x/7e/53/b4/7e53b4af804dbf8365be28427e56e6e0.jpg",
+    "https://i.pinimg.com/736x/f3/81/52/f3815275d24a5c8c1417e6d029a194c6.jpg",
+    "https://i.pinimg.com/1200x/50/51/fc/5051fc9064dc1d27d70e660dc226659a.jpg"
+  ]
+},
+{
+  "name": "Dokra Art",
+  "origin": "Jharkhand",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/bb/df/08/bbdf08d5d8cecf433f4b8a376cd7148b.jpg",
+    "https://i.pinimg.com/736x/aa/03/02/aa0302c9c8f909f7bd7e7cfd24972a63.jpg",
+    "https://i.pinimg.com/1200x/09/26/48/0926483158c4079df18ab049e3e51950.jpg",
+    "https://i.pinimg.com/736x/09/b5/8f/09b58fe42de19efcdad3d473c5198167.jpg"
+  ]
+},
+{
+  "name": "Terracotta",
+  "origin": "Jharkhand",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/a3/ca/09/a3ca09527479dd452a6ac0e6f83883d5.jpg",
+    "https://i.pinimg.com/736x/d4/b5/56/d4b556af4d7d946896793a6c7cb78fe1.jpg",
+    "https://i.pinimg.com/736x/62/39/eb/6239ebb43c12eb4b3b31a00bb17ff1de.jpg",
+    "https://i.pinimg.com/1200x/4f/e8/c0/4fe8c00283b7a32d35d87cb9d13cc193.jpg"
+  ]
+},//karnataka
+{
+  "name": "Mysore Painting",
+  "origin": "Karnataka",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/c8/be/6e/c8be6e15b9f2244e978a78e794896fd3.jpg",
+    "https://i.pinimg.com/1200x/0b/ef/1c/0bef1cfc947a2f84375c9a0d9a27f074.jpg",
+    "https://i.pinimg.com/736x/b9/99/32/b99932086dfde03aa76627d98252716f.jpg",
+    "https://i.pinimg.com/736x/5f/52/e6/5f52e6f3807b65b1197c8c0c6ba99505.jpg"
+  ]
+},
+{
+  "name": "Kasuti Embroidery",
+  "origin": "Karnataka",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/76/b4/47/76b4475bc4ce279abcdd00ace20369dd.jpg",
+    "https://i.pinimg.com/736x/2f/59/9a/2f599a44c33eacda5c4bc2fc20f0bf0e.jpg",
+    "https://i.pinimg.com/1200x/e6/ac/6c/e6ac6c43fb813fd58452efe6bc0534c9.jpg",
+    "https://i.pinimg.com/736x/85/2f/35/852f3568c8433fafe7f2999258b4e050.jpg"
+  ]
+},
+{
+  "name": "Channapatna Toys",
+  "origin": "Karnataka",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/57/fb/d3/57fbd3b79de754fc992a23deda390f42.jpg",
+    "https://i.pinimg.com/1200x/8f/85/59/8f8559acc9731369eeaeeea499f761a5.jpg",
+    "https://i.pinimg.com/1200x/bd/cc/51/bdcc51fc2201bdf7cf10eceb10853c38.jpg",
+    "https://i.pinimg.com/1200x/36/9f/48/369f488c4f2a50e54067379e85e39acf.jpg"
+  ]
+},
+{
+  "name": "Sandalwood Carving",
+  "origin": "Karnataka",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/7e/bc/6c/7ebc6ca106959f6f940c0dff4b2269eb.jpg",
+    "https://i.pinimg.com/1200x/8e/9b/b1/8e9bb1f7a2df92158f8bcfd3bb693d11.jpg",
+    "https://i.pinimg.com/1200x/eb/27/40/eb274044717616af44ba103fdea30d38.jpg",
+    "https://i.pinimg.com/1200x/1c/95/8f/1c958fcdd27b3690045e4964f57af187.jpg"
+  ]
+},//kerala
+{
+  "name": "Kathakali Face Makeup",
+  "origin": "Kerala",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/91/ae/a1/91aea17aec9b45889774c6163e7805a3.jpg",
+    "https://i.pinimg.com/736x/c4/cb/26/c4cb2627941e09ad91e10346ade150bb.jpg",
+    "https://i.pinimg.com/736x/1c/03/93/1c0393bb444a3c800b27bd4b02067d81.jpg",
+    "https://i.pinimg.com/1200x/36/72/cf/3672cf8cc563b41af324bdb09a62fa83.jpg"
+  ]
+},
+{
+  "name": "Kerala Murals",
+  "origin": "Kerala",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/67/73/63/677363c4d80d5b49460947118e5a8533.jpg",
+    "https://i.pinimg.com/736x/71/87/9a/71879a5e39a28dedf230c51e5bf5cc2b.jpg",
+    "https://i.pinimg.com/1200x/c0/95/54/c09554f960f29ca153ad3c6d7f011229.jpg",
+    "https://i.pinimg.com/1200x/62/16/3e/62163e0533a2314427e51ec7668a9e0b.jpg"
+  ]
+},
+{
+  "name": "Nettipattam Art",
+  "origin": "Kerala",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/ca/11/d5/ca11d5c500bdb28f3be29263ba75febb.jpg",
+    "https://i.pinimg.com/736x/fc/76/ad/fc76adbe7a48edc2e7d62852ec7d9fa1.jpg",
+    "https://i.pinimg.com/1200x/a8/44/f3/a844f3928d517d5a9405832f9124f86c.jpg",
+    "https://i.pinimg.com/1200x/bb/b8/03/bbb8038a141447680439ec9086ea03a2.jpg"
+  ]
+},//madhya pradesh
+{
+  "name": "Gond Painting",
+  "origin": "Madhya Pradesh",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/a6/93/b6/a693b6a6077295da48a830d98b3f57f4.jpg",
+    "https://i.pinimg.com/736x/fb/da/e8/fbdae88e36861a8a4166f4fe2b966ad5.jpg",
+    "https://i.pinimg.com/736x/e2/64/f8/e264f86b8bf294146cbba6b979eb9c7d.jpg",
+    "https://i.pinimg.com/736x/6e/3f/38/6e3f38b5d852a163ca17aceb095a258b.jpg"
+  ]
+},
+{
+  "name": "Chanderi & Maheshwari Sarees",
+  "origin": "Madhya Pradesh",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/12/77/69/127769ae8afe1d81021214794cb5e09c.jpg",
+    "https://i.pinimg.com/1200x/77/80/dc/7780dc5065eb678bd98f1330c2198395.jpg",
+    "https://i.pinimg.com/1200x/2e/34/81/2e348153eb4f15ca753b722cafa89f10.jpg",
+    "https://i.pinimg.com/736x/5c/d7/7f/5cd77f5b6772526325af960caf6fa612.jpg"
+  ]
+},
+{
+  "name": "Zari Zardozi Work",
+  "origin": "Madhya Pradesh",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/08/be/08/08be08093b692c6c4cac07b19561c9eb.jpg",
+    "https://i.pinimg.com/1200x/15/c3/39/15c339e92066ac818c6a9a69ba9dac30.jpg",
+    "https://i.pinimg.com/736x/c2/90/d1/c290d149a4776f847784cb78aaf2e06e.jpg",
+    "https://i.pinimg.com/1200x/6e/51/68/6e51689b945926fb0397bd577a9a801c.jpg"
+  ]
+},
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
