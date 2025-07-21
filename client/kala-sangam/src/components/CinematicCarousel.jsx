@@ -1,6 +1,5 @@
 import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import "./CinematicCarousel.css";
 
 const artworks = [

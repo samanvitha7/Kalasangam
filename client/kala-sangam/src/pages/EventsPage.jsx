@@ -2,10 +2,113 @@ import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { motion } from "framer-motion";
-import { api } from '../services/api';
+
+// Hardcoded event data with links
+const HARDCODED_EVENTS = [
+  {
+    _id: "1",
+    title: "Classical Bharatanatyam Workshop",
+    description: "Learn the fundamentals of Bharatanatyam dance from expert instructors. This workshop covers basic steps, expressions, and traditional choreography.",
+    category: "dance",
+    type: "workshop",
+    date: "2024-02-15",
+    time: "10:00 AM",
+    location: {
+      venue: "Cultural Heritage Center",
+      city: "Mumbai"
+    },
+    price: 1500,
+    instructor: "Guru Priya Sharma",
+    registrationRequired: true,
+    link: "https://example.com/bharatanatyam-workshop"
+  },
+  {
+    _id: "2",
+    title: "Sitar Recital - Raag Yaman",
+    description: "Experience the mesmerizing sounds of classical Indian music with a traditional sitar performance featuring Raag Yaman.",
+    category: "music",
+    type: "performance",
+    date: "2024-02-20",
+    time: "7:00 PM",
+    location: {
+      venue: "Music Academy Auditorium",
+      city: "Delhi"
+    },
+    price: 500,
+    instructor: "Pandit Ravi Kumar",
+    registrationRequired: true,
+    link: "https://example.com/sitar-recital"
+  },
+  {
+    _id: "3",
+    title: "Madhubani Painting Exhibition",
+    description: "Explore the vibrant world of Madhubani art through this comprehensive exhibition featuring works from renowned artists.",
+    category: "art",
+    type: "exhibition",
+    date: "2024-02-25",
+    time: "11:00 AM",
+    location: {
+      venue: "National Art Gallery",
+      city: "Kolkata"
+    },
+    price: 0,
+    registrationRequired: false,
+    link: "https://example.com/madhubani-exhibition"
+  },
+  {
+    _id: "4",
+    title: "Pottery Making Workshop",
+    description: "Hands-on pottery workshop where you'll learn traditional clay molding techniques and create your own masterpiece.",
+    category: "crafts",
+    type: "workshop",
+    date: "2024-03-01",
+    time: "2:00 PM",
+    location: {
+      venue: "Artisan's Studio",
+      city: "Jaipur"
+    },
+    price: 800,
+    instructor: "Master Craftsman Ramesh",
+    registrationRequired: true,
+    link: "https://example.com/pottery-workshop"
+  },
+  {
+    _id: "5",
+    title: "Folk Dance Festival",
+    description: "Celebrate India's diverse folk traditions with performances from various states including Bhangra, Garba, and Kuchipudi.",
+    category: "dance",
+    type: "event",
+    date: "2024-03-05",
+    time: "6:00 PM",
+    location: {
+      venue: "Open Air Theatre",
+      city: "Bangalore"
+    },
+    price: 300,
+    registrationRequired: true,
+    link: "https://example.com/folk-dance-festival"
+  },
+  {
+    _id: "6",
+    title: "Traditional Jewelry Making",
+    description: "Learn the ancient art of traditional jewelry making using authentic techniques and materials.",
+    category: "crafts",
+    type: "workshop",
+    date: "2024-03-10",
+    time: "10:30 AM",
+    location: {
+      venue: "Craft Village",
+      city: "Chennai"
+    },
+    price: 2000,
+    instructor: "Artisan Meera Devi",
+    registrationRequired: true,
+    link: "https://example.com/jewelry-workshop"
+  }
+];
 
 function EventsPage() {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(HARDCODED_EVENTS);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState('calendar'); // 'calendar' or 'list'
   const [filters, setFilters] = useState({
@@ -13,24 +116,13 @@ function EventsPage() {
     type: 'all',
     city: ''
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
+  // No need for API calls, events are hardcoded
   useEffect(() => {
-    fetchEvents();
+    // Events are already set in state initialization
   }, []);
 
-  const fetchEvents = async () => {
-    try {
-      setLoading(true);
-      const response = await api.getEvents({ upcoming: 'false' });
-      setEvents(response.data || []);
-    } catch (error) {
-      console.error('Failed to fetch events:', error);
-      setEvents([]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleFilterChange = (filterType, value) => {
     setFilters(prev => ({ ...prev, [filterType]: value }));
@@ -65,80 +157,104 @@ function EventsPage() {
   const getUpcomingEvents = () => {
     const filteredEvents = getFilteredEvents();
     const now = new Date();
-    return filteredEvents
-      .filter(event => new Date(event.date) >= now)
+    const upcoming = filteredEvents
+      .filter(event => {
+        const eventDate = new Date(event.date);
+        return eventDate >= now;
+      })
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .slice(0, 6);
+    return upcoming;
   };
 
-  const renderEventCard = (event) => (
-    <motion.div
-      key={event._id}
-      className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border border-orange-100"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xl font-bold text-[#9b2226] font-[Yatra One]">{event.title}</h3>
-        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-          event.category === 'dance' ? 'bg-pink-100 text-pink-800' :
-          event.category === 'music' ? 'bg-blue-100 text-blue-800' :
-          event.category === 'art' ? 'bg-green-100 text-green-800' :
-          event.category === 'crafts' ? 'bg-yellow-100 text-yellow-800' :
-          'bg-gray-100 text-gray-800'
-        }`}>
-          {event.category}
-        </span>
-      </div>
-      
-      <p className="text-gray-600 mb-4 line-clamp-2">{event.description}</p>
-      
-      <div className="space-y-2 text-sm">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-          <span><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</span>
+  const handleRegisterClick = (link) => {
+    window.open(link, '_blank');
+  };
+
+  const renderEventCard = (event) => {
+    // Event data is already normalized since it's hardcoded
+    const normalizedEvent = event;
+
+    return (
+      <motion.div
+        key={normalizedEvent._id}
+        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border border-orange-100"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="flex justify-between items-start mb-4">
+          <h3 className="text-xl font-bold text-[#9b2226] font-[Yatra One]">{normalizedEvent.title}</h3>
+          <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+            normalizedEvent.category === 'dance' ? 'bg-pink-100 text-pink-800' :
+            normalizedEvent.category === 'music' ? 'bg-blue-100 text-blue-800' :
+            normalizedEvent.category === 'art' ? 'bg-green-100 text-green-800' :
+            normalizedEvent.category === 'crafts' ? 'bg-yellow-100 text-yellow-800' :
+            'bg-gray-100 text-gray-800'
+          }`}>
+            {normalizedEvent.category}
+          </span>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-          <span><strong>Time:</strong> {event.time}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-          <span><strong>Location:</strong> {event.location.venue}, {event.location.city}</span>
-        </div>
-        {event.price > 0 && (
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-            <span><strong>Price:</strong> ₹{event.price}</span>
-          </div>
-        )}
-        {event.instructor && (
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
-            <span><strong>Instructor:</strong> {event.instructor}</span>
-          </div>
-        )}
-      </div>
-      
-      <div className="flex justify-between items-center mt-4">
-        <span className={`px-2 py-1 rounded text-xs font-medium ${
-          event.type === 'workshop' ? 'bg-purple-100 text-purple-800' :
-          event.type === 'event' ? 'bg-indigo-100 text-indigo-800' :
-          event.type === 'exhibition' ? 'bg-teal-100 text-teal-800' :
-          'bg-red-100 text-red-800'
-        }`}>
-          {event.type}
-        </span>
         
-        {event.registrationRequired && (
-          <button className="bg-gradient-to-r from-[#582f0e] to-[#8b4513] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform">
-            Register
-          </button>
-        )}
-      </div>
-    </motion.div>
-  );
+        <p className="text-gray-600 mb-4 line-clamp-2">{normalizedEvent.description}</p>
+        
+        <div className="space-y-2 text-sm">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+            <span><strong>Date:</strong> {new Date(normalizedEvent.date).toLocaleDateString()}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+            <span><strong>Time:</strong> {normalizedEvent.time}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+            <span><strong>Location:</strong> {normalizedEvent.location.venue}, {normalizedEvent.location.city}</span>
+          </div>
+          {normalizedEvent.price > 0 && (
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+              <span><strong>Price:</strong> ₹{normalizedEvent.price}</span>
+            </div>
+          )}
+          {normalizedEvent.instructor && (
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+              <span><strong>Instructor:</strong> {normalizedEvent.instructor}</span>
+            </div>
+          )}
+        </div>
+        
+        <div className="flex justify-between items-center mt-4">
+          <span className={`px-2 py-1 rounded text-xs font-medium ${
+            normalizedEvent.type === 'workshop' ? 'bg-purple-100 text-purple-800' :
+            normalizedEvent.type === 'event' ? 'bg-indigo-100 text-indigo-800' :
+            normalizedEvent.type === 'exhibition' ? 'bg-teal-100 text-teal-800' :
+            'bg-red-100 text-red-800'
+          }`}>
+            {normalizedEvent.type}
+          </span>
+          
+          {normalizedEvent.registrationRequired && (
+            <button 
+              onClick={() => handleRegisterClick(normalizedEvent.link)}
+              className="bg-gradient-to-r from-[#582f0e] to-[#8b4513] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform"
+            >
+              Register
+            </button>
+          )}
+          {!normalizedEvent.registrationRequired && normalizedEvent.link && (
+            <button 
+              onClick={() => handleRegisterClick(normalizedEvent.link)}
+              className="bg-gradient-to-r from-[#582f0e] to-[#8b4513] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform"
+            >
+              Learn More
+            </button>
+          )}
+        </div>
+      </motion.div>
+    );
+  };
 
   const renderCalendarView = () => {
     const selectedDateEvents = getEventsForDate(selectedDate);
@@ -187,21 +303,11 @@ function EventsPage() {
     
     return (
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {upcomingEvents.map(renderEventCard)}
+{upcomingEvents && upcomingEvents.map(renderEventCard)}
       </div>
     );
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading events...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 pt-24 pb-8">
@@ -253,6 +359,7 @@ function EventsPage() {
             </button>
           </div>
 
+          
           {/* Filters */}
           <div className="flex flex-wrap gap-4">
             <select

@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path=require("path");
-
+const eventbriteRoutes= require("./routes/eventbrite.js");
 require("dotenv").config();
 
 const app = express();
@@ -66,6 +66,8 @@ app.use(express.json());
 app.use("/images",express.static(path.join(__dirname,'public')));
 require("dotenv").config();
 
+app.use('/api/eventbrite',eventbriteRoutes);
+
 //routes
 const artRoutes=require("./routes/artRoutes");
 const authRoutes=require("./routes/auth");
@@ -73,12 +75,14 @@ const userRoutes=require("./routes/user");
 const contactRoutes=require("./routes/contactRoutes");
 const eventRoutes=require("./routes/eventRoutes");
 const reportRoutes=require("./routes/reports");
+const artformRoutes = require("./routes/artforms");
 app.use("/api/artforms",artRoutes);
 app.use("/api/auth",authRoutes);
 app.use("/api/users",userRoutes);
 app.use("/api/contact",contactRoutes);
 app.use("/api/events",eventRoutes);
 app.use("/api/reports",reportRoutes);
+app.use("/api/artforms", artformRoutes);
 
 const DanceForm = require("./models/DanceForm");
 

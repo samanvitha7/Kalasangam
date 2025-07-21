@@ -8,7 +8,7 @@ export default {
     extend: {
       colors: {
         // Primary Colors
-        'teal-blue': '#1E5E75',
+        'teal-blue': '#134856',
         'coral-red': '#E85A4F',
         'golden-saffron': '#F6A100',
         // Accent Colors
@@ -29,6 +29,9 @@ export default {
         'dm-serif-display': ['DM Serif Display', 'serif'],
 
       },
+      dropShadow: {
+          glow: '0 0 8px #facc15', // glowing yellow
+        },
       animation: {
         popFade: "popFade 1.2s ease-out both",
         sinkFade: "sinkFade 2s ease-out forwards",

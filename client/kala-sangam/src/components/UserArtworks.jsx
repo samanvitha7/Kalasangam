@@ -14,28 +14,9 @@ export default function UserArtworks({ userId }) {
 
   const loadArtworks = async () => {
     try {
-      // For now, we'll use placeholder data since artworks functionality needs to be implemented
-      // In a real implementation, you'd fetch from /api/artworks/user/:userId
-      setArtworks([
-        {
-          id: 1,
-          title: "Traditional Dance",
-          image: "/api/placeholder/300/200",
-          category: "Dance",
-          likes: 24,
-          status: "published",
-          createdAt: new Date()
-        },
-        {
-          id: 2,
-          title: "Folk Music",
-          image: "/api/placeholder/300/200",
-          category: "Music",
-          likes: 18,
-          status: "published", 
-          createdAt: new Date()
-        }
-      ]);
+      const res=await api.get(`/api/artworks/user/${userId}`);
+      setArtworks(res.data.artworks);
+    
     } catch (error) {
       toast.error('Failed to load artworks');
     } finally {
@@ -43,6 +24,19 @@ export default function UserArtworks({ userId }) {
     }
   };
 
+  const handleDelete=async (artworkId)=>{
+    const confirmed=window.confirm("Are you sure you want to delete this artwork?");
+    if(!confirmed) return;
+
+    try{
+      await api.delete(`/api/artworks/${artworkId}`);
+      setArtworks(prev=>prev.filter(a=>a.id !==artworkId));
+      toast.success("Artwork deleted succeefully");
+    }catch(error){
+      toast.error("Failed to delete artwork");
+    }
+  };
+  
   const filteredArtworks = artworks.filter(artwork => {
     if (filter === 'all') return true;
     return artwork.status === filter;

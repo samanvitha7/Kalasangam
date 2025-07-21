@@ -73,7 +73,9 @@ export default function Header({ scrolled, onMapClick }) {
         <div className="flex-shrink-0">
           <Link to="/home" className="no-underline">
             <img
-              className={`transition-all duration-500 ${scrolled ? "h-12" : "h-16"}`}
+              className={`transition-all duration-500 transform ${
+                            scrolled ? "h-12 scale-125" : "h-24 scale-150"
+                          }`}
               src="/assets/logo-header.png"
               alt="Logo"
             />

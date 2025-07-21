@@ -1,13 +1,10 @@
-import { useRef, useState, useEffect } from "react";
-import HeroSection from "../components/HeroSection.jsx";
-import FloatingVisuals from "../components/FloatingVisuals.jsx";
 import StorytellingScroll from "../components/StorytellingScroll.jsx";
 import CinematicCarousel from "../components/CinematicCarousel.jsx";
 import IndiaMap from "../components/IndiaMap.jsx";
 import ParallaxSection from "../components/ParallaxSection.jsx";
 import PulsingEventsCalendar from "../components/PulsingEventsCalendar.jsx";
 import LivingArtistMosaic from "../components/LivingArtistMosaic.jsx";
-export default function Home({ showMap, mapRef, onStateClick, audio }) {
+export default function Home({ showMap, mapRef, onStateClick }) {
 
   return (
     <main className="relative w-full overflow-x-hidden bg-gradient-to-b from-warm-sand via-mist-blush to-saffron-mist text-center font-lora">
