@@ -75,12 +75,14 @@ const userRoutes=require("./routes/user");
 const contactRoutes=require("./routes/contactRoutes");
 const eventRoutes=require("./routes/eventRoutes");
 const reportRoutes=require("./routes/reports");
+const artformRoutes = require("./routes/artforms");
 app.use("/api/artforms",artRoutes);
 app.use("/api/auth",authRoutes);
 app.use("/api/users",userRoutes);
 app.use("/api/contact",contactRoutes);
 app.use("/api/events",eventRoutes);
 app.use("/api/reports",reportRoutes);
+app.use("/api/artforms", artformRoutes);
 
 const DanceForm = require("./models/DanceForm");
 
