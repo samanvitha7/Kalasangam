@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path=require("path");
-
+const eventbriteRoutes= require("./routes/eventbrite.js");
 require("dotenv").config();
 
 const app = express();
@@ -65,6 +65,8 @@ app.use(express.json());
 //serve atatic image files from /public
 app.use("/images",express.static(path.join(__dirname,'public')));
 require("dotenv").config();
+
+app.use('/api/eventbrite',eventbriteRoutes);
 
 //routes
 const artRoutes=require("./routes/artRoutes");
