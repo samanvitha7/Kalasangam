@@ -145,4 +145,31 @@ router.post('/', [
   }
 });
 
+// DELETE /api/events/:id - Delete event (for admin use)
+router.delete('/:id', async (req, res) => {
+  try {
+    const event = await Event.findByIdAndDelete(req.params.id);
+    
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Event deleted successfully',
+      data: event
+    });
+
+  } catch (error) {
+    console.error('Error deleting event:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete event'
+    });
+  }
+});
+
 module.exports = router;

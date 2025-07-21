@@ -20,6 +20,13 @@ const AdminDashboard = () => {
     role: 'all'
   });
   const [pagination, setPagination] = useState({});
+  
+  // Content management state
+  const [contentView, setContentView] = useState(''); // 'artworks' or 'events'
+  const [artworks, setArtworks] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [contentLoading, setContentLoading] = useState(false);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -90,12 +97,80 @@ const AdminDashboard = () => {
     }
   };
 
+  // Content management functions
+  const fetchArtworks = async () => {
+    try {
+      setContentLoading(true);
+      setError('');
+      const data = await adminApi.getAllArtworks();
+      setArtworks(data);
+    } catch (err) {
+      console.error('Error fetching artworks:', err);
+      setError(`Error fetching artworks: ${err.message}`);
+      setArtworks([]);
+    } finally {
+      setContentLoading(false);
+    }
+  };
+
+  const fetchEvents = async () => {
+    try {
+      setContentLoading(true);
+      setError('');
+      const data = await adminApi.getAllEvents();
+      setEvents(data);
+    } catch (err) {
+      console.error('Error fetching events:', err);
+      setError(`Error fetching events: ${err.message}`);
+      setEvents([]);
+    } finally {
+      setContentLoading(false);
+    }
+  };
+
+  const handleDeleteArtwork = async (artworkId) => {
+    if (!window.confirm('Are you sure you want to delete this artwork?')) {
+      return;
+    }
+    
+    try {
+      setError('');
+      await adminApi.deleteArtwork(artworkId);
+      fetchArtworks(); // Refresh artwork list
+    } catch (err) {
+      setError(`Error deleting artwork: ${err.message}`);
+    }
+  };
+
+  const handleDeleteEvent = async (eventId) => {
+    if (!window.confirm('Are you sure you want to delete this event?')) {
+      return;
+    }
+    
+    try {
+      setError('');
+      await adminApi.deleteEvent(eventId);
+      fetchEvents(); // Refresh event list
+    } catch (err) {
+      setError(`Error deleting event: ${err.message}`);
+    }
+  };
+
   // Load users when the users tab is active
   useEffect(() => {
     if (activeTab === 'users' && currentUser?.role === 'Admin') {
       fetchUsers();
     }
   }, [activeTab, userFilters, currentUser]);
+
+  // Load content when content view changes
+  useEffect(() => {
+    if (contentView === 'artworks') {
+      fetchArtworks();
+    } else if (contentView === 'events') {
+      fetchEvents();
+    }
+  }, [contentView]);
 
   if (!currentUser) {
     return <div className="loading">Loading...</div>;
@@ -317,34 +392,164 @@ const AdminDashboard = () => {
     );
   };
 
-  const renderContentManagement = () => (
-    <div className="content-management">
-      <h2>Content Management</h2>
-      {currentUser.role === 'Admin' ? (
-        <div>
-          <p>Admin can manage all content</p>
-          <div className="content-actions">
-            <button className="btn btn-primary">Manage Artworks</button>
-            <button className="btn btn-secondary">Manage Events</button>
-            <button className="btn btn-success">Approve Submissions</button>
-          </div>
-        </div>
-      ) : currentUser.role === 'Artist' ? (
-        <div>
-          <p>Artist can manage their own content</p>
-          <div className="content-actions">
-            <button className="btn btn-primary">My Artworks</button>
-            <button className="btn btn-secondary">Upload New Art</button>
-            <button className="btn btn-info">View Submissions</button>
-          </div>
-        </div>
-      ) : (
+  const renderContentManagement = () => {
+    if (currentUser.role !== 'Admin') {
+      return (
         <div className="access-limited">
-          <p>Viewers cannot manage content.</p>
+          <p>Only admins can manage content.</p>
         </div>
-      )}
-    </div>
-  );
+      );
+    }
+
+    if (!contentView) {
+      return (
+        <div className="content-management">
+          <h2>Content Management</h2>
+          <p>Select what you'd like to manage:</p>
+          <div className="content-actions">
+            <button 
+              className="btn btn-primary"
+              onClick={() => setContentView('artworks')}
+            >
+              Manage Artworks
+            </button>
+            <button 
+              className="btn btn-secondary"
+              onClick={() => setContentView('events')}
+            >
+              Manage Events
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (contentView === 'artworks') {
+      return (
+        <div className="content-management">
+          <div className="content-header">
+            <h2>Manage Artworks</h2>
+            <button 
+              className="btn btn-secondary"
+              onClick={() => setContentView('')}
+            >
+              Back to Content Management
+            </button>
+          </div>
+          
+          {error && <div className="error-message">{error}</div>}
+          
+          {contentLoading ? (
+            <div className="loading">Loading artworks...</div>
+          ) : (
+            <div className="content-list">
+              <p className="content-count">
+                Total Artworks: {artworks.length}
+              </p>
+              
+              {artworks.length === 0 ? (
+                <div className="no-content">
+                  <p>No artworks found.</p>
+                </div>
+              ) : (
+                <div className="artworks-grid">
+                  {artworks.map(artwork => (
+                    <div key={artwork._id} className="artwork-card">
+                      {artwork.imageUrl && (
+                        <img 
+                          src={artwork.imageUrl} 
+                          alt={artwork.title}
+                          className="artwork-image"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                      )}
+                      <div className="artwork-info">
+                        <h4>{artwork.title}</h4>
+                        <p><strong>Artist:</strong> {artwork.artist?.name || 'Unknown'}</p>
+                        <p><strong>Category:</strong> {artwork.category}</p>
+                        <p><strong>Medium:</strong> {artwork.medium}</p>
+                        <p><strong>Price:</strong> ${artwork.price || 'N/A'}</p>
+                        <p><strong>Uploaded:</strong> {new Date(artwork.createdAt).toLocaleDateString()}</p>
+                        <div className="artwork-actions">
+                          <button 
+                            className="btn btn-danger btn-sm"
+                            onClick={() => handleDeleteArtwork(artwork._id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (contentView === 'events') {
+      return (
+        <div className="content-management">
+          <div className="content-header">
+            <h2>Manage Events</h2>
+            <button 
+              className="btn btn-secondary"
+              onClick={() => setContentView('')}
+            >
+              Back to Content Management
+            </button>
+          </div>
+          
+          {error && <div className="error-message">{error}</div>}
+          
+          {contentLoading ? (
+            <div className="loading">Loading events...</div>
+          ) : (
+            <div className="content-list">
+              <p className="content-count">
+                Total Events: {events.length}
+              </p>
+              
+              {events.length === 0 ? (
+                <div className="no-content">
+                  <p>No events found.</p>
+                </div>
+              ) : (
+                <div className="events-list">
+                  {events.map(event => (
+                    <div key={event._id} className="event-card">
+                      <div className="event-info">
+                        <h4>{event.title}</h4>
+                        <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
+                        <p><strong>Location:</strong> {event.location}</p>
+                        <p><strong>Price:</strong> {event.price ? `$${event.price}` : 'Free'}</p>
+                        <p><strong>Description:</strong> {event.description}</p>
+                        <p><strong>Created:</strong> {new Date(event.createdAt).toLocaleDateString()}</p>
+                        <div className="event-actions">
+                          <button 
+                            className="btn btn-danger btn-sm"
+                            onClick={() => handleDeleteEvent(event._id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    return null;
+  };
 
   const getAvailableTabs = () => {
     const baseTabs = [
