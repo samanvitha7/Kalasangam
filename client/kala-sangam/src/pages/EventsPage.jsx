@@ -2,81 +2,133 @@ import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { motion } from "framer-motion";
-import { api } from '../services/api';
+
+// Hardcoded event data with links
+const HARDCODED_EVENTS = [
+  {
+    _id: "1",
+    title: "Classical Bharatanatyam Workshop",
+    description: "Learn the fundamentals of Bharatanatyam dance from expert instructors. This workshop covers basic steps, expressions, and traditional choreography.",
+    category: "dance",
+    type: "workshop",
+    date: "2024-02-15",
+    time: "10:00 AM",
+    location: {
+      venue: "Cultural Heritage Center",
+      city: "Mumbai"
+    },
+    price: 1500,
+    instructor: "Guru Priya Sharma",
+    registrationRequired: true,
+    link: "https://example.com/bharatanatyam-workshop"
+  },
+  {
+    _id: "2",
+    title: "Sitar Recital - Raag Yaman",
+    description: "Experience the mesmerizing sounds of classical Indian music with a traditional sitar performance featuring Raag Yaman.",
+    category: "music",
+    type: "performance",
+    date: "2024-02-20",
+    time: "7:00 PM",
+    location: {
+      venue: "Music Academy Auditorium",
+      city: "Delhi"
+    },
+    price: 500,
+    instructor: "Pandit Ravi Kumar",
+    registrationRequired: true,
+    link: "https://example.com/sitar-recital"
+  },
+  {
+    _id: "3",
+    title: "Madhubani Painting Exhibition",
+    description: "Explore the vibrant world of Madhubani art through this comprehensive exhibition featuring works from renowned artists.",
+    category: "art",
+    type: "exhibition",
+    date: "2024-02-25",
+    time: "11:00 AM",
+    location: {
+      venue: "National Art Gallery",
+      city: "Kolkata"
+    },
+    price: 0,
+    registrationRequired: false,
+    link: "https://example.com/madhubani-exhibition"
+  },
+  {
+    _id: "4",
+    title: "Pottery Making Workshop",
+    description: "Hands-on pottery workshop where you'll learn traditional clay molding techniques and create your own masterpiece.",
+    category: "crafts",
+    type: "workshop",
+    date: "2024-03-01",
+    time: "2:00 PM",
+    location: {
+      venue: "Artisan's Studio",
+      city: "Jaipur"
+    },
+    price: 800,
+    instructor: "Master Craftsman Ramesh",
+    registrationRequired: true,
+    link: "https://example.com/pottery-workshop"
+  },
+  {
+    _id: "5",
+    title: "Folk Dance Festival",
+    description: "Celebrate India's diverse folk traditions with performances from various states including Bhangra, Garba, and Kuchipudi.",
+    category: "dance",
+    type: "event",
+    date: "2024-03-05",
+    time: "6:00 PM",
+    location: {
+      venue: "Open Air Theatre",
+      city: "Bangalore"
+    },
+    price: 300,
+    registrationRequired: true,
+    link: "https://example.com/folk-dance-festival"
+  },
+  {
+    _id: "6",
+    title: "Traditional Jewelry Making",
+    description: "Learn the ancient art of traditional jewelry making using authentic techniques and materials.",
+    category: "crafts",
+    type: "workshop",
+    date: "2024-03-10",
+    time: "10:30 AM",
+    location: {
+      venue: "Craft Village",
+      city: "Chennai"
+    },
+    price: 2000,
+    instructor: "Artisan Meera Devi",
+    registrationRequired: true,
+    link: "https://example.com/jewelry-workshop"
+  }
+];
 
 function EventsPage() {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(HARDCODED_EVENTS);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState('calendar'); // 'calendar' or 'list'
   const [filters, setFilters] = useState({
     category: 'all',
     type: 'all',
-    city: '',
-    organizer: 'eventbrite' // Default to Eventbrite events instead of hardcoded ones
+    city: ''
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-useEffect(() => {
-    fetchEvents();
-  }, [filters.organizer]);
+  // No need for API calls, events are hardcoded
+  useEffect(() => {
+    // Events are already set in state initialization
+  }, []);
 
-  const fetchEvents = async () => {
-    try {
-      setLoading(true);
-      console.log('Fetching events with organizer:', filters.organizer);
-      
-      let data;
-      if (filters.organizer === 'all' || filters.organizer === '') {
-        // Fetch all events from database
-        data = await api.getEvents();
-      } else if (filters.organizer === 'eventbrite') {
-        // Fetch events from Eventbrite API
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/eventbrite/events`);
-        if (response.ok) {
-          const eventbriteData = await response.json();
-          data = { 
-            success: true, 
-            data: eventbriteData.events || [],
-            count: eventbriteData.events?.length || 0
-          };
-        } else {
-          throw new Error('Failed to fetch Eventbrite events');
-        }
-      } else {
-        // Fetch events filtered by specific organizer
-        data = await api.getEvents({ organizer: filters.organizer });
-      }
-      
-      console.log('API Response:', data);
-      console.log('Data type:', typeof data);
-      console.log('Is Array:', Array.isArray(data));
-      console.log('Data.data:', data?.data);
-      console.log('Events to set:', Array.isArray(data) ? data : data.data || []);
-      
-      const eventsToSet = Array.isArray(data) ? data : data.data || [];
-      console.log('Final events array:', eventsToSet);
-      console.log('Events array length:', eventsToSet.length);
-      setEvents(eventsToSet);
-    } catch (error) {
-      console.error('Failed to fetch events:', error);
-      setEvents([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Handle organizer change
-  const handleOrganizerChange = (organizer) => {
-    setFilters(prev => ({ ...prev, organizer }));
-  };
 
   const handleFilterChange = (filterType, value) => {
     setFilters(prev => ({ ...prev, [filterType]: value }));
   };
 
   const getFilteredEvents = () => {
-    console.log('getFilteredEvents - events length:', events.length);
-    console.log('getFilteredEvents - first event:', events[0]);
     let filtered = [...events];
 
     // Apply filters
@@ -92,7 +144,6 @@ useEffect(() => {
       );
     }
 
-    console.log('getFilteredEvents - filtered length:', filtered.length);
     return filtered;
   };
 
@@ -105,40 +156,24 @@ useEffect(() => {
 
   const getUpcomingEvents = () => {
     const filteredEvents = getFilteredEvents();
-    console.log('getUpcomingEvents - filtered events:', filteredEvents.length);
     const now = new Date();
     const upcoming = filteredEvents
       .filter(event => {
         const eventDate = new Date(event.date);
-        console.log('Comparing event date:', eventDate, 'with now:', now, 'upcoming?', eventDate >= now);
         return eventDate >= now;
       })
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .slice(0, 6);
-    console.log('getUpcomingEvents - final upcoming events:', upcoming.length);
     return upcoming;
   };
 
+  const handleRegisterClick = (link) => {
+    window.open(link, '_blank');
+  };
+
   const renderEventCard = (event) => {
-    console.log('RENDERING EVENT:', event.title, event);
-    // Normalize event data for different sources
-    const normalizedEvent = {
-      _id: event._id || event.id,
-      title: event.title || event.name?.text || 'Untitled Event',
-      description: event.description || event.description?.text || 'No description available',
-      category: event.category || 'general',
-      type: event.type || 'event',
-      date: event.date || event.start?.local || event.created,
-      time: event.time || (event.start?.local ? new Date(event.start.local).toLocaleTimeString() : 'Time TBD'),
-      location: {
-        venue: event.location?.venue || event.venue?.name || 'Venue TBD',
-        city: event.location?.city || event.venue?.address?.city || 'City TBD'
-      },
-      price: event.price || (event.ticket_availability?.minimum_ticket_price?.major_value / 100) || 0,
-      instructor: event.instructor,
-      registrationRequired: event.registrationRequired || event.status === 'live'
-    };
-    console.log('NORMALIZED EVENT:', normalizedEvent.title, normalizedEvent);
+    // Event data is already normalized since it's hardcoded
+    const normalizedEvent = event;
 
     return (
       <motion.div
@@ -201,8 +236,19 @@ useEffect(() => {
           </span>
           
           {normalizedEvent.registrationRequired && (
-            <button className="bg-gradient-to-r from-[#582f0e] to-[#8b4513] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform">
+            <button 
+              onClick={() => handleRegisterClick(normalizedEvent.link)}
+              className="bg-gradient-to-r from-[#582f0e] to-[#8b4513] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform"
+            >
               Register
+            </button>
+          )}
+          {!normalizedEvent.registrationRequired && normalizedEvent.link && (
+            <button 
+              onClick={() => handleRegisterClick(normalizedEvent.link)}
+              className="bg-gradient-to-r from-[#582f0e] to-[#8b4513] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform"
+            >
+              Learn More
             </button>
           )}
         </div>
@@ -262,16 +308,6 @@ useEffect(() => {
     );
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading events...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 pt-24 pb-8">
@@ -323,18 +359,6 @@ useEffect(() => {
             </button>
           </div>
 
-{/* Organizer Filter */}
-          <select
-            value={filters.organizer}
-            onChange={(e) => handleOrganizerChange(e.target.value)}
-            className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
-          >
-            <option value="eventbrite">Eventbrite Events (Real API)</option>
-            <option value="all">All Organizers</option>
-            <option value="local">Local Database (Hardcoded)</option>
-            <option value="cultural-center">Cultural Center</option>
-            <option value="arts-academy">Arts Academy</option>
-          </select>
           
           {/* Filters */}
           <div className="flex flex-wrap gap-4">

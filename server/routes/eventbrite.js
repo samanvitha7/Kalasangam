@@ -8,48 +8,33 @@ const router=express.Router();
 const EB_API='https://www.eventbriteapi.com/v3';
 
 //get organization id route
-router.get('/organization',async(req,res)=>{
-  try{
-    const response=await axios.get(`${EB_API}/users/me/organizations/`,{
-      headers:{
-        Authorization:`Bearer ${process.env.EVENTBRITE_TOKEN}`
-      }
-    });
-
-    const organizations=response.data.organizations;
-    if(organizations.lenght===0){
-      return res.status(404).json({error:'No organization found'});
-    }
-
-    res.json({organization_id:organizations[0].id});
-  }
-  catch(error){
-    console.error(error?.response?.data||error.message);
-    res.status(500).json({error:"Failed to fetch organization"});
-  }
+// Removed organization fetching route
+router.get('/organization', (req, res) => {
+  res.status(200).json({ organization_id: 'mockOrganizationId' });
 });
 
 //Get Events for the first organization
-router.get('/events',async(req,res)=>{
-  try{
-    const orgRes=await axios.get(`${EB_API}/users/me/organizations/`, {
-      headers:{
-        Authorization:`Bearer ${process.env.EVENTBRITE_TOKEN}`
-      }
-    });
-
-    const organizationId = orgRes.data.organizations[0].id;
-    const eventsRes = await axios.get(`${EB_API}/organizations/${organizationId}/events/`, {
-      headers: {
-        Authorization: `Bearer ${process.env.EVENTBRITE_TOKEN}`
-      }
-    });
-    res.json(eventsRes.data);
-  }
-  catch(error){
-    console.error(error?.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to fetch events' });
-  }
+// Updated events route to provide hardcoded data
+router.get('/events', (req, res) => {
+  const mockEvents = [
+    {
+      id: '1',
+      name: 'Traditional Arts Exhibition',
+      description: 'Discover traditional arts from around the world.',
+      date: '2023-11-01',
+      location: 'Art Center, City',
+      link: 'http://example.com/event1'
+    },
+    {
+      id: '2',
+      name: 'Cultural Dance Show',
+      description: 'Experience vibrant cultural dances.',
+      date: '2023-12-15',
+      location: 'Community Hall, Town',
+      link: 'http://example.com/event2'
+    }
+  ];
+  res.status(200).json({ events: mockEvents });
 });
 
 module.exports= router;
