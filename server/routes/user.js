@@ -17,7 +17,8 @@ const {
   createUser,
   updateUserRole,
   deleteUser,
-  getUserStatsAdmin
+  getUserStatsAdmin,
+  getArtists
 } = require('../controllers/user.controller');
 
 const router = express.Router();
@@ -82,5 +83,8 @@ router.put('/admin/:userId/role', auth, [
 
 // Delete user (admin only)
 router.delete('/admin/:userId', auth, deleteUser);
+
+// Get all artists (public route)
+router.get('/artists', getArtists);
 
 module.exports = router;

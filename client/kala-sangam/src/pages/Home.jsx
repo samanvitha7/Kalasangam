@@ -5,6 +5,8 @@ import StorytellingScroll from "../components/StorytellingScroll.jsx";
 import CinematicCarousel from "../components/CinematicCarousel.jsx";
 import IndiaMap from "../components/IndiaMap.jsx";
 import ParallaxSection from "../components/ParallaxSection.jsx";
+import PulsingEventsCalendar from "../components/PulsingEventsCalendar.jsx";
+import LivingArtistMosaic from "../components/LivingArtistMosaic.jsx";
 export default function Home({ showMap, mapRef, onStateClick, audio }) {
 
   return (
@@ -17,6 +19,12 @@ export default function Home({ showMap, mapRef, onStateClick, audio }) {
 
       <CinematicCarousel />
       <StorytellingScroll />
+      
+      {/* Cultural Events Calendar Section */}
+      <PulsingEventsCalendar />
+      
+      {/* Living Artist Mosaic Section */}
+      <LivingArtistMosaic />
 
       {showMap && (
         <div
