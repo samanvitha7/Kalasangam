@@ -268,6 +268,7 @@ export const api = {
     if (filters.city) queryParams.append('city', filters.city);
     if (filters.state) queryParams.append('state', filters.state);
     if (filters.upcoming) queryParams.append('upcoming', filters.upcoming);
+    if (filters.organizer) queryParams.append('organizer', filters.organizer);
 
     const url = `${API_URL}/api/events${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
 

@@ -15,17 +15,33 @@ function EventsPage() {
   });
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+useEffect(() => {
     fetchEvents();
   }, []);
 
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const response = await api.getEvents({ upcoming: 'false' });
-      setEvents(response.data || []);
+      console.log('Fetching events...');
+      const data = await api.getEvents(); // Fetch all events by default
+      console.log('API Response:', data);
+      setEvents(Array.isArray(data) ? data : data.data || []);
     } catch (error) {
       console.error('Failed to fetch events:', error);
+      setEvents([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Modify fetch logic for organizer selection
+  const fetchEventsByOrganizer = async (organizer) => {
+    try {
+      setLoading(true);
+      const data = await api.getEvents(organizer ? { organizer } : {});
+      setEvents(Array.isArray(data) ? data : data.data || []);
+    } catch (error) {
+      console.error('Failed to fetch events with organizer:', error);
       setEvents([]);
     } finally {
       setLoading(false);
@@ -187,7 +203,7 @@ function EventsPage() {
     
     return (
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {upcomingEvents.map(renderEventCard)}
+{upcomingEvents && upcomingEvents.map(renderEventCard)}
       </div>
     );
   };
@@ -253,6 +269,16 @@ function EventsPage() {
             </button>
           </div>
 
+{/* Organizer Filter */}
+          <select
+            onChange={(e) => fetchEventsByOrganizer(e.target.value)}
+            className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
+          >
+            <option value="">All Organizers</option>
+            <option value="organizer-xyz">Organizer XYZ</option>
+            {/* Add more options if needed */}
+          </select>
+          
           {/* Filters */}
           <div className="flex flex-wrap gap-4">
             <select
