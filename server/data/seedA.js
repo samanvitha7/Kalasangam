@@ -270,7 +270,128 @@ const galleryData = [
 "https://i.pinimg.com/736x/3c/e8/5c/3ce85c2a7d19cfb2c3ebe8c3c402a543.jpg"
 
     ]
-  }
+  },
+  {
+    name:"Ajulezoe Tiles",
+    origin:"Goa",
+    photoUrl:
+    [
+      
+"https://i.pinimg.com/1200x/dd/2e/d5/dd2ed5d11d712aad07c86ca56ebff467.jpg",
+"https://i.pinimg.com/736x/3a/34/fe/3a34fe335c6f317b52be9463de8639d2.jpg",
+"https://i.pinimg.com/1200x/aa/02/6a/aa026a0933b88c757297a231b3693963.jpg",
+"https://i.pinimg.com/1200x/d6/75/41/d6754132792a1a3b4fc7fb757e395128.jpg "
+    ]
+  },
+  {
+  "name": "Sea Shell Crafts",
+  "origin": "Goa",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/b3/9f/f2/b39ff2e14cfc7005560101ca66875bde.jpg",
+    "https://i.pinimg.com/736x/ff/2c/17/ff2c174aac37bfe847f93176361a4b0d.jpg",
+    "https://i.pinimg.com/736x/0a/ac/05/0aac05abbf8f54848e7d8bd0b248d4b0.jpg",
+    "https://i.pinimg.com/1200x/9e/db/54/9edb54ff56e7aa2bbe795780bd449009.jpg"
+  ]
+},//gujarat
+{
+  "name": "Patola Weaving",
+  "origin": "Gujarat",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/1f/d5/5a/1fd55a0fa5d26a0d5d22b5110fb28b44.jpg",
+    "https://i.pinimg.com/1200x/df/f6/7c/dff67c46fc36eec4125f81937f7e0246.jpg",
+    "https://i.pinimg.com/736x/7d/d5/9b/7dd59b43a877df1ce5a1f158d8e6591d.jpg",
+    "https://i.pinimg.com/736x/66/e8/66/66e866cf2b9150994ee0270c020a1a02.jpg"
+  ]
+},
+{
+  "name": "Bandhani",
+  "origin": "Gujarat",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/c9/58/dd/c958dd1552d3e22bf23c8226d46087cb.jpg",
+    "https://i.pinimg.com/736x/44/8f/47/448f47bf02c072f4bdffb743c87d47e0.jpg",
+    "https://i.pinimg.com/736x/8c/c7/ef/8cc7efd20ea4c00deeab02a3866c5fea.jpg",
+    "https://i.pinimg.com/1200x/ab/69/46/ab6946a78ae6bbe36b3cabb21f2ed594.jpg"
+  ]
+},
+{
+  "name": "Rogan Art",
+  "origin": "Gujarat",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/79/93/a8/7993a8b9d9388edd4bd2eaa204a77c11.jpg",
+    "https://i.pinimg.com/1200x/37/f0/43/37f043032b9d8aff4a68d9b3425d8679.jpg",
+    "https://i.pinimg.com/474x/e6/4f/c6/e64fc6e6d86234bfdbe5ec3a26cc2aa4.jpg",
+    "https://i.pinimg.com/736x/4d/cc/53/4dcc5333770a6f5599dda7eb07317994.jpg"
+  ]
+},
+{
+  "name": "Kutchi Embroidery",
+  "origin": "Gujarat",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/f8/21/ce/f821ce267d02c998dcd81d0fbc96328b.jpg",
+    "https://i.pinimg.com/1200x/91/74/e0/9174e0b3d7baa9aa0fcbe2ce502681a5.jpg",
+    "https://i.pinimg.com/1200x/12/b8/45/12b8456a2187d58ec68b1e392a47045f.jpg",
+    "https://i.pinimg.com/1200x/12/68/d4/1268d4a20d69c8166ddc9d9113037144.jpg"
+  ]
+},//haryana
+{
+  "name": "Phulkari Embroidery",
+  "origin": "Haryana",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/8f/b3/84/8fb3841ef8347def71e06569db6280f5.jpg",
+    "https://i.pinimg.com/736x/d2/0c/2b/d20c2bf0a272298055f28d4e23c83327.jpg",
+    "https://i.pinimg.com/736x/02/4f/9a/024f9ae37f6dcf2f0af43e9ffd98e1c8.jpg",
+    "https://i.pinimg.com/736x/9c/1b/c8/9c1bc8dc011b1c22ecefb73505170671.jpg"
+  ]
+},
+{
+  "name": "Clay Pottery",
+  "origin": "Haryana",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/ee/7c/52/ee7c52f031f7cb7545afc41fcaded03a.jpg",
+    "https://i.pinimg.com/736x/ec/3a/16/ec3a16fe566c39bfe8ebce1c57173d5d.jpg",
+    "https://i.pinimg.com/736x/42/e4/b9/42e4b93be5a56b66ccb54ed7ada94bca.jpg",
+    "https://i.pinimg.com/736x/75/c6/00/75c600f67089b0d9cb3188728c98b25d.jpg"
+  ]
+},
+{
+  "name": "Folk Puppetry",
+  "origin": "Haryana",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/cd/fe/f3/cdfef39692454067b0747d2d5832954e.jpg",
+    "https://i.pinimg.com/736x/a4/fe/21/a4fe2193cdc2b9d98b83a7b9f6615c95.jpg",
+    "https://i.pinimg.com/1200x/4d/67/46/4d67460533d43e82c0ab9f2b06f98752.jpg",
+    "https://i.pinimg.com/736x/b9/25/24/b925247dea14c6b0893d8df9cca227d0.jpg"
+  ]
+},//Himachal Pradesh
+{
+  "name": "Chamba Rumal",
+  "origin": "Himachal Pradesh",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/5d/3e/6e/5d3e6ec7ff86b7a868361b9239f7a022.jpg",
+    "https://i.pinimg.com/736x/dc/b2/b0/dcb2b05689af689ee6a5cafe2f85ad85.jpg",
+    "https://i.pinimg.com/736x/95/9d/4c/959d4c9d59ed22339dc3fbea93ef0e41.jpg",
+    "https://i.pinimg.com/736x/80/43/a6/8043a65b4826a36cd7defcec12b5b1fb.jpg"
+  ]
+},
+{
+  "name": "Miniature Painting",
+  "origin": "Himachal Pradesh",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/15/3c/86/153c8694141a7bc8db7fc41591ce121b.jpg",
+    "https://i.pinimg.com/736x/a4/b2/5d/a4b25d44e473f548c010ff73a708e758.jpg",
+    "https://i.pinimg.com/736x/7b/36/fc/7b36fcf56339eeb164429d9d4763ac93.jpg",
+    "https://i.pinimg.com/736x/9a/8c/88/9a8c886dc72217e04adf6c0da9639e70.jpg"
+  ]
+},
+
+
+
+
+
+
+
+
+
 
 
 ];

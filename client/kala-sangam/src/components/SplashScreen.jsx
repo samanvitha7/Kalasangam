@@ -57,12 +57,12 @@ const Particle = ({ color, delay, duration }) => {
 
 
 export function LoadingScreen({ onFinish }) {
-  const colors = ['#1E5E75', '#E85A4F', '#F6A100', '#DA639B', '#6D47A2']; // Color scheme
-  
+  const colors = ['#1E5E75', '#E85A4F', '#F6A100', '#DA639B', '#6D47A2'];
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       onFinish();
-    }, 6000); // 6 seconds total - logo stays large for longer
+    }, 3500); // Extended for full scale-in effect
 
     return () => {
       clearTimeout(timeout);
@@ -70,16 +70,23 @@ export function LoadingScreen({ onFinish }) {
   }, [onFinish]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden" 
-         style={{
-           backgroundImage: 'url(/assets/logoremoved.png)',
-           backgroundSize: 'cover',
-           backgroundPosition: 'center',
-           backgroundRepeat: 'no-repeat',
-           backgroundColor: '#edd5c0' // Light creamy white background
-         }}>
-      
-      {/* Many particles to fill the screen */}
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
+      style={{
+        backgroundImage: `
+          linear-gradient(to bottom, 
+            rgba(247, 252, 223, 0.45), 
+            rgba(250, 192, 152, 0.45), 
+            rgba(217, 90, 112, 0.45), 
+            rgba(19, 72, 86, 0.45)),
+          url(/assets/logoremoved.png)
+        `,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat"
+      }}
+    >
+      {/* Particle Overlay */}
       <div className="absolute inset-0 z-[2] pointer-events-none">
         {Array.from({ length: 120 }, (_, i) => (
           <Particle
@@ -91,16 +98,14 @@ export function LoadingScreen({ onFinish }) {
         ))}
       </div>
 
-
-      
-      {/* Center logo with glow effect and floating animation */}
+      {/* Center logo with enhanced animation */}
       <motion.div
-        className="relative flex items-center justify-center"
+        className="relative flex items-center justify-center z-10"
         initial={{ scale: 0.5, opacity: 0 }}
-        animate={{ 
-          scale: [0.5, 1.4, 1.4, 1.4],
+        animate={{
+          scale: [0.5, 1.2, 1.8, 2.2], // final size bigger
           opacity: [0, 1, 1, 1],
-          y: [0, 0, -8, 8] // Gentle floating effect during the hold phase
+          y: [0, 0, -8, 8]
         }}
         transition={{
           duration: 6,
@@ -108,17 +113,15 @@ export function LoadingScreen({ onFinish }) {
           ease: "easeOut"
         }}
       >
-        
-        {/* Logo with gentle floating animation */}
         <motion.img
-          src="/assets/logo.png"
+          src="/assets/logo-splash.png"
           alt="Logo"
-          className="relative z-10 max-w-md max-h-md object-contain"
+          className="relative max-w-[80vw] max-h-[80vh] object-contain"
           animate={{
-            y: [0, -4, 4] // Subtle floating motion
+            y: [0, -5, 5] // smooth floating
           }}
           transition={{
-            duration: 3,
+            duration: 2.5,
             repeat: Infinity,
             ease: "easeInOut"
           }}
@@ -127,6 +130,7 @@ export function LoadingScreen({ onFinish }) {
     </div>
   );
 }
+
 
 export function SoundPrompt({ onContinue }) {
   const [hidden, setHidden] = useState(false);
@@ -152,12 +156,19 @@ export function SoundPrompt({ onContinue }) {
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
       style={{
-        backgroundImage: 'url(/assets/logoremoved.png)',
+        backgroundImage: `
+          linear-gradient(to bottom, 
+            rgba(247, 252, 223, 0.4), 
+            rgba(250, 192, 152, 0.4), 
+            rgba(217, 90, 112, 0.4), 
+            rgba(19, 72, 86, 0.4)),
+          url(/assets/logoremoved.png)
+        `,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundColor: '#edd5c0' // off-white/creamy background
       }}
+
     >
       <div className="text-center px-4 max-w-xl">
         <motion.div

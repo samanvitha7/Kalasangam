@@ -1,44 +1,75 @@
-// src/pages/Signup.jsx
+// src/pages/PhoneSignup.jsx
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { isEmailValid, isPasswordStrong } from "../utils/validators";
+import { isPhoneNumberValid, isPasswordStrong } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
 
-export default function Signup() {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+export default function PhoneSignup() {
+  const [form, setForm] = useState({ name: "", phoneNumber: "", password: "" });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({
     name: "",
-    email: "",
+    phoneNumber: "",
     password: "",
     terms: "",
     privacy: ""
   });
-  const [touchedFields, setTouchedFields] = useState({});
+  const [hasBlurred, setHasBlurred] = useState({
+    name: false,
+    phoneNumber: false,
+    password: false
+  });
   const navigate = useNavigate();
-  const { register, isAuthenticated, loading, clearError } = useAuth();
-
+  const { registerWithPhone, isAuthenticated, loading, clearError } = useAuth();
 
   useEffect(() => {
     clearError();
   }, []);
 
-  const validateField = (name, value) => {
-    switch (name) {
+  const validateField = (fieldName, value, realTime = false) => {
+    let errorMessage = "";
+    
+    switch (fieldName) {
       case 'name':
-        return value.trim() === '' ? 'Name is required' : '';
-      case 'email':
-        if (value.trim() === '') return 'Email is required';
-        return !isEmailValid(value) ? 'Please enter a valid email address' : '';
+        if (!realTime && !value.trim()) {
+          errorMessage = "Full name is required";
+        } else if (value.trim() && value.trim().length < 2) {
+          errorMessage = "Name must be at least 2 characters long";
+        }
+        break;
+      case 'phoneNumber':
+        if (!realTime && !value.trim()) {
+          errorMessage = "Phone number is required";
+        } else if (value.trim() && !isPhoneNumberValid(value)) {
+          errorMessage = "Please enter a valid phone number with country code";
+        }
+        break;
       case 'password':
-        if (value.trim() === '') return 'Password is required';
-        return !isPasswordStrong(value) ? 'Password must be at least 6 characters' : '';
+        if (!realTime && !value.trim()) {
+          errorMessage = "Password is required";
+        } else if (value.trim() && !isPasswordStrong(value)) {
+          errorMessage = "Password must be at least 6 characters long";
+        }
+        break;
+      case 'terms':
+        if (!value) {
+          errorMessage = "You must agree to the Terms of Service";
+        }
+        break;
+      case 'privacy':
+        if (!value) {
+          errorMessage = "You must agree to the Privacy Policy";
+        }
+        break;
       default:
-        return '';
+        break;
     }
+    
+    setFieldErrors(prev => ({ ...prev, [fieldName]: errorMessage }));
+    return errorMessage === "";
   };
 
   const handleChange = (e) => {
@@ -46,60 +77,58 @@ export default function Signup() {
     setForm({ ...form, [name]: value });
     setError("");
     
-    // Clear field error when user starts typing
-    if (fieldErrors[name]) {
-      setFieldErrors({ ...fieldErrors, [name]: '' });
+    // Real-time validation for better UX
+    if (hasBlurred[name]) {
+      validateField(name, value, true);
     }
   };
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
-    setTouchedFields({ ...touchedFields, [name]: true });
-    const error = validateField(name, value);
-    setFieldErrors({ ...fieldErrors, [name]: error });
+    setHasBlurred(prev => ({ ...prev, [name]: true }));
+    validateField(name, value, false);
   };
 
-  const handleCheckboxChange = (type, checked) => {
-    if (type === 'terms') {
+  const handleCheckboxChange = (checkboxType, checked) => {
+    if (checkboxType === 'terms') {
       setAgreedToTerms(checked);
-      if (fieldErrors.terms) {
-        setFieldErrors({ ...fieldErrors, terms: '' });
-      }
-    } else if (type === 'privacy') {
+      validateField('terms', checked, false);
+    } else if (checkboxType === 'privacy') {
       setAgreedToPrivacy(checked);
-      if (fieldErrors.privacy) {
-        setFieldErrors({ ...fieldErrors, privacy: '' });
-      }
+      validateField('privacy', checked, false);
     }
-  };
-
-  const validateAllFields = () => {
-    const { name, email, password } = form;
-    const errors = {
-      name: validateField('name', name),
-      email: validateField('email', email),
-      password: validateField('password', password),
-      terms: !agreedToTerms ? 'You must agree to the Terms of Service to proceed' : '',
-      privacy: !agreedToPrivacy ? 'You must agree to the Privacy Policy to proceed' : ''
-    };
-    
-    setFieldErrors(errors);
-    setTouchedFields({ name: true, email: true, password: true, terms: true, privacy: true });
-    
-    return !Object.values(errors).some(error => error !== '');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    const { name, phoneNumber, password } = form;
+
+    if (!name || !phoneNumber || !password) {
+      setError("All fields are required.");
+      return;
+    }
     
-    // Validate all fields
-    if (!validateAllFields()) {
-      setError("Please fix the errors below before submitting.");
+    if (!isPhoneNumberValid(phoneNumber)) {
+      setError("Enter a valid phone number.");
+      return;
+    }
+    
+    if (!isPasswordStrong(password)) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+    
+    if (!agreedToTerms) {
+      setError("You must agree to the Terms of Service.");
+      return;
+    }
+    
+    if (!agreedToPrivacy) {
+      setError("You must agree to the Privacy Policy.");
       return;
     }
 
-    const result = await register(form);
+    const result = await registerWithPhone(form);
     if (result.success) {
       toast.success("Account created successfully! Welcome to KalaSangam!");
       navigate("/home");
@@ -108,7 +137,6 @@ export default function Signup() {
       toast.error(result.error);
     }
   };
-
 
   return (
     <div
@@ -121,7 +149,7 @@ export default function Signup() {
                   p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora"
       >
         <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">Create Account</h2>
-        <p className="text-center mb-6 text-sm text-teal-200">Join KalaSangam today!</p>
+        <p className="text-center mb-6 text-sm text-teal-200">Join KalaSangam with your phone!</p>
 
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
 
@@ -129,18 +157,16 @@ export default function Signup() {
           <input
             type="text"
             name="name"
-            placeholder={fieldErrors.name ? fieldErrors.name : "Full Name"}
+            placeholder={fieldErrors.name || !form.name ? "Full Name" : ""}
             value={form.name}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`w-full px-4 py-3 rounded-xl bg-white/70 border ${
-              fieldErrors.name 
-                ? 'border-coral-red border-2 placeholder-coral-red' 
-                : 'border-coral-red/30'
-            } text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
+            className={`w-full px-4 py-3 rounded-xl bg-white/70 border-2 ${
+              fieldErrors.name ? 'border-coral-red' : 'border-coral-red/30'
+            } placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
           />
           {fieldErrors.name && (
-            <p className="text-coral-red text-xs mt-1 ml-2 font-medium">
+            <p className="text-coral-red text-xs mt-1 font-medium">
               {fieldErrors.name}
             </p>
           )}
@@ -148,23 +174,40 @@ export default function Signup() {
 
         <div className="mb-4">
           <input
-            type="email"
-            name="email"
-            placeholder={fieldErrors.email ? fieldErrors.email : "Email"}
-            value={form.email}
+            type="tel"
+            name="phoneNumber"
+            placeholder={fieldErrors.phoneNumber || !form.phoneNumber ? "Phone Number (e.g., +1234567890)" : ""}
+            value={form.phoneNumber}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`w-full px-4 py-3 rounded-xl bg-white/70 border ${
-              fieldErrors.email 
-                ? 'border-coral-red border-2 placeholder-coral-red' 
-                : 'border-coral-red/30'
-            } text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
+            className={`w-full px-4 py-3 rounded-xl bg-white/70 border-2 ${
+              fieldErrors.phoneNumber ? 'border-coral-red' : 'border-coral-red/30'
+            } placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
           />
-          {fieldErrors.email && (
-            <p className="text-coral-red text-xs mt-1 ml-2 font-medium">
-              {fieldErrors.email}
+          {fieldErrors.phoneNumber && (
+            <p className="text-coral-red text-xs mt-1 font-medium">
+              {fieldErrors.phoneNumber}
             </p>
           )}
+        </div>
+
+        {/* Phone Number Requirements */}
+        <div className="mb-3">
+          <p className="text-sm font-semibold text-[#284139] mb-2">Phone Number Format:</p>
+          <ul className="text-xs text-teal-200 space-y-1 ml-4">
+            <li className="flex items-center">
+              <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
+              Include country code (e.g., +1 for US)
+            </li>
+            <li className="flex items-center">
+              <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
+              10-18 digits long
+            </li>
+            <li className="flex items-center">
+              <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
+              No spaces or special characters except +, -, (), and spaces
+            </li>
+          </ul>
         </div>
 
         {/* Password Requirements */}
@@ -190,18 +233,16 @@ export default function Signup() {
           <input
             type="password"
             name="password"
-            placeholder={fieldErrors.password ? fieldErrors.password : "Password"}
+            placeholder={fieldErrors.password || !form.password ? "Password" : ""}
             value={form.password}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={`w-full px-4 py-3 rounded-xl bg-white/70 border ${
-              fieldErrors.password 
-                ? 'border-coral-red border-2 placeholder-coral-red' 
-                : 'border-coral-red/30'
-            } text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
+            className={`w-full px-4 py-3 rounded-xl bg-white/70 border-2 ${
+              fieldErrors.password ? 'border-coral-red' : 'border-coral-red/30'
+            } placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
           />
           {fieldErrors.password && (
-            <p className="text-coral-red text-xs mt-1 ml-2 font-medium">
+            <p className="text-coral-red text-xs mt-1 font-medium">
               {fieldErrors.password}
             </p>
           )}
@@ -274,22 +315,21 @@ export default function Signup() {
           {loading ? "Creating Account..." : "Sign Up"}
         </button>
 
-        {/* Switch to phone signup */}
+        {/* Switch to email signup */}
         <div className="text-center mt-4">
           <button
             type="button"
-            onClick={() => navigate('/phone-signup')}
+            onClick={() => navigate('/signup')}
             className="text-sm bg-white/20 hover:bg-white/30 text-teal-blue font-semibold py-2 px-4 rounded-lg border border-teal-blue/30 transition-all"
           >
-            📱 Continue with Phone Number Instead
+            📧 Continue with Email Instead
           </button>
         </div>
 
         <p className="text-center mt-6 text-sm text-teal-200">
-          Already have an account? <Link to="/login" className="underline font-semibold hover:text-coral-red">Login</Link>
+          Already have an account? <Link to="/phone-login" className="underline font-semibold hover:text-coral-red">Login with Phone</Link>
         </p>
       </form>
-
     </div>
   );
 }

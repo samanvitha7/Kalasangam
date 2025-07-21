@@ -258,6 +258,60 @@ export const api = {
     }
 
     return response.json();
+  },
+
+  // Fetch cultural events
+  getEvents: async (filters = {}) => {
+    const queryParams = new URLSearchParams();
+    if (filters.category) queryParams.append('category', filters.category);
+    if (filters.type) queryParams.append('type', filters.type);
+    if (filters.city) queryParams.append('city', filters.city);
+    if (filters.state) queryParams.append('state', filters.state);
+    if (filters.upcoming) queryParams.append('upcoming', filters.upcoming);
+    if (filters.organizer) queryParams.append('organizer', filters.organizer);
+
+    const url = `${API_URL}/api/events${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to fetch events: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Fetch artists
+  getArtists: async (filters = {}) => {
+    const queryParams = new URLSearchParams();
+    if (filters.featured) queryParams.append('featured', filters.featured);
+    if (filters.search) queryParams.append('search', filters.search);
+    if (filters.limit) queryParams.append('limit', filters.limit);
+    if (filters.page) queryParams.append('page', filters.page);
+    if (filters.sortBy) queryParams.append('sortBy', filters.sortBy);
+    if (filters.sortOrder) queryParams.append('sortOrder', filters.sortOrder);
+
+    const url = `${API_URL}/api/users/artists${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to fetch artists: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
   }
 };
 

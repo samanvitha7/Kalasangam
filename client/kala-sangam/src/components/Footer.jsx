@@ -52,9 +52,33 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom line */}
-      <div className="text-center text-xs text-off-white/60 mt-8 pt-6 border-t border-coral-red/30 font-bold">
-        © 2025 KalaSangam. All rights reserved.
+      {/* Bottom line with legal links */}
+      <div className="mt-8 pt-6 border-t border-coral-red/30">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-xs text-off-white/60 font-bold">
+            © 2025 KalaSangam. All rights reserved.
+          </div>
+          <div className="flex flex-wrap gap-4 text-xs">
+            <Link 
+              to="/terms-of-service" 
+              className="text-off-white/80 hover:text-golden-saffron hover:underline transition-colors duration-200 font-bold"
+            >
+              Terms of Service
+            </Link>
+            <Link 
+              to="/privacy-policy" 
+              className="text-off-white/80 hover:text-golden-saffron hover:underline transition-colors duration-200 font-bold"
+            >
+              Privacy Policy
+            </Link>
+            <Link 
+              to="/community-guidelines" 
+              className="text-off-white/80 hover:text-golden-saffron hover:underline transition-colors duration-200 font-bold"
+            >
+              Community Guidelines
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   );
