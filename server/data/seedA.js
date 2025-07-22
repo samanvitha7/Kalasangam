@@ -15,6 +15,36 @@ const buildPhotoUrlsFromNames = (state, fileNames) => {
 
 const galleryData = [
   {
+  "name": "Coconut Shell Craft",
+  "origin": "Andaman and Nicobar",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/81/b0/1d/81b01db47410a231e896ed3d59a5d967.jpg",
+    "https://i.pinimg.com/1200x/07/fc/a2/07fca29de33f678ee26cb669d48c7ece.jpg",
+    "https://i.pinimg.com/736x/37/d2/85/37d28503ad9f9e1023b300aee6eb3893.jpg",
+    "https://i.pinimg.com/1200x/c4/02/b7/c402b790e54ac78db83a2431822229dc.jpg"
+  ]
+},
+{
+  "name": "Tribal Artifacts",
+  "origin": "Andaman and Nicobar",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/8e/d1/1c/8ed11ce0ceb694c42ec5b031ba7aafdc.jpg1",
+    "https://i.pinimg.com/736x/8d/39/dc/8d39dca013e42f026481f6c2a82b4dc3.jpg",
+    "https://i.pinimg.com/736x/64/9a/c7/649ac79e3d87b2c5b32f7cc1806f93d6.jpg",
+    "https://i.pinimg.com/736x/d5/ec/99/d5ec992e6f9b5a4ff61b40674e374a87.jpg"
+  ]
+},
+{
+  "name": "Shell Craft",
+  "origin": "Andaman and Nicobar",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/c0/28/19/c02819043e192c585a7a55b9d20f1972.jpg",
+    "https://i.pinimg.com/1200x/e9/bf/2e/e9bf2e531bae49a8e14c310c4527593c.jpg",
+    "https://i.pinimg.com/736x/ff/64/de/ff64ded2fd17a64d2a76f39eaf4cedec.jpg",
+    "https://i.pinimg.com/736x/9b/8b/41/9b8b4169ffc46964e31e9913808648d3.jpg"
+  ]
+},//andhra pradesh
+  {
     name: "Kalamkari",
     origin: "Andhra Pradesh",
     photoUrl: [
@@ -259,7 +289,37 @@ const galleryData = [
 "https://www.dsource.in/sites/default/files/gallery/1389/1.jpg",
 "https://images.jdmagicbox.com/quickquotes/images_main/terracotta-lamp-diyas-for-home-decoration-set-of-six-oval-2022712522-h1eegsy5.jpg",
     ]
-  },
+  },//delhi
+  {
+  "name": "Marble Inlay Work",
+  "origin": "Delhi",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/60/e6/3d/60e63d83a6d05177605fee11e0784d7c.jpg",
+    "https://i.pinimg.com/1200x/08/ab/45/08ab4538cb1c7fd042f99cba5d7381fd.jpg",
+    "https://i.pinimg.com/1200x/4d/27/41/4d2741dcc84ebe939b849e71b6caed99.jpg",
+    "https://i.pinimg.com/1200x/d8/a5/2f/d8a52f47b81737d545f9768aef18d5c1.jpg"
+  ]
+},
+{
+  "name": "Lacquerware",
+  "origin": "Delhi",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/d4/eb/a6/d4eba65ec7d2ae046ce1d5793775560f.jpg",
+    "https://i.pinimg.com/736x/f7/03/9a/f7039a49b97321d06d9f016a3e0c0052.jpg",
+    "https://i.pinimg.com/1200x/52/9b/21/529b21553cddaa9df50813e6bb0452d2.jpg",
+    "https://i.pinimg.com/736x/ef/54/f9/ef54f99d6b003bc3e7c0d57af081dcb2.jpg"
+  ]
+},
+{
+  "name": "Zardozi Embroidery",
+  "origin": "Delhi",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/85/a9/1d/85a91d37a182807a4903583d2f043e21.jpg",
+    "https://i.pinimg.com/736x/cd/f5/ce/cdf5cedc5d7e59efc07cb8fa87bcafc1.jpg",
+    "https://i.pinimg.com/1200x/a8/ea/58/a8ea58a826c6982237e86bb356fefb93.jpg",
+    "https://i.pinimg.com/736x/71/3c/3a/713c3af55a918edded206e345b0464d1.jpg"
+  ]
+},
   //goa
   {
     name:"Kaavi Mural Art",
@@ -523,7 +583,29 @@ const galleryData = [
     "https://i.pinimg.com/736x/a4/83/7b/a4837bda20e38be7228c63fa5784300f.jpg",
     "https://i.pinimg.com/736x/2a/8a/76/2a8a7623bd7aa76ed0570527e3b66b1d.jpg"
   ]
+},//lakshadeep
+{
+  "name": "Coir Craft",
+  "origin": "Lakshadweep",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/ce/35/44/ce3544f4fd0b9634b1c7a8a19d8effab.jpg",
+    "https://i.pinimg.com/736x/51/6a/a1/516aa1378286cb8c16a35c5be97854c8.jpg",
+    "https://i.pinimg.com/736x/b9/8e/2b/b98e2b40ff838cbc786299bb8a8e2b27.jpg",
+    "https://i.pinimg.com/736x/cf/15/a6/cf15a69c7ddc108e14b5dc7f467fdb89.jpg"
+  ]
 },
+{
+  "name": "Bamboo & Palm Leaf Craft",
+  "origin": "Lakshadweep",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/fd/bf/6d/fdbf6d05bd82f7a06251a672216fe2de.jpg",
+    "https://i.pinimg.com/1200x/5b/ab/d1/5babd148da365102065975f9da72fdb3.jpg",
+    "https://i.pinimg.com/1200x/76/c5/05/76c5055485d954371ebf1d313599bdbc.jpg",
+    "https://i.pinimg.com/1200x/7c/9b/24/7c9b2494e32515fd516b4f2c4e7053f4.jpg"
+  ]
+},
+
+
 //madhya pradesh
 {
   "name": "Gond Painting",
