@@ -493,7 +493,38 @@ const galleryData = [
     "https://i.pinimg.com/1200x/a8/44/f3/a844f3928d517d5a9405832f9124f86c.jpg",
     "https://i.pinimg.com/1200x/bb/b8/03/bbb8038a141447680439ec9086ea03a2.jpg"
   ]
-},//madhya pradesh
+},//ladakh
+{
+  "name": "Ladakhi Dress Embroidery",
+  "origin": "Ladakh",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/7e/9a/7c/7e9a7c4ee2a8a134e700c4647906db4e.jpg",
+    "https://i.pinimg.com/736x/82/48/e0/8248e0c564a582b27dde4bf5cc7aabf9.jpg",
+    "https://i.pinimg.com/1200x/00/d8/66/00d866974a87e3c2e3b7f1ebdbaa989e.jpg",
+    "https://i.pinimg.com/1200x/52/94/15/529415e3b082dca668a65b336756f09d.jpg"
+  ]
+},
+{
+  "name": "Cham Masks",
+  "origin": "Ladakh",
+  "photoUrl": [
+    "https://i.pinimg.com/736x/12/f4/73/12f4734461f9bee2c110326d22b99899.jpg",
+    "https://i.pinimg.com/736x/89/b2/b1/89b2b10e0ae629221c24953f17a855ff.jpg",
+    "https://i.pinimg.com/1200x/e9/19/fb/e919fb5050e2329f6b28f83f7235efdc.jpg",
+    "https://i.pinimg.com/1200x/5c/8a/79/5c8a794d5ac18c34c3eb428ef609bf01.jpg"
+  ]
+},
+{
+  "name": "Wool Weaving (Pashmina and Sheep Wool)",
+  "origin": "Ladakh",
+  "photoUrl": [
+    "https://i.pinimg.com/1200x/d6/15/14/d6151419858c054165375d4f206e8948.jpg",
+    "https://i.pinimg.com/736x/ac/bf/f2/acbff294881dcff9d6105a4e89ff416f.jpg",
+    "https://i.pinimg.com/736x/a4/83/7b/a4837bda20e38be7228c63fa5784300f.jpg",
+    "https://i.pinimg.com/736x/2a/8a/76/2a8a7623bd7aa76ed0570527e3b66b1d.jpg"
+  ]
+},
+//madhya pradesh
 {
   "name": "Gond Painting",
   "origin": "Madhya Pradesh",
