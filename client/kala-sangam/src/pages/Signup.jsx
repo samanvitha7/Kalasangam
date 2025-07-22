@@ -6,7 +6,7 @@ import { isEmailValid, isPasswordStrong } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
 
 export default function Signup() {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({ name: "", email: "", password: "",role:"viewer" });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [error, setError] = useState("");
@@ -265,6 +265,18 @@ export default function Signup() {
             )}
           </div>
         </div>
+        <label htmlFor="role">Select Role:</label>
+        <select
+          name="role"
+          value={form.role}
+          onChange={(e) => setForm({ ...form, role: e.target.value })}
+         required
+        >
+         <option value="viewer">Viewer</option>
+         <option value="artist">Artist</option>
+         <option value="admin">Admin</option>
+         </select>
+
 
         <button
           type="submit"

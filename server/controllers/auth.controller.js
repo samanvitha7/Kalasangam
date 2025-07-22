@@ -3,8 +3,10 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
 const { validationResult } = require('express-validator');
+const ArtistProfile = require('../models/Artist');
 
-// ✅ Generate JWT
+
+// Generate JWT token
 const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
     expiresIn: '1d',
@@ -18,7 +20,7 @@ const register = async (req, res) => {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
 
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -26,15 +28,27 @@ const register = async (req, res) => {
       return res.status(400).json({ message: 'Email already in use' });
     }
 
-    // Create user with email already verified (no email verification required)
-    const user = await User.create({ 
-      name, 
-      email, 
-      password, 
-      isEmailVerified: true  // Auto-verify for immediate access
+    const user = await User.create({
+      name,
+      email,
+      password,
+      role,
+      isEmailVerified: true
     });
 
-    // Generate JWT token immediately
+    // ✅ Create ArtistProfile if role is artist
+    if (role === "artist") {
+      await ArtistProfile.create({
+        userId: user._id,
+        name: user.name,
+        email: user.email,
+        bio: "",
+        profilePic: "",
+        artworks: []
+      });
+    }
+
+    // ✅ Generate token
     const token = generateToken(user._id);
 
     res.status(201).json({
@@ -44,6 +58,7 @@ const register = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
         phoneNumber: user.phoneNumber,
         isEmailVerified: user.isEmailVerified
       }
@@ -52,6 +67,7 @@ const register = async (req, res) => {
     res.status(500).json({ message: 'Signup failed', error: error.message });
   }
 };
+
 
 // ✅ PHONE REGISTER CONTROLLER
 const registerWithPhone = async (req, res) => {

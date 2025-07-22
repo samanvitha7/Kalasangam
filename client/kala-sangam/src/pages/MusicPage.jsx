@@ -5,8 +5,12 @@ import sitar from "../assets/instruments/sitar.png";
 import tabla from "../assets/instruments/tabla.png";
 import flute from "../assets/instruments/flute.png";
 import sitarSound from "../assets/sounds/sitar.mp3";
-import tablaSound from "../assets/sounds/sitar.mp3";
-import fluteSound from "../assets/sounds/sitar.mp3";
+import tablaSound from "../assets/sounds/tabla.mp3";
+import fluteSound from "../assets/sounds/flute.mp3";
+import veena from "../assets/instruments/veena.png";
+import mridangam from "../assets/instruments/mridangam.png";
+import veenaSound from "../assets/sounds/veena.mp3";
+import mridangamSound from "../assets/sounds/mridangam.mp3";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import AOS from 'aos';
@@ -48,6 +52,24 @@ const instruments = [
     category: "Wind Instrument",
     color: "from-green-400 to-blue-500"
   },
+   {
+    name: "Veena",
+    image: veena,
+    sound: veenaSound,
+    description: "A plucked string instrument with ancient roots, central to Carnatic music, known for its deep and divine tones.",
+    origin: "South India",
+    category: "String Instrument",
+    color: "from-yellow-400 to-orange-600"
+  },
+  {
+    name: "Mridangam",
+    image: mridangam,
+    sound: mridangamSound,
+    description: "A two-headed drum central to South Indian classical music, delivering rich rhythm with intricate finger techniques.",
+    origin: "South India",
+    category: "Percussion",
+    color: "from-indigo-400 to-purple-500"
+  }
 ];
 
 // Interactive music note animation
@@ -208,9 +230,12 @@ export default function MusicPage() {
         </h3>
         <div className="grid md:grid-cols-3 gap-6">
           {[
-            { fact: "The sitar has 18-21 strings and produces its unique sound through sympathetic resonance." },
-            { fact: "Tabla drums are tuned to specific pitches and can produce hundreds of different sounds." },
-            { fact: "The bansuri flute is traditionally made from a single piece of bamboo with no mechanical parts." }
+           { fact: "The sitar has 18-21 strings and produces its unique sound through sympathetic resonance." },
+{ fact: "Tabla drums are tuned to specific pitches and can produce hundreds of different sounds." },
+{ fact: "The bansuri flute is traditionally made from a single piece of bamboo with no mechanical parts." },
+{ fact: "The veena is a plucked string instrument with ancient origins, known for its deep, divine tones in Carnatic music." },
+{ fact: "The mridangam is a two-headed drum played with fingers and palms, producing rich, intricate rhythms." }
+
           ].map((item, idx) => (
             <motion.div
               key={idx}

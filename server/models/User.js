@@ -60,7 +60,33 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ['Admin', 'Artist', 'Viewer'],
-    default: 'Viewer'
+    default: 'Viewer',
+    required:true
+  },
+  
+  // Artist-specific fields
+  bio: {
+    type: String,
+    default: null
+  },
+  location: {
+    type: String,
+    default: null
+  },
+  specialization: {
+    type: String,
+    default: null
+  },
+  coverImage: {
+    type: String,
+    default: null
+  },
+  socialLinks: {
+    instagram: { type: String, default: null },
+    website: { type: String, default: null },
+    behance: { type: String, default: null },
+    linkedin: { type: String, default: null },
+    youtube: { type: String, default: null }
   },
   
   // Track likes, follows, and bookmarks

@@ -4,10 +4,10 @@ import { useState, useRef } from "react";
 export default function InstrumentBubble({ name, image, sound, description }) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [showInfo, setShowInfo] = useState(false); // <-- new state for speech bubble
+  const [showInfo, setShowInfo] = useState(false);
 
   const handlePlay = () => {
-    setShowInfo((prev) => !prev); // toggle the info box visibility
+    setShowInfo((prev) => !prev);
 
     if (audioRef.current) {
       if (isPlaying) {
@@ -24,9 +24,9 @@ export default function InstrumentBubble({ name, image, sound, description }) {
 
   return (
     <div className="relative flex flex-col items-center gap-4 animate-bob">
-      {/* Floating Instrument Bubble */}
+      {/* Circular Instrument Bubble with consistent pink background */}
       <motion.div
-        className={`relative w-40 h-40 rounded-full bg-mist-blush p-4 shadow-2xl flex items-center justify-center transition-all duration-300 cursor-pointer
+        className={`relative w-40 h-40 rounded-full bg-[#fdecec] p-4 shadow-2xl flex items-center justify-center transition-all duration-300 cursor-pointer
           ${isPlaying ? "ring-4 ring-coral-red glow" : "ring-2 ring-teal-blue/30"}`}
         animate={{
           y: [0, -12, 0],
@@ -40,9 +40,13 @@ export default function InstrumentBubble({ name, image, sound, description }) {
         whileTap={{ scale: 0.95 }}
         onClick={handlePlay}
       >
-        <img src={image} alt={name} className="w-24 h-24 object-contain" />
+        <img
+          src={image}
+          alt={name}
+          className="max-h-24 w-auto object-contain"
+        />
 
-        {/* Waveform Animation */}
+        {/* Waveform Animation when playing */}
         {isPlaying && (
           <div className="absolute bottom-2 flex gap-1">
             {[...Array(6)].map((_, i) => (
@@ -64,17 +68,17 @@ export default function InstrumentBubble({ name, image, sound, description }) {
         <audio src={sound} ref={audioRef} />
       </motion.div>
 
-      {/* Conditional Speech Bubble Info */}
+      {/* Description Speech Bubble */}
       {showInfo && (
         <motion.div
-          className="relative bg-mist-blush border border-coral-red/30 text-deep-charcoal px-4 py-3 rounded-2xl shadow-md max-w-xs text-center text-sm font-lora font-bold"
+          className="relative bg-[#fdecec] border border-coral-red/30 text-deep-charcoal px-4 py-3 rounded-2xl shadow-md max-w-xs text-center text-sm font-lora font-bold"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
           <strong className="block mb-1 text-lg font-semibold">{name}</strong>
           {description}
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-mist-blush rotate-45 border-l border-t border-coral-red/30"></div>
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#fdecec] rotate-45 border-l border-t border-coral-red/30"></div>
         </motion.div>
       )}
     </div>

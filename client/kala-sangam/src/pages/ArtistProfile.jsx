@@ -5,6 +5,8 @@ import { FaArrowLeft, FaHeart, FaComment, FaEye, FaMapMarkerAlt, FaCalendarAlt, 
 import LazyImage from '../components/LazyImage';
 import useSmoothScroll from '../hooks/useSmoothScroll';
 import ReportModal from '../components/ReportModal';
+import ArtistProfile from "./ArtistProfile";
+import axios from "axios";
 
 const ArtistProfile = () => {
   const { artistId } = useParams();

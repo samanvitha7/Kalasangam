@@ -2,84 +2,93 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-teal-blue via-coral-red to-teal-blue text-off-white border-t border-muted-fuchsia/20 px-6 py-10 font-lora font-bold">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+    <footer className="bg-gradient-to-r from-tealblue to-rosered text-white border-t border-rosered/20 px-6 py-10 font-lora font-medium">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
 
-        {/* About Section */}
-        <div>
-          <h2 className="text-xl font-bold font-serif mb-4 text-golden-saffron">About KalaSangam</h2>
-          <p className="text-sm leading-relaxed text-off-white/80">
-            KalaSangam is a digital tribute to India's rich heritage of traditional arts —
-            from Madhubani and Warli to Kathakali and Pattachitra. We connect culture, creativity,
-            and community across 29 states.
-          </p>
-        </div>
+    {/* About Section */}
+    <div>
+      <h2 className="text-xl font-bold font-serif mb-4 text-rosered">About KalaSangam</h2>
+      <p className="text-sm leading-relaxed">
+        KalaSangam is a digital tribute to India's rich heritage of traditional arts —
+        from Madhubani and Warli to Kathakali and Pattachitra. We connect culture, creativity,
+        and community across 29 states.
+      </p>
+    </div>
 
-        {/* Quick Links */}
-        <div>
-          <h2 className="text-xl font-bold font-serif mb-4 text-golden-saffron">Explore</h2>
-          <ul className="text-sm space-y-2 text-off-white/80">
-            <li><Link to="/" className="hover:underline hover:text-golden-saffron transition-colors duration-200 font-bold">Home</Link></li>
-            <li><Link to="/gallery" className="hover:underline hover:text-golden-saffron transition-colors duration-200 font-bold">Traditional Arts</Link></li>
-            <li><Link to="/art-wall" className="hover:underline hover:text-golden-saffron transition-colors duration-200 font-bold">Art Wall</Link></li>
-            <li><Link to="/map" className="hover:underline hover:text-golden-saffron transition-colors duration-200 font-bold">States</Link></li>
-            <li><Link to="/gallery" className="hover:underline hover:text-golden-saffron transition-colors duration-200 font-bold">Gallery</Link></li>
-            <li><Link to="/login" className="hover:underline hover:text-golden-saffron transition-colors duration-200 font-bold">Login</Link></li>
-            <li><Link to="/signup" className="hover:underline hover:text-golden-saffron transition-colors duration-200 font-bold">Sign Up</Link></li>
-            
-          </ul>
-        </div>
-
-        {/* Contact Form */}
-        <div>
-          <h2 className="text-xl font-bold font-serif mb-4 text-muted-fuchsia">Get In Touch</h2>
-          <p className="text-sm text-off-white/80 mb-4">
-            We'd love to hear from artists, enthusiasts, and collaborators.
-          </p>
-          <form className="space-y-2">
-            <input
-              type="email"
-              placeholder="Your email"
-              className="w-full px-3 py-2 border border-teal-blue/30 rounded bg-teal-blue/20 text-sm text-off-white placeholder-off-white/60 focus:outline-none focus:border-coral-red focus:ring-1 focus:ring-coral-red transition-all duration-200"
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 bg-gradient-to-r from-coral-red to-muted-fuchsia text-off-white text-sm rounded hover:from-muted-fuchsia hover:to-indigo-purple transition-all duration-300 shadow-lg hover:shadow-xl font-bold"
+    {/* Quick Links */}
+    <div>
+      <h2 className="text-xl font-bold font-serif mb-4 text-rosered">Explore</h2>
+      <ul className="text-sm space-y-2">
+        {[
+          { to: "/", label: "Home" },
+          { to: "/gallery", label: "Traditional Arts" },
+          { to: "/art-wall", label: "Art Wall" },
+          { to: "/map", label: "States" },
+          { to: "/gallery", label: "Gallery" },
+          { to: "/login", label: "Login" },
+          { to: "/signup", label: "Sign Up" },
+        ].map(({ to, label }) => (
+          <li key={to}>
+            <Link
+              to={to}
+              className="hover:underline hover:text-saffronglow transition-colors duration-200 font-semibold"
             >
-              Send
-            </button>
-          </form>
-        </div>
+              {label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    {/* Contact Form */}
+    <div>
+      <h2 className="text-xl font-bold  text-tealblue font-serif mb-4">Get In Touch</h2>
+      <p className="text-sm  mb-4">
+        We'd love to hear from artists, enthusiasts, and collaborators.
+      </p>
+      <form className="space-y-2">
+        <input
+          type="email"
+          placeholder="Your email"
+          className="w-full px-3 py-2 border border-blushpeach/30 rounded bg-blushpeach/10 text-sm text-blushpeach placeholder-blushpeach/60 focus:outline-none focus:border-saffronglow focus:ring-1 focus:ring-saffronglow transition-all duration-200"
+        />
+       <button
+          type="submit"
+          className="px-5 py-2 rounded font-[550] text-sm bg-blushpeach text-tealblue 
+                    hover:bg-tealblue hover:text-blushpeach transition-all duration-300 shadow-md hover:shadow-lg"
+        >
+          Send
+        </button>
+
+
+      </form>
+    </div>
+  </div>
+
+  {/* Bottom line */}
+  <div className="mt-8 pt-6 border-t border-blushpeach/20">
+    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="text-xs font-bold">
+        © 2025 KalaSangam. All rights reserved.
       </div>
-
-      {/* Bottom line with legal links */}
-      <div className="mt-8 pt-6 border-t border-coral-red/30">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-xs text-off-white/60 font-bold">
-            © 2025 KalaSangam. All rights reserved.
-          </div>
-          <div className="flex flex-wrap gap-4 text-xs">
-            <Link 
-              to="/terms-of-service" 
-              className="text-off-white/80 hover:text-golden-saffron hover:underline transition-colors duration-200 font-bold"
-            >
-              Terms of Service
-            </Link>
-            <Link 
-              to="/privacy-policy" 
-              className="text-off-white/80 hover:text-golden-saffron hover:underline transition-colors duration-200 font-bold"
-            >
-              Privacy Policy
-            </Link>
-            <Link 
-              to="/community-guidelines" 
-              className="text-off-white/80 hover:text-golden-saffron hover:underline transition-colors duration-200 font-bold"
-            >
-              Community Guidelines
-            </Link>
-          </div>
-        </div>
+      <div className="flex flex-wrap gap-4 text-xs">
+        {[
+          { to: "/terms-of-service", label: "Terms of Service" },
+          { to: "/privacy-policy", label: "Privacy Policy" },
+          { to: "/community-guidelines", label: "Community Guidelines" },
+        ].map(({ to, label }) => (
+          <Link
+            key={to}
+            to={to}
+            className=" hover:text-saffronglow hover:underline transition-colors duration-200 font-semibold"
+          >
+            {label}
+          </Link>
+        ))}
       </div>
-    </footer>
+    </div>
+  </div>
+</footer>
+
   );
 }
