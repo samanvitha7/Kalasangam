@@ -5,7 +5,7 @@ import sitar from "../assets/instruments/sitar.png";
 import tabla from "../assets/instruments/tabla.png";
 import flute from "../assets/instruments/flute.png";
 import sitarSound from "../assets/sounds/sitar.mp3";
-import tablaSound from "../assets/sounds/sitar.mp3";
+import tablaSound from "../assets/sounds/tabla.mp3";
 import fluteSound from "../assets/sounds/sitar.mp3";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
