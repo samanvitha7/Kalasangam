@@ -60,7 +60,8 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ['Admin', 'Artist', 'Viewer'],
-    default: 'Viewer'
+    default: 'Viewer',
+    required:true
   },
   
   // Track likes, follows, and bookmarks

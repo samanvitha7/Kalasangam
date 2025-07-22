@@ -104,25 +104,47 @@ export const AuthProvider = ({ children }) => {
 
   // Register user
   const register = async (formData) => {
-    dispatch({ type: 'SET_LOADING', payload: true });
-    
-    try {
-      const res = await api.post('/api/auth/register', formData);
-      dispatch({
-        type: 'REGISTER_SUCCESS',
-        payload: res.data
-      });
-      setAuthToken(res.data.token);
-      return { success: true, data: res.data };
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Registration failed';
-      dispatch({
-        type: 'REGISTER_FAIL',
-        payload: errorMessage
-      });
-      return { success: false, error: errorMessage };
+  dispatch({ type: 'SET_LOADING', payload: true });
+
+  try {
+    const res = await api.post('/api/auth/register', formData);
+    const { token, user } = res.data;
+
+    dispatch({
+      type: 'REGISTER_SUCCESS',
+      payload: { token, user }
+    });
+
+    setAuthToken(token);
+
+    // 👉 IF ARTIST: create empty artist profile
+    if (user.role === 'artist') {
+      await api.post(
+        '/api/artist-profile/create',
+        {
+          userId: user._id,
+          bio: '',
+          instagram: '',
+          website: ''
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
     }
-  };
+
+    return { success: true, data: res.data };
+  } catch (error) {
+    const errorMessage = error.response?.data?.message || 'Registration failed';
+    dispatch({
+      type: 'REGISTER_FAIL',
+      payload: errorMessage
+    });
+    return { success: false, error: errorMessage };
+  }
+};
 
   // Register user with phone
   const registerWithPhone = async (formData) => {
