@@ -20,14 +20,26 @@ export default function IndiaMapPage({ onStateClick }) {
       <div className="absolute inset-0 z-5 bg-black/5 pointer-events-none" />
 
       {/* ────── Top Heading ────── */}
-      <div className="relative z-10 container mx-auto px-4 pt-24">
-        <h2 className="text-4xl sm:text-5xl font-serif font-bold tracking-wide text-[#9b2226]">
-          Explore States
-        </h2>
-        <p className="mt-2 text-lg text-[#7a4c16] italic">
-          Oh, clicking this will lead you to a new world of art!
-        </p>
-      </div>
+     <div className="relative z-10 container mx-auto px-4 pt-24">
+  <h2 className="text-4xl sm:text-5xl font-serif font-bold tracking-wide text-[#134856]">
+    Explore States
+  </h2>
+
+
+ <p
+  className="mt-2 text-lg italic font-semibold"
+  style={{
+    color: "#E86F1C",
+    fontFamily: "'Georgia', 'Times New Roman', serif"
+  }}
+>
+  Oh, clicking this will lead you to a new world of art!
+</p>
+
+
+
+</div>
+
 
       {/* ────── Sun and Map on Same Row ────── */}
       <div className="relative z-10 flex items-start justify-between container mx-auto px-4 pt-10">

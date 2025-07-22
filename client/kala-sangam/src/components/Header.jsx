@@ -57,125 +57,120 @@ export default function Header({ scrolled, onMapClick }) {
   };
 
   return (
-    <header
-      className={`
-        fixed top-0 left-1/2 -translate-x-1/2 w-full z-50
-        transition-all duration-500 ease-in-out font-lora
-        ${scrolled
-          ? "bg-light-rose-pink/95 backdrop-blur-md rounded-full shadow-2xl px-6 border border-coral-red/20"
-          : "bg-transparent px-6 flex justify-between items-center"}
-        h-16
-      `}
-      style={{ width: scrolled ? "80vw" : "100vw" }}
-    >
-      <div className="flex items-center justify-between h-full w-full">
+   <header
+  className={`
+    fixed top-0 left-1/2 -translate-x-1/2 w-full z-50
+    transition-all duration-500 ease-in-out font-lora
+    ${scrolled
+      ? "bg-blushpeach/95 backdrop-blur-md rounded-full shadow-2xl px-6 border border-vermilion/20"
+      : "bg-transparent px-6 flex justify-between items-center"}
+    h-16
+  `}
+  style={{ width: scrolled ? "97vw" : "100vw" }}
+>
+  <div className="flex items-center justify-between h-full w-full">
 {/* Logo - Far Left */}
-        <div className="flex-shrink-0">
-          <Link to="/home" className="no-underline">
-            <img
-              className={`transition-all duration-500 ${scrolled ? "h-12" : "h-16"}`}
-              src="/assets/logo-header.png"
-              alt="Logo"
-            />
-          </Link>
-        </div>
+
+ <div className="flex-shrink-0 flex items-center">
+  <Link to="/home" className="no-underline block">
+    <img
+      src="/assets/logo-header.png"
+      alt="KalaSangam Logo"
+      className={`
+        transition-all duration-500 ease-in-out
+        ${scrolled ? "h-20 scale-125" : "h-24 scale-150"}
+        hover:scale-[1.7]"
+      `}
+    />
+  </Link>
+</div>
+
+
 
         {/* Navigation links - Center */}
-        <nav className={`flex space-x-10 font-bold text-xl transition-colors duration-500 ${
-          scrolled ? "text-teal-blue" : "text-teal-blue"
-        }`}>
-          <Link
-            to="/gallery"
-            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
-              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
-            }`}
+        <nav
+            className={`flex space-x-12 text-[1.35rem] font-bold tracking-wide transition-colors duration-500 ease-in-out
+              ${scrolled ? "text-tealblue" : "text-tealblue"}`}
           >
-            Art Gallery
-          </Link>
 
-          <Link
-            to="/art-wall"
-            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
-              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
-            }`}
-          >
-            Art Wall
-          </Link>
-
-          <Link
-            to="/artists"
-            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
-              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
-            }`}
-          >
-            Artists
-          </Link>
-
-          <div className="relative" ref={dropdownRef}>
-            <span
-              className={`hover:underline hover:italic font-bold cursor-pointer transition-all duration-200 ${
-                scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
-              }`}
-              onClick={() => setShowDropdown(!showDropdown)}
+           <Link
+              to="/gallery"
+              className="font-yatra mt-[10px] font-[500]  transition-all duration-300 ease-in-out hover:text-rosehover"
             >
-              Explore ▾
-            </span>
+            Art Gallery
+            </Link>
+
+
+
+
+            <Link
+              to="/art-wall"
+              className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+            >
+              Art Wall
+            </Link>
+
+            <Link
+              to="/artists"
+              className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+            >
+              Artists
+            </Link>
+
+         <div className="relative mt-[8px]" ref={dropdownRef}>
+  <span
+    className={`
+       font-yatra font-[500]  text-tealblue cursor-pointer
+      transition-all duration-300 ease-in-out
+      hover:text-rosehover 
+    `}
+    onClick={() => setShowDropdown(!showDropdown)}
+  >
+    Explore ▾
+  </span>
+
+
 
             {showDropdown && (
-              <ul className={`absolute top-full mt-2 shadow-2xl rounded-lg w-48 z-50 font-bold ${
-                scrolled 
-                  ? "bg-teal-blue text-off-white border border-coral-red/20" 
-                  : "bg-mist-blush text-teal-blue shadow-md border border-teal-blue/10"
-              }`}>
-                <li
-                  className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
-                    scrolled ? "hover:bg-coral-red/20 hover:text-golden-saffron" : "hover:bg-warm-sand hover:text-muted-fuchsia"
-                  }`}
-                  onClick={() => handleExplore("state")}
-                >
-                  Explore by State
-                </li>
-                <li
-                  className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
-                    scrolled ? "hover:bg-coral-red/20 hover:text-golden-saffron" : "hover:bg-warm-sand hover:text-muted-fuchsia"
-                  }`}
-                  onClick={() => handleExplore("art")}
-                >
-                  Explore Art
-                </li>
-                <li
-                  className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
-                    scrolled ? "hover:bg-coral-red/20 hover:text-golden-saffron" : "hover:bg-warm-sand hover:text-muted-fuchsia"
-                  }`}
-                  onClick={() => handleExplore("dance")}
-                >
-                  Explore Dance
-                </li>
-                <li
-                  className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
-                    scrolled ? "hover:bg-coral-red/20 hover:text-golden-saffron" : "hover:bg-warm-sand hover:text-muted-fuchsia"
-                  }`}
-                  onClick={() => handleExplore("music")}
-                >
-                  Explore Music
-                </li>
-                <li
-                  className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
-                    scrolled ? "hover:bg-coral-red/20 hover:text-golden-saffron" : "hover:bg-warm-sand hover:text-muted-fuchsia"
-                  }`}
-                  onClick={() => handleExplore("crafts")}
-                >
-                  Explore Crafts
-                </li>
-              </ul>
-            )}
+  <ul
+    className={`
+      absolute top-full mt-2 z-50 w-52 rounded-xl shadow-lg font-yatra text-[1.1rem] font-[500] tracking-wide
+      ${scrolled
+        ? "bg-tealblue text-blushpeach border border-rosered/20"
+        : "bg-blushpeach text-tealblue border border-tealblue/10"}
+    `}
+  >
+    {[
+      { label: "Explore by State", key: "state" },
+      { label: "Explore Art", key: "art" },
+      { label: "Explore Dance", key: "dance" },
+      { label: "Explore Music", key: "music" },
+      { label: "Explore Crafts", key: "crafts" },
+    ].map((item) => (
+      <li
+        key={item.key}
+        className={`
+          px-4 py-2 cursor-pointer transition-all duration-200
+          ${
+            scrolled
+              ? "hover:bg-rosered/20 hover:text-saffronglow"
+              : " hover:text-vermilion"
+          }
+        `}
+        onClick={() => handleExplore(item.key)}
+      >
+        {item.label}
+      </li>
+    ))}
+  </ul>
+)}
+
           </div>
 
           <Link
             to="/map"
-            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
-              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
-            }`}
+           className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+            
             onClick={onMapClick}
           >
             India Map
@@ -183,18 +178,15 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/events"
-            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
-              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
-            }`}
+            className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+            
           >
             Events
           </Link>
 
           <Link
-            to="/about"
-            className={`hover:underline hover:italic transition-all duration-200 font-bold ${
-              scrolled ? "hover:text-coral-red" : "hover:text-muted-fuchsia"
-            }`}
+            className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+            
           >
             About
           </Link>
@@ -206,49 +198,77 @@ export default function Header({ scrolled, onMapClick }) {
             <div className="relative" ref={userDropdownRef}>
               <button
                 onClick={() => setShowUserDropdown(!showUserDropdown)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
-                  scrolled 
-                    ? "bg-gradient-to-r from-teal-blue to-coral-red text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
-                    : "bg-teal-blue text-off-white hover:bg-coral-red"
+                 className={`group flex items-center space-x-2 px-4 py-2 rounded-xl font-[550] font-yatra text-[1rem] transition-all duration-300 ${
+                    scrolled
+                    ? "bg-gradient-to-r from-tealblue to-rosered text-blushpeach hover:from-rosered hover:to-saffronglow"
+                    : "hover:bg-gradient-to-r from-tealblue to-rosered  "}
                 }`}
               >
-                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                  <span className="text-sm font-bold">
-                    {user?.name?.charAt(0)?.toUpperCase() || '?'}
-                  </span>
-                </div>
-                <span>{user?.name || 'Artist'}</span>
-                <span className="text-xs">▾</span>
+                        <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+            <span className={`text-base font-semibold transition-colors duration-300 ${
+              scrolled ? "text-blushpeach group-hover:text-white" : "text-tealblue group-hover:text-white"
+            }`}>
+              {user?.name?.charAt(0)?.toUpperCase() || "?"}
+            </span>
+          </div>
+
+          <span className={`text-[1rem] font-[500] tracking-wide transition-colors duration-300 ${
+            scrolled ? "text-blushpeach group-hover:text-white" : "text-tealblue group-hover:text-white"
+          }`}>
+            {user?.name || "Artist"}
+          </span>
+
+ <span className="text-xs text-tealblue group-hover:text-white">▾</span>
+
               </button>
 
+
               {showUserDropdown && (
-                <ul className={`absolute right-0 top-full mt-2 shadow-2xl rounded-lg w-56 z-50 font-medium ${
-                  scrolled 
-                    ? "bg-white text-teal-blue border border-coral-red/20" 
-                    : "bg-white text-teal-blue shadow-md border border-teal-blue/10"
-                }`}>
-                  <li className="px-4 py-3 border-b border-gray-100">
-                    <div className="text-sm text-gray-500">Signed in as</div>
-                    <div className="font-semibold truncate">{user?.email}</div>
-                  </li>
+                <ul
+                  className={`absolute right-0 top-full mt-2 z-50 w-56 rounded-xl shadow-xl font-yatra text-[1rem] font-[500] tracking-wide ${
+                    scrolled
+                      ? "bg-tealblue text-white border border-rosered/20"
+                      : "bg-blushpeach text-tealblue shadow-md border border-tealblue/10"
+                  }`}
+                >
+                <li className="px-4 py-3 border-b border-rosered/10">
+                  <div className={`text-sm ${scrolled ? "text-saffronglow" : "text-vermilion"}`}>
+                    Signed in as
+                  </div>
+                  <div className={`font-normal truncate ${scrolled ? "text-blushpeach " : "text-tealblue"}`}>
+                    {user?.email}
+                  </div>
+                </li>
+
+                  
+                  <li>
+                    
+                    <Link
+                        to="/profile"
+                        className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                          scrolled 
+                            ? " hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
+                            : "text-tealblue hover:text-vermilion"
+                        }`}
+
+                      >
+                        <div className="flex items-center space-x-2">
+                          <span>👤</span>
+                          <span>My Profile</span>
+                        </div>
+                      </Link>
+                      </li>
+
+                  
                   
                   <li>
                     <Link
                       to="/profile"
-                      className="block px-4 py-3 hover:bg-teal-50 hover:text-coral-red transition-colors duration-200"
-                      onClick={() => setShowUserDropdown(false)}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <span>👤</span>
-                        <span>My Profile</span>
-                      </div>
-                    </Link>
-                  </li>
-                  
-                  <li>
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-3 hover:bg-teal-50 hover:text-coral-red transition-colors duration-200"
+                      className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                          scrolled 
+                            ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
+                            : "text-tealblue hover:text-vermilion"
+                        }`}
                       onClick={() => setShowUserDropdown(false)}
                     >
                       <div className="flex items-center space-x-2">
@@ -261,7 +281,11 @@ export default function Header({ scrolled, onMapClick }) {
                   <li>
                     <Link
                       to="/profile"
-                      className="block px-4 py-3 hover:bg-teal-50 hover:text-coral-red transition-colors duration-200"
+                      className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                          scrolled 
+                            ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
+                            : "text-tealblue hover:text-vermilion"
+                        }`}
                       onClick={() => setShowUserDropdown(false)}
                     >
                       <div className="flex items-center space-x-2">
@@ -273,14 +297,19 @@ export default function Header({ scrolled, onMapClick }) {
                   
                   <li className="border-t border-gray-100">
                     <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-colors duration-200"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <span>🚪</span>
-                        <span>Sign Out</span>
-                      </div>
-                    </button>
+  onClick={handleLogout}
+  className={`w-full block px-4 py-3 rounded-md transition-all duration-300 ${
+    scrolled
+      ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow"
+      : "text-tealblue hover:text-vermilion"
+  }`}
+>
+  <div className="flex items-center space-x-2">
+    <span>🚪</span>
+    <span>Sign Out</span>
+  </div>
+</button>
+
                   </li>
                 </ul>
               )}
@@ -288,22 +317,19 @@ export default function Header({ scrolled, onMapClick }) {
           ) : (
             <>
               <Link
-                to="/login"
-                className={`px-5 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
-                  scrolled 
-                    ? "bg-gradient-to-r from-teal-blue to-coral-red text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
-                    : "bg-teal-blue text-off-white hover:bg-coral-red"
-                }`}
-              >
-                Login
-              </Link>
+            to="/login"
+            className="px-5 py-2 rounded-lg font-bold transition-all duration-300 
+             bg-gradient-to-r from-tealblue to-rosered text-white
+             hover:from-rosered hover:to-saffronglow"
+            >
+              Login
+            </Link>
+
               <Link
                 to="/signup"
-                className={`px-5 py-2 rounded-lg font-bold shadow-lg transition-all duration-300 ${
-                  scrolled 
-                    ? "bg-gradient-to-r from-coral-red to-muted-fuchsia text-off-white hover:from-muted-fuchsia hover:to-indigo-purple hover:shadow-xl" 
-                    : "bg-coral-red text-off-white hover:bg-muted-fuchsia"
-                }`}
+                className="px-5 py-2 rounded-lg font-bold transition-all duration-300 
+                  bg-gradient-to-r from-tealblue to-rosered text-white
+                  hover:from-rosered hover:to-saffronglow"
               >
                 Sign Up
               </Link>

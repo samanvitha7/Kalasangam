@@ -7,8 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
+         tealblue: '#134856',         // ← Add this line back
+          rosered: '#D95A70',
+          blushpeach: '#FBD1C6',
+          vermilion: '#E84338',
+          rosehover: '#AC1E5E',
+          saffronglow: '#F2AA6B',
         // Primary Colors
-        'teal-blue': '#1E5E75',
         'coral-red': '#E85A4F',
         'golden-saffron': '#F6A100',
         // Accent Colors
@@ -27,8 +32,11 @@ export default {
         'lora': ['Lora', 'serif'],
         'tac-one': ['Tac One', 'cursive'],
         'dm-serif-display': ['DM Serif Display', 'serif'],
-
+         yatra: ['"Yatra One"', 'cursive'],
       },
+      dropShadow: {
+          glow: '0 0 8px #facc15', // glowing yellow
+        },
       animation: {
         popFade: "popFade 1.2s ease-out both",
         sinkFade: "sinkFade 2s ease-out forwards",
