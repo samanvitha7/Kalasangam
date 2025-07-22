@@ -107,7 +107,10 @@ export const AuthProvider = ({ children }) => {
   dispatch({ type: 'SET_LOADING', payload: true });
 
   try {
+    console.log('Sending registration data:', formData); // Debug log
     const res = await api.post('/api/auth/register', formData);
+    console.log('Registration response:', res.data); // Debug log
+    
     const { token, user } = res.data;
 
     dispatch({
@@ -117,26 +120,11 @@ export const AuthProvider = ({ children }) => {
 
     setAuthToken(token);
 
-    // 👉 IF ARTIST: create empty artist profile
-    if (user.role === 'artist') {
-      await api.post(
-        '/api/artist-profile/create',
-        {
-          userId: user._id,
-          bio: '',
-          instagram: '',
-          website: ''
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-    }
-
+    // Note: Artist profile creation is now handled on the backend
+    
     return { success: true, data: res.data };
   } catch (error) {
+    console.error('Registration error:', error.response?.data || error.message); // Debug log
     const errorMessage = error.response?.data?.message || 'Registration failed';
     dispatch({
       type: 'REGISTER_FAIL',

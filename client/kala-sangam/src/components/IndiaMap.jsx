@@ -4,8 +4,6 @@ import stateArt from "../data/Stateimg";
 export default function IndiaMap() {
   const navigate = useNavigate();
   const svgRef = useRef(null);
-   const [hoveredState, setHoveredState] = useState(null);
-   const [selectedState, setSelectedState] = useState(null);
 
    const [tooltip, setTooltip] = useState({
     visible: false,

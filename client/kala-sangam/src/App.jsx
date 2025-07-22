@@ -63,16 +63,17 @@ function AppContent() {
       }
     );
 
-    if (sentinelRef.current) {
-      observer.observe(sentinelRef.current);
+    const sentinel = sentinelRef.current;
+    if (sentinel) {
+      observer.observe(sentinel);
     }
 
     return () => {
-      if (sentinelRef.current) {
-        observer.unobserve(sentinelRef.current);
+      if (sentinel) {
+        observer.unobserve(sentinel);
       }
     };
-  }, []);
+  }, [scrolled]);
 
 
   const handleStateClick = (stateName) => {
@@ -173,10 +174,9 @@ function App() {
     return window.location.pathname === '/' && !sessionStorage.getItem("splashShown");
   });
 
-  const handleSplashContinue = (withSound) => {
+  const handleSplashContinue = () => {
     sessionStorage.setItem("splashShown", "true");
     setShowSplash(false);
-    // The navigation is now handled within the SplashScreen component
   };
 
   return (

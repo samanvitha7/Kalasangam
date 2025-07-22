@@ -6,7 +6,7 @@ import { isEmailValid, isPasswordStrong } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
 
 export default function Signup() {
-  const [form, setForm] = useState({ name: "", email: "", password: "",role:"viewer" });
+  const [form, setForm] = useState({ name: "", email: "", password: "",role:"Viewer" });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [error, setError] = useState("");
@@ -270,12 +270,13 @@ export default function Signup() {
           name="role"
           value={form.role}
           onChange={(e) => setForm({ ...form, role: e.target.value })}
-         required
+          className="w-full px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200"
+          required
         >
-         <option value="viewer">Viewer</option>
-         <option value="artist">Artist</option>
-         <option value="admin">Admin</option>
-         </select>
+          <option value="Viewer">Viewer</option>
+          <option value="Artist">Artist</option>
+          <option value="Admin">Admin</option>
+        </select>
 
 
         <button

@@ -7,6 +7,7 @@ import api from "../utils/axios";
 import UserProfile from "../components/UserProfile";
 import UserSettings from "../components/UserSettings";
 import UserArtworks from "../components/UserArtworks";
+import UserEvents from "../components/UserEvents";
 
 export default function UserPage() {
   const { user, logout } = useAuth();
@@ -88,6 +89,7 @@ export default function UserPage() {
             {[
               { id: 'profile', label: 'Profile', icon: '👤' },
               { id: 'artworks', label: 'My Artworks', icon: '🎨' },
+              { id: 'events', label: 'My Events', icon: '📅' },
               { id: 'likes', label: 'Liked Posts', icon: '❤️' },
               { id: 'settings', label: 'Settings', icon: '⚙️' }
             ].map((tab) => (
@@ -119,6 +121,9 @@ export default function UserPage() {
         )}
         {activeTab === 'artworks' && (
           <UserArtworks userId={user?.id} />
+        )}
+        {activeTab === 'events' && (
+          <UserEvents userId={user?.id} />
         )}
         {activeTab === 'likes' && (
           <div className="text-center py-12">

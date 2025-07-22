@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 
 // Props: soundOn → boolean value that tells whether audio is playing
 //        setSoundOn → function to toggle the value

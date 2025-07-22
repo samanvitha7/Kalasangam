@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import api from "../utils/axios";
+import ProfilePictureUpload from "./ProfilePictureUpload";
 
 export default function UserProfile({ profile, stats, onProfileUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -60,24 +61,12 @@ export default function UserProfile({ profile, stats, onProfileUpdate }) {
         <div className="grid md:grid-cols-3 gap-8">
           {/* Avatar */}
           <div className="text-center">
-            <div className="relative inline-block">
-              <img 
-                src={profile?.avatar || '/default-avatar.png'} 
-                alt={profile?.name}
-                className="w-32 h-32 rounded-full border-4 border-teal-200 object-cover mx-auto"
-              />
-              {isEditing && (
-                <div className="mt-4">
-                  <input
-                    type="url"
-                    placeholder="Avatar URL"
-                    value={editForm.avatar}
-                    onChange={(e) => setEditForm({...editForm, avatar: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                  />
-                </div>
-              )}
-            </div>
+            <ProfilePictureUpload 
+              currentAvatar={editForm.avatar}
+              userName={profile?.name}
+              onAvatarChange={(newAvatar) => setEditForm({...editForm, avatar: newAvatar})}
+              isEditing={isEditing}
+            />
           </div>
 
           {/* Profile Info */}

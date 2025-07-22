@@ -14,11 +14,13 @@ export default function UserArtworks({ userId }) {
 
   const loadArtworks = async () => {
     try {
-      const res=await api.get(`/api/artworks/user/${userId}`);
-      setArtworks(res.data.artworks);
-    
+      // Use current user's artworks endpoint
+      const res = await api.get('/api/artworks/user/me');
+      setArtworks(res.data.artworks || []);
     } catch (error) {
+      console.error('Failed to load artworks:', error);
       toast.error('Failed to load artworks');
+      setArtworks([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -136,14 +138,17 @@ export default function UserArtworks({ userId }) {
                     <button className="px-3 py-1 text-sm text-teal-600 hover:bg-teal-50 rounded">
                       Edit
                     </button>
-                    <button className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded">
+                    <button 
+                      onClick={() => handleDelete(artwork.id)}
+                      className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded"
+                    >
                       Delete
                     </button>
                   </div>
                 </div>
                 
                 <div className="text-xs text-gray-400 mt-3">
-                  Created {artwork.createdAt.toLocaleDateString()}
+                  Created {artwork.createdAt ? new Date(artwork.createdAt).toLocaleDateString() : 'N/A'}
                 </div>
               </div>
             </div>
