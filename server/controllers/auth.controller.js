@@ -6,16 +6,6 @@ const { validationResult } = require('express-validator');
 const ArtistProfile = require('../models/Artist');
 
 
-
-
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-const sendEmail = require('../utils/sendEmail');
-const { validationResult } = require('express-validator');
-const ArtistProfile = require('../models/Artist');
-const ViewerProfile = require('../models/ViewerProfile'); // ✅ new
-
 // Generate JWT token
 const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
