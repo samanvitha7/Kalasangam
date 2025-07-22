@@ -8,7 +8,7 @@ import sitarSound from "../assets/sounds/sitar.mp3";
 import tablaSound from "../assets/sounds/tabla.mp3";
 import fluteSound from "../assets/sounds/flute.mp3";
 import veena from "../assets/instruments/veena.png";
-import mridangam from "../assets/instruments/mridangam.jpg";
+import mridangam from "../assets/instruments/mridangam.png";
 import veenaSound from "../assets/sounds/veena.mp3";
 import mridangamSound from "../assets/sounds/mridangam.mp3";
 import { motion } from "framer-motion";
