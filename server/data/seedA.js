@@ -42,7 +42,7 @@ const galleryData = [
     photoUrl: [
      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCBnnbIIwul7d9FSeVomy54CAiojJJ2jxX6DCyITB0_myqxhvsAN9iWiiDkuD0-DPvuzPg_mRKa1LKLtF_wqrLoORG5ZeSjtzMO9Cdhyphenhyphen2j-k3Cdcng9Zx33rx5Ph2cDKjSUYnDrmmJV3M/s1600/nirmal_painting.jpg",
 "https://tsht.telangana.gov.in/GolkoCrafts/images/products/nirmal_paintngs/large/44.jpg",
-"https://i.pinimg.com/236x/38/fc/fe/38fcfe054a99bbff1e622812757bb3fb.jpg",
+"https://cdn.dollsofindia.com/images/p/folk-paintings/nirmal-painting-SC88_l.jpg"
     ]
   },
   {
@@ -62,7 +62,7 @@ const galleryData = [
       "https://theindiacrafthouse.com/cdn/shop/products/AndhraLeatherCraftStringPuppet-Lakshman_17_x9__-TTICH93b_eed274a9-1032-46cc-add8-fc086680ab03@2x.jpg",
 "https://www.gitagged.com/wp-content/uploads/2017/08/AP-Leather-Puppet.jpg",      
 "https://lsmedia.linker-cdn.net/282256/2021/7130415.jpeg",
-"https://www.nimmalakuntaleatherpuppetrycraft.com/images/portfolio-2.jpg",
+"https://itokri.com/cdn/shop/files/puppetry_1070x.jpg?v=3542489911708430977",
     ]
   },  //Arunachal Pradesh
    {
@@ -71,8 +71,9 @@ const galleryData = [
     photoUrl: [
       "https://tawangtourism.in/wp-content/uploads/2015/02/thangka2-e1427971963354.jpg",
 "https://neocha-content.oss-cn-hongkong.aliyuncs.com/wp-content/uploads/sites/2/2021/09/lama-thanka-03.jpg",
-"https://lookaside.instagram.com/seo/google_widget/crawler/",
-"https://lookaside.instagram.com/seo/google_widget/crawler/",
+
+"https://traditionalartofnepal.com/wp-content/uploads/2013/06/Thangka-painting-of-Buddhist-Goddess-White-Tara.jpg",
+"https://i.pinimg.com/originals/e9/33/27/e93327baa53413edba938433784a5fa3.jpg",
     ]
   },
   {
