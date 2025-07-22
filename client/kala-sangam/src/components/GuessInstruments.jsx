@@ -5,12 +5,16 @@ import { motion } from "framer-motion";
 import sitarSound from "../assets/sounds/sitar.mp3";
 import tablaSound from "../assets/sounds/tabla.mp3";
 import fluteSound from "../assets/sounds/flute.mp3";
+import veenaSound from "../assets/sounds/veena.mp3";
+import mridangamSound from "../assets/sounds/mridangam.mp3";
 
 // Questions list
 const questions = [
   { sound: sitarSound, answer: "Sitar" },
   { sound: tablaSound, answer: "Tabla" },
   { sound: fluteSound, answer: "Bansuri" },
+   { sound: veenaSound, answer: "Veena" },
+  { sound: mridangamSound, answer: "Mridangam" },
 ];
 
 export default function GuessInstrument() {
@@ -72,7 +76,7 @@ export default function GuessInstrument() {
 
       {/* Options */}
       <div className="flex flex-wrap justify-center gap-4 mb-4">
-        {["Sitar", "Tabla", "Bansuri"].map((opt, idx) => (
+        {["Sitar", "Tabla", "Bansuri","Veena", "Mridangam"].map((opt, idx) => (
           <button
             key={idx}
             onClick={() => handleGuess(opt)}
