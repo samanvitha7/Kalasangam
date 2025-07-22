@@ -107,13 +107,11 @@ export const SoundProvider = ({ children }) => {
     if (!audioRef.current || !audioInitialized) return;
     
     if (soundEnabled) {
-      // Stop any other audio elements that might be playing
-      document.querySelectorAll('audio').forEach(audio => {
-        if (audio !== audioRef.current) {
-          audio.pause();
-          audio.currentTime = 0;
-        }
-      });
+      // Only stop background music audio, not all audio on the page
+      // This allows music page instruments to play without interference
+      if (audioRef.current) {
+        // Only control our own background audio
+      }
       
       audioRef.current.currentTime = 0; // Always start from beginning
       const playPromise = audioRef.current.play();

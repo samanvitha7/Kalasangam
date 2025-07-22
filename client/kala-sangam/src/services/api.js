@@ -386,6 +386,25 @@ export const api = {
     }
 
     return response.json();
+  },
+
+  // Fetch single artist by ID
+  getArtist: async (artistId) => {
+    const url = `${API_URL}/api/users/artists/${artistId}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to fetch artist: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
   }
 };
 

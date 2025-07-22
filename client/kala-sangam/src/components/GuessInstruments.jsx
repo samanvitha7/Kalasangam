@@ -21,23 +21,71 @@ export default function GuessInstrument() {
   const [current, setCurrent] = useState(null);
   const [selected, setSelected] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [audioError, setAudioError] = useState(null);
   const audioRef = useRef(null);
 
   useEffect(() => {
-    pickRandomQuestion();
-  }, []);
-
-  const pickRandomQuestion = () => {
+    // Just pick a random question without auto-playing on component mount
     const random = questions[Math.floor(Math.random() * questions.length)];
     setCurrent(random);
     setSelected(null);
     setShowAnswer(false);
-    setTimeout(() => {
+    setIsPlaying(false);
+
+    // Cleanup function to stop audio when component unmounts
+    return () => {
       if (audioRef.current) {
-        audioRef.current.load();
-        audioRef.current.play();
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
       }
-    }, 100);
+    };
+  }, []);
+
+  const pickRandomQuestion = (shouldPlay = true) => {
+    const random = questions[Math.floor(Math.random() * questions.length)];
+    setCurrent(random);
+    setSelected(null);
+    setShowAnswer(false);
+    setIsPlaying(false);
+    
+    if (shouldPlay && hasStarted) {
+      // Only play if user has interacted and requested to play
+      setTimeout(() => {
+        playCurrentSound();
+      }, 100);
+    }
+  };
+
+  const playCurrentSound = async () => {
+    if (!audioRef.current || !current) return;
+    
+    try {
+      setAudioError(null);
+      audioRef.current.load();
+      await audioRef.current.play();
+      setIsPlaying(true);
+      setHasStarted(true);
+      
+      audioRef.current.onended = () => {
+        setIsPlaying(false);
+      };
+    } catch (error) {
+      console.log('Audio play failed:', error);
+      setAudioError('Click the play button to hear the sound!');
+      setIsPlaying(false);
+    }
+  };
+
+  const handlePlayClick = () => {
+    if (!hasStarted) {
+      // First time - just start the sound for current question
+      playCurrentSound();
+    } else {
+      // Subsequent times - pick new question and play
+      pickRandomQuestion(true);
+    }
   };
 
   const stopSound = () => {
@@ -62,13 +110,34 @@ export default function GuessInstrument() {
       viewport={{ once: true }}
     >
       {/* Play Button */}
-      <div className="flex justify-center mb-6">
+      <div className="flex flex-col items-center mb-6">
         <button
-          onClick={pickRandomQuestion}
-          className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-3 rounded-full transition"
+          onClick={handlePlayClick}
+          disabled={isPlaying}
+          className={`font-semibold px-6 py-3 rounded-full transition ${
+            isPlaying 
+              ? 'bg-gray-400 cursor-not-allowed text-white' 
+              : 'bg-orange-400 hover:bg-orange-500 text-white'
+          }`}
         >
-          🔊 Play Random Sound
+          {isPlaying ? '🔊 Playing...' : hasStarted ? '🔊 Play New Sound' : '🔊 Start Game'}
         </button>
+        
+        {audioError && (
+          <motion.p 
+            className="text-red-600 text-sm mt-2 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {audioError}
+          </motion.p>
+        )}
+        
+        {!hasStarted && (
+          <p className="text-gray-600 text-sm mt-2 text-center">
+            Click to hear an instrument sound and guess what it is!
+          </p>
+        )}
       </div>
 
       {/* Audio Element */}

@@ -5,7 +5,7 @@ import { FaArrowLeft, FaHeart, FaComment, FaEye, FaMapMarkerAlt, FaCalendarAlt, 
 import LazyImage from '../components/LazyImage';
 import useSmoothScroll from '../hooks/useSmoothScroll';
 import ReportModal from '../components/ReportModal';
-import ArtistProfile from "./ArtistProfile";
+import { api } from '../services/api';
 import axios from "axios";
 
 const ArtistProfile = () => {
@@ -20,92 +20,77 @@ const ArtistProfile = () => {
 
   useSmoothScroll();
 
-  // Sample artist data - replace with actual API calls
-  const sampleArtists = {
-    'priya-sharma': {
-      id: 'priya-sharma',
-      name: 'Priya Sharma',
-      bio: 'A passionate traditional artist specializing in Madhubani paintings. With over 15 years of experience, I strive to preserve and share the beauty of Indian folk art with the world.',
-      location: 'Mithila, Bihar',
-      joinedDate: '2020-03-15',
-      profileImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face',
-      coverImage: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
-      specialties: ['Madhubani', 'Folk Art', 'Traditional Painting'],
-      totalLikes: 245,
-      totalComments: 89,
-      totalViews: 1523,
-      socialLinks: {
-        instagram: '@priya.madhubani',
-        website: 'https://priyamadhubani.com'
-      }
-    },
-    'raj-kumar': {
-      id: 'raj-kumar',
-      name: 'Raj Kumar',
-      bio: 'Contemporary artist exploring the intersection of tradition and modernity through abstract expressions.',
-      location: 'Delhi, India',
-      joinedDate: '2021-07-20',
-      profileImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face',
-      coverImage: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=400&fit=crop',
-      specialties: ['Abstract', 'Contemporary', 'Mixed Media'],
-      totalLikes: 189,
-      totalComments: 67,
-      totalViews: 892,
-      socialLinks: {
-        instagram: '@raj.abstract',
-        behance: 'rajkumar_art'
-      }
-    }
-    // Add more artists as needed
-  };
-
-  const sampleArtworks = [
-    {
-      id: 1,
-      title: "Sunset Over Mountains",
-      description: "A beautiful landscape painting capturing the golden hour over the Himalayas.",
-      imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
-      category: "Landscape",
-      likes: 24,
-      comments: 8,
-      createdAt: "2024-01-15T10:30:00Z",
-      artistId: "priya-sharma"
-    },
-    {
-      id: 3,
-      title: "Traditional Madhubani",
-      description: "A traditional Madhubani painting depicting nature and mythology in classic style.",
-      imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
-      category: "Traditional",
-      likes: 67,
-      comments: 15,
-      createdAt: "2024-01-13T09:15:00Z",
-      artistId: "priya-sharma"
-    },
-    {
-      id: 2,
-      title: "Abstract Emotions",
-      description: "An abstract piece exploring human emotions through vibrant colors and dynamic forms.",
-      imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
-      category: "Abstract",
-      likes: 31,
-      comments: 12,
-      createdAt: "2024-01-14T14:20:00Z",
-      artistId: "raj-kumar"
-    }
-  ];
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      const artistData = sampleArtists[artistId];
-      if (artistData) {
-        setArtist(artistData);
-        setArtworks(sampleArtworks.filter(artwork => artwork.artistId === artistId));
-        setViews(artistData.totalViews + Math.floor(Math.random() * 10)); // Simulate view increment
+    const fetchArtist = async () => {
+      try {
+        setLoading(true);
+        
+        // Try to get single artist first
+        try {
+          const response = await api.getArtist(artistId);
+          if (response.success && response.data) {
+            const artistData = response.data;
+            setArtist({
+              ...artistData,
+              profileImage: artistData.avatar || 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face',
+              coverImage: artistData.signatureWork || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
+              specialties: [artistData.specialization || 'Traditional Arts'],
+              totalLikes: artistData.likesCount || 0,
+              totalComments: artistData.commentsCount || 0,
+              totalViews: artistData.viewsCount || Math.floor(Math.random() * 1000) + 100,
+              joinedDate: artistData.createdAt || new Date().toISOString(),
+              socialLinks: artistData.socialLinks || {},
+              location: artistData.location || 'India'
+            });
+            setViews(artistData.viewsCount || Math.floor(Math.random() * 1000) + 100);
+            setArtworks([]);
+            return;
+          }
+        } catch (singleArtistError) {
+          console.log('Single artist endpoint failed, trying alternative approach:', singleArtistError.message);
+        }
+        
+        // Fallback: Get all artists and find the one with matching ID
+        const allArtistsResponse = await api.getArtists();
+        if (allArtistsResponse.success && allArtistsResponse.data) {
+          const foundArtist = allArtistsResponse.data.find(artist => artist._id === artistId);
+          
+          if (foundArtist) {
+            const artistData = foundArtist;
+            setArtist({
+              ...artistData,
+              profileImage: artistData.avatar || 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face',
+              coverImage: artistData.signatureWork || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
+              specialties: [artistData.specialization || 'Traditional Arts'],
+              totalLikes: artistData.likesCount || 0,
+              totalComments: artistData.commentsCount || 0,
+              totalViews: artistData.viewsCount || Math.floor(Math.random() * 1000) + 100,
+              joinedDate: artistData.createdAt || new Date().toISOString(),
+              socialLinks: artistData.socialLinks || {},
+              location: artistData.location || 'India'
+            });
+            setViews(artistData.viewsCount || Math.floor(Math.random() * 1000) + 100);
+            setArtworks([]);
+          } else {
+            console.log('Artist not found in all artists list');
+            setArtist(null);
+          }
+        } else {
+          console.log('Failed to fetch all artists');
+          setArtist(null);
+        }
+      } catch (err) {
+        console.error('Error fetching artist:', err);
+        setArtist(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    }, 1000);
+    };
+
+    if (artistId) {
+      fetchArtist();
+    }
   }, [artistId]);
 
   const formatDate = (dateString) => {

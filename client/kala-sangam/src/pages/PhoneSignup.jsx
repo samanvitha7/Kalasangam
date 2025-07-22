@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { isPhoneNumberValid, isPasswordStrong } from "../utils/validators";
+import { isPhoneNumberValid, isPasswordStrong, getPhoneValidationMessage, formatPhoneForStorage } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
 
 export default function PhoneSignup() {
@@ -43,8 +43,11 @@ export default function PhoneSignup() {
       case 'phoneNumber':
         if (!realTime && !value.trim()) {
           errorMessage = "Phone number is required";
-        } else if (value.trim() && !isPhoneNumberValid(value)) {
-          errorMessage = "Please enter a valid phone number with country code";
+        } else if (value.trim()) {
+          const validationMessage = getPhoneValidationMessage(value);
+          if (validationMessage) {
+            errorMessage = validationMessage;
+          }
         }
         break;
       case 'password':
@@ -108,8 +111,9 @@ export default function PhoneSignup() {
       return;
     }
     
-    if (!isPhoneNumberValid(phoneNumber)) {
-      setError("Enter a valid phone number.");
+    const phoneValidationMessage = getPhoneValidationMessage(phoneNumber);
+    if (phoneValidationMessage) {
+      setError(phoneValidationMessage);
       return;
     }
     
@@ -197,15 +201,15 @@ export default function PhoneSignup() {
           <ul className="text-xs text-teal-200 space-y-1 ml-4">
             <li className="flex items-center">
               <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
-              Include country code (e.g., +1 for US)
+              International: +1234567890 (10-18 digits after +)
             </li>
             <li className="flex items-center">
               <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
-              10-18 digits long
+              Domestic: 1234567890 (10-15 digits)
             </li>
             <li className="flex items-center">
               <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
-              No spaces or special characters except +, -, (), and spaces
+              Allowed: +, -, (), spaces (automatically removed)
             </li>
           </ul>
         </div>

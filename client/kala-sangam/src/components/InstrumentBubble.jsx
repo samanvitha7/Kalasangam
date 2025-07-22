@@ -1,12 +1,23 @@
 import { motion } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function InstrumentBubble({ name, image, sound, description }) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [audioError, setAudioError] = useState(false);
 
-  const handlePlay = () => {
+  useEffect(() => {
+    // Cleanup function to stop audio when component unmounts
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, []);
+
+  const handlePlay = async () => {
     setShowInfo((prev) => !prev);
 
     if (audioRef.current) {
@@ -15,9 +26,16 @@ export default function InstrumentBubble({ name, image, sound, description }) {
         audioRef.current.currentTime = 0;
         setIsPlaying(false);
       } else {
-        audioRef.current.play();
-        setIsPlaying(true);
-        audioRef.current.onended = () => setIsPlaying(false);
+        try {
+          await audioRef.current.play();
+          setIsPlaying(true);
+          setAudioError(false);
+          audioRef.current.onended = () => setIsPlaying(false);
+        } catch (error) {
+          console.log('Audio play failed:', error);
+          setAudioError(true);
+          // Still show info even if audio fails
+        }
       }
     }
   };

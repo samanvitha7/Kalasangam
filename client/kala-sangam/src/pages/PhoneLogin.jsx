@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { isPhoneNumberValid, isPasswordStrong } from "../utils/validators";
+import { isPhoneNumberValid, isPasswordStrong, getPhoneValidationMessage } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
 
 export default function PhoneLogin() {
@@ -29,8 +29,9 @@ export default function PhoneLogin() {
       return;
     }
     
-    if (!isPhoneNumberValid(phoneNumber)) {
-      setError("Enter a valid phone number.");
+    const phoneValidationMessage = getPhoneValidationMessage(phoneNumber);
+    if (phoneValidationMessage) {
+      setError(phoneValidationMessage);
       return;
     }
     
