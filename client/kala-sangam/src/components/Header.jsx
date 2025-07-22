@@ -185,8 +185,8 @@ export default function Header({ scrolled, onMapClick }) {
           </Link>
 
           <Link
+            to="/about"
             className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
-            
           >
             About
           </Link>

@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Lottie from "lottie-react";
 import WhyWeBuiltThis from "../components/WhyBuilt.jsx";
 import MeetTheTeam from "../components/MeetTheTeam.jsx";
@@ -132,9 +133,23 @@ const culturalLottieData = {
 
 export default function About() {
   const containerRef = useRef(null);
+  const location = useLocation();
   const { scrollYProgress } = useScroll({ target: containerRef });
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+
+  // Ensure animations restart when navigating to About page
+  useEffect(() => {
+    // Scroll to top when About page is loaded
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Small delay to ensure proper initialization
+    const timer = setTimeout(() => {
+      // Trigger any additional setup if needed
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   return (
     <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-[#FFF4E0] via-[#FFE0B5] to-[#FFD6A5] text-[#462F1A] overflow-hidden">
