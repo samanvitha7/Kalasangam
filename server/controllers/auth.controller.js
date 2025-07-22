@@ -6,12 +6,7 @@ const { validationResult } = require('express-validator');
 const ArtistProfile = require('../models/Artist');
 
 
-// ✅ Generate JWT
-const generateToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
-    expiresIn: '1d',
-  });
-};
+
 
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
@@ -60,16 +55,6 @@ const register = async (req, res) => {
         bio: "",
         profilePic: "",
         artworks: []
-      });
-    }
-
-    // ✅ Optional: Create ViewerProfile if role is viewer
-    if (role === "viewer") {
-      await ViewerProfile.create({
-        userId: user._id,
-        name: user.name,
-        email: user.email,
-        preferences: []
       });
     }
 
