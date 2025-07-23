@@ -253,7 +253,7 @@ export default function MusicPage() {
           {/* Instruments bubbles layout */}
           <AnimatePresence>
             <motion.div 
-              className="flex flex-wrap justify-center gap-12 mb-20 z-10 relative"
+              className="flex flex-wrap justify-center gap-16 lg:gap-20 mb-20 z-10 relative"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
