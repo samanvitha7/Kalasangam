@@ -26,6 +26,57 @@ const ArtistProfile = () => {
 
   useSmoothScroll();
 
+  // Floating particles for background (matching ArtWall and About)
+  const FloatingParticles = () => {
+    const particles = Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 4 + 2,
+      color: [
+        'rgba(19, 72, 86, 0.6)',
+        'rgba(224, 82, 100, 0.6)',
+        'rgba(244, 140, 140, 0.6)',
+        'rgba(29, 124, 111, 0.6)',
+        'rgba(255, 215, 0, 0.6)'
+      ][Math.floor(Math.random() * 5)],
+      initialX: Math.random() * 100,
+      initialY: Math.random() * 100,
+      animationDelay: Math.random() * 5,
+      animationDuration: 8 + Math.random() * 6
+    }));
+
+    return (
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full opacity-40"
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              backgroundColor: particle.color,
+              left: `${particle.initialX}%`,
+              top: `${particle.initialY}%`,
+              filter: 'blur(0.5px)',
+              boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`
+            }}
+            animate={{
+              y: [0, -80, 0],
+              x: [0, 25, -25, 0],
+              opacity: [0.4, 0.7, 0.4],
+              scale: [1, 1.3, 1]
+            }}
+            transition={{
+              duration: particle.animationDuration,
+              repeat: Infinity,
+              delay: particle.animationDelay,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+
   // Fetch artist data and artworks
   useEffect(() => {
     const fetchArtist = async () => {
@@ -179,10 +230,10 @@ const ArtistProfile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#F8E6DA]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-600 mx-auto mb-4"></div>
-          <p className="text-amber-700">Loading artist profile...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#E05264] mx-auto mb-4"></div>
+          <p className="text-xl font-lora text-[#E05264]">Loading artist profile...</p>
         </div>
       </div>
     );
@@ -190,24 +241,28 @@ const ArtistProfile = () => {
 
   if (!artist) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#F8E6DA]">
         <div className="text-center">
           <div className="text-6xl mb-4">🎨</div>
-          <h2 className="text-2xl font-bold text-amber-900 mb-2">Artist Not Found</h2>
-          <p className="text-amber-700 mb-6">The artist you're looking for doesn't exist.</p>
-          <button
+          <h2 className="text-2xl font-bold font-dm-serif mb-2 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">Artist Not Found</h2>
+          <p className="text-[#E05264] font-lora mb-6">The artist you're looking for doesn't exist.</p>
+          <motion.button
             onClick={() => navigate('/art-wall')}
-            className="bg-amber-600 text-white px-6 py-2 rounded-full hover:bg-amber-700 transition-colors"
+            className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 font-dm-serif"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
           >
             Back to Art Wall
-          </button>
+          </motion.button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
+    <div className="min-h-screen bg-[#F8E6DA] overflow-hidden">
+      {/* Floating Particles Background */}
+      <FloatingParticles />
       {/* Header */}
       <motion.div
         className="relative h-80 overflow-hidden"
@@ -319,7 +374,7 @@ const ArtistProfile = () => {
       </motion.div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Left sidebar */}
           <motion.div

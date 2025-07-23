@@ -1,12 +1,21 @@
 // src/pages/Signup.jsx
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isEmailValid, isPasswordStrong } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
 
 export default function Signup() {
-  const [form, setForm] = useState({ name: "", email: "", password: "",role:"Viewer" });
+  const [searchParams] = useSearchParams();
+  const roleParam = searchParams.get('role');
+  const isArtistSignup = roleParam === 'artist';
+  
+  const [form, setForm] = useState({ 
+    name: "", 
+    email: "", 
+    password: "",
+    role: isArtistSignup ? "Artist" : "Viewer" 
+  });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [error, setError] = useState("");
@@ -102,7 +111,13 @@ export default function Signup() {
     const result = await register(form);
     if (result.success) {
       toast.success("Account created successfully! Welcome to KalaSangam!");
-      navigate("/home");
+      
+      // Redirect artists to their profile page, others to home
+      if (form.role === "Artist") {
+        navigate("/user-profile");
+      } else {
+        navigate("/home");
+      }
     } else {
       setError(result.error);
       toast.error(result.error);
@@ -120,8 +135,12 @@ export default function Signup() {
         className="bg-[linear-gradient(to_bottom,rgba(255,190,152,0.8),rgba(255,187,233,0.7),rgba(44,165,141,0.7))] 
                   p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora"
       >
-        <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">Create Account</h2>
-        <p className="text-center mb-6 text-sm text-teal-200">Join KalaSangam today!</p>
+        <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">
+          {isArtistSignup ? 'Join as Artist' : 'Create Account'}
+        </h2>
+        <p className="text-center mb-6 text-sm text-teal-200">
+          {isArtistSignup ? 'Start your artistic journey with us!' : 'Join KalaSangam today!'}
+        </p>
 
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
 
@@ -265,18 +284,32 @@ export default function Signup() {
             )}
           </div>
         </div>
-        <label htmlFor="role">Select Role:</label>
-        <select
-          name="role"
-          value={form.role}
-          onChange={(e) => setForm({ ...form, role: e.target.value })}
-          className="w-full px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200"
-          required
-        >
-          <option value="Viewer">Viewer</option>
-          <option value="Artist">Artist</option>
-          <option value="Admin">Admin</option>
-        </select>
+        {isArtistSignup ? (
+          <div className="mb-4 p-4 bg-teal-100 rounded-xl border-2 border-teal-300">
+            <p className="text-center text-teal-800 font-semibold">
+              🎨 You're signing up as an Artist!
+            </p>
+            <p className="text-center text-sm text-teal-600 mt-1">
+              You'll have access to create and showcase your artwork.
+            </p>
+            <input type="hidden" name="role" value="Artist" />
+          </div>
+        ) : (
+          <div className="mb-4">
+            <label htmlFor="role" className="block text-sm font-medium mb-2 text-[#284139]">Select Role:</label>
+            <select
+              name="role"
+              value={form.role}
+              onChange={(e) => setForm({ ...form, role: e.target.value })}
+              className="w-full px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200"
+              required
+            >
+              <option value="Viewer">Viewer</option>
+              <option value="Artist">Artist</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+        )}
 
 
         <button
