@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import ArtFormCard from "../components/ArtFormCard";
+import { FaSearch, FaFilter, FaTimes, FaMapMarkerAlt, FaPalette, FaGlobe } from 'react-icons/fa';
 
 export default function ArtGallery() {
 const navigate = useNavigate();
@@ -15,6 +16,9 @@ const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const stateFromQuery = searchParams.get("state");
   const [selectedState, setSelectedState] = useState(stateFromQuery || "");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterCategory, setFilterCategory] = useState('all');
+  const [sortBy, setSortBy] = useState('name');
   const [zoomImg, setZoomImg] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -43,9 +47,14 @@ const navigate = useNavigate();
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get("/api/artforms");
+        const response = await axios.get("http://localhost:5050/api/artforms?limit=200");
         
-        if (Array.isArray(response.data)) {
+        // Handle the API response structure
+        if (response.data && response.data.success && Array.isArray(response.data.data)) {
+          setArtforms(response.data.data);
+          console.log('Artforms loaded successfully:', response.data.data.length);
+        } else if (Array.isArray(response.data)) {
+          // Fallback for direct array response
           setArtforms(response.data);
           console.log('Artforms loaded successfully:', response.data.length);
         } else {
@@ -65,9 +74,45 @@ const navigate = useNavigate();
     fetchArtforms();
   }, []);
 
-  const filtered = selectedState
-    ? artforms.filter((art) => art.origin === selectedState)
-    : artforms;
+  // Enhanced filtering logic with search, category, and state filters
+  const filteredArtforms = artforms
+    .filter(art => {
+      // Search filter
+      const matchesSearch = searchTerm === '' || 
+        art.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        art.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        art.origin?.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      // State filter
+      const matchesState = selectedState === '' || art.origin === selectedState;
+      
+      // Art form category filter (you can expand this based on your categories)
+      const matchesCategory = filterCategory === 'all' || 
+        art.category?.toLowerCase() === filterCategory.toLowerCase() ||
+        (filterCategory === 'painting' && (art.name?.toLowerCase().includes('painting') || art.title?.toLowerCase().includes('painting'))) ||
+        (filterCategory === 'craft' && (art.name?.toLowerCase().includes('craft') || art.name?.toLowerCase().includes('work'))) ||
+        (filterCategory === 'sculpture' && art.name?.toLowerCase().includes('carving')) ||
+        (filterCategory === 'textile' && (art.name?.toLowerCase().includes('embroidery') || art.name?.toLowerCase().includes('shawl') || art.name?.toLowerCase().includes('phulkari')));
+      
+      return matchesSearch && matchesState && matchesCategory;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+          return (a.name || a.title || '').localeCompare(b.name || b.title || '');
+        case 'state':
+          return (a.origin || '').localeCompare(b.origin || '');
+        case 'newest':
+          return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+        case 'oldest':
+          return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
+        default:
+          return 0;
+      }
+    });
+
+  // Keep the original filtered variable for backward compatibility
+  const filtered = filteredArtforms;
 
   // Debug logging (only log important information)
   useEffect(() => {
@@ -144,7 +189,7 @@ const navigate = useNavigate();
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-blush-peach text-coral-pink font-noto page-layout overflow-hidden">
+    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] text-coral-pink font-noto page-layout overflow-hidden">
       {/* Floating Particles Background */}
       <FloatingParticles />
       
@@ -253,26 +298,85 @@ const navigate = useNavigate();
         </div>
       )}
 
-      {/* Main Content - Only show when not loading and no error */}
-      {!loading && !error && (
-        <>
-          <div className={`mb-8 flex justify-center transition-all duration-1000 delay-300 ${pageReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <select
-              className="border border-coral-red/50 rounded px-5 py-3 text-lg shadow-sm bg-mist-blush text-deep-charcoal font-lora"
-              value={selectedState}
-              onChange={(e) => setSelectedState(e.target.value)}
-              disabled={artforms.length === 0}
-            >
-              <option value="">All States</option>
-              {[...new Set(artforms.map((art) => art.origin))].map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Search and Filter Controls */}
+          <motion.div 
+            className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-2 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="bg-[#F8E6DA] rounded-2xl p-6">
+              <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+                
+                {/* Search Bar */}
+                <div className="relative flex-1 max-w-md">
+                  <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search for art forms..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  />
+                </div>
 
-          {/* Art Cards */}
+                {/* Filter and Sort */}
+                <div className="flex gap-4">
+                  <div className="flex items-center gap-2">
+                    <FaFilter className="text-gray-600" />
+                    <select
+                      value={filterCategory}
+                      onChange={(e) => setFilterCategory(e.target.value)}
+                      className="px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    >
+                      <option value="all">All Categories</option>
+                      <option value="painting">Painting</option>
+                      <option value="sculpture">Sculpture</option>
+                      <option value="craft">Craft</option>
+                    </select>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <FaMapMarkerAlt className="text-gray-600" />
+                    <select
+                      value={selectedState}
+                      onChange={(e) => setSelectedState(e.target.value)}
+                      className="px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    >
+                      <option value="">All States</option>
+                      {[...new Set(artforms.map((art) => art.origin))]
+                        .filter(state => state) // Remove any null/undefined values
+                        .sort() // Sort alphabetically
+                        .map((state) =>
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      )}
+                    </select>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <FaPalette className="text-gray-600" />
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    >
+                      <option value="name">By Name</option>
+                      <option value="state">By State</option>
+                      <option value="newest">Newest First</option>
+                      <option value="oldest">Oldest First</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Main Content - Only show when not loading and no error */}
+          {!loading && !error && (
+            <>
+              {/* Art Cards */}
           {filtered.length > 0 ? (
             <>
               <div className="text-center mb-6">
