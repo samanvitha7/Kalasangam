@@ -152,7 +152,7 @@ export default function MusicPage() {
         
         <div className="relative container mx-auto px-4 text-center z-10">
           <motion.h1 
-            className="text-5xl font-winky text-[#134856] mb-8 drop-shadow-lg leading-tight"
+            className="text-5xl font-dm-serif text-[#134856] mb-8 drop-shadow-lg leading-tight"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -205,7 +205,7 @@ export default function MusicPage() {
           animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
-          <h2 className="text-5xl font-winky text-[#134856] text-center mb-12">
+          <h2 className="text-5xl font-dm-serif text-[#134856] text-center mb-12">
             Discover Traditional Instruments
           </h2>
           <div className="flex flex-wrap justify-center gap-8 mb-20 z-10 relative">
@@ -230,7 +230,7 @@ export default function MusicPage() {
           transition={{ duration: 0.8, delay: 1.5 }}
         >
           <div className="bg-gradient-to-r from-[#E05264] to-[#F48C8C] rounded-2xl p-8 md:p-12 text-white shadow-2xl">
-            <h2 className="text-5xl font-winky text-center mb-8">
+            <h2 className="text-5xl font-dm-serif text-center mb-8">
               Test Your Musical Knowledge
             </h2>
             <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 border border-white/30">

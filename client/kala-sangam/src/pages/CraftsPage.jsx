@@ -345,7 +345,7 @@ export default function CraftsPage() {
 
         <div className="relative container mx-auto px-4 text-center z-10">
           <motion.h1
-            className="text-5xl font-winky text-[#134856] mb-8 drop-shadow-lg leading-tight"
+            className="text-5xl font-dm-serif text-[#134856] mb-8 drop-shadow-lg leading-tight"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -372,7 +372,7 @@ export default function CraftsPage() {
           animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
-          <h2 className="text-5xl font-winky text-[#134856] text-center mb-8">
+          <h2 className="text-5xl font-dm-serif text-[#134856] text-center mb-8">
             Master Traditional Crafts
           </h2>
           <p className="text-lg font-lora text-gray-700 max-w-2xl mx-auto text-center mb-12">

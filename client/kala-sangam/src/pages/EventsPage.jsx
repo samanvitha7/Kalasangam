@@ -191,7 +191,7 @@ function EventsPage() {
         transition={{ duration: 0.3 }}
       >
         <div className="flex justify-between items-start mb-4">
-          <h3 className="text-xl font-bold text-deep-teal font-winky">{normalizedEvent.title}</h3>
+          <h3 className="text-xl font-bold text-deep-teal font-dm-serif">{normalizedEvent.title}</h3>
           <span className={`px-3 py-1 rounded-full text-sm font-medium ${
             normalizedEvent.category === 'dance' ? 'bg-pink-100 text-pink-800' :
             normalizedEvent.category === 'music' ? 'bg-blue-100 text-blue-800' :
