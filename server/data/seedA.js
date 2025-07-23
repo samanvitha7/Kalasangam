@@ -28,7 +28,7 @@ const galleryData = [
   "name": "Tribal Artifacts",
   "origin": "Andaman and Nicobar",
   "photoUrl": [
-    "https://i.pinimg.com/736x/8e/d1/1c/8ed11ce0ceb694c42ec5b031ba7aafdc.jpg1",
+    "https://i.pinimg.com/736x/8e/d1/1c/8ed11ce0ceb694c42ec5b031ba7aafdc.jpg",
     "https://i.pinimg.com/736x/8d/39/dc/8d39dca013e42f026481f6c2a82b4dc3.jpg",
     "https://i.pinimg.com/736x/64/9a/c7/649ac79e3d87b2c5b32f7cc1806f93d6.jpg",
     "https://i.pinimg.com/736x/d5/ec/99/d5ec992e6f9b5a4ff61b40674e374a87.jpg"
@@ -70,9 +70,10 @@ const galleryData = [
     name: "Nirmal Paintings",
     origin: "Andhra Pradesh",
     photoUrl: [
-     "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCBnnbIIwul7d9FSeVomy54CAiojJJ2jxX6DCyITB0_myqxhvsAN9iWiiDkuD0-DPvuzPg_mRKa1LKLtF_wqrLoORG5ZeSjtzMO9Cdhyphenhyphen2j-k3Cdcng9Zx33rx5Ph2cDKjSUYnDrmmJV3M/s1600/nirmal_painting.jpg",
-"https://tsht.telangana.gov.in/GolkoCrafts/images/products/nirmal_paintngs/large/44.jpg",
-"https://cdn.dollsofindia.com/images/p/folk-paintings/nirmal-painting-SC88_l.jpg"
+      "https://i.pinimg.com/1200x/8d/3c/b6/8d3cb6c4d5550b17d734228407613c56.jpg",
+      "https://i.pinimg.com/736x/a8/b6/9a/a8b69a17e453cd5c9484a7d34b32ab87.jpg",
+      "https://i.pinimg.com/736x/47/fc/2a/47fc2a9d612873003b2237b19f9c2e04.jpg",
+      "https://i.pinimg.com/736x/24/6c/03/246c03fe2c9af3cd7e6b55c2d1a1acaf.jpg"
     ]
   },
   {
@@ -145,7 +146,7 @@ const galleryData = [
     
 "https://ethnoflorence.wordpress.com/wp-content/uploads/2014/05/f6e0d-1724963487.jpg",
 "https://ethnoflorence.wordpress.com/wp-content/uploads/2024/03/bonhams-monpa-mask.jpg",
-"https://www.dorotheum.com/fileadmin/lot-images/39T151102/normal/monpa-indien-bundesstaat-arunachal-pradesh-eine-sehr-alte-maske-fuer-die-sogenannten-cham-taenze-2325190.jpg",
+"https://i.pinimg.com/736x/f9/0c/df/f90cdfd69e10a8afbfa51260b05ce322.jpg",
 "https://www.sftribal.com/wp-content/uploads/2020/11/9fc16ad4635aa4de8e11dcc4664d454d.jpg",
     ]
   },//assam
@@ -165,7 +166,7 @@ const galleryData = [
     photoUrl: [
      "https://m.media-amazon.com/images/I/81C1F79G6FL._UF894,1000_QL80_.jpg",
 "https://5.imimg.com/data5/SELLER/Default/2021/9/GG/VI/QP/129682126/assamese-jaapi-500x500.jpg",
-"https://lookaside.instagram.com/seo/google_widget/crawler/",
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRB9C_79af6hkpW3_JotbyGVJbRHY8qlXMntg&s.jpg",
 "https://live.staticflickr.com/2796/4505309617_e41b7486b5_b.jpg",
     ]
   },
@@ -204,7 +205,7 @@ const galleryData = [
     origin: "Bihar",
     photoUrl: [
      "http://okhai.org/cdn/shop/products/BH04DU01_A.jpg",
-"https://lookaside.fbsbx.com/lookaside/crawler/media/",
+"https://i.pinimg.com/736x/72/57/1b/72571b5114831e3fafd6120a75547138.jpg",
 "https://shop.umsas.org.in/wp-content/uploads/2021/12/DSC_4858.jpg",
 "https://itokri.com/cdn/shop/products/0X2A6890_d689e618-57fd-4340-8c8b-1c9f04c1279b.jpg"
     ]
@@ -213,11 +214,10 @@ const galleryData = [
     name: "Sujani Embroidery",
     origin: "Bihar",
     photoUrl: [
-     "https://lookaside.fbsbx.com/lookaside/crawler/media/",
 "https://shop.gaatha.com/image/data/paulami%20/K4.jpg",
 "https://shop.umsas.org.in/wp-content/uploads/2021/12/DSC_2192-scaled-350x500.jpg",
 "https://media.assettype.com/homegrown%2Fimport%2Farticle%2F14716-fhtsszjznu-1660901534.jpg",
-"https://oaklores.com/2024/12/15/evolution-of-sujani-embroidery-from-mothers-love-to-a-medium-of-social-expression/cushion-cover-amoulee/"
+"https://i.pinimg.com/1200x/ce/0b/1f/ce0b1fdf6c3c9707a1ca8106d915dc89.jpg"
     ]
   },
   {
@@ -257,7 +257,7 @@ const galleryData = [
      "https://images.jdmagicbox.com/quickquotes/images_main/handpainted-gond-art-on-mango-wood-wall-plate-d-10in-2219868445-94y200c3.jpg",
 "http://www.bridgebharat.com/cdn/shop/files/BBP0008G00002-F.jpg",
 "https://cdn11.bigcommerce.com/s-x49po/images/stencil/1500x1500/products/130739/297726/handmade%2Fdownscaled%2Fh_z3sj8ajwv1n_2000x2000__66689.1727420215.jpg",      
-"https://lookaside.instagram.com/seo/google_widget/crawler/"
+"https://i.pinimg.com/1200x/87/cd/7b/87cd7b146767f357a479d79cb08c3d05.jpg"
     ]
   },
   {
