@@ -56,19 +56,30 @@ export default function CinematicCarousel() {
 
   useEffect(() => {
     const el = scrollRef.current;
+    if (!el) return;
 
-    // Clone the track contents for seamless loop
-    const originalContent = el.innerHTML;
-    el.innerHTML += originalContent;
+    // Wait for content to be rendered before cloning
+    const timer = setTimeout(() => {
+      // Clone the track contents for seamless loop
+      const originalContent = el.innerHTML;
+      if (originalContent) {
+        el.innerHTML += originalContent;
+      }
+    }, 100);
 
     const interval = setInterval(() => {
-      el.scrollLeft += 2;
-      if (el.scrollLeft >= el.scrollWidth / 2) {
-        el.scrollLeft = 0;
+      if (el.scrollWidth > 0) {
+        el.scrollLeft += 2;
+        if (el.scrollLeft >= el.scrollWidth / 2) {
+          el.scrollLeft = 0;
+        }
       }
     }, 20);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
   }, []);
 
   return (

@@ -33,22 +33,39 @@
   margin: 0 auto;
 }
 
-/* Grid Layout - Exact match to Events */
-.grid {
+/* Grid Layout - Fixed for better stability */
+.artist-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0;
+  gap: 1rem;
   margin-bottom: 2rem;
+  min-height: 400px; /* Prevent layout shift */
 }
 
-/* Card Styling - Exact match to Events cards */
-.bg-white {
+/* Responsive grid */
+@media (max-width: 1024px) {
+  .artist-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .artist-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card Styling - Improved for stability */
+.artist-card {
   background: white;
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
   border: 1px solid #fed7aa;
+  min-height: 200px; /* Prevent layout shift */
+  display: flex;
+  flex-direction: column;
 }
 
 .shadow-md {
@@ -231,8 +248,8 @@
   overflow: hidden;
 }
 
-/* Pulsing Animation */
-.bg-white {
+/* Pulsing Animation - Apply only to specific elements, not all .bg-white */
+.artist-card-pulse {
   animation: pulse 2s infinite;
 }
 
@@ -271,16 +288,6 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
-  
-  .title {
-    font-size: 2rem;
-  }
-}
 
 @media (max-width: 480px) {
   .title {

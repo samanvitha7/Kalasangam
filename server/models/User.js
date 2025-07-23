@@ -89,6 +89,9 @@ const userSchema = new mongoose.Schema({
     youtube: { type: String, default: null }
   },
   
+  // Artist artworks
+  artworks: [{ type: String, default: [] }], // or you can ref artwork model
+  
   // Track likes, follows, and bookmarks
   likes: [{ type: mongoose.Schema.Types.ObjectId }],
   follows: [{ type: mongoose.Schema.Types.ObjectId }],

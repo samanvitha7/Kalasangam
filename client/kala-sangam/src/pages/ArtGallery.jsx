@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ArtFormCard from "../components/ArtFormCard";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 export default function ArtGallery() {
   const navigate = useNavigate();
@@ -16,13 +14,16 @@ export default function ArtGallery() {
   const [zoomImg, setZoomImg] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Initialize AOS
+  // Initialize page with proper animations
+  const [pageReady, setPageReady] = useState(false);
+  
   useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: true,
-      easing: 'ease-out-cubic',
-    });
+    // Ensure page is ready before showing animations
+    const timer = setTimeout(() => {
+      setPageReady(true);
+    }, 150);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -64,17 +65,12 @@ export default function ArtGallery() {
     ? artforms.filter((art) => art.origin === selectedState)
     : artforms;
 
-  // Debug logging
+  // Debug logging (only log important information)
   useEffect(() => {
-    console.log('Debug Info:');
-    console.log('Total artforms:', artforms.length);
-    console.log('Selected state:', selectedState);
-    console.log('Filtered artforms:', filtered.length);
-    console.log('First few artforms:', artforms.slice(0, 5));
     if (artforms.length > 0) {
-      console.log('Sample artform structure:', artforms[0]);
+      console.log(`Art Gallery: Loaded ${artforms.length} artforms, showing ${filtered.length} filtered results`);
     }
-  }, [artforms, filtered, selectedState]);
+  }, [artforms, filtered]);
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -110,7 +106,7 @@ export default function ArtGallery() {
       </div>
       
       <div className="container mx-auto px-4 py-6 pt-24">
-        <div data-aos="fade-up" className="mb-8">
+        <div className={`mb-8 transition-all duration-1000 ${pageReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <h1 className="text-5xl font-bold text-center text-tealblue mb-8 font-lora">
             Explore Indian Art Forms
           </h1>
@@ -148,7 +144,7 @@ export default function ArtGallery() {
       {/* Main Content - Only show when not loading and no error */}
       {!loading && !error && (
         <>
-          <div className="mb-8 flex justify-center">
+          <div className={`mb-8 flex justify-center transition-all duration-1000 delay-300 ${pageReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <select
               className="border border-coral-red/50 rounded px-5 py-3 text-lg shadow-sm bg-mist-blush text-deep-charcoal font-lora"
               value={selectedState}
@@ -173,9 +169,13 @@ export default function ArtGallery() {
                   {selectedState && ` from ${selectedState}`}
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 auto-rows-auto">
+              <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 auto-rows-auto transition-all duration-1000 delay-500 ${pageReady ? 'opacity-100' : 'opacity-0'}`}>
                 {filtered.map((art, index) => (
-                  <div key={art._id} className="w-full">
+                  <div 
+                    key={art._id} 
+                    className={`w-full transition-all duration-700 ${pageReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                    style={{ transitionDelay: `${Math.min(index * 100, 1000)}ms` }}
+                  >
                     <ArtFormCard
                       {...art}
                       onImageClick={handleImageClick}

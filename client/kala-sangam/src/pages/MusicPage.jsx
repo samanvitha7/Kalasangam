@@ -1,4 +1,3 @@
-// src/pages/MusicPage.jsx
 import InstrumentBubble from "../components/InstrumentBubble";
 import GuessInstrument from "../components/GuessInstruments.jsx";
 import sitar from "../assets/instruments/sitar.png";
@@ -13,8 +12,6 @@ import veenaSound from "../assets/sounds/veena.mp3";
 import mridangamSound from "../assets/sounds/mridangam.mp3";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 // Enhanced visual elements for background
 const backgroundElements = [
@@ -97,17 +94,18 @@ const MusicNote = ({ delay = 0, x = 0, y = 0 }) => (
 export default function MusicPage() {
   const [musicNotes, setMusicNotes] = useState([]);
 
-  useEffect(() => {
-    AOS.init({ duration: 1200, once: true });
-    
-    // Generate random music notes
-    const notes = Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      delay: Math.random() * 5
-    }));
-    setMusicNotes(notes);
+  useEffect(() => {
+    // Initialize page with animation readiness
+    const timer = setTimeout(() => {
+      setMusicNotes(Array.from({ length: 8 }, (_, i) => ({
+        id: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        delay: Math.random() * 5
+      })));
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (

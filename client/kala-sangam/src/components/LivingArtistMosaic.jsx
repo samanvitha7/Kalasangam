@@ -60,8 +60,38 @@ const LivingArtistMosaic = () => {
     if (loading) {
         return (
             <div className="grid-container">
-                <div className="header">
-                    <h2 className="title">Loading Artists...</h2>
+                <div className="container">
+                    <div className="header">
+                        <h1 className="title">Living Artists</h1>
+                        <p className="subtitle">
+                            Discover talented artists preserving India's rich cultural heritage through traditional arts.
+                        </p>
+                    </div>
+                    
+                    {/* Loading skeleton */}
+                    <div className="artist-grid">
+                        {[...Array(6)].map((_, index) => (
+                            <div key={index} className="artist-card animate-pulse">
+                                <div className="p-6">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+                                        <div className="h-6 bg-gray-200 rounded w-16"></div>
+                                    </div>
+                                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                                    <div className="h-4 bg-gray-200 rounded mb-4 w-2/3"></div>
+                                    <div className="space-y-2">
+                                        <div className="h-3 bg-gray-200 rounded"></div>
+                                        <div className="h-3 bg-gray-200 rounded"></div>
+                                        <div className="h-3 bg-gray-200 rounded"></div>
+                                    </div>
+                                    <div className="flex justify-between items-center mt-4">
+                                        <div className="h-6 bg-gray-200 rounded w-16"></div>
+                                        <div className="h-8 bg-gray-200 rounded w-24"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         );
@@ -70,8 +100,19 @@ const LivingArtistMosaic = () => {
     if (error || artists.length === 0) {
         return (
             <div className="grid-container">
-                <div className="header">
-                    <h2 className="title">No Artists Available</h2>
+                <div className="container">
+                    <div className="header">
+                        <h1 className="title">Living Artists</h1>
+                        <p className="subtitle">
+                            {error ? 'Unable to load artists at the moment.' : 'No artists available right now.'}
+                        </p>
+                    </div>
+                    
+                    <div className="artist-grid">
+                        <div className="col-span-full text-center py-16">
+                            <p className="text-gray-500 text-lg">Check back soon for amazing artists!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -101,12 +142,12 @@ const LivingArtistMosaic = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                 >
-                    <div className="grid md:grid-cols-3 gap-0">
+                    <div className="artist-grid">
                         <AnimatePresence>
                             {artists.slice(0, 6).map((artist, index) => (
                                 <motion.div
                                     key={artist._id}
-                                    className="bg-white shadow-md p-6 hover:shadow-lg transition-shadow border border-orange-100"
+                                    className="artist-card p-6 hover:shadow-lg transition-shadow border border-orange-100"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.3, delay: index * 0.1 }}

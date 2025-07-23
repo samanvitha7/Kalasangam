@@ -134,6 +134,7 @@ const culturalLottieData = {
 export default function About() {
   const containerRef = useRef(null);
   const location = useLocation();
+  const [pageReady, setPageReady] = useState(false);
   const { scrollYProgress } = useScroll({ target: containerRef });
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
@@ -143,9 +144,9 @@ export default function About() {
     // Scroll to top when About page is loaded
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
-    // Small delay to ensure proper initialization
+    // Set page ready with a small delay to ensure proper rendering
     const timer = setTimeout(() => {
-      // Trigger any additional setup if needed
+      setPageReady(true);
     }, 100);
     
     return () => clearTimeout(timer);
@@ -160,8 +161,8 @@ export default function About() {
       <motion.section 
         className="relative overflow-hidden pt-20 pb-32"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
+        animate={{ opacity: pageReady ? 1 : 0 }}
+        transition={{ duration: 1, delay: 0.2 }}
       >
         <motion.div 
           className="absolute inset-0 bg-gradient-to-r from-amber-200/20 via-orange-200/20 to-yellow-200/20"
@@ -206,24 +207,24 @@ export default function About() {
           <motion.h1 
             className="text-6xl md:text-7xl font-extrabold font-[Yatra One] mb-8 drop-shadow-lg leading-tight"
             initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           >
             About KalaSangam
           </motion.h1>
           <motion.p 
             className="max-w-3xl mx-auto text-xl md:text-2xl leading-relaxed text-[#5c3d24] font-medium mb-12"
             initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
           >
             Where ancient artistry meets modern innovation. A digital sanctuary preserving India's rich cultural heritage through technology.
           </motion.p>
           <motion.div 
             className="flex flex-wrap justify-center gap-6 text-sm md:text-base"
             initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
           >
             {[
               { icon: "🎨", text: "Traditional Arts" },

@@ -2,7 +2,36 @@
 
 ## Issues Resolved ✅
 
-### 1. **About Page Navigation Issue**
+### 1. **Site-wide Initial Load Layout Issue** 🆕
+**Problem**: Pages like Art Gallery and About showed incorrect layout on initial load, requiring refresh to display properly
+**Root Cause**: Components were rendering before CSS/fonts were fully loaded, causing layout shifts and animation initialization issues
+**Solution**: 
+- Implemented comprehensive `AppReadyProvider` context for site-wide resource loading management
+- Enhanced CSS and font loading detection with multiple validation checks
+- Added proper loading states with detailed progress indicators
+- Removed AOS (Animate On Scroll) dependency that wasn't properly installed
+- Replaced with custom CSS transitions and animation delays
+- Added fallback timeouts to ensure app loads even if checks fail
+
+**Files Modified**:
+- `client/kala-sangam/src/App.jsx` - Enhanced resource loading detection
+- `client/kala-sangam/src/context/AppReadyContext.jsx` - New global context for app readiness
+- `client/kala-sangam/src/pages/ArtGallery.jsx` - Removed AOS, added custom animations
+- `client/kala-sangam/src/pages/About.jsx` - Improved Framer Motion initialization
+- `client/kala-sangam/src/pages/MusicPage.jsx` - Removed AOS dependency
+- `client/kala-sangam/src/index.css` - Added CSS for layout stability and animation performance
+
+**Technical Details**:
+- Comprehensive CSS property validation (container, colors, backgrounds, transitions)
+- Font loading detection using `document.fonts.ready` API
+- Image loading verification
+- Progressive loading stages: DOM → Styles → Fonts → Finalization
+- 3-second fallback timeout for edge cases
+- Fixed duplicate route key warning for `/gallery`
+
+---
+
+### 2. **About Page Navigation Issue**
 **Problem**: About link in header was not working - URL not changing when clicked
 **Solution**: 
 - Fixed missing `to="/about"` prop in the Header component navigation link
