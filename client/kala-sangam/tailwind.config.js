@@ -7,34 +7,40 @@ export default {
   theme: {
     extend: {
       colors: {
-         tealblue: '#134856',         // ← Add this line back
-          rosered: '#D95A70',
-          blushpeach: '#FBD1C6',
-          vermilion: '#E84338',
-          rosehover: '#AC1E5E',
-          saffronglow: '#F2AA6B',
-        // Primary Colors
-        'coral-red': '#E85A4F',
-        'golden-saffron': '#F6A100',
-        // Accent Colors
-        'muted-fuchsia': '#DA639B',
-        'indigo-purple': '#6D47A2',
-        // Background Colors
+        // New Design System Colors
+        'deep-teal': '#134856',
+        'blush-peach': '#F8E6DA',
+        'coral-pink': '#E05264',
+        'soft-coral': '#F48C8C',
+        'lotus-green': '#1D7C6F',
+        'rich-gold': '#FFD700',
+        
+        // Legacy colors for backward compatibility
+        'tealblue': '#134856',
+        'rosered': '#D95A70',
+        'blushpeach': '#FBD1C6',
+        'vermilion': '#E84338',
+        'rosehover': '#AC1E5E',
+        'saffronglow': '#F2AA6B',
+        'coral-red': '#E05264',
+        'golden-saffron': '#FFD700',
+        'muted-fuchsia': '#F48C8C',
+        'indigo-purple': '#1D7C6F',
         'warm-sand': '#F8E6DA',
-        'mist-blush': '#FBEDEE',
-        'saffron-mist': '#FFE5B2',
-        'light-rose-pink': '#FADADD',
-        // Text Colors
-        'deep-charcoal': '#2E2E2E',
-        'off-white': '#FFF8F1',
+        'mist-blush': '#F48C8C',
+        'saffron-mist': '#FFD700',
+        'light-rose-pink': '#F48C8C',
+        'deep-charcoal': '#134856',
+        'off-white': '#F8E6DA',
       },
       fontFamily: {
         'lora': ['Lora', 'serif'],
-        'tac-one': ['Tac One', 'cursive'],
+        'tac-one': ['Tac One', 'serif'],
         'dm-serif-display': ['DM Serif Display', 'serif'],
-        'yatra': ['"Yatra One"', 'cursive'],
-        'winky': ['"Winky Rough"', 'sans-serif'],  // Fallback to cursive
-        'noto': ['"Noto Sans"', 'sans-serif'],
+        'yatra': ['Yatra One', 'serif'],
+        'winky': ['Winky Sans', 'sans-serif'],
+        'winky-rough': ['Winky Rough', 'serif'],
+        'noto': ['Noto Sans', 'sans-serif'],
       },
       fontSize: {
         heading: '3rem', // You can adjust the size here (e.g., '3.75rem' for 6xl)

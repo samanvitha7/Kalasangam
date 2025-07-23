@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import ArtFormCard from "../components/ArtFormCard";
 
 export default function ArtGallery() {
-  const navigate = useNavigate();
+const navigate = useNavigate();
+  const containerRef = useRef(null); // for scroll animations
+  const { scrollYProgress } = useScroll({ target: containerRef });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const [artforms, setArtforms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -88,29 +92,137 @@ export default function ArtGallery() {
     setIsFullscreen(false);
   };
 
-  return (
-    <div className="bg-warm-sand min-h-screen font-lora">
-      {/* Full Bleed Divider */}
-      <div className="w-full h-20 bg-gradient-to-r from-tealblue via-coral-red to-muted-fuchsia relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-tealblue/20 via-coral-red/20 to-muted-fuchsia/20"></div>
-        <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
-          <path d="M0,0L50,10C100,20,200,40,300,45C400,50,500,40,600,35C700,30,800,30,900,35C1000,40,1100,50,1150,55L1200,60L1200,120L1150,120C1100,120,1000,120,900,120C800,120,700,120,600,120C500,120,400,120,300,120C200,120,100,120,50,120L0,120Z" 
-            fill="#134856" 
-            opacity="0.8"
+  // Floating particles for background
+  const FloatingParticles = () => {
+    const particles = Array.from({ length: 25 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 4 + 2,
+      color: [
+        'rgba(19, 72, 86, 0.6)',
+        'rgba(224, 82, 100, 0.6)',
+        'rgba(248, 230, 218, 0.8)',
+        'rgba(255, 193, 7, 0.6)',
+        'rgba(139, 69, 19, 0.5)'
+      ][Math.floor(Math.random() * 5)],
+      initialX: Math.random() * 100,
+      initialY: Math.random() * 100,
+      animationDelay: Math.random() * 5,
+      animationDuration: 8 + Math.random() * 6
+    }));
+
+    return (
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full opacity-40"
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              backgroundColor: particle.color,
+              left: `${particle.initialX}%`,
+              top: `${particle.initialY}%`,
+              filter: 'blur(0.5px)',
+              boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`
+            }}
+            animate={{
+              y: [0, -80, 0],
+              x: [0, 25, -25, 0],
+              opacity: [0.4, 0.7, 0.4],
+              scale: [1, 1.3, 1]
+            }}
+            transition={{
+              duration: particle.animationDuration,
+              repeat: Infinity,
+              delay: particle.animationDelay,
+              ease: "easeInOut"
+            }}
           />
-          <path d="M0,20L50,25C100,30,200,40,300,42C400,45,500,40,600,38C700,35,800,35,900,40C1000,45,1100,55,1150,60L1200,65L1200,120L1150,120C1100,120,1000,120,900,120C800,120,700,120,600,120C500,120,400,120,300,120C200,120,100,120,50,120L0,120Z" 
-            fill="#E85A4F"
-            opacity="0.9"
-          />
-        </svg>
+        ))}
       </div>
+    );
+  };
+
+  return (
+    <div ref={containerRef} className="min-h-screen bg-blush-peach text-coral-pink font-noto page-layout overflow-hidden">
+      {/* Floating Particles Background */}
+      <FloatingParticles />
       
-      <div className="container mx-auto px-4 py-6 pt-24">
-        <div className={`mb-8 transition-all duration-1000 ${pageReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h1 className="text-5xl font-bold text-center text-tealblue mb-8 font-lora">
-            Explore Indian Art Forms
-          </h1>
+      {/* Hero Section with Enhanced Design */}
+      <motion.section 
+        className="relative overflow-hidden pt-20 pb-16"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: pageReady ? 1 : 0 }}
+        transition={{ duration: 1, delay: 0.2 }}
+      >
+        {/* Animated Background Elements */}
+        <motion.div 
+          className="absolute w-96 h-96 bg-gradient-to-r from-[#134856]/20 to-[#E05264]/20 rounded-full blur-3xl opacity-30 top-0 left-0"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute w-80 h-80 bg-gradient-to-r from-[#ff6b6b]/20 to-[#ffa726]/20 rounded-full blur-3xl opacity-25 bottom-0 right-0"
+          animate={{ 
+            scale: [1, 1.1, 1],
+            rotate: [0, -90, 0],
+            opacity: [0.25, 0.4, 0.25]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+        
+        <div className="relative container mx-auto px-4 text-center z-10">
+          <motion.h1 
+            className="text-6xl md:text-7xl font-extrabold font-winky text-deep-teal mb-8 drop-shadow-lg leading-tight"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            Art Gallery
+          </motion.h1>
+          <motion.p 
+            className="max-w-4xl mx-auto text-xl md:text-2xl leading-relaxed text-[#5c3d24] font-medium mb-12"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            Discover the magnificent tapestry of Indian traditional arts. From ancient crafts to timeless performances, explore the diverse cultural heritage of our nation.
+          </motion.p>
+          
+          {/* Floating Art Icons */}
+          <motion.div 
+            className="flex flex-wrap justify-center gap-6 text-sm md:text-base"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            {[
+              { icon: "🎨", text: "Traditional Paintings" },
+              { icon: "🏺", text: "Ancient Crafts" },
+              { icon: "🎭", text: "Cultural Heritage" },
+              { icon: "✨", text: "Artistic Legacy" }
+            ].map((item, index) => (
+              <motion.div 
+                key={index}
+                className="bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-white/30"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="font-semibold text-[#8b4513]">{item.icon} {item.text}</span>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
+      </motion.section>
+
+      <div className="container mx-auto px-4 py-6 relative z-10">
 
 
 
