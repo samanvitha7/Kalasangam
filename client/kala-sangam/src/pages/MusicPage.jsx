@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import InstrumentBubble from "../components/InstrumentBubble";
 import GuessInstrument from "../components/GuessInstruments";
 import sitarImage from "../assets/instruments/sitar.png";
