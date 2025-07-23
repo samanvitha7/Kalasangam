@@ -84,7 +84,7 @@ function MeetTheTeam() {
         {team.map((member, idx) => (
           <motion.div 
             key={idx} 
-            className="perspective w-64 h-96 group cursor-pointer"
+            className="w-64 h-96 group cursor-pointer"
             initial={{ opacity: 0, y: 50, rotateY: -30 }}
             whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
             transition={{ duration: 0.6, delay: idx * 0.15 }}
@@ -95,11 +95,26 @@ function MeetTheTeam() {
             onClick={() => handleCardClick(idx)}
           >
             <motion.div 
-              className={`relative w-full h-full duration-700 transform-style-preserve-3d transition-transform ${flipped[idx] ? "rotate-y-180" : ""}`}
+              className="relative w-full h-full"
               whileHover={{ scale: 1.05 }}
+              animate={{
+                rotateY: flipped[idx] ? 180 : 0
+              }}
+              transition={{
+                duration: 0.7,
+                ease: "easeInOut"
+              }}
+              style={{
+                transformStyle: "preserve-3d"
+              }}
             >
               {/* Front Side */}
-              <div className="absolute w-full h-full bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl backface-hidden flex flex-col items-center p-6 border border-white/20">
+              <div 
+                className="absolute w-full h-full bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl flex flex-col items-center p-6 border border-white/20"
+                style={{
+                  backfaceVisibility: "hidden"
+                }}
+              >
                 {/* Floating decorative elements */}
                 <motion.div
                   className={`absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br ${member.color} rounded-full opacity-70`}
@@ -130,7 +145,7 @@ function MeetTheTeam() {
                 />
                 
                 <motion.div
-                  className="w-24 h-24 rounded-full mb-4 overflow-hidden shadow-lg border-4 border-white"
+                  className="w-40 h-40 rounded-full mb-4 overflow-hidden shadow-lg border-4 border-white"
                   whileHover={{ scale: 1.1, rotate: 10 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -190,7 +205,13 @@ function MeetTheTeam() {
               </div>
               
               {/* Back Side */}
-              <div className={`absolute w-full h-full bg-gradient-to-br ${member.color} rounded-2xl shadow-xl backface-hidden rotate-y-180 flex items-center justify-center p-6 text-center`}>
+              <div 
+                className={`absolute w-full h-full bg-gradient-to-br ${member.color} rounded-2xl shadow-xl flex items-center justify-center p-6 text-center`}
+                style={{
+                  backfaceVisibility: "hidden",
+                  transform: "rotateY(180deg)"
+                }}
+              >
                 <div className="text-white">
                   <motion.div
                     className="text-4xl mb-4"
