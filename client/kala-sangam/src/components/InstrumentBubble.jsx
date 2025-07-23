@@ -18,7 +18,6 @@ export default function InstrumentBubble({ name, image, sound, description }) {
 
   const handlePlay = async () => {
     setShowInfo((prev) => !prev);
-
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -31,7 +30,6 @@ export default function InstrumentBubble({ name, image, sound, description }) {
           setAudioError(false);
           audioRef.current.onended = () => setIsPlaying(false);
         } catch (error) {
-          console.log("Audio play failed:", error);
           setAudioError(true);
         }
       }
@@ -43,7 +41,7 @@ export default function InstrumentBubble({ name, image, sound, description }) {
       <motion.div
         className={`relative w-40 h-40 rounded-full bg-[#fdecec] p-4 shadow-2xl flex items-center justify-center transition-all duration-300 cursor-pointer ${
           isPlaying
-            ? "ring-4 ring-[#FFD700] shadow-yellow-400/30"
+            ? "ring-4 ring-[#E05264] shadow-[#E05264]/30"
             : "ring-2 ring-[#1D7C6F]/30"
         }`}
         animate={{ y: [0, -12, 0] }}
@@ -52,12 +50,7 @@ export default function InstrumentBubble({ name, image, sound, description }) {
         whileTap={{ scale: 0.95 }}
         onClick={handlePlay}
       >
-        <img
-          src={image}
-          alt={name}
-          className="max-h-24 w-auto object-contain"
-        />
-
+        <img src={image} alt={name} className="max-h-24 w-auto object-contain" />
         {isPlaying && (
           <div className="absolute bottom-2 flex gap-1">
             {[...Array(6)].map((_, i) => (
@@ -65,19 +58,13 @@ export default function InstrumentBubble({ name, image, sound, description }) {
                 key={i}
                 className="w-1 h-5 bg-[#E05264] rounded-sm"
                 animate={{ height: ["1rem", "2rem", "1rem"] }}
-                transition={{
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  duration: 0.4,
-                  delay: i * 0.1,
-                }}
+                transition={{ repeat: Infinity, repeatType: "loop", duration: 0.4, delay: i * 0.1 }}
               />
             ))}
           </div>
         )}
         <audio src={sound} ref={audioRef} />
       </motion.div>
-
       {showInfo && (
         <motion.div
           className="relative bg-[#fdecec] border border-[#E05264]/30 text-[#134856] px-4 py-3 rounded-2xl shadow-md max-w-xs text-center text-base font-[Noto Sans]"

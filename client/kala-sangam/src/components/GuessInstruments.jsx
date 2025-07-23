@@ -60,7 +60,6 @@ export default function GuessInstrument() {
         setIsPlaying(false);
       };
     } catch (error) {
-      console.log("Audio play failed:", error);
       setAudioError("Click the play button to hear the sound!");
       setIsPlaying(false);
     }
@@ -89,8 +88,8 @@ export default function GuessInstrument() {
 
   return (
     <motion.div
-      className="bg-[#F8E6DA] border border-[#F48C8C] p-6 rounded-3xl shadow-xl font-noto text-deep-teal pt-24 pb-8 px-4"
-      initial={{ scale: 0.95, opacity: 0 }}
+      className="bg-[#fdecec] px-6 py-8 rounded-3xl shadow-xl font-noto text-[#134856] max-w-3xl mx-auto mt-20"
+      initial={{ scale: 0.9, opacity: 0 }}
       whileInView={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
@@ -109,11 +108,7 @@ export default function GuessInstrument() {
         </button>
 
         {audioError && (
-          <motion.p
-            className="text-[#E05264] text-sm mt-2 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
+          <motion.p className="text-[#E05264] text-sm mt-2 text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             {audioError}
           </motion.p>
         )}
@@ -152,9 +147,7 @@ export default function GuessInstrument() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          {selected === current?.answer
-            ? "✅ Correct!"
-            : `❌ Oops! It was ${current?.answer}.`}
+          {selected === current?.answer ? "✅ Correct!" : `❌ Oops! It was ${current?.answer}.`}
         </motion.p>
       )}
     </motion.div>

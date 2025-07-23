@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import ArtCard from '../components/ArtCard';
@@ -295,21 +295,85 @@ const ArtWall = () => {
 
   const categories = ['all', 'traditional', 'contemporary', 'abstract', 'landscape', 'digital'];
 
+  // Floating particles for background
+  const FloatingParticles = () => {
+    const particles = Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 4 + 2,
+      color: [
+        'rgba(19, 72, 86, 0.6)',
+        'rgba(224, 82, 100, 0.6)',
+        'rgba(244, 140, 140, 0.6)',
+        'rgba(29, 124, 111, 0.6)',
+        'rgba(255, 215, 0, 0.6)'
+      ][Math.floor(Math.random() * 5)],
+      initialX: Math.random() * 100,
+      initialY: Math.random() * 100,
+      animationDelay: Math.random() * 5,
+      animationDuration: 8 + Math.random() * 6
+    }));
+
+    return (
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full opacity-40"
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              backgroundColor: particle.color,
+              left: `${particle.initialX}%`,
+              top: `${particle.initialY}%`,
+              filter: 'blur(0.5px)',
+              boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`
+            }}
+            animate={{
+              y: [0, -80, 0],
+              x: [0, 25, -25, 0],
+              opacity: [0.4, 0.7, 0.4],
+              scale: [1, 1.3, 1]
+            }}
+            transition={{
+              duration: particle.animationDuration,
+              repeat: Infinity,
+              delay: particle.animationDelay,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 pt-24 pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header Section */}
-        <motion.div 
+    <div className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
+      {/* Floating Particles Background */}
+      <FloatingParticles />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Hero Section */}
+        <motion.section 
           className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl md:text-6xl font-bold font-[Yatra One] text-amber-900 mb-4">
+          {/* Animated Background Elements */}
+          <motion.div 
+            className="absolute w-96 h-96 bg-gradient-to-r from-[#E05264]/20 to-[#F48C8C]/20 rounded-full blur-3xl opacity-30 top-0 left-0"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              rotate: [0, 90, 0],
+              opacity: [0.3, 0.5, 0.3]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+          
+          <h1 className="text-5xl font-winky text-[#134856] mb-6">
             Art Wall
           </h1>
-          <p className="text-xl text-amber-700 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg font-lora text-gray-700 max-w-3xl mx-auto leading-relaxed mb-8">
             A collaborative space where artists share their creativity and passion. 
             Discover, appreciate, and contribute to our growing collection of artistic expressions.
           </p>
@@ -339,7 +403,7 @@ const ArtWall = () => {
               </Link>
             </motion.div>
           </div>
-        </motion.div>
+        </motion.section>
 
         {/* Search and Filter Controls */}
         <motion.div 

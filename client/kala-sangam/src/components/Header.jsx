@@ -95,7 +95,7 @@ export default function Header({ scrolled, onMapClick }) {
 
            <Link
               to="/gallery"
-              className="font-yatra mt-[10px] font-[500]  transition-all duration-300 ease-in-out hover:text-rosehover"
+              className="font-winky mt-[10px] font-[500]  transition-all duration-300 ease-in-out hover:text-rosehover"
             >
             Art Gallery
             </Link>
@@ -105,14 +105,14 @@ export default function Header({ scrolled, onMapClick }) {
 
             <Link
               to="/art-wall"
-              className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+              className="font-winky mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
             >
               Art Wall
             </Link>
 
             <Link
               to="/artists"
-              className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+              className="font-winky mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
             >
               Artists
             </Link>
@@ -120,7 +120,7 @@ export default function Header({ scrolled, onMapClick }) {
          <div className="relative mt-[8px]" ref={dropdownRef}>
   <span
     className={`
-       font-yatra font-[500]  text-tealblue cursor-pointer
+       font-winky font-[500]  text-tealblue cursor-pointer
       transition-all duration-300 ease-in-out
       hover:text-rosehover 
     `}
@@ -169,7 +169,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/map"
-           className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+           className="font-winky mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
             
             onClick={onMapClick}
           >
@@ -178,7 +178,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/events"
-            className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+            className="font-winky mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
             
           >
             Events
@@ -186,7 +186,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/about"
-            className="font-yatra mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+            className="font-winky mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
           >
             About
           </Link>

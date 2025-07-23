@@ -1,30 +1,45 @@
 @import './styles/footer-fix.css';
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Yatra+One:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom CSS Variables for the new color scheme */
+/* Design System CSS Variables */
 :root {
-  /* Primary Colors */
-  --teal-blue: #1E5E75;
-  --coral-red: #E85A4F;
-  --golden-saffron: #F6A100;
+  /* Colors */
+  --text-deep-teal: #134856;
+  --background-blush-peach: #F8E6DA;
+  --primary-coral-pink: #E05264;
+  --secondary-soft-coral: #F48C8C;
+  --accent-lotus-leaf-green: #1D7C6F;
+  --glow-rich-gold: #FFD700;
   
-  /* Accent Colors */
-  --muted-fuchsia: #DA639B;
-  --indigo-purple: #6D47A2;
+  /* Font Sizes */
+  --font-size-heading: 3rem;           /* text-5xl */
+  --font-size-subheading: 1.5rem;      /* text-2xl */
+  --font-size-body-large: 1.125rem;    /* text-lg */
+  --font-size-body: 1rem;              /* base */
   
-  /* Background Colors */
+  /* Spacing */
+  --page-padding-top: 96px;    /* pt-24 */
+  --page-padding-bottom: 32px; /* pb-8 */
+  --page-padding-x: 16px;      /* px-4 */
+  
+  /* Legacy colors for backward compatibility */
+  --teal-blue: #134856;
+  --coral-red: #E05264;
+  --golden-saffron: #FFD700;
+  --muted-fuchsia: #F48C8C;
+  --indigo-purple: #1D7C6F;
   --warm-sand: #F8E6DA;
-  --mist-blush: #FBEDEE;
-  --saffron-mist: #FFE5B2;
-  --light-rose-pink: #FADADD;
-  
-  /* Text Colors */
-  --deep-charcoal: #2E2E2E;
-  --off-white: #FFF8F1;
+  --mist-blush: #F48C8C;
+  --saffron-mist: #FFD700;
+  --light-rose-pink: #F48C8C;
+  --deep-charcoal: #134856;
+  --off-white: #F8E6DA;
 }
 
 .lora-font {
@@ -66,8 +81,8 @@ body {
 
 body {
   font-family: 'Lora', serif;
-  background-color: var(--warm-sand);
-  color: var(--deep-charcoal);
+  background-color: var(--background-blush-peach);
+  color: var(--primary-coral-pink);
   transition: background-color 0.3s ease, color 0.3s ease;
   font-display: swap; /* Prevent layout shifts during font loading */
   
@@ -391,4 +406,124 @@ input[type="range"]::-moz-range-thumb:hover {
   }
 }
 
+/* Design System Utility Classes */
+
+/* Typography */
+.font-winky {
+  font-family: 'Winky Sans', sans-serif;
+}
+
+.font-winky-rough {
+  font-family: 'Winky Rough', serif;
+}
+
+.font-noto {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.font-dm-serif {
+  font-family: 'DM Serif Display', serif;
+}
+
+.font-lora {
+  font-family: 'Lora', serif;
+}
+
+.text-heading {
+  font-size: var(--font-size-heading);
+  line-height: 1.1;
+}
+
+.text-subheading {
+  font-size: var(--font-size-subheading);
+  line-height: 1.3;
+}
+
+.text-body-large {
+  font-size: var(--font-size-body-large);
+  line-height: 1.6;
+}
+
+.text-body {
+  font-size: var(--font-size-body);
+  line-height: 1.6;
+}
+
+/* Colors */
+.text-deep-teal {
+  color: var(--text-deep-teal);
+}
+
+.bg-blush-peach {
+  background-color: var(--background-blush-peach);
+}
+
+.bg-coral-pink {
+  background-color: var(--primary-coral-pink);
+}
+
+.bg-soft-coral {
+  background-color: var(--secondary-soft-coral);
+}
+
+.bg-lotus-green {
+  background-color: var(--accent-lotus-leaf-green);
+}
+
+.text-coral-pink {
+  color: var(--primary-coral-pink);
+}
+
+.text-soft-coral {
+  color: var(--secondary-soft-coral);
+}
+
+.text-lotus-green {
+  color: var(--accent-lotus-leaf-green);
+}
+
+.border-coral-pink {
+  border-color: var(--primary-coral-pink);
+}
+
+.border-lotus-green {
+  border-color: var(--accent-lotus-leaf-green);
+}
+
+/* Glow effects */
+.glow-gold {
+  box-shadow: 0 0 15px 4px rgba(255, 215, 0, 0.6);
+}
+
+.hover\:glow-gold:hover {
+  box-shadow: 0 0 15px 4px rgba(255, 215, 0, 0.6);
+}
+
+/* Page Layout */
+.page-layout {
+  padding-top: var(--page-padding-top);
+  padding-bottom: var(--page-padding-bottom);
+}
+
+.page-container {
+  padding-left: var(--page-padding-x);
+  padding-right: var(--page-padding-x);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .page-container {
+    padding-left: calc(var(--page-padding-x) * 1.5);
+    padding-right: calc(var(--page-padding-x) * 1.5);
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-container {
+    padding-left: calc(var(--page-padding-x) * 2);
+    padding-right: calc(var(--page-padding-x) * 2);
+  }
+}
 

@@ -1,0 +1,266 @@
+/* Music Page Styling with Enhanced Floating Notes */
+.music-page {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Multiple Floating Music Notes Background */
+.music-page .musical-notes-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* First set of floating notes */
+.music-page .musical-notes-background::before {
+  content: "🎶 ♪ ♩ ♬ 🎵 ♫";
+  font-size: 2.5rem;
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.4);
+  position: absolute;
+  animation: floatNotes1 12s linear infinite;
+  top: 90%;
+  left: 5%;
+  filter: blur(0.5px);
+}
+
+/* Second set of floating notes */
+.music-page .musical-notes-background::after {
+  content: "♩ 🎵 ♬ ♪ 🎶 ♫";
+  font-size: 3rem;
+  color: #ffb347;
+  text-shadow: 0 0 25px rgba(255, 179, 71, 0.9), 0 0 50px rgba(255, 179, 71, 0.7), 0 0 75px rgba(255, 179, 71, 0.5);
+  position: absolute;
+  animation: floatNotes2 15s linear infinite 3s;
+  top: 85%;
+  right: 8%;
+  filter: blur(0.8px);
+}
+
+/* Additional floating notes using pseudo-elements */
+.music-page .floating-note-1,
+.music-page .floating-note-2,
+.music-page .floating-note-3,
+.music-page .floating-note-4 {
+  position: absolute;
+  font-size: 2rem;
+  color: #daa520;
+  text-shadow: 0 0 15px rgba(218, 165, 32, 0.8), 0 0 30px rgba(218, 165, 32, 0.6);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.music-page .floating-note-1 {
+  content: "♪";
+  animation: floatNotes3 18s linear infinite 1s;
+  top: 70%;
+  left: 20%;
+}
+
+.music-page .floating-note-2 {
+  content: "🎵";
+  animation: floatNotes4 20s linear infinite 5s;
+  top: 60%;
+  right: 25%;
+}
+
+.music-page .floating-note-3 {
+  content: "♬";
+  animation: floatNotes5 16s linear infinite 8s;
+  top: 75%;
+  left: 60%;
+}
+
+.music-page .floating-note-4 {
+  content: "♫";
+  animation: floatNotes6 22s linear infinite 2s;
+  top: 80%;
+  right: 40%;
+}
+
+/* Animation keyframes for different note sets */
+@keyframes floatNotes1 {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(0.8);
+    opacity: 0.7;
+  }
+  25% {
+    opacity: 0.9;
+    transform: translateY(-30vh) rotate(90deg) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-60vh) rotate(180deg) scale(1.1);
+  }
+  75% {
+    opacity: 0.4;
+    transform: translateY(-90vh) rotate(270deg) scale(0.9);
+  }
+  100% {
+    transform: translateY(-120vh) rotate(360deg) scale(0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes floatNotes2 {
+  0% {
+    transform: translateY(0) rotate(45deg) scale(1);
+    opacity: 0.6;
+  }
+  30% {
+    opacity: 0.8;
+    transform: translateY(-40vh) rotate(135deg) scale(1.2);
+  }
+  60% {
+    opacity: 0.5;
+    transform: translateY(-80vh) rotate(225deg) scale(0.9);
+  }
+  100% {
+    transform: translateY(-130vh) rotate(405deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes floatNotes3 {
+  0% {
+    transform: translateY(0) rotate(-30deg) scale(0.9);
+    opacity: 0.8;
+  }
+  40% {
+    opacity: 0.6;
+    transform: translateY(-50vh) rotate(60deg) scale(1.1);
+  }
+  100% {
+    transform: translateY(-125vh) rotate(330deg) scale(0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes floatNotes4 {
+  0% {
+    transform: translateY(0) rotate(15deg) scale(1.1);
+    opacity: 0.7;
+  }
+  35% {
+    opacity: 0.9;
+    transform: translateY(-45vh) rotate(150deg) scale(0.8);
+  }
+  100% {
+    transform: translateY(-135vh) rotate(375deg) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes floatNotes5 {
+  0% {
+    transform: translateY(0) rotate(-45deg) scale(0.8);
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(-65vh) rotate(180deg) scale(1.2);
+  }
+  100% {
+    transform: translateY(-120vh) rotate(315deg) scale(0.9);
+    opacity: 0;
+  }
+}
+
+@keyframes floatNotes6 {
+  0% {
+    transform: translateY(0) rotate(30deg) scale(1);
+    opacity: 0.6;
+  }
+  45% {
+    opacity: 0.8;
+    transform: translateY(-55vh) rotate(210deg) scale(0.9);
+  }
+  100% {
+    transform: translateY(-140vh) rotate(390deg) scale(1.1);
+    opacity: 0;
+  }
+}
+
+/* Enhanced heading animation */
+.animate-heading-float {
+  animation: headingFloat 6s ease-in-out infinite;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.4);
+}
+
+@keyframes headingFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.4);
+  }
+  25% {
+    transform: translateY(-12px) rotate(-1.5deg);
+    text-shadow: 0 0 35px rgba(255, 215, 0, 0.8), 0 0 70px rgba(255, 215, 0, 0.6);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0deg);
+    text-shadow: 0 0 40px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.7);
+  }
+  75% {
+    transform: translateY(-15px) rotate(1.5deg);
+    text-shadow: 0 0 35px rgba(255, 215, 0, 0.8), 0 0 70px rgba(255, 215, 0, 0.6);
+  }
+}
+
+/* Typography improvements */
+.music-page h1 {
+  font-family: 'Inter', serif;
+  font-weight: 700;
+  color: #ffd700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.music-page h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: #e2e8f0;
+  letter-spacing: -0.01em;
+}
+
+.music-page p {
+  font-family: 'Inter', sans-serif;
+  color: #a0aec0;
+  line-height: 1.6;
+}
+
+/* Button styling enhancements */
+.music-page button {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px 0 rgba(255, 215, 0, 0.3);
+}
+
+.music-page button:hover {
+  box-shadow: 0 6px 20px 0 rgba(255, 215, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Content spacing improvements */
+.music-page .container {
+  padding: 2rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .music-page .container {
+    padding: 3rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .music-page .container {
+    padding: 4rem;
+  }
+}

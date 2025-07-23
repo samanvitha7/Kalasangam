@@ -153,7 +153,7 @@ export default function About() {
   }, [location.pathname]);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-[#FFF4E0] via-[#FFE0B5] to-[#FFD6A5] text-[#462F1A] overflow-hidden">
+    <div ref={containerRef} className="min-h-screen bg-blush-peach text-coral-pink font-noto page-layout overflow-hidden">
       {/* Global Floating Particles */}
       <FloatingParticles />
       

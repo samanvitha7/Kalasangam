@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
 // Hardcoded event data with links
 const HARDCODED_EVENTS = [
@@ -108,6 +108,10 @@ const HARDCODED_EVENTS = [
 ];
 
 function EventsPage() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: containerRef });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const [pageReady, setPageReady] = useState(false);
   const [events, setEvents] = useState(HARDCODED_EVENTS);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState('calendar'); // 'calendar' or 'list'
@@ -118,9 +122,12 @@ function EventsPage() {
   });
   const [loading, setLoading] = useState(false);
 
-  // No need for API calls, events are hardcoded
+  // Initialize page animations
   useEffect(() => {
-    // Events are already set in state initialization
+    const timer = setTimeout(() => {
+      setPageReady(true);
+    }, 150);
+    return () => clearTimeout(timer);
   }, []);
 
 
@@ -184,7 +191,7 @@ function EventsPage() {
         transition={{ duration: 0.3 }}
       >
         <div className="flex justify-between items-start mb-4">
-          <h3 className="text-xl font-bold text-[#9b2226] font-[Yatra One]">{normalizedEvent.title}</h3>
+          <h3 className="text-xl font-bold text-deep-teal font-winky">{normalizedEvent.title}</h3>
           <span className={`px-3 py-1 rounded-full text-sm font-medium ${
             normalizedEvent.category === 'dance' ? 'bg-pink-100 text-pink-800' :
             normalizedEvent.category === 'music' ? 'bg-blue-100 text-blue-800' :
@@ -309,24 +316,137 @@ function EventsPage() {
   };
 
 
+  // Floating particles for background
+  const FloatingParticles = () => {
+    const particles = Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 4 + 2,
+      color: [
+        'rgba(155, 34, 38, 0.6)',
+        'rgba(251, 146, 60, 0.6)',
+        'rgba(245, 158, 11, 0.6)',
+        'rgba(236, 72, 153, 0.6)',
+        'rgba(139, 69, 19, 0.5)'
+      ][Math.floor(Math.random() * 5)],
+      initialX: Math.random() * 100,
+      initialY: Math.random() * 100,
+      animationDelay: Math.random() * 5,
+      animationDuration: 8 + Math.random() * 6
+    }));
+
+    return (
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full opacity-40"
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              backgroundColor: particle.color,
+              left: `${particle.initialX}%`,
+              top: `${particle.initialY}%`,
+              filter: 'blur(0.5px)',
+              boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`
+            }}
+            animate={{
+              y: [0, -80, 0],
+              x: [0, 25, -25, 0],
+              opacity: [0.4, 0.7, 0.4],
+              scale: [1, 1.3, 1]
+            }}
+            transition={{
+              duration: particle.animationDuration,
+              repeat: Infinity,
+              delay: particle.animationDelay,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 pt-24 pb-8">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="text-4xl font-bold text-[#9b2226] font-[Yatra One] mb-4">
+    <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-[#FFF4E0] via-[#FFE4B5] to-[#FFF0DC] text-[#462F1A] overflow-hidden">
+      {/* Floating Particles Background */}
+      <FloatingParticles />
+      
+      {/* Hero Section */}
+      <motion.section 
+        className="relative overflow-hidden pt-20 pb-16"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: pageReady ? 1 : 0 }}
+        transition={{ duration: 1, delay: 0.2 }}
+      >
+        {/* Animated Background Elements */}
+        <motion.div 
+          className="absolute w-96 h-96 bg-gradient-to-r from-[#9b2226]/20 to-[#f59e0b]/20 rounded-full blur-3xl opacity-30 top-0 left-0"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute w-80 h-80 bg-gradient-to-r from-[#ec4899]/20 to-[#f97316]/20 rounded-full blur-3xl opacity-25 bottom-0 right-0"
+          animate={{ 
+            scale: [1, 1.1, 1],
+            rotate: [0, -90, 0],
+            opacity: [0.25, 0.4, 0.25]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+        
+        <div className="relative container mx-auto px-4 text-center z-10">
+          <motion.h1 
+            className="text-6xl md:text-7xl font-extrabold font-[Yatra One] mb-8 drop-shadow-lg leading-tight"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
             Events & Workshops
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover upcoming traditional arts events, workshops, and exhibitions. 
-            Join us in celebrating India's rich cultural heritage.
-          </p>
-        </motion.div>
+          </motion.h1>
+          <motion.p 
+            className="max-w-4xl mx-auto text-xl md:text-2xl leading-relaxed text-[#5c3d24] font-medium mb-12"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            Immerse yourself in India's vibrant cultural landscape. Join workshops, attend performances, and be part of our living heritage.
+          </motion.p>
+          
+          {/* Floating Event Icons */}
+          <motion.div 
+            className="flex flex-wrap justify-center gap-6 text-sm md:text-base"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            {[
+              { icon: "🎭", text: "Cultural Events" },
+              { icon: "🛠️", text: "Hands-on Workshops" },
+              { icon: "🎨", text: "Art Exhibitions" },
+              { icon: "🎵", text: "Music Performances" }
+            ].map((item, index) => (
+              <motion.div 
+                key={index}
+                className="bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-white/30"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="font-semibold text-[#8b4513]">{item.icon} {item.text}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.section>
+
+      <div className="container mx-auto px-4 py-6 relative z-10">
 
         {/* Controls */}
         <motion.div

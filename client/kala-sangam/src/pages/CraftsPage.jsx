@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Play, Pause, Volume2, VolumeX, ChevronLeft, ChevronRight } from "lucide-react";
 
 const crafts = [
@@ -235,8 +235,20 @@ const VideoModal = ({ craft, isOpen, onClose }) => {
 };
 
 export default function CraftsPage() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: containerRef });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const [pageReady, setPageReady] = useState(false);
   const [selectedCraft, setSelectedCraft] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Initialize page animations
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPageReady(true);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handlePlayVideo = (craft) => {
     setSelectedCraft(craft);
@@ -248,107 +260,169 @@ export default function CraftsPage() {
     setSelectedCraft(null);
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 relative">
-      {/* Garland background on top half */}
-      <div className="absolute top-0 left-0 w-full h-1/2 bg-top bg-no-repeat bg-cover opacity-30" style={{ backgroundImage: "url('/assets/garland.png')" }}></div>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-amber-400 rounded-full animate-pulse"></div>
-          <div className="absolute top-40 right-20 w-24 h-24 bg-orange-400 rounded-full animate-bounce"></div>
-          <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-red-400 rounded-full animate-pulse"></div>
-        </div>
+  // Floating particles for background
+  const FloatingParticles = () => {
+    const particles = Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 4 + 2,
+      color: [
+        'rgba(19, 72, 86, 0.6)',
+        'rgba(224, 82, 100, 0.6)',
+        'rgba(244, 140, 140, 0.6)',
+        'rgba(29, 124, 111, 0.6)',
+        'rgba(255, 215, 0, 0.6)'
+      ][Math.floor(Math.random() * 5)],
+      initialX: Math.random() * 100,
+      initialY: Math.random() * 100,
+      animationDelay: Math.random() * 5,
+      animationDuration: 8 + Math.random() * 6
+    }));
 
-        <div className="relative z-10 container mx-auto px-4 py-24">
+    return (
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {particles.map((particle) => (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
+            key={particle.id}
+            className="absolute rounded-full opacity-40"
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              backgroundColor: particle.color,
+              left: `${particle.initialX}%`,
+              top: `${particle.initialY}%`,
+              filter: 'blur(0.5px)',
+              boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`
+            }}
+            animate={{
+              y: [0, -80, 0],
+              x: [0, 25, -25, 0],
+              opacity: [0.4, 0.7, 0.4],
+              scale: [1, 1.3, 1]
+            }}
+            transition={{
+              duration: particle.animationDuration,
+              repeat: Infinity,
+              delay: particle.animationDelay,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
+      {/* Floating Particles Background */}
+      <FloatingParticles />
+
+      {/* Hero Section */}
+      <motion.section
+        className="relative overflow-hidden pb-16"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: pageReady ? 1 : 0 }}
+        transition={{ duration: 1, delay: 0.2 }}
+      >
+        {/* Animated Background Elements */}
+        <motion.div
+          className="absolute w-96 h-96 bg-gradient-to-r from-[#E05264]/20 to-[#F48C8C]/20 rounded-full blur-3xl opacity-30 top-0 left-0"
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute w-80 h-80 bg-gradient-to-r from-[#1D7C6F]/20 to-[#FFD700]/20 rounded-full blur-3xl opacity-25 bottom-0 right-0"
+          animate={{
+            scale: [1, 1.1, 1],
+            rotate: [0, -90, 0],
+            opacity: [0.25, 0.4, 0.25]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+
+        <div className="relative container mx-auto px-4 text-center z-10">
+          <motion.h1
+            className="text-5xl font-winky text-[#134856] mb-8 drop-shadow-lg leading-tight"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <motion.h1 
-              className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 bg-clip-text text-transparent mb-6"
-              initial={{ scale: 0.5 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              CRAFTS
-            </motion.h1>
-            <motion.p 
-              className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-            >
-              Discover the timeless beauty of traditional Indian crafts through immersive video tutorials. 
-              Learn from master artisans and create your own masterpieces.
-            </motion.p>
-          </motion.div>
+            CRAFTS
+          </motion.h1>
+          <motion.p
+            className="max-w-4xl mx-auto text-lg font-lora leading-relaxed text-gray-700 mb-12"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            Discover the timeless beauty of traditional Indian crafts through immersive video tutorials.
+            Learn from master artisans and create your own masterpieces.
+          </motion.p>
         </div>
-      </section>
+      </motion.section>
 
       {/* Crafts Grid */}
-      <section className="container mx-auto px-4 py-20">
-        <motion.div
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.section
+          className="mb-16"
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
+          transition={{ duration: 0.8, delay: 1 }}
         >
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">
+          <h2 className="text-5xl font-winky text-[#134856] text-center mb-8">
             Master Traditional Crafts
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Each craft tells a story of heritage, skill, and artistic excellence. 
+          <p className="text-lg font-lora text-gray-700 max-w-2xl mx-auto text-center mb-12">
+            Each craft tells a story of heritage, skill, and artistic excellence.
             Click on any craft to start your interactive learning journey.
           </p>
-        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {crafts.map((craft, index) => (
-            <motion.div
-              key={craft.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <CraftCard
-                craft={craft}
-                onPlay={handlePlayVideo}
-                isPlaying={selectedCraft?.id === craft.id}
-              />
-            </motion.div>
-          ))}
-        </div>
-      </section>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {crafts.map((craft, index) => (
+              <motion.div
+                key={craft.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
+                transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+              >
+                <CraftCard
+                  craft={craft}
+                  onPlay={handlePlayVideo}
+                  isPlaying={selectedCraft?.id === craft.id}
+                />
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
 
-      {/* Call to Action */}
-      <section className="bg-gradient-to-r from-amber-600 to-orange-600 py-20">
-        <div className="container mx-auto text-center px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl font-bold text-white mb-6">
+        {/* Call to Action */}
+        <motion.section
+          className="mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
+          transition={{ duration: 0.8, delay: 1.5 }}
+        >
+          <div className="bg-gradient-to-r from-[#E05264] to-[#F48C8C] rounded-2xl p-8 md:p-12 text-white shadow-2xl text-center">
+            <h2 className="text-5xl font-winky mb-8">
               Ready to Start Your Craft Journey?
             </h2>
-            <p className="text-xl text-amber-100 mb-8 max-w-2xl mx-auto">
-              Join thousands of learners who have discovered the joy of traditional crafts. 
+            <p className="text-lg font-lora text-[#FFD700] mb-12 max-w-2xl mx-auto">
+              Join thousands of learners who have discovered the joy of traditional crafts.
               Start with any tutorial and let your creativity flow.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-amber-600 px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="bg-white text-[#E05264] px-8 py-4 rounded-full font-[Noto_Sans] font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
               Explore All Tutorials
             </motion.button>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </motion.section>
+      </div>
 
       {/* Video Modal */}
       <VideoModal
