@@ -24,11 +24,12 @@ const danceForms = [
       "Kathakali is a vibrant dance-drama form from Kerala, characterized by elaborate costumes, dramatic makeup, and powerful storytelling. It uses hand gestures, facial expressions, and body movements to depict stories from Indian epics like the Mahabharata and Ramayana.",
   },
   {
-    name: "Odissi",
-    origin: "Odisha",
-    description:
-      "Odissi is a classical dance from Odisha known for its fluid movements, sculptural poses, and devotional themes. It combines graceful gestures with strong footwork and traditionally focuses on religious stories, especially of Lord Jagannath.",
-  },
+  name: "Bihu",
+  origin: "Assam",
+  description:
+    "Bihu is a vibrant folk dance from Assam, traditionally performed during the Rongali Bihu festival to celebrate the Assamese New Year. Known for its energetic movements, rhythmic footwork, and expressive gestures, Bihu reflects themes of love, joy, and fertility. It is typically accompanied by traditional instruments like the dhol, pepa, and toka."
+},
+
   {
     name: "Kuchipudi",
     origin: "Andhra Pradesh",
@@ -47,6 +48,13 @@ const danceForms = [
     description:
       "Mohiniyattam, meaning 'dance of the enchantress', is a classical dance style from Kerala. Performed by women, it is known for its gentle, flowing movements and emotive expressions. It blends elegance and spirituality, often focusing on themes of love and devotion.",
   },
+  {
+  name: "Yakshagana",
+  origin: "Karnataka",
+  description:
+    "Yakshagana is a traditional Indian dance-drama from Karnataka combining dance, music, dialogue, costume, and stage techniques with a unique style and form."
+}
+
 ];
 
 
