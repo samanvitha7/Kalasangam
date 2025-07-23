@@ -28,7 +28,8 @@ const sections = [
     id: 3,
     title: "Soulful Stories",
     description: "Ancient tales woven into the fabric of Indian art and culture.",
-    bg: "https://youtu.be/EbRoWCsh7mc?si=BQoCZbYc4c_oMELK",
+    bg: "https://www.youtube.com/embed/89LdsMWY3Ic?autoplay=1&mute=1&controls=0&loop=1&playlist=89LdsMWY3Ic&showinfo=0&rel=0"
+,
     isVideo: true,
     exploreRoute: "/map",
     exploreText: "Explore States"
