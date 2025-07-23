@@ -79,7 +79,7 @@ const DanceItem = ({ dance, index }) => {
       <FloatingVisual src={visual.src} size={visual.size} side={isLeft ? "right" : "left"} />
 
       <div
-        className={`max-w-4xl bg-[#fff3f1] rounded-lg p-12 shadow-lg font-lora text-[#134856] ${
+        className={`max-w-4xl bg-[#fff3f1] rounded-2xl p-12 shadow-lg font-lora text-[#134856] ${
           isLeft ? "mr-auto text-left" : "ml-auto text-right"
         }`}
         style={{
