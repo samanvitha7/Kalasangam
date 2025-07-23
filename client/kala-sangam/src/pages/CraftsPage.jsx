@@ -405,22 +405,7 @@ export default function CraftsPage() {
           animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 1.5 }}
         >
-          <div className="bg-gradient-to-r from-[#E05264] to-[#F48C8C] rounded-2xl p-8 md:p-12 text-white shadow-2xl text-center">
-            <h2 className="text-5xl font-winky mb-8">
-              Ready to Start Your Craft Journey?
-            </h2>
-            <p className="text-lg font-lora text-[#FFD700] mb-12 max-w-2xl mx-auto">
-              Join thousands of learners who have discovered the joy of traditional crafts.
-              Start with any tutorial and let your creativity flow.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-[#E05264] px-8 py-4 rounded-full font-[Noto_Sans] font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              Explore All Tutorials
-            </motion.button>
-          </div>
+  
         </motion.section>
       </div>
 
