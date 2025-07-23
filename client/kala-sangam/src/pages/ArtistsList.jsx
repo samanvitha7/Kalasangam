@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LazyImage from '../components/LazyImage';
+import { api } from '../services/api';
 
 const ArtistsList = () => {
   const [artists, setArtists] = useState([]);
@@ -12,12 +13,13 @@ const ArtistsList = () => {
   useEffect(() => {
     const fetchArtists = async () => {
       try {
-        const response = await fetch('/api/artists');
-        if (!response.ok) {
-          throw new Error('Failed to fetch artists');
+        const response = await api.getArtists();
+        if (response.success && response.data) {
+          setArtists(response.data);
+        } else {
+          console.error('No artists found in response:', response);
+          setArtists([]);
         }
-        const data = await response.json();
-        setArtists(data);
       } catch (error) {
         console.error('Error fetching artists:', error);
         setArtists([]);

@@ -578,6 +578,52 @@ const getArtists = async (req, res) => {
   }
 };
 
+// Get individual artist by ID
+const getArtistById = async (req, res) => {
+  try {
+    const { artistId } = req.params;
+    
+    const artist = await User.findById(artistId)
+      .select('-password -email -resetPasswordToken -resetPasswordExpire -emailVerificationToken -phoneNumber');
+    
+    if (!artist) {
+      return res.status(404).json({
+        success: false,
+        message: 'Artist not found'
+      });
+    }
+    
+    if (artist.role !== 'Artist') {
+      return res.status(404).json({
+        success: false,
+        message: 'User is not an artist'
+      });
+    }
+    
+    // Add computed fields
+    const artistObj = artist.toObject();
+    const artistWithExtras = {
+      ...artistObj,
+      isNew: artist.createdAt > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days
+      followersCount: 0, // You can populate this from follows if needed
+      artworkCount: 0, // You can populate this from Art collection if needed
+      signatureWork: artist.avatar || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop'
+    };
+    
+    res.json({
+      success: true,
+      data: artistWithExtras
+    });
+    
+  } catch (error) {
+    console.error('Error fetching artist:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch artist'
+    });
+  }
+};
+
 module.exports = {
   getUserProfile,
   getPublicProfile,
@@ -595,5 +641,6 @@ module.exports = {
   updateUserRole,
   deleteUser,
   getUserStatsAdmin,
-  getArtists
+  getArtists,
+  getArtistById
 };
