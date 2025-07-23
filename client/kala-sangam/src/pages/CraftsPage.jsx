@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Play, Pause, Volume2, VolumeX, ChevronLeft, ChevronRight } from "lucide-react";
+import { FaFilter, FaSearch, FaBookmark, FaHeart, FaUsers } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const crafts = [
   {
@@ -76,14 +78,21 @@ const CraftCard = ({ craft, onPlay, isPlaying }) => {
 
   return (
     <motion.div
-      className="relative group bg-gradient-to-br from-amber-50 to-orange-100 rounded-2xl overflow-hidden shadow-xl"
-      whileHover={{ scale: 1.02, y: -5 }}
+      className="relative group bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-300 border-2 border-[#e05264]/20 shadow-[0_0_30px_rgba(224,82,100,0.4)] h-[500px] flex flex-col"
+      whileHover={{ 
+        scale: 1.05, 
+        y: -8,
+        boxShadow: "0 0 50px rgba(224, 82, 100, 0.8), 0 25px 50px rgba(224, 82, 100, 0.3)"
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.4 }}
+      style={{
+        boxShadow: "0 0 30px rgba(224, 82, 100, 0.4), 0 10px 30px rgba(224, 82, 100, 0.2)"
+      }}
     >
-      {/* Image Container */}
-      <div className="relative h-64 overflow-hidden">
+        {/* Image Container */}
+      <div className="relative h-48 overflow-hidden flex-shrink-0">
         <img 
           src={craft.image} 
           alt={craft.name}
@@ -98,7 +107,7 @@ const CraftCard = ({ craft, onPlay, isPlaying }) => {
         >
           <motion.button
             onClick={() => onPlay(craft)}
-            className="bg-amber-500 hover:bg-amber-600 text-white p-4 rounded-full shadow-lg transform transition-all duration-200 hover:scale-110"
+            className="bg-[#e05264] text-white p-4 rounded-full shadow-lg transform transition-all duration-200 hover:scale-110"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -118,34 +127,45 @@ const CraftCard = ({ craft, onPlay, isPlaying }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-6 flex-1 flex flex-col">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="text-xl font-bold text-gray-800">{craft.name}</h3>
-          <span className="text-sm text-amber-600 font-medium">{craft.duration}</span>
+          <h3 className="text-xl font-bold text-[#134856] font-dm-serif group-hover:text-[#e05264] transition-colors">{craft.name}</h3>
+          <span className="text-sm text-[#e05264] font-medium">{craft.duration}</span>
         </div>
         
-        <p className="text-sm text-amber-700 mb-2 font-medium">{craft.region}</p>
+        <p className="text-sm text-[#134856] mb-2 font-medium flex items-center gap-2">
+          <span className="w-2 h-2 bg-gradient-to-r from-[#134856] to-[#e05264] rounded-full"></span>
+          {craft.region}
+        </p>
         
-        <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+        <p className="text-gray-600 text-sm mb-4 leading-relaxed flex-1">
           {craft.description}
         </p>
 
         {/* Materials Preview */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mb-4">
           {craft.materials.slice(0, 3).map((material, idx) => (
             <span
               key={idx}
-              className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full"
+              className="text-xs bg-gradient-to-r from-[#134856]/10 to-[#e05264]/10 text-[#134856] px-2 py-1 rounded-full border border-[#134856]/20"
             >
               {material}
             </span>
           ))}
           {craft.materials.length > 3 && (
-            <span className="text-xs text-amber-600">
+            <span className="text-xs text-[#e05264] font-medium">
               +{craft.materials.length - 3} more
             </span>
           )}
         </div>
+
+        {/* Watch Tutorial Button */}
+        <button 
+          onClick={() => onPlay(craft)}
+          className="w-full bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-md hover:shadow-lg mt-auto"
+        >
+          Watch Tutorial
+        </button>
       </div>
     </motion.div>
   );
@@ -260,6 +280,7 @@ export default function CraftsPage() {
     setSelectedCraft(null);
   };
 
+
   // Floating particles for background
   const FloatingParticles = () => {
     const particles = Array.from({ length: 15 }, (_, i) => ({
@@ -318,7 +339,7 @@ export default function CraftsPage() {
 
       {/* Hero Section */}
       <motion.section
-        className="relative overflow-hidden pb-16"
+        className="relative overflow-hidden pb-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: pageReady ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.2 }}
@@ -345,42 +366,33 @@ export default function CraftsPage() {
 
         <div className="relative container mx-auto px-4 text-center z-10">
           <motion.h1
-            className="text-5xl font-dm-serif text-[#134856] mb-8 drop-shadow-lg leading-tight"
+            className="inline-block text-6xl font-dm-serif mb-4 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            CRAFTS
+            Traditional Crafts
           </motion.h1>
           <motion.p
-            className="max-w-4xl mx-auto text-lg font-lora leading-relaxed text-gray-700 mb-12"
+            className="text-xl font-lora bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent font-semibold max-w-3xl mx-auto leading-relaxed mb-6"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <b>Discover the timeless beauty of traditional Indian crafts through immersive video tutorials.
-            Learn from master artisans and create your own masterpieces.</b>
+            Step into the soul of India's heritage, where hands weave history and tradition breathes through craft. Learn timeless arts from the masters who keep them alive.
           </motion.p>
         </div>
       </motion.section>
 
-      {/* Crafts Grid */}
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-2 sm:px-4 relative z-10">
+        {/* Crafts Grid */}
         <motion.section
           className="mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
-          <h2 className="text-5xl font-dm-serif text-[#134856] text-center mb-8">
-            Master Traditional Crafts
-          </h2>
-          <p className="text-lg font-lora text-gray-700 max-w-2xl mx-auto text-center mb-12">
-           <b> Each craft tells a story of heritage, skill, and artistic excellence.
-            Click on any craft to start your interactive learning journey.</b>
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {crafts.map((craft, index) => (
               <motion.div
                 key={craft.id}
@@ -398,14 +410,22 @@ export default function CraftsPage() {
           </div>
         </motion.section>
 
-        {/* Call to Action */}
+        {/* Back to Home Button */}
         <motion.section
-          className="mb-16"
+          className="mb-16 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 1.5 }}
         >
-  
+          <Link to="/">
+            <motion.button
+              className="bg-gradient-to-r from-[#134856] to-[#e05264] hover:from-[#e05264] hover:to-[#134856] text-white px-8 py-3 rounded-full text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Back to Home
+            </motion.button>
+          </Link>
         </motion.section>
       </div>
 
