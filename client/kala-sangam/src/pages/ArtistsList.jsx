@@ -36,7 +36,7 @@ const ArtistsList = () => {
   const filteredArtists = artists
     .filter(artist => 
       artist.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (artist.artForm && artist.artForm.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (artist.specialization && artist.specialization.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (artist.location && artist.location.toLowerCase().includes(searchTerm.toLowerCase()))
     )
     .sort((a, b) => {
@@ -257,7 +257,7 @@ const ArtistsList = () => {
                       </h3>
                       
                       <p className="text-[#E05264] font-lora font-medium text-sm mb-2">
-                        {artist.artForm || 'Traditional Artist'}
+                        {artist.specialization || 'Traditional Artist'}
                       </p>
                       
                       <p className="text-gray-500 font-lora text-xs mb-4">
