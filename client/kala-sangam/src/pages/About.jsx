@@ -555,20 +555,21 @@ export default function About() {
         </div>
       </motion.section>
 
-      {/* Contact Us - Call to Action */}
-      <section className="relative py-20 px-6">
-        <div className="container mx-auto px-4">
-          <div className="bg-gradient-to-br from-[#8b4513] to-[#5c3d24] rounded-3xl shadow-2xl p-8 md:p-12 text-white text-center">
-            <h2 className="text-4xl md:text-5xl font-bold font-[Yatra One] mb-6">
-              Join Our Cultural Revolution
-            </h2>
-            <p className="text-xl leading-relaxed mb-8 opacity-90">
-              Be part of the movement to preserve and celebrate India's artistic heritage
-            </p>
-            <ContactUsSection />
-          </div>
-        </div>
-      </section>
+     {/* Contact Us - Call to Action */}
+<section className="relative py-20 px-6 font-[Poppins] bg-[#F4C2C2] text-[#134856]">
+  <div className="container mx-auto px-4">
+    <div className="bg-gradient-to-br from-[#D8BFD8] to-[#B0C4DE] rounded-3xl shadow-2xl p-8 md:p-12 text-center">
+      <h2 className="text-4xl md:text-5xl font-bold mb-6">
+        Join Our Cultural Revolution
+      </h2>
+      <p className="text-xl leading-relaxed mb-8 opacity-90">
+        Be part of the movement to preserve and celebrate India's artistic heritage
+      </p>
+      <ContactUsSection />
+    </div>
+  </div>
+</section>
+
 
       {/* Footer Spacer */}
       <div className="h-20"></div>

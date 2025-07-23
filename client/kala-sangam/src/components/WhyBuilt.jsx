@@ -6,6 +6,8 @@ const timeline = [
     text: "Indian art forms are fading away due to lack of exposure and modern engagement.",
     side: "left",
     icon: "⚠️",
+
+    
     gradient: "from-[#ff6b6b] to-[#ee5a24]"
   },
   {

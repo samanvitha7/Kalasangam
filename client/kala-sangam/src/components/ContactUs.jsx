@@ -25,7 +25,7 @@ function ContactUsSection() {
 
         try {
             const response = await axios.post('/api/contact', formData);
-            
+
             if (response.data.success) {
                 toast.success('Message sent successfully! We will get back to you soon.');
                 setFormData({ name: '', email: '', subject: '', message: '' });
@@ -45,7 +45,7 @@ function ContactUsSection() {
     };
 
     return (
-        <motion.section className="relative bg-gradient-to-r from-[#fdf6e3] via-[#fae5d3] to-[#ffe6eb] text-[#9b2226] py-16 px-6 rounded-lg shadow-lg mt-16 max-w-7xl mx-auto overflow-hidden"
+        <motion.section className="relative bg-[#F8E6DA] text-[#134856] py-16 px-6 rounded-lg shadow-lg mt-16 max-w-7xl mx-auto overflow-hidden"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -56,7 +56,7 @@ function ContactUsSection() {
                 {Array.from({ length: 6 }).map((_, i) => (
                     <motion.div
                         key={i}
-                        className="absolute w-3 h-3 bg-orange-300 rounded-full opacity-20"
+                        className="absolute w-3 h-3 bg-[#FFD700] rounded-full opacity-30"
                         style={{
                             left: `${Math.random() * 100}%`,
                             top: `${Math.random() * 100}%`,
@@ -75,7 +75,7 @@ function ContactUsSection() {
                     />
                 ))}
             </div>
-            
+
             <div className="grid md:grid-cols-2 gap-10 items-start">
                 {/* Left side - Contact Info */}
                 <motion.div className="relative z-10"
@@ -84,7 +84,7 @@ function ContactUsSection() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     viewport={{ once: true }}
                 >
-                    <motion.h2 className="text-4xl font-extrabold mb-4 font-[Yatra One]"
+                    <motion.h2 className="text-4xl font-extrabold mb-4 font-[Yatra One] text-[#134856]"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
@@ -92,7 +92,7 @@ function ContactUsSection() {
                     >
                         Let's Work Together
                     </motion.h2>
-                    
+
                     <motion.p className="text-lg mb-6 leading-relaxed"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -101,7 +101,7 @@ function ContactUsSection() {
                     >
                         Interested in collaborating on traditional arts projects or just want to say hi? Reach out and let's create something amazing!
                     </motion.p>
-                    
+
                     <motion.div className="space-y-4 text-sm"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -109,20 +109,17 @@ function ContactUsSection() {
                         viewport={{ once: true }}
                     >
                         <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                            <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
                             <span>Email: contact@kalasangam.com</span>
                         </div>
+
                         <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                            <span>Phone: +91 9876543210</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                            <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
                             <span>Response time: Within 24 hours</span>
                         </div>
                     </motion.div>
                 </motion.div>
-                
+
                 {/* Right side - Contact Form */}
                 <motion.div className="relative z-10"
                     initial={{ opacity: 0, x: 50 }}
@@ -145,11 +142,11 @@ function ContactUsSection() {
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-3 rounded-lg border border-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent bg-white/80 backdrop-blur-sm"
+                                className="w-full px-4 py-3 rounded-lg border border-[#F48C8C] focus:outline-none focus:ring-2 focus:ring-[#E05264] focus:border-transparent bg-white/80 backdrop-blur-sm"
                                 placeholder="Enter your full name"
                             />
                         </div>
-                        
+
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium mb-2">Email Address</label>
                             <input
@@ -159,11 +156,11 @@ function ContactUsSection() {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-3 rounded-lg border border-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent bg-white/80 backdrop-blur-sm"
+                                className="w-full px-4 py-3 rounded-lg border border-[#F48C8C] focus:outline-none focus:ring-2 focus:ring-[#E05264] focus:border-transparent bg-white/80 backdrop-blur-sm"
                                 placeholder="your@email.com"
                             />
                         </div>
-                        
+
                         <div>
                             <label htmlFor="subject" className="block text-sm font-medium mb-2">Subject</label>
                             <input
@@ -173,11 +170,11 @@ function ContactUsSection() {
                                 value={formData.subject}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-3 rounded-lg border border-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent bg-white/80 backdrop-blur-sm"
+                                className="w-full px-4 py-3 rounded-lg border border-[#F48C8C] focus:outline-none focus:ring-2 focus:ring-[#E05264] focus:border-transparent bg-white/80 backdrop-blur-sm"
                                 placeholder="What's this about?"
                             />
                         </div>
-                        
+
                         <div>
                             <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>
                             <textarea
@@ -187,17 +184,17 @@ function ContactUsSection() {
                                 onChange={handleChange}
                                 required
                                 rows={5}
-                                className="w-full px-4 py-3 rounded-lg border border-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent bg-white/80 backdrop-blur-sm resize-none"
+                                className="w-full px-4 py-3 rounded-lg border border-[#F48C8C] focus:outline-none focus:ring-2 focus:ring-[#E05264] focus:border-transparent bg-white/80 backdrop-blur-sm resize-none"
                                 placeholder="Tell us about your project or inquiry..."
                             />
                         </div>
-                        
+
                         <motion.button
                             type="submit"
                             disabled={isSubmitting}
-                            className={`w-full bg-gradient-to-r from-[#582f0e] to-[#8b4513] text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300 ${
+                            className={`w-full bg-gradient-to-r from-[#E05264] to-[#F48C8C] text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300 ${
                                 isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
-                            }`}
+                            } hover:ring-2 hover:ring-[#FFD700]`}
                             whileHover={!isSubmitting ? { scale: 1.02, y: -2 } : {}}
                             whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                         >
