@@ -83,7 +83,7 @@ function ContactUsSection() {
           viewport={{ once: true }}
         >
           <motion.h2
-            className="text-4xl font-bold mb-4 font-dm-serif bg-gradient-to-r from-[#E05264] to-[#F48C8C] bg-clip-text text-transparent"
+            className="text-4xl font-bold mb-4 font-dm-serif bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -93,7 +93,7 @@ function ContactUsSection() {
           </motion.h2>
 
           <motion.p
-            className="text-lg mb-6 leading-relaxed font-lora bg-gradient-to-r from-[#E05264] to-[#F48C8C] bg-clip-text text-transparent"
+            className="text-lg mb-6 leading-relaxed font-lora bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
@@ -111,12 +111,12 @@ function ContactUsSection() {
           >
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
-              <span className="bg-gradient-to-r from-[#E05264] to-[#F48C8C] bg-clip-text text-transparent">Email: contact@kalasangam.com</span>
+              <span className="bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">Email: contact@kalasangam.com</span>
             </div>
 
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
-              <span className="bg-gradient-to-r from-[#E05264] to-[#F48C8C] bg-clip-text text-transparent">Response time: Within 24 hours</span>
+              <span className="bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">Response time: Within 24 hours</span>
             </div>
           </motion.div>
         </motion.div>
@@ -140,7 +140,7 @@ function ContactUsSection() {
               <div key={field}>
                 <label
                   htmlFor={field}
-                  className="block text-sm font-medium mb-2 bg-gradient-to-r from-[#E05264] to-[#F48C8C] bg-clip-text text-transparent"
+                  className="block text-sm font-medium mb-2 bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent"
                 >
                   {field === 'email' ? 'Email Address' : field === 'name' ? 'Your Name' : 'Subject'}
                 </label>
@@ -151,7 +151,7 @@ function ContactUsSection() {
                   value={formData[field]}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-[#F48C8C] focus:outline-none focus:ring-2 focus:ring-[#E05264] focus:border-transparent bg-white/80 backdrop-blur-sm"
+                  className="w-full px-4 py-3 rounded-lg border border-[#F48C8C] focus:outline-none focus:ring-2 focus:ring-[#1D7C6F] focus:border-transparent bg-white/80 backdrop-blur-sm"
                   placeholder={
                     field === 'name' ? 'Enter your full name'
                       : field === 'email' ? 'your@email.com'
@@ -164,7 +164,7 @@ function ContactUsSection() {
             <div>
               <label
                 htmlFor="message"
-                className="block text-sm font-medium mb-2 bg-gradient-to-r from-[#E05264] to-[#F48C8C] bg-clip-text text-transparent"
+                className="block text-sm font-medium mb-2 bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent"
               >
                 Message
               </label>
@@ -175,7 +175,7 @@ function ContactUsSection() {
                 onChange={handleChange}
                 required
                 rows={5}
-                className="w-full px-4 py-3 rounded-lg border border-[#F48C8C] focus:outline-none focus:ring-2 focus:ring-[#E05264] focus:border-transparent bg-white/80 backdrop-blur-sm resize-none"
+                className="w-full px-4 py-3 rounded-lg border border-[#F48C8C] focus:outline-none focus:ring-2 focus:ring-[#1D7C6F] focus:border-transparent bg-white/80 backdrop-blur-sm resize-none"
                 placeholder="Tell us about your project or inquiry..."
               />
             </div>
@@ -183,7 +183,7 @@ function ContactUsSection() {
             <motion.button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full bg-gradient-to-r from-[#E05264] to-[#F48C8C] text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300 ${
+              className={`w-full bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300 ${
                 isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
               } hover:ring-2 hover:ring-[#FFD700]`}
               whileHover={!isSubmitting ? { scale: 1.02, y: -2 } : {}}
