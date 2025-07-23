@@ -370,10 +370,10 @@ const ArtWall = () => {
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           
-          <h1 className="text-5xl font-dm-serif text-[#134856] mb-6">
+          <h1 className="text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Art Wall
           </h1>
-          <p className="text-lg font-lora text-gray-700 max-w-3xl mx-auto leading-relaxed mb-8">
+          <p className="text-lg font-lora text-[#F48C8C] max-w-3xl mx-auto leading-relaxed mb-8">
             A collaborative space where artists share their creativity and passion. 
             Discover, appreciate, and contribute to our growing collection of artistic expressions.
           </p>
@@ -382,7 +382,7 @@ const ArtWall = () => {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <motion.button
               onClick={handleContribute}
-              className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+              className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-dm-serif"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -396,7 +396,7 @@ const ArtWall = () => {
             >
               <Link 
                 to="/community-guidelines"
-                className="bg-gradient-to-r from-teal-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+                className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-dm-serif"
               >
                 <FaUsers className="text-white" />
                 Community Guidelines
@@ -407,11 +407,12 @@ const ArtWall = () => {
 
         {/* Search and Filter Controls */}
         <motion.div 
-          className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-8 shadow-lg"
+          className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-2 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
+          <div className="bg-[#F8E6DA] rounded-2xl p-6">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             
             {/* Search Bar */}
@@ -454,6 +455,7 @@ const ArtWall = () => {
                 <option value="artist">By Artist</option>
               </select>
             </div>
+          </div>
           </div>
         </motion.div>
 
