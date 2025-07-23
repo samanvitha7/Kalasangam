@@ -9,7 +9,6 @@ export default defineConfig({
     proxy: {
       "/api": "http://localhost:5050",
     },
-    historyApiFallback: true,
   },
   build: {
     rollupOptions: {

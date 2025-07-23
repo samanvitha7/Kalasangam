@@ -230,7 +230,7 @@ function AppContent() {
 
   return (
     <div className="app-container relative">
-      <div className="content-wrapper">
+      <div className="content-wrapper relative">
         <Header scrolled={scrolled} onMapClick={handleShowMap} />
         
         {/* Invisible sentinel to track scroll position */}
@@ -238,71 +238,75 @@ function AppContent() {
 
         {/* Start main content */}
         <main className={`page-content ${isAppReady ? '' : 'loading'}`}>
-      {isAppReady ? (
-        <Suspense fallback={
-          <div className="flex justify-center items-center min-h-screen bg-warm-sand">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-tealblue mx-auto mb-4"></div>
-              <div className="text-lg text-deep-charcoal font-lora">Loading...</div>
+          {/* Always render routes, but show loading overlay when not ready */}
+          <Suspense fallback={
+            <div className="flex justify-center items-center min-h-screen bg-warm-sand">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-tealblue mx-auto mb-4"></div>
+                <div className="text-lg text-deep-charcoal font-lora">Loading...</div>
+              </div>
             </div>
-          </div>
-        }>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
-            <Route path="/gallery" element={<Art />} />
-            <Route path="/art-wall" element={<ArtWall />} />
-            <Route path="/artists" element={<ArtistsList />} />
-            <Route path="/artist/:artistId" element={<ArtistProfile />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={
-              <ProtectedRoute allowedRoles={['Admin', 'Artist', 'Viewer']}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/panel" element={
-              <ProtectedRoute allowedRoles={['Admin', 'Artist']}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/phone-login" element={<PhoneLogin />} />
-            <Route path="/phone-signup" element={<PhoneSignup />} />
-            <Route path="/profile" element={<UserPage />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
-            <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />
-            <Route path="/explore/dance" element={<Dance />} />
-            <Route path="/explore/music" element={<Music />} />
-            <Route path="/explore/crafts" element={<CraftsPage />} />
-            <Route path="/events" element={<EventsPage />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/community-guidelines" element={<CommunityGuidelines />} />
-          </Routes>
-        </Suspense>
-      ) : (
-        <div className="flex justify-center items-center min-h-screen" style={{ backgroundColor: '#F8E6DA' }}>
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-transparent border-t-orange-500 mx-auto mb-6"></div>
-            <div className="text-xl font-bold" style={{ color: '#2E2E2E', fontFamily: 'system-ui, -apple-system, sans-serif' }}>KalaSangam</div>
-            <div className="text-sm mt-2" style={{ color: '#666', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-              {loadingStage === 'checking-dom' && 'Initializing...'}
-              {loadingStage === 'checking-styles' && 'Loading styles...'}
-              {loadingStage === 'checking-fonts' && 'Loading fonts...'}
-              {loadingStage === 'finalizing' && 'Almost ready...'}
-              {loadingStage === 'initializing' && 'Starting up...'}
-              {!loadingStage && 'Preparing your cultural journey...'}
+          }>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/map" element={<IndiaMapPage onStateClick={handleStateClick} />} />
+              <Route path="/gallery" element={<Art />} />
+              <Route path="/art-wall" element={<ArtWall />} />
+              <Route path="/artists" element={<ArtistsList />} />
+              <Route path="/artist/:artistId" element={<ArtistProfile />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={
+                <ProtectedRoute allowedRoles={['Admin', 'Artist', 'Viewer']}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/panel" element={
+                <ProtectedRoute allowedRoles={['Admin', 'Artist']}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/phone-login" element={<PhoneLogin />} />
+              <Route path="/phone-signup" element={<PhoneSignup />} />
+              <Route path="/profile" element={<UserPage />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password/:token" element={<ResetPassword />} />
+              <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />
+              <Route path="/explore/dance" element={<Dance />} />
+              <Route path="/explore/music" element={<Music />} />
+              <Route path="/explore/crafts" element={<CraftsPage />} />
+              <Route path="/events" element={<EventsPage />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/community-guidelines" element={<CommunityGuidelines />} />
+              {/* Catch-all route - redirect unknown paths to home */}
+              <Route path="*" element={<Home />} />
+            </Routes>
+          </Suspense>
+          
+          {/* Loading overlay when app is not ready */}
+          {!isAppReady && (
+            <div className="fixed inset-0 z-50 flex justify-center items-center" style={{ backgroundColor: '#F8E6DA' }}>
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-4 border-transparent border-t-orange-500 mx-auto mb-6"></div>
+                <div className="text-xl font-bold" style={{ color: '#2E2E2E', fontFamily: 'system-ui, -apple-system, sans-serif' }}>KalaSangam</div>
+                <div className="text-sm mt-2" style={{ color: '#666', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+                  {loadingStage === 'checking-dom' && 'Initializing...'}
+                  {loadingStage === 'checking-styles' && 'Loading styles...'}
+                  {loadingStage === 'checking-fonts' && 'Loading fonts...'}
+                  {loadingStage === 'finalizing' && 'Almost ready...'}
+                  {loadingStage === 'initializing' && 'Starting up...'}
+                  {!loadingStage && 'Preparing your cultural journey...'}
+                </div>
+                <div className="w-48 h-1 bg-gray-200 rounded-full mt-4 mx-auto overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full animate-pulse"></div>
+                </div>
+              </div>
             </div>
-            <div className="w-48 h-1 bg-gray-200 rounded-full mt-4 mx-auto overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full animate-pulse"></div>
-            </div>
-          </div>
-        </div>
-      )}
+          )}
         </main>
 
         <Footer />

@@ -1,7 +1,6 @@
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Lottie from "lottie-react";
 import WhyWeBuiltThis from "../components/WhyBuilt.jsx";
 import MeetTheTeam from "../components/MeetTheTeam.jsx";
 import ContactUsSection from "../components/ContactUs.jsx";
@@ -62,75 +61,6 @@ const FloatingParticles = () => {
   );
 };
 
-
-// Simple Lottie animation data for demonstration
-const culturalLottieData = {
-  "v": "5.5.9",
-  "fr": 30,
-  "ip": 0,
-  "op": 90,
-  "w": 100,
-  "h": 100,
-  "nm": "animated cultural element",
-  "ddd": 0,
-  "assets": [],
-  "layers": [
-    {
-      "ddd": 0,
-      "ind": 1,
-      "ty": 4,
-      "nm": "Animated Shape",
-      "sr": 1,
-      "ks": {
-        "o": { "a": 0, "k": 100 },
-        "r": { "a": 0, "k": 0 },
-        "p": { "a": 0, "k": [50, 50, 0] },
-        "a": { "a": 0, "k": [0, 0, 0] },
-        "s": { "a": 0, "k": [100, 100, 100] }
-      },
-      "ao": 0,
-      "shapes": [
-        {
-          "ty": "gr",
-          "it": [
-            {
-              "d": 1,
-              "ty": "el",
-              "s": { "a": 0, "k": [40, 40] },
-              "p": { "a": 0, "k": [0, 0] },
-              "nm": "Ellipse Path 1"
-            },
-            {
-              "ty": "st",
-              "c": { "a": 0, "k": [0.9, 0.1, 0.1] },
-              "o": { "a": 0, "k": 100 },
-              "w": { "a": 0, "k": 3 },
-              "lc": 1,
-              "lj": 1,
-              "nm": "Stroke 1"
-            },
-            {
-              "ty": "tr",
-              "p": { "a": 0, "k": [0, 0] },
-              "a": { "a": 0, "k": [0, 0] },
-              "s": { "a": 0, "k": [100, 100] },
-              "r": { "a": 0, "k": 0 },
-              "o": { "a": 0, "k": 100 },
-              "nm": "Transform"
-            }
-          ],
-          "nm": "Ellipse 1"
-        }
-      ],
-      "ip": 0,
-      "op": 90,
-      "st": 0,
-      "bm": 0
-    }
-  ],
-  "markers": []
-};
-
 export default function About() {
   const containerRef = useRef(null);
   const location = useLocation();
@@ -164,17 +94,13 @@ export default function About() {
         animate={{ opacity: pageReady ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.2 }}
       >
-        {/* Lottie Floating Animation */}
+        {/* Decorative floating element */}
         <motion.div 
           className="absolute top-20 right-20 w-32 h-32 opacity-30"
           animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Lottie 
-            animationData={culturalLottieData} 
-            loop={true} 
-            className="w-full h-full"
-          />
+          <div className="w-full h-full bg-gradient-to-br from-tealblue to-rosered rounded-full opacity-50" />
         </motion.div>
 
         {/* Content */}
