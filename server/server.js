@@ -83,7 +83,7 @@ app.use("/api/users",userRoutes);
 app.use("/api/contact",contactRoutes);
 app.use("/api/events",eventRoutes);
 app.use("/api/reports",reportRoutes);
-app.use("/api/artforms", artformRoutes);
+app.use("/api/artforms-basic", artformRoutes);
 app.use('/api/artists', artistRoutes);
 
 const DanceForm = require("./models/DanceForm");
