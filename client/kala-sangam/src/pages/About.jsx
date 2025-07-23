@@ -158,42 +158,16 @@ export default function About() {
       <FloatingParticles />
       
       {/* Hero Section */}
-      <motion.section 
-        className="relative overflow-hidden pt-20 pb-32"
+     <motion.section 
+        className="relative overflow-hidden pt-20 pb-32 bg-[#F8E6DA]"
         initial={{ opacity: 0 }}
         animate={{ opacity: pageReady ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.2 }}
       >
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-r from-amber-200/20 via-orange-200/20 to-yellow-200/20"
-          style={{ opacity: heroOpacity }}
-        />
-        <motion.div 
-          className="absolute w-96 h-96 bg-[#f5c796] rounded-full blur-3xl opacity-30 top-0 left-0"
-          animate={{ 
-            scale: [1, 1.1, 1],
-            rotate: [0, 90, 0],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div 
-          className="absolute w-80 h-80 bg-[#e6a97b] rounded-full blur-3xl opacity-25 bottom-0 right-0"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, -90, 0],
-            opacity: [0.25, 0.4, 0.25]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-        
-        {/* Floating Lottie Animation */}
+        {/* Lottie Floating Animation */}
         <motion.div 
           className="absolute top-20 right-20 w-32 h-32 opacity-30"
-          animate={{ 
-            y: [0, -20, 0],
-            rotate: [0, 10, 0]
-          }}
+          animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
           <Lottie 
@@ -202,63 +176,33 @@ export default function About() {
             className="w-full h-full"
           />
         </motion.div>
-        
+
+        {/* Content */}
         <div className="relative container mx-auto px-4 text-center">
           <motion.h1 
-            className="text-6xl md:text-7xl font-extrabold font-dm-serif mb-8 drop-shadow-lg leading-tight"
+            className="text-6xl md:text-7xl font-extrabold font-dm-serif mb-8 drop-shadow-lg leading-tight bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             About KalaSangam
           </motion.h1>
-          <motion.p 
-            className="max-w-3xl mx-auto text-xl md:text-2xl leading-relaxed text-[#5c3d24] font-medium mb-12"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            Where ancient artistry meets modern innovation. A digital sanctuary preserving India's rich cultural heritage through technology.
-          </motion.p>
-          <motion.div 
-            className="flex flex-wrap justify-center gap-6 text-sm md:text-base"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            {[
-              { icon: "🎨", text: "Traditional Arts" },
-              { icon: "💻", text: "Modern Technology" },
-              { icon: "🌟", text: "Cultural Preservation" }
-            ].map((item, index) => (
-              <motion.div 
-                key={index}
-                className="bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="font-lora semibold text-[#8b4513]">{item.icon} {item.text}</span>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </motion.section>
 
-      
       {/* Why We Built This - Enhanced */}
-      <section className="relative py-20 px-6">
+      <section className="relative py-20 px-6 bg-[#F8E6DA]">
         <div className="container mx-auto px-4">
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 border border-white/20">
-            <WhyWeBuiltThis />
+          <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-8 md:p-12">
+            <div className="bg-[#F8E6DA] rounded-2xl p-8 md:p-10">
+              <WhyWeBuiltThis />
+            </div>
           </div>
         </div>
       </section>
 
       {/* Our Vision Section */}
-      <motion.section className="relative py-20 px-6 overflow-hidden">
+      <motion.section className="relative py-20 px-6 overflow-hidden bg-[#F8E6DA]">
         {/* Floating Team Images */}
         <motion.div 
           className="absolute -left-32 top-20 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
@@ -300,107 +244,113 @@ export default function About() {
           <img src="/images/Vaishalii.jpg" alt="Vaishali" className="w-full h-full object-cover" />
         </motion.div>
         <div className="container mx-auto px-4">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold font-[Yatra One] mb-6 text-[#8b4513]">
-              Our Vision
-            </h2>
-            <p className="text-xl text-[#5c3d24] max-w-3xl mx-auto leading-relaxed">
-              Building a future where traditional arts thrive in the digital age
-            </p>
-          </motion.div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: "🌍",
-                title: "Global Reach",
-                description: "Making Indian traditional arts accessible to audiences worldwide through innovative digital experiences.",
-                gradient: "from-[#ff6b6b] to-[#ee5a24]",
-                delay: 0
-              },
-              {
-                icon: "🎓",
-                title: "Education First",
-                description: "Creating immersive learning experiences that inspire the next generation of artists and art lovers.",
-                gradient: "from-[#4834d4] to-[#686de0]",
-                delay: 0.2
-              },
-              {
-                icon: "🤝",
-                title: "Community Building",
-                description: "Fostering connections between artists, scholars, and enthusiasts across the globe.",
-                gradient: "from-[#00d2d3] to-[#01a3a4]",
-                delay: 0.4
-              }
-            ].map((vision, index) => (
+          <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-8 md:p-12">
+            <div className="bg-[#F8E6DA] rounded-2xl p-8 md:p-10">
               <motion.div 
-                key={index}
-                className={`bg-gradient-to-br ${vision.gradient} rounded-3xl p-8 text-white shadow-xl`}
-                initial={{ opacity: 0, y: 50, rotateY: -30 }}
-                whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-                transition={{ duration: 0.8, delay: vision.delay }}
+                className="text-center mb-16"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  rotateY: 5,
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4)"
-                }}
-                style={{ transformStyle: "preserve-3d" }}
               >
-                <motion.div 
-                  className="text-4xl mb-4"
-                  animate={{ 
-                    rotateY: [0, 360],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{ 
-                    duration: 6, 
-                    repeat: Infinity, 
-                    ease: "easeInOut",
-                    delay: index * 0.5
-                  }}
-                >
-                  {vision.icon}
-                </motion.div>
-                <motion.h3 
-                  className="text-xl font-bold mb-4"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: vision.delay + 0.3 }}
-                >
-                  {vision.title}
-                </motion.h3>
-                <motion.p 
-                  className="leading-relaxed opacity-90"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: vision.delay + 0.5 }}
-                >
-                  {vision.description}
-                </motion.p>
+                <h2 className="text-4xl md:text-5xl font-bold font-dm-serif mb-6 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+                  Our Vision
+                </h2>
+                <p className="text-xl text-[#F48C8C] max-w-3xl mx-auto leading-relaxed font-lora">
+                  Building a future where traditional arts thrive in the digital age
+                </p>
               </motion.div>
-            ))}
+          
+              <div className="grid md:grid-cols-3 gap-8">
+                {[
+                  {
+                    icon: "🌍",
+                    title: "Global Reach",
+                    description: "Making Indian traditional arts accessible to audiences worldwide through innovative digital experiences.",
+                    gradient: "from-[#5E97A7] to-[#134856]",
+                    delay: 0
+                  },
+                  {
+                    icon: "🎓",
+                    title: "Education First",
+                    description: "Creating immersive learning experiences that inspire the next generation of artists and art lovers.",
+                    gradient: "from-[#6FC4B7] to-[#1D7C6F]",
+                    delay: 0.2
+                  },
+                  {
+                    icon: "🤝",
+                    title: "Community Building",
+                    description: "Fostering connections between artists, scholars, and enthusiasts across the globe.",
+                    gradient: "from-[#F5959F] to-[#E05264]",
+                    delay: 0.4
+                  }
+                ].map((vision, index) => (
+                  <motion.div 
+                    key={index}
+                    className={`bg-gradient-to-br ${vision.gradient} rounded-3xl p-8 text-white shadow-xl`}
+                    initial={{ opacity: 0, y: 50, rotateY: -30 }}
+                    whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
+                    transition={{ duration: 0.8, delay: vision.delay }}
+                    viewport={{ once: true }}
+                    whileHover={{ 
+                      scale: 1.05, 
+                      rotateY: 5,
+                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4)"
+                    }}
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    <motion.div 
+                      className="text-4xl mb-4"
+                      animate={{ 
+                        rotateY: [0, 360],
+                        scale: [1, 1.1, 1]
+                      }}
+                      transition={{ 
+                        duration: 6, 
+                        repeat: Infinity, 
+                        ease: "easeInOut",
+                        delay: index * 0.5
+                      }}
+                    >
+                      {vision.icon}
+                    </motion.div>
+                    <motion.h3 
+                      className="text-xl font-bold mb-4 font-dm-serif"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: vision.delay + 0.3 }}
+                    >
+                      {vision.title}
+                    </motion.h3>
+                    <motion.p 
+                      className="leading-relaxed opacity-90 font-lora"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: vision.delay + 0.5 }}
+                    >
+                      {vision.description}
+                    </motion.p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </motion.section>
 
       {/* Meet The Team */}
-      <section className="relative py-20 px-6">
+      <section className="relative py-20 px-6 bg-[#F8E6DA]">
         <div className="container mx-auto px-4">
-          <div className="bg-gradient-to-br from-[#fff4e8] to-white rounded-3xl shadow-2xl p-8 md:p-12 border border-white/20">
-            <MeetTheTeam />
+          <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-8 md:p-12">
+            <div className="bg-[#F8E6DA] rounded-2xl p-8 md:p-10">
+              <MeetTheTeam />
+            </div>
           </div>
         </div>
       </section>
 
       {/* Impact Stories */}
-      <motion.section className="relative py-20 px-6 overflow-hidden">
+      <motion.section className="relative py-20 px-6 overflow-hidden bg-[#F8E6DA]">
         {/* Floating 3D Elements */}
         <motion.div 
           className="absolute top-10 left-10 w-20 h-20 bg-gradient-to-br from-[#ff6b6b] to-[#ee5a24] rounded-full opacity-20 blur-sm"
@@ -457,103 +407,108 @@ export default function About() {
         ))}
         
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold font-[Yatra One] mb-6 text-[#8b4513]">
-              Impact Stories
-            </h2>
-            <p className="text-xl text-[#5c3d24] max-w-3xl mx-auto leading-relaxed">
-              Real stories of how KalaSangam is making a difference
-            </p>
-          </motion.div>
-          
-          <div className="grid md:grid-cols-2 gap-8">
+          {/* Immediate container with gradient background and white text */}
+          <div className="rounded-3xl p-8 md:p-12 bg-gradient-to-r from-[#1d7c6f] to-[#f48c8c]">
             <motion.div 
-              className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl"
-              initial={{ opacity: 0, x: -50, rotateY: -15 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              whileHover={{ 
-                scale: 1.02,
-                rotateY: 5,
-                boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.2)"
-              }}
-              style={{ transformStyle: "preserve-3d" }}
             >
-              <div className="flex items-center mb-6">
-                <motion.div 
-                  className="w-12 h-12 bg-gradient-to-br from-[#ff9ff3] to-[#f368e0] rounded-full flex items-center justify-center text-white font-bold mr-4"
-                  animate={{ 
-                    rotateZ: [0, 360],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{ 
-                    duration: 4, 
-                    repeat: Infinity, 
-                    ease: "easeInOut" 
-                  }}
-                >
-                  🎨
-                </motion.div>
-                <div>
-                  <h3 className="text-xl font-bold text-[#8b4513]">Artists Empowered</h3>
-                  <p className="text-[#5c3d24] text-sm">Connecting traditional artists with global audiences</p>
-                </div>
-              </div>
-              <p className="text-[#5c3d24] leading-relaxed">
-                "KalaSangam has given me a platform to share my Madhubani art with people who truly appreciate it. The response has been overwhelming!"
+              <h2 className="text-4xl md:text-5xl font-bold font-dm-serif mb-6 text-white">
+                Impact Stories
+              </h2>
+              <p className="text-xl text-white max-w-3xl mx-auto leading-relaxed font-lora">
+                Real stories of how KalaSangam is making a difference
               </p>
-              <p className="text-[#8b4513] font-semibold mt-4">- Priya Sharma, Madhubani Artist</p>
             </motion.div>
-            
-            <motion.div 
-              className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl"
-              initial={{ opacity: 0, x: 50, rotateY: 15 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              whileHover={{ 
-                scale: 1.02,
-                rotateY: -5,
-                boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.2)"
-              }}
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <div className="flex items-center mb-6">
-                <motion.div 
-                  className="w-12 h-12 bg-gradient-to-br from-[#4834d4] to-[#686de0] rounded-full flex items-center justify-center text-white font-bold mr-4"
-                  animate={{ 
-                    rotateZ: [0, -360],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{ 
-                    duration: 5, 
-                    repeat: Infinity, 
-                    ease: "easeInOut",
-                    delay: 1
-                  }}
-                >
-                  📚
-                </motion.div>
-                <div>
-                  <h3 className="text-xl font-bold text-[#8b4513]">Students Inspired</h3>
-                  <p className="text-[#5c3d24] text-sm">Bridging the gap between tradition and modern learning</p>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Cards with blush peach background and gradient text */}
+              <motion.div 
+                className="bg-[#F8E6DA] backdrop-blur-sm rounded-3xl p-8 shadow-xl"
+                initial={{ opacity: 0, x: -50, rotateY: -15 }}
+                whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                whileHover={{ 
+                  scale: 1.02,
+                  rotateY: 5,
+                  boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.2)"
+                }}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <div className="flex items-center mb-6">
+                  <motion.div 
+                    className="w-12 h-12 bg-gradient-to-br from-[#f7b7bb] to-[#F48C8C] rounded-full flex items-center justify-center text-white font-bold mr-4"
+                    animate={{ 
+                      rotateZ: [0, 360],
+                      scale: [1, 1.1, 1]
+                    }}
+                    transition={{ 
+                      duration: 4, 
+                      repeat: Infinity, 
+                      ease: "easeInOut" 
+                    }}
+                  >
+                    🎨
+                  </motion.div>
+                  <div>
+                    <h3 className="text-xl font-bold font-dm-serif bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">Artists Empowered</h3>
+                    <p className="bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent text-sm font-lora">Connecting traditional artists with global audiences</p>
+                  </div>
                 </div>
-              </div>
-              <p className="text-[#5c3d24] leading-relaxed">
-                "I never knew Indian art could be so diverse and beautiful. KalaSangam has opened my eyes to our incredible cultural heritage."
-              </p>
-              <p className="text-[#8b4513] font-semibold mt-4">- Arjun Patel, College Student</p>
-            </motion.div>
+                <p className="bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent leading-relaxed font-lora">
+                  "KalaSangam has given me a platform to share my Madhubani art with people who truly appreciate it. The response has been overwhelming!"
+                </p>
+                <p className="bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent font-semibold mt-4 font-dm-serif">- Priya Sharma, Madhubani Artist</p>
+              </motion.div>
+
+              <motion.div 
+                className="bg-[#F8E6DA] backdrop-blur-sm rounded-3xl p-8 shadow-xl"
+                initial={{ opacity: 0, x: 50, rotateY: 15 }}
+                whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                whileHover={{ 
+                  scale: 1.02,
+                  rotateY: -5,
+                  boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.2)"
+                }}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <div className="flex items-center mb-6">
+                  <motion.div 
+                    className="w-12 h-12 bg-gradient-to-br from-[#5a8fa0] to-[#134856] rounded-full flex items-center justify-center text-white font-bold mr-4"
+                    animate={{ 
+                      rotateZ: [0, -360],
+                      scale: [1, 1.1, 1]
+                    }}
+                    transition={{ 
+                      duration: 5, 
+                      repeat: Infinity, 
+                      ease: "easeInOut",
+                      delay: 1
+                    }}
+                  >
+                    📚
+                  </motion.div>
+                  <div>
+                    <h3 className="text-xl font-bold font-dm-serif bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">Students Inspired</h3>
+                    <p className="bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent text-sm font-lora">Bridging the gap between tradition and modern learning</p>
+                  </div>
+                </div>
+                <p className="bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent leading-relaxed font-lora">
+                  "I never knew Indian art could be so diverse and beautiful. KalaSangam has opened my eyes to our incredible cultural heritage."
+                </p>
+                <p className="bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent font-semibold mt-4 font-dm-serif">- Arjun Patel, College Student</p>
+              </motion.div>
+            </div>
           </div>
         </div>
       </motion.section>
+
 
      {/* Contact Us - Call to Action */}
       <section className="relative py-20 px-6 bg-[#F8E6DA] text-[#FF6F61]">

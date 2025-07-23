@@ -7,7 +7,7 @@ const team = [
     role: "Frontend Developer",
     image: "/images/naina.jpg",
     funFact: "Wrote her first JavaScript app before learning to ride a bike.",
-    color: "from-[#ff6b6b] to-[#ee5a24]",
+    color: "from-[#4bb5a5] to-[#1D7C6F]",
     skills: ["React", "UI/UX", "Animation"]
   },
   {
@@ -15,15 +15,15 @@ const team = [
     role: "Full Stack Developer",
     image: "/images/sam.jpg",
     funFact: "Has a playlist for debugging — and it actually works!",
-    color: "from-[#4834d4] to-[#686de0]",
+    color: "from-[#5a8fa0] to-[#134856]",
     skills: ["Node.js", "MongoDB", "APIs"]
   },
   {
     name: "SHREYA",
     role: "UI/UX Designer",
     image: "/images/shreya.jpg",
-    funFact: "Owns a flute signed by Hariprasad Chaurasia.",
-    color: "from-[#00d2d3] to-[#01a3a4]",
+    funFact: "Built a design system while eating pani puri — didn’t spill a byte.",
+    color: "from-[#f17887] to-[#E05264]",
     skills: ["Design", "Research", "Prototyping"]
   },
   {
@@ -31,7 +31,7 @@ const team = [
     role: "Backend Developer",
     image: "/images/Vaishalii.jpg",
     funFact: "Her debug sessions are so calm, even the console errors feel shy.",
-    color: "from-[#ff9ff3] to-[#f368e0]",
+    color: "from-[#f7b7bb] to-[#F48C8C]",
     skills: ["Python", "Database", "Architecture"]
   }
 ];
@@ -50,7 +50,7 @@ function MeetTheTeam() {
         {Array.from({ length: 12 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-30"
+            className="absolute w-2 h-2 bg-gradient-to-r from-[#F48C8C] to-[#E05264] rounded-full opacity-30"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -69,7 +69,7 @@ function MeetTheTeam() {
           />
         ))}
       </div>
-      
+
       <motion.h2 
         className="text-4xl font-bold text-center mb-16 text-[#8b4513] font-[Yatra One]"
         initial={{ opacity: 0, y: 30 }}
@@ -79,7 +79,7 @@ function MeetTheTeam() {
       >
         Meet the Creative Minds
       </motion.h2>
-      
+
       <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2 justify-items-center max-w-6xl mx-auto">
         {team.map((member, idx) => (
           <motion.div 
@@ -115,7 +115,6 @@ function MeetTheTeam() {
                   backfaceVisibility: "hidden"
                 }}
               >
-                {/* Floating decorative elements */}
                 <motion.div
                   className={`absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br ${member.color} rounded-full opacity-70`}
                   animate={{
@@ -129,7 +128,7 @@ function MeetTheTeam() {
                     delay: idx * 0.5
                   }}
                 />
-                
+
                 <motion.div
                   className={`absolute -bottom-2 -left-2 w-4 h-4 bg-gradient-to-br ${member.color} rounded-full opacity-50`}
                   animate={{
@@ -143,7 +142,7 @@ function MeetTheTeam() {
                     delay: idx * 0.7
                   }}
                 />
-                
+
                 <motion.div
                   className="w-40 h-40 rounded-full mb-4 overflow-hidden shadow-lg border-4 border-white"
                   whileHover={{ scale: 1.1, rotate: 10 }}
@@ -155,7 +154,7 @@ function MeetTheTeam() {
                     className="w-full h-full object-cover"
                   />
                 </motion.div>
-                
+
                 <motion.h3 
                   className={`font-bold text-xl mb-2 bg-gradient-to-r ${member.color} bg-clip-text text-transparent`}
                   initial={{ opacity: 0, y: 20 }}
@@ -165,7 +164,7 @@ function MeetTheTeam() {
                 >
                   {member.name}
                 </motion.h3>
-                
+
                 <motion.p 
                   className="text-gray-600 text-sm mb-4 text-center"
                   initial={{ opacity: 0, y: 20 }}
@@ -175,7 +174,7 @@ function MeetTheTeam() {
                 >
                   {member.role}
                 </motion.p>
-                
+
                 <motion.div 
                   className="flex flex-wrap gap-2 justify-center"
                   initial={{ opacity: 0, y: 20 }}
@@ -194,7 +193,7 @@ function MeetTheTeam() {
                     </motion.span>
                   ))}
                 </motion.div>
-                
+
                 <motion.div
                   className="mt-auto text-xs text-gray-400 text-center"
                   animate={{ opacity: [0.5, 1, 0.5] }}
@@ -203,7 +202,7 @@ function MeetTheTeam() {
                   Click for fun fact! 🖱️
                 </motion.div>
               </div>
-              
+
               {/* Back Side */}
               <div 
                 className={`absolute w-full h-full bg-gradient-to-br ${member.color} rounded-2xl shadow-xl flex items-center justify-center p-6 text-center`}
