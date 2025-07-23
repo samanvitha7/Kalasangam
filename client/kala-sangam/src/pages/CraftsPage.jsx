@@ -8,10 +8,10 @@ const crafts = [
     name: "Pottery Making",
     region: "Khurja, Uttar Pradesh",
     description: "Ancient art of clay molding and ceramic creation, passed down through generations of skilled artisans.",
-    image: "https://i.pinimg.com/1200x/d4/dc/ee/d4dcee77886a35fc2333c100ee26c667.jpg",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    duration: "45 mins",
-    difficulty: "Intermediate",
+    image: "https://i.pinimg.com/736x/fd/bd/f6/fdbdf6b716370a8df325273c980bfecc.jpg",
+    videoUrl: "https://www.youtube.com/embed/FkjNbTCFY1Q?si=gXasaZjmqsj8deFO",
+    duration: "19m 15s",
+    difficulty: "Beginner",
     materials: ["Clay", "Potter's wheel", "Glazes", "Kiln"]
   },
   {
@@ -19,10 +19,10 @@ const crafts = [
     name: "Warli Art",
     region: "Maharashtra",
     description: "Tribal art form featuring geometric patterns and nature-inspired motifs painted on walls and canvas.",
-    image: "https://i.pinimg.com/1200x/88/41/5c/88415c91056485ac21cf9cc57d77c9fc.jpg",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    duration: "30 mins",
-    difficulty: "Beginner",
+    image: "https://i.pinimg.com/1200x/c6/1d/45/c61d450d68695c630cb4ca9d90094cca.jpg",
+    videoUrl: "https://www.youtube.com/embed/cGXvztdfOf4?si=990SLp0jQzVN3LMz",
+    duration: "23m 5s",
+    difficulty: "Intermediate",
     materials: ["White paint", "Brown paper", "Brushes", "Natural pigments"]
   },
   {
@@ -30,9 +30,9 @@ const crafts = [
     name: "Madhubani Painting",
     region: "Bihar",
     description: "Vibrant folk art characterized by intricate patterns, bright colors, and mythological themes.",
-    image: "https://i.pinimg.com/1200x/f5/8e/76/f58e769d404b7a9ff15b04b3b42a42cb.jpg",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    duration: "60 mins",
+    image: "https://i.pinimg.com/736x/0d/35/d2/0d35d2628d979c757066636a5872cd2e.jpg",
+    videoUrl: "https://www.youtube.com/embed/F9Rvckkue3A?si=kC_kiQ71oxUFozQt",
+    duration: "10m 18s",
     difficulty: "Advanced",
     materials: ["Canvas", "Acrylic paints", "Fine brushes", "Pencil"]
   },
@@ -41,10 +41,10 @@ const crafts = [
     name: "Block Printing",
     region: "Rajasthan",
     description: "Traditional textile printing technique using hand-carved wooden blocks and natural dyes.",
-    image: "https://i.pinimg.com/736x/f0/7a/28/f07a28ec5b5d3082c88fdaa80bf4caed.jpg",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    duration: "50 mins",
-    difficulty: "Intermediate",
+    image: "https://i.pinimg.com/736x/17/48/64/17486448bb3c20b02dfd83c0e5ecdfb8.jpg",
+    videoUrl: "https://www.youtube.com/embed/moMFuBbeCiU?si=8JPRa_kNMXjPcbLz",
+    duration: "15m 22s",
+    difficulty: "Beginner",
     materials: ["Wooden blocks", "Fabric", "Natural dyes", "Printing table"]
   },
   {
@@ -52,9 +52,9 @@ const crafts = [
     name: "Bamboo Crafts",
     region: "Northeast India",
     description: "Eco-friendly craft using bamboo to create baskets, furniture, and decorative items.",
-    image: "https://i.pinimg.com/736x/09/1e/05/091e051ebfa23b9379cfe0746965d0d2.jpg",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    duration: "90 mins",
+    image: "https://i.pinimg.com/1200x/ca/62/23/ca6223b5bf8ae30074aeb962c7f9b505.jpg",
+    videoUrl: "https://www.youtube.com/embed/AVR45-hdm-g?si=3bBx-pyNzd_1BVSy",
+    duration: "13m 30s",
     difficulty: "Advanced",
     materials: ["Bamboo strips", "Cutting tools", "Binding materials", "Varnish"]
   },
@@ -63,9 +63,9 @@ const crafts = [
     name: "Meenakari Jewelry",
     region: "Rajasthan",
     description: "Intricate enamel work on metal jewelry, creating colorful and ornate traditional accessories.",
-    image: "https://i.pinimg.com/736x/2e/cb/2b/2ecb2bb96ddc93835f955677d58917ef.jpg",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    duration: "120 mins",
+    image: "https://i.pinimg.com/1200x/24/d4/95/24d495102bfd7a0620d69eb4841b5aad.jpg",
+    videoUrl: "https://www.youtube.com/embed/GMT077q_pPQ?si=iHcAjcjh4iO9KjhN",
+    duration: "9m 19s",
     difficulty: "Expert",
     materials: ["Metal base", "Enamel colors", "Fine brushes", "Kiln"]
   }
@@ -358,8 +358,8 @@ export default function CraftsPage() {
             animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            Discover the timeless beauty of traditional Indian crafts through immersive video tutorials.
-            Learn from master artisans and create your own masterpieces.
+            <b>Discover the timeless beauty of traditional Indian crafts through immersive video tutorials.
+            Learn from master artisans and create your own masterpieces.</b>
           </motion.p>
         </div>
       </motion.section>
@@ -376,8 +376,8 @@ export default function CraftsPage() {
             Master Traditional Crafts
           </h2>
           <p className="text-lg font-lora text-gray-700 max-w-2xl mx-auto text-center mb-12">
-            Each craft tells a story of heritage, skill, and artistic excellence.
-            Click on any craft to start your interactive learning journey.
+           <b> Each craft tells a story of heritage, skill, and artistic excellence.
+            Click on any craft to start your interactive learning journey.</b>
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
