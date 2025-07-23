@@ -187,6 +187,14 @@ export default function About() {
           >
             About KalaSangam
           </motion.h1>
+          <motion.p 
+            className="max-w-3xl mx-auto text-xl md:text-2xl leading-relaxed text-[#E05264] font-semibold font-lora mb-12"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            Where ancient artistry meets modern innovation. A digital sanctuary preserving India's rich cultural heritage through technology.
+          </motion.p>
         </div>
       </motion.section>
 

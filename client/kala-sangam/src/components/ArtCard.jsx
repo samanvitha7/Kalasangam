@@ -222,7 +222,7 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
             <div className="text-sm">
               <span className="text-amber-700">By: </span>
               <Link 
-                to={`/artist/${artwork.artist.toLowerCase().replace(' ', '-')}`}
+                to={`/artist/${artwork.userId || artwork.artistId || artwork.artist.toLowerCase().replace(' ', '-')}`}
                 className="font-semibold text-amber-800 hover:text-amber-600 hover:underline transition-colors cursor-pointer"
                 onClick={(e) => e.stopPropagation()}
               >
