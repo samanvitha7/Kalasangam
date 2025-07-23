@@ -92,7 +92,7 @@ const ArtistProfile = () => {
               ...artistData,
               profileImage: artistData.avatar || 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face',
               coverImage: artistData.signatureWork || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
-              specialties: [artistData.specialization || 'Traditional Arts'],
+              specialties: artistData.specialization ? [artistData.specialization] : ['Traditional Arts'],
               totalLikes: artistData.likesCount || 0,
               totalComments: artistData.commentsCount || 0,
               totalViews: artistData.viewsCount || Math.floor(Math.random() * 1000) + 100,
@@ -127,7 +127,7 @@ const ArtistProfile = () => {
               ...artistData,
               profileImage: artistData.avatar || 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face',
               coverImage: artistData.signatureWork || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
-              specialties: [artistData.specialization || 'Traditional Arts'],
+              specialties: artistData.specialization ? [artistData.specialization] : ['Traditional Arts'],
               totalLikes: artistData.likesCount || 0,
               totalComments: artistData.commentsCount || 0,
               totalViews: artistData.viewsCount || Math.floor(Math.random() * 1000) + 100,
@@ -421,14 +421,20 @@ const ArtistProfile = () => {
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
               <h3 className="text-xl font-bold text-amber-900 mb-4">Specialties</h3>
               <div className="flex flex-wrap gap-2">
-                {artist.specialties.map((specialty, index) => (
-                  <span
-                    key={index}
-                    className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium"
-                  >
-                    {specialty}
+                {artist.specialties && artist.specialties.length > 0 ? (
+                  artist.specialties.map((specialty, index) => (
+                    <span
+                      key={index}
+                      className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium"
+                    >
+                      {specialty}
+                    </span>
+                  ))
+                ) : (
+                  <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
+                    Traditional Arts
                   </span>
-                ))}
+                )}
               </div>
             </div>
 
