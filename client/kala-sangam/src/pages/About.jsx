@@ -13,11 +13,11 @@ const FloatingParticles = () => {
     size: Math.random() * 6 + 2,
     color: [
       'rgba(255, 107, 107, 0.6)',
-      'rgba(72, 52, 212, 0.6)',
       'rgba(0, 210, 211, 0.6)',
+      'rgba(244, 140, 140, 0.6)',
       'rgba(255, 159, 243, 0.6)',
       'rgba(255, 193, 7, 0.6)',
-      'rgba(139, 69, 19, 0.6)'
+      'rgba(19, 72, 86, 0.6)',
     ][Math.floor(Math.random() * 6)],
     initialX: Math.random() * 100,
     initialY: Math.random() * 100,
@@ -153,7 +153,7 @@ export default function About() {
   }, [location.pathname]);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-blush-peach text-coral-pink font-noto page-layout overflow-hidden">
+    <div ref={containerRef} className="min-h-screen bg-blush-peach text-coral-pink font-lora page-layout overflow-hidden">
       {/* Global Floating Particles */}
       <FloatingParticles />
       
@@ -205,7 +205,7 @@ export default function About() {
         
         <div className="relative container mx-auto px-4 text-center">
           <motion.h1 
-            className="text-6xl md:text-7xl font-extrabold font-[Yatra One] mb-8 drop-shadow-lg leading-tight"
+            className="text-6xl md:text-7xl font-extrabold font-dm-serif mb-8 drop-shadow-lg leading-tight"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -240,7 +240,7 @@ export default function About() {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="font-semibold text-[#8b4513]">{item.icon} {item.text}</span>
+                <span className="font-lora semibold text-[#8b4513]">{item.icon} {item.text}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -556,19 +556,20 @@ export default function About() {
       </motion.section>
 
      {/* Contact Us - Call to Action */}
-<section className="relative py-20 px-6 font-[Poppins] bg-[#F4C2C2] text-[#134856]">
-  <div className="container mx-auto px-4">
-    <div className="bg-gradient-to-br from-[#D8BFD8] to-[#B0C4DE] rounded-3xl shadow-2xl p-8 md:p-12 text-center">
-      <h2 className="text-4xl md:text-5xl font-bold mb-6">
-        Join Our Cultural Revolution
-      </h2>
-      <p className="text-xl leading-relaxed mb-8 opacity-90">
-        Be part of the movement to preserve and celebrate India's artistic heritage
-      </p>
-      <ContactUsSection />
-    </div>
-  </div>
-</section>
+      <section className="relative py-20 px-6 bg-[#F8E6DA] text-[#FF6F61]">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="bg-gradient-to-br from-[#e25c5c] to-[#f58c8c] rounded-3xl shadow-2xl p-10 md:p-16 text-center">
+              <h2 className="text-4xl md:text-5xl font-dm-serif font-bold mb-6 text-white drop-shadow">
+                Join Our Cultural Revolution
+              </h2>
+              <p className="text-xl leading-relaxed font-lora mb-8 text-white/90">
+                Be part of the movement to preserve and celebrate India's artistic heritage
+              </p>
+              <ContactUsSection />
+          </div>
+        </div>
+      </section>
+
 
 
       {/* Footer Spacer */}
