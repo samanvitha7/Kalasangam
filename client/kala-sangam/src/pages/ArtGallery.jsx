@@ -3,7 +3,8 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import ArtFormCard from "../components/ArtFormCard";
-import { FaSearch, FaFilter, FaTimes, FaMapMarkerAlt, FaPalette, FaGlobe } from 'react-icons/fa';
+import LazyImage from "../components/LazyImage";
+import { FaSearch, FaFilter, FaTimes, FaMapMarkerAlt, FaPalette, FaGlobe, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 export default function ArtGallery() {
 const navigate = useNavigate();
@@ -21,6 +22,10 @@ const navigate = useNavigate();
   const [sortBy, setSortBy] = useState('name');
   const [zoomImg, setZoomImg] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
   // Initialize page with proper animations
   const [pageReady, setPageReady] = useState(false);
@@ -111,8 +116,19 @@ const navigate = useNavigate();
       }
     });
 
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredArtforms.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedArtforms = filteredArtforms.slice(startIndex, endIndex);
+  
   // Keep the original filtered variable for backward compatibility
-  const filtered = filteredArtforms;
+  const filtered = paginatedArtforms;
+  
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedState, filterCategory, sortBy]);
 
   // Debug logging (only log important information)
   useEffect(() => {
@@ -189,85 +205,36 @@ const navigate = useNavigate();
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] text-coral-pink font-noto page-layout overflow-hidden">
+    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
       {/* Floating Particles Background */}
       <FloatingParticles />
       
-      {/* Hero Section with Enhanced Design */}
-      <motion.section 
-        className="relative overflow-hidden pt-20 pb-16"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: pageReady ? 1 : 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-      >
-        {/* Animated Background Elements */}
-        <motion.div 
-          className="absolute w-96 h-96 bg-gradient-to-r from-[#134856]/20 to-[#E05264]/20 rounded-full blur-3xl opacity-30 top-0 left-0"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div 
-          className="absolute w-80 h-80 bg-gradient-to-r from-[#ff6b6b]/20 to-[#ffa726]/20 rounded-full blur-3xl opacity-25 bottom-0 right-0"
-          animate={{ 
-            scale: [1, 1.1, 1],
-            rotate: [0, -90, 0],
-            opacity: [0.25, 0.4, 0.25]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-        
-        <div className="relative container mx-auto px-4 text-center z-10">
-          <motion.h1 
-            className="text-6xl md:text-7xl font-extrabold font-dm-serif text-deep-teal mb-8 drop-shadow-lg leading-tight"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Art Gallery
-          </motion.h1>
-          <motion.p 
-            className="max-w-4xl mx-auto text-xl md:text-2xl leading-relaxed text-[#5c3d24] font-medium mb-12"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            Discover the magnificent tapestry of Indian traditional arts. From ancient crafts to timeless performances, explore the diverse cultural heritage of our nation.
-          </motion.p>
-          
-          {/* Floating Art Icons */}
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Hero Section */}
+        <motion.section 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Animated Background Elements */}
           <motion.div 
-            className="flex flex-wrap justify-center gap-6 text-sm md:text-base"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            {[
-              { icon: "🎨", text: "Traditional Paintings" },
-              { icon: "🏺", text: "Ancient Crafts" },
-              { icon: "🎭", text: "Cultural Heritage" },
-              { icon: "✨", text: "Artistic Legacy" }
-            ].map((item, index) => (
-              <motion.div 
-                key={index}
-                className="bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-white/30"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="font-semibold text-[#8b4513]">{item.icon} {item.text}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </motion.section>
-
-      <div className="container mx-auto px-4 py-6 relative z-10">
+            className="absolute w-96 h-96 bg-gradient-to-r from-[#E05264]/20 to-[#F48C8C]/20 rounded-full blur-3xl opacity-30 top-0 left-0"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              rotate: [0, 90, 0],
+              opacity: [0.3, 0.5, 0.3]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+          
+          <h1 className="inline-block text-6xl font-dm-serif font-bold mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+            Art Gallery
+          </h1>
+          <p className="text-lg font-lora font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
+            Discover the magnificent tapestry of Indian traditional arts. From ancient crafts to timeless performances, explore the diverse cultural heritage of our nation.
+          </p>
+        </motion.section>
 
 
 
@@ -381,9 +348,14 @@ const navigate = useNavigate();
             <>
               <div className="text-center mb-6">
                 <p className="text-gray-600 font-lora">
-                  Showing {filtered.length} art form{filtered.length !== 1 ? 's' : ''}
+                  Showing {startIndex + 1}-{Math.min(endIndex, filteredArtforms.length)} of {filteredArtforms.length} art form{filteredArtforms.length !== 1 ? 's' : ''}
                   {selectedState && ` from ${selectedState}`}
                 </p>
+                {totalPages > 1 && (
+                  <p className="text-sm text-gray-500 mt-1 font-lora">
+                    Page {currentPage} of {totalPages}
+                  </p>
+                )}
               </div>
               <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 auto-rows-auto transition-all duration-1000 delay-500 ${pageReady ? 'opacity-100' : 'opacity-0'}`}>
                 {filtered.map((art, index) => (
@@ -399,6 +371,67 @@ const navigate = useNavigate();
                   </div>
                 ))}
               </div>
+              
+              {/* Pagination Navigation */}
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-4 mt-12 mb-8">
+                  <motion.button
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+                      currentPage === 1 
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                        : 'bg-gradient-to-r from-[#134856] to-[#e05264] hover:from-[#e05264] hover:to-[#134856] text-white shadow-lg hover:shadow-xl transform hover:scale-105'
+                    }`}
+                    whileHover={currentPage !== 1 ? { scale: 1.05 } : {}}
+                    whileTap={currentPage !== 1 ? { scale: 0.95 } : {}}
+                  >
+                    <FaChevronLeft size={14} />
+                    Previous
+                  </motion.button>
+                  
+                  <div className="flex items-center gap-2">
+                    {/* Page Numbers */}
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      const startPage = Math.max(1, currentPage - 2);
+                      const pageNum = startPage + i;
+                      if (pageNum <= totalPages) {
+                        return (
+                          <motion.button
+                            key={pageNum}
+                            onClick={() => setCurrentPage(pageNum)}
+                            className={`w-10 h-10 rounded-full font-semibold transition-all duration-300 ${
+                              currentPage === pageNum
+                                ? 'bg-gradient-to-r from-[#134856] to-[#e05264] text-white shadow-lg'
+                                : 'bg-white text-[#134856] border-2 border-[#134856] hover:bg-gradient-to-r hover:from-[#134856] hover:to-[#e05264] hover:text-white'
+                            }`}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                          >
+                            {pageNum}
+                          </motion.button>
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+                  
+                  <motion.button
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+                      currentPage === totalPages 
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                        : 'bg-gradient-to-r from-[#134856] to-[#e05264] hover:from-[#e05264] hover:to-[#134856] text-white shadow-lg hover:shadow-xl transform hover:scale-105'
+                    }`}
+                    whileHover={currentPage !== totalPages ? { scale: 1.05 } : {}}
+                    whileTap={currentPage !== totalPages ? { scale: 0.95 } : {}}
+                  >
+                    Next
+                    <FaChevronRight size={14} />
+                  </motion.button>
+                </div>
+              )}
             </>
           ) : (
             <div className="text-center py-16">
@@ -442,12 +475,14 @@ const navigate = useNavigate();
       )}
 
       <div className="flex justify-center mt-12">
-        <button
+        <motion.button
           onClick={() => navigate("/map")}
-          className="px-8 py-3 bg-tealblue text-white font-bold rounded-full shadow-md hover:bg-coral-red transition font-lora"
+          className="bg-gradient-to-r from-[#134856] to-[#e05264] hover:from-[#e05264] hover:to-[#134856] text-white px-8 py-3 rounded-full text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           ← Back to India Map
-        </button>
+        </motion.button>
       </div>
       </div>
     </div>

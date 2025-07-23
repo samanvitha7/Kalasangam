@@ -19,7 +19,8 @@ function ArtFormCard({ name, origin, photoUrl = [], onImageClick }) {
       className="bg-white rounded-xl shadow-md p-6 w-full
       transition-all duration-300 ease-out
       hover:scale-105 hover:-translate-y-2 hover:shadow-xl
-      border border-rose-200 hover:shadow-[0_0_20px_rgba(244,63,94,0.3)]
+      border border-[#E05264] shadow-[0_0_15px_rgba(224,82,100,0.2)]
+      hover:shadow-[0_0_25px_rgba(224,82,100,0.4)]
       transform-gpu will-change-transform"
     >
       <div className="grid grid-cols-2 gap-3 mb-4">
@@ -68,8 +69,8 @@ function ArtFormCard({ name, origin, photoUrl = [], onImageClick }) {
       </div>
       
       <div className="text-center">
-        <h2 className="text-2xl font-semibold text-rose-700 mb-2 line-clamp-2">{name || 'Unknown Art Form'}</h2>
-        <p className="text-gray-500 text-base italic">{origin || 'Unknown Origin'}</p>
+        <h2 className="text-2xl font-semibold font-lora text-[#134856] mb-2 line-clamp-2 leading-tight">{name || 'Unknown Art Form'}</h2>
+        <p className="text-[#E05264] text-lg font-semibold font-lora italic">{origin || 'Unknown Origin'}</p>
       </div>
     </div>
   );
