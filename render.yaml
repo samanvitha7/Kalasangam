@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: traditional-arts-frontend
+    env: node
+    buildCommand: cd client/kala-sangam && npm install && npm run build
+    publishDir: client/kala-sangam/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

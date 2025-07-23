@@ -78,23 +78,30 @@ const DanceItem = ({ dance, index }) => {
 
       <FloatingVisual src={visual.src} size={visual.size} side={isLeft ? "right" : "left"} />
 
-      <div
-        className={`max-w-4xl bg-[#fff3f1] rounded-2xl p-12 shadow-lg font-lora text-[#134856] ${
+      <motion.div
+        className={`max-w-4xl bg-[#fff3f1] rounded-2xl p-12 shadow-lg font-lora text-[#134856] cursor-pointer ${
           isLeft ? "mr-auto text-left" : "ml-auto text-right"
         }`}
         style={{
           flex: "1 1 70%",
-          boxShadow: "0 8px 24px rgba(224, 82, 100, 0.3), 0 0 12px rgba(224, 82, 100, 0.4)",
-          filter: "drop-shadow(0 0 6px rgba(224, 82, 100, 0.4))",
+          boxShadow: "0 8px 24px rgba(244, 140, 140, 0.3), 0 0 12px rgba(244, 140, 140, 0.3)",
+          filter: "drop-shadow(0 0 6px rgba(244, 140, 140, 0.3))",
 
         }}
+        whileHover={{ 
+          scale: 1.05, 
+          y: -8,
+          boxShadow: "0 0 40px rgba(244, 140, 140, 0.6), 0 20px 40px rgba(244, 140, 140, 0.3)",
+          filter: "drop-shadow(0 0 10px rgba(244, 140, 140, 0.4))"
+        }}
+        transition={{ duration: 0.4 }}
       >
         <h2 className="text-[2rem] font-lora font-bold text-deep-teal mb-8">{dance.name}</h2>
         <p className="text-[1.25rem] font-lora font-medium text-coral-pink leading-relaxed">
           {dance.description?.slice(0, 300) ||
             "This classical dance form is celebrated for its rich heritage and traditional significance across Indian culture."}
         </p>
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
@@ -259,7 +266,7 @@ const DanceGallery = () => {
             Explore Dance Forms
           </motion.h1>
           <motion.p
-            className="text-xl font-lora bg-gradient-to-r from-lotus-green to-soft-coral bg-clip-text text-transparent font-semibold max-w-3xl mx-auto leading-relaxed mb-6"
+            className="text-xl font-lora text-coral-pink font-semibold max-w-3xl mx-auto leading-relaxed mb-6"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -277,7 +284,7 @@ const DanceGallery = () => {
           animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 bg-[#F48C8C] h-full rounded-full z-0" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 bg-gradient-to-b from-[#134856] to-[#e05264] h-full rounded-full z-0" />
 
           <motion.div
             className="relative z-10"

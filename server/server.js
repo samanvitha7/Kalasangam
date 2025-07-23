@@ -42,6 +42,12 @@ const corsOptions = {
       return callback(null, true);
     }
     
+    // Allow Render frontend domain
+    if (origin && origin.includes('.onrender.com')) {
+      console.log('Allowing Render domain:', origin);
+      return callback(null, true);
+    }
+    
     // For development, allow any origin temporarily
     // Remove this in production!
     if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
