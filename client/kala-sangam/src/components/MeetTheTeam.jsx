@@ -130,7 +130,7 @@ function MeetTheTeam() {
                 />
                 
                 <motion.div
-                  className="w-24 h-24 rounded-full mb-4 overflow-hidden shadow-lg border-4 border-white"
+                  className="w-40 h-40 rounded-full mb-4 overflow-hidden shadow-lg border-4 border-white"
                   whileHover={{ scale: 1.1, rotate: 10 }}
                   transition={{ duration: 0.3 }}
                 >
