@@ -1,26 +1,32 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowLeft, FaHeart, FaComment, FaEye, FaMapMarkerAlt, FaCalendarAlt, FaShare, FaFlag } from 'react-icons/fa';
+import { FaArrowLeft, FaHeart, FaComment, FaEye, FaMapMarkerAlt, FaCalendarAlt, FaShare, FaFlag, FaUserPlus, FaUserMinus } from 'react-icons/fa';
 import LazyImage from '../components/LazyImage';
 import useSmoothScroll from '../hooks/useSmoothScroll';
 import ReportModal from '../components/ReportModal';
 import { api } from '../services/api';
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 import axios from "axios";
 
 const ArtistProfile = () => {
   const { artistId } = useParams();
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
   const [artist, setArtist] = useState(null);
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [artworksLoading, setArtworksLoading] = useState(false);
   const [selectedArtwork, setSelectedArtwork] = useState(null);
   const [views, setViews] = useState(0);
   const [showReportModal, setShowReportModal] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
 
   useSmoothScroll();
 
-
+  // Fetch artist data and artworks
   useEffect(() => {
     const fetchArtist = async () => {
       try {
@@ -44,7 +50,15 @@ const ArtistProfile = () => {
               location: artistData.location || 'India'
             });
             setViews(artistData.viewsCount || Math.floor(Math.random() * 1000) + 100);
-            setArtworks([]);
+            
+            // Fetch artist's artworks
+            fetchArtworks(artistId);
+            
+            // Check if current user follows this artist
+            if (isAuthenticated && user) {
+              setIsFollowing(user.following?.includes(artistId) || false);
+            }
+            
             return;
           }
         } catch (singleArtistError) {
@@ -71,7 +85,14 @@ const ArtistProfile = () => {
               location: artistData.location || 'India'
             });
             setViews(artistData.viewsCount || Math.floor(Math.random() * 1000) + 100);
-            setArtworks([]);
+            
+            // Fetch artist's artworks
+            fetchArtworks(artistId);
+            
+            // Check if current user follows this artist
+            if (isAuthenticated && user) {
+              setIsFollowing(user.following?.includes(artistId) || false);
+            }
           } else {
             console.log('Artist not found in all artists list');
             setArtist(null);
@@ -91,7 +112,50 @@ const ArtistProfile = () => {
     if (artistId) {
       fetchArtist();
     }
-  }, [artistId]);
+  }, [artistId, isAuthenticated, user]);
+
+  // Fetch artworks for the artist
+  const fetchArtworks = async (userId) => {
+    try {
+      setArtworksLoading(true);
+      const response = await api.getArtworks({ userId });
+      if (response.success && response.data) {
+        setArtworks(response.data);
+      } else {
+        setArtworks([]);
+      }
+    } catch (error) {
+      console.error('Error fetching artworks:', error);
+      setArtworks([]);
+    } finally {
+      setArtworksLoading(false);
+    }
+  };
+
+  // Handle follow/unfollow
+  const handleFollowToggle = async () => {
+    if (!isAuthenticated) {
+      toast.error('Please log in to follow artists');
+      return;
+    }
+
+    try {
+      setFollowLoading(true);
+      const response = await api.toggleFollow(artistId);
+      
+      if (response.success) {
+        setIsFollowing(!isFollowing);
+        toast.success(isFollowing ? 'Unfollowed artist' : 'Now following artist');
+      } else {
+        toast.error(response.message || 'Failed to update follow status');
+      }
+    } catch (error) {
+      console.error('Error toggling follow:', error);
+      toast.error('Failed to update follow status');
+    } finally {
+      setFollowLoading(false);
+    }
+  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -214,7 +278,31 @@ const ArtistProfile = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <h1 className="text-4xl font-bold mb-2">{artist.name}</h1>
+              <div className="flex items-center justify-between mb-2">
+                <h1 className="text-4xl font-bold">{artist.name}</h1>
+                {isAuthenticated && user && user._id !== artistId && (
+                  <motion.button
+                    onClick={handleFollowToggle}
+                    disabled={followLoading}
+                    className={`flex items-center gap-2 px-6 py-2 rounded-full font-semibold transition-all ${
+                      isFollowing
+                        ? 'bg-white/20 text-white border border-white/30 hover:bg-red-500/80'
+                        : 'bg-white text-amber-900 hover:bg-amber-50'
+                    } ${followLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    whileHover={{ scale: followLoading ? 1 : 1.05 }}
+                    whileTap={{ scale: followLoading ? 1 : 0.95 }}
+                  >
+                    {followLoading ? (
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
+                    ) : isFollowing ? (
+                      <FaUserMinus size={16} />
+                    ) : (
+                      <FaUserPlus size={16} />
+                    )}
+                    <span>{followLoading ? 'Loading...' : isFollowing ? 'Unfollow' : 'Follow'}</span>
+                  </motion.button>
+                )}
+              </div>
               <div className="flex items-center gap-4 text-white/90">
                 <div className="flex items-center gap-1">
                   <FaMapMarkerAlt size={14} />

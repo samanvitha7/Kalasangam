@@ -32,9 +32,9 @@ export default {
         'lora': ['Lora', 'serif'],
         'tac-one': ['Tac One', 'cursive'],
         'dm-serif-display': ['DM Serif Display', 'serif'],
-         yatra: ['"Yatra One"', 'cursive'],
-          'heading': ['"Winky Rough"', 'cursive'],  // Fallback to cursive
-          'body': ['"Noto Sans"', 'sans-serif'],
+        'yatra': ['"Yatra One"', 'cursive'],
+        'winky': ['"Winky Rough"', 'sans-serif'],  // Fallback to cursive
+        'noto': ['"Noto Sans"', 'sans-serif'],
       },
       fontSize: {
         heading: '3rem', // You can adjust the size here (e.g., '3.75rem' for 6xl)

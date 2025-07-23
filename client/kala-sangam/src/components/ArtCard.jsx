@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark, FaFlag } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import LazyImage from './LazyImage';
 import ReportModal from './ReportModal';
+import api from '../services/api';
 
 const ArtCard = ({ artwork, index, currentUser, onLike, onBookmark, onImageClick }) => {
   const [isLiked, setIsLiked] = useState(false);

@@ -8,88 +8,43 @@ const ArtistsList = () => {
   const [sortBy, setSortBy] = useState('name');
   const [loading, setLoading] = useState(true);
 
-  // Mock artists data - replace with API call
+  // Fetch artists from API
   useEffect(() => {
-    const mockArtists = [
-      {
-        id: 1,
-        name: "Rajesh Kumar",
-        profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-        artForm: "Madhubani Painting",
-        location: "Bihar, India",
-        artworkCount: 24,
-        followers: 1250,
-        totalLikes: 3420,
-        featured: true
-      },
-      {
-        id: 2,
-        name: "Priya Sharma",
-        profileImage: "https://images.unsplash.com/photo-1494790108755-2616c6d1b7a1?w=150&h=150&fit=crop&crop=face",
-        artForm: "Warli Art",
-        location: "Maharashtra, India",
-        artworkCount: 18,
-        followers: 890,
-        totalLikes: 2156,
-        featured: false
-      },
-      {
-        id: 3,
-        name: "Amit Patel",
-        profileImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-        artForm: "Pattachitra",
-        location: "Odisha, India",
-        artworkCount: 31,
-        followers: 1567,
-        totalLikes: 4789,
-        featured: true
-      },
-      {
-        id: 4,
-        name: "Kavitha Rao",
-        profileImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-        artForm: "Tanjore Painting",
-        location: "Tamil Nadu, India",
-        artworkCount: 27,
-        followers: 2103,
-        totalLikes: 5634,
-        featured: true
-      },
-      {
-        id: 5,
-        name: "Vikram Singh",
-        profileImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-        artForm: "Miniature Painting",
-        location: "Rajasthan, India",
-        artworkCount: 22,
-        followers: 967,
-        totalLikes: 2834,
-        featured: false
+    const fetchArtists = async () => {
+      try {
+        const response = await fetch('/api/artists');
+        if (!response.ok) {
+          throw new Error('Failed to fetch artists');
+        }
+        const data = await response.json();
+        setArtists(data);
+      } catch (error) {
+        console.error('Error fetching artists:', error);
+        setArtists([]);
+      } finally {
+        setLoading(false);
       }
-    ];
+    };
 
-    setTimeout(() => {
-      setArtists(mockArtists);
-      setLoading(false);
-    }, 1000);
+    fetchArtists();
   }, []);
 
   const filteredArtists = artists
     .filter(artist => 
       artist.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      artist.artForm.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      artist.location.toLowerCase().includes(searchTerm.toLowerCase())
+      (artist.artForm && artist.artForm.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (artist.location && artist.location.toLowerCase().includes(searchTerm.toLowerCase()))
     )
     .sort((a, b) => {
       switch (sortBy) {
         case 'name':
           return a.name.localeCompare(b.name);
         case 'followers':
-          return b.followers - a.followers;
+          return (b.followers || 0) - (a.followers || 0);
         case 'artworks':
-          return b.artworkCount - a.artworkCount;
+          return (b.artworks ? b.artworks.length : 0) - (a.artworks ? a.artworks.length : 0);
         case 'likes':
-          return b.totalLikes - a.totalLikes;
+          return (b.totalLikes || 0) - (a.totalLikes || 0);
         default:
           return 0;
       }
@@ -157,12 +112,12 @@ const ArtistsList = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredArtists.map((artist) => (
             <Link
-              key={artist.id}
-              to={`/artist/${artist.id}`}
+              key={artist._id}
+              to={`/artist/${artist._id}`}
               className="group bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-white/50"
             >
               <div className="text-center">
-                {/* Featured Badge */}
+                {/* Featured Badge - could be based on premium status or other criteria */}
                 {artist.featured && (
                   <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
                     Featured
@@ -172,7 +127,7 @@ const ArtistsList = () => {
                 {/* Profile Image */}
                 <div className="relative mb-4 mx-auto w-20 h-20 rounded-full overflow-hidden ring-4 ring-amber-200 group-hover:ring-amber-400 transition-all">
                   <LazyImage
-                    src={artist.profileImage}
+                    src={artist.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name)}&background=f59e0b&color=ffffff&size=150`}
                     alt={artist.name}
                     className="w-full h-full object-cover"
                   />
@@ -184,25 +139,25 @@ const ArtistsList = () => {
                 </h3>
                 
                 <p className="text-amber-700 font-medium text-sm mb-1">
-                  {artist.artForm}
+                  {artist.artForm || 'Traditional Artist'}
                 </p>
                 
                 <p className="text-amber-600 text-xs mb-4">
-                  {artist.location}
+                  {artist.location || 'India'}
                 </p>
 
                 {/* Stats */}
                 <div className="grid grid-cols-3 gap-4 text-center">
                   <div>
-                    <div className="font-bold text-amber-800">{artist.artworkCount}</div>
+                    <div className="font-bold text-amber-800">{artist.artworks ? artist.artworks.length : 0}</div>
                     <div className="text-xs text-amber-600">Artworks</div>
                   </div>
                   <div>
-                    <div className="font-bold text-amber-800">{artist.followers}</div>
+                    <div className="font-bold text-amber-800">{artist.followers || 0}</div>
                     <div className="text-xs text-amber-600">Followers</div>
                   </div>
                   <div>
-                    <div className="font-bold text-amber-800">{artist.totalLikes}</div>
+                    <div className="font-bold text-amber-800">{artist.totalLikes || 0}</div>
                     <div className="text-xs text-amber-600">Likes</div>
                   </div>
                 </div>

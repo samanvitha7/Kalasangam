@@ -405,6 +405,106 @@ export const api = {
     }
 
     return response.json();
+  },
+
+  // Fetch artworks (art gallery)
+  getArtworks: async (filters = {}) => {
+    const queryParams = new URLSearchParams();
+    if (filters.category) queryParams.append('category', filters.category);
+    if (filters.search) queryParams.append('search', filters.search);
+    if (filters.limit) queryParams.append('limit', filters.limit);
+    if (filters.page) queryParams.append('page', filters.page);
+    if (filters.sortBy) queryParams.append('sortBy', filters.sortBy);
+    if (filters.sortOrder) queryParams.append('sortOrder', filters.sortOrder);
+    if (filters.userId) queryParams.append('userId', filters.userId);
+
+    const url = `${API_URL}/api/artforms${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to fetch artworks: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Toggle follow for a user
+  toggleFollow: async (userId) => {
+    const response = await fetch(`${API_URL}/api/users/${userId}/follow`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to toggle follow: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Toggle like for an artwork
+  toggleLike: async (artworkId) => {
+    const response = await fetch(`${API_URL}/api/artforms/${artworkId}/like`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to toggle like: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Toggle bookmark for an artwork
+  toggleBookmark: async (artworkId) => {
+    const response = await fetch(`${API_URL}/api/artforms/${artworkId}/bookmark`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to toggle bookmark: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Get current user profile
+  getCurrentUser: async () => {
+    const response = await fetch(`${API_URL}/api/users/profile`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to fetch current user: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
   }
 };
 
