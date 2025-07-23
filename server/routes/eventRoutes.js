@@ -14,7 +14,8 @@ router.get('/', async (req, res) => {
       endDate, 
       city, 
       state, 
-      upcoming = 'true' 
+      upcoming = 'true',
+      creatorRole // new parameter to filter by creator role
     } = req.query;
 
     // Build filter object
@@ -34,9 +35,20 @@ router.get('/', async (req, res) => {
       if (endDate) filter.date.$lte = new Date(endDate);
     }
 
-    const events = await Event.find(filter)
-      .sort({ date: 1 })
-      .limit(100);
+    let events;
+    if (creatorRole) {
+      // If filtering by creator role, populate and filter
+      events = await Event.find(filter)
+        .populate('createdBy', 'role')
+        .sort({ date: 1 })
+        .limit(100);
+      
+      events = events.filter(event => event.createdBy && event.createdBy.role === creatorRole);
+    } else {
+      events = await Event.find(filter)
+        .sort({ date: 1 })
+        .limit(100);
+    }
 
     res.json({
       success: true,

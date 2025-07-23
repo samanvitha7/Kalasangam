@@ -117,8 +117,14 @@ const AdminDashboard = () => {
     try {
       setContentLoading(true);
       setError('');
-      const data = await adminApi.getAllEvents();
-      setEvents(data);
+      console.log('Fetching artist-created events...');
+      // Only fetch events created by artists, not admins
+      const data = await adminApi.getAllEvents({ 
+        creatorRole: 'Artist',
+        upcoming: 'false' // Get all events, not just upcoming
+      });
+      console.log('Artist events fetched:', data);
+      setEvents(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Error fetching events:', err);
       setError(`Error fetching events: ${err.message}`);
@@ -516,7 +522,8 @@ const AdminDashboard = () => {
               
               {events.length === 0 ? (
                 <div className="no-content">
-                  <p>No events found.</p>
+                  <p>No events created by artists found.</p>
+                  <p><small>Only events created by artists (not admins) are shown here.</small></p>
                 </div>
               ) : (
                 <div className="events-list">
@@ -525,7 +532,7 @@ const AdminDashboard = () => {
                       <div className="event-info">
                         <h4>{event.title}</h4>
                         <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
-                        <p><strong>Location:</strong> {event.location}</p>
+                        <p><strong>Location:</strong> {event.location.venue}, {event.location.city}, {event.location.state}</p>
                         <p><strong>Price:</strong> {event.price ? `$${event.price}` : 'Free'}</p>
                         <p><strong>Description:</strong> {event.description}</p>
                         <p><strong>Created:</strong> {new Date(event.createdAt).toLocaleDateString()}</p>

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Event = require('../models/Event');
+const User = require('../models/User');
 require('dotenv').config();
 
 const sampleEvents = [
@@ -137,12 +138,26 @@ async function seedEvents() {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB');
 
+    // Find an admin user to use as creator
+    const adminUser = await User.findOne({ role: 'Admin' });
+    if (!adminUser) {
+      console.error('No admin user found. Please create an admin user first.');
+      process.exit(1);
+    }
+    console.log('Found admin user:', adminUser.name);
+
     // Clear existing events
     await Event.deleteMany({});
     console.log('Cleared existing events');
 
+    // Add createdBy field to all sample events
+    const eventsWithCreator = sampleEvents.map(event => ({
+      ...event,
+      createdBy: adminUser._id
+    }));
+
     // Insert sample events
-    await Event.insertMany(sampleEvents);
+    await Event.insertMany(eventsWithCreator);
     console.log('Sample events inserted successfully');
 
     // Close connection

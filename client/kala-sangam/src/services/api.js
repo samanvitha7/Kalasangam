@@ -227,8 +227,20 @@ export const adminApi = {
 
   // Event management functions
   // Get all events (admin only)
-  getAllEvents: async () => {
-    const response = await fetch(`${API_URL}/api/events`, {
+  getAllEvents: async (options = {}) => {
+    const queryParams = new URLSearchParams();
+    
+    // Add option to filter by creator role
+    if (options.creatorRole) {
+      queryParams.append('creatorRole', options.creatorRole);
+    }
+    if (options.upcoming !== undefined) {
+      queryParams.append('upcoming', options.upcoming);
+    }
+
+    const url = `${API_URL}/api/events${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -241,7 +253,8 @@ export const adminApi = {
       throw new Error(`Failed to fetch events: ${response.status} - ${errorData}`);
     }
 
-    return response.json();
+    const result = await response.json();
+    return result.data || [];
   },
 
   // Delete event (admin only)
