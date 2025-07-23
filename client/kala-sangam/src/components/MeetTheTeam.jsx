@@ -5,7 +5,7 @@ const team = [
   {
     name: "NAINA",
     role: "Frontend Developer",
-    image: "/images/naina.jpg",
+    image: "/images/naina1.jpg",
     funFact: "Wrote her first JavaScript app before learning to ride a bike.",
     color: "from-[#4bb5a5] to-[#1D7C6F]",
     skills: ["React", "UI/UX", "Animation"]
@@ -149,10 +149,12 @@ function MeetTheTeam() {
                   transition={{ duration: 0.3 }}
                 >
                   <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                  />
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover"
+                    />
+
+
                 </motion.div>
 
                 <motion.h3 
