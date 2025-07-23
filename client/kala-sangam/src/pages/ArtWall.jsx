@@ -370,10 +370,10 @@ const ArtWall = () => {
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           
-          <h1 className="text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+          <h1 className="inline-block text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Art Wall
           </h1>
-          <p className="text-lg font-lora text-[#F48C8C] max-w-3xl mx-auto leading-relaxed mb-8">
+          <p className="text-lg font-lora text-[#B8503C] max-w-3xl mx-auto leading-relaxed mb-8">
             A collaborative space where artists share their creativity and passion. 
             Discover, appreciate, and contribute to our growing collection of artistic expressions.
           </p>
@@ -396,7 +396,7 @@ const ArtWall = () => {
             >
               <Link 
                 to="/community-guidelines"
-                className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-dm-serif"
+                className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-dm-serif"
               >
                 <FaUsers className="text-white" />
                 Community Guidelines
