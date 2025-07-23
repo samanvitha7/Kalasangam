@@ -24,7 +24,7 @@ export default function Footer() {
           { to: "/gallery", label: "Traditional Arts" },
           { to: "/art-wall", label: "Art Wall" },
           { to: "/map", label: "States" },
-          { to: "/gallery", label: "Gallery" },
+          { to: "/artists", label: "Artists" },
           { to: "/login", label: "Login" },
           { to: "/signup", label: "Sign Up" },
         ].map(({ to, label }) => (
