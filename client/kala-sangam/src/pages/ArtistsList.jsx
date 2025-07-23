@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import LazyImage from '../components/LazyImage';
+import { FaSearch, FaFilter, FaUsers, FaPalette } from 'react-icons/fa';
 import { api } from '../services/api';
 
 const ArtistsList = () => {
@@ -52,149 +54,284 @@ const ArtistsList = () => {
       }
     });
 
+  // Floating particles for background
+  const FloatingParticles = () => {
+    const particles = Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 4 + 2,
+      color: [
+        'rgba(19, 72, 86, 0.6)',
+        'rgba(224, 82, 100, 0.6)',
+        'rgba(244, 140, 140, 0.6)',
+        'rgba(29, 124, 111, 0.6)',
+        'rgba(255, 215, 0, 0.6)'
+      ][Math.floor(Math.random() * 5)],
+      initialX: Math.random() * 100,
+      initialY: Math.random() * 100,
+      animationDelay: Math.random() * 5,
+      animationDuration: 8 + Math.random() * 6
+    }));
+
+    return (
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full opacity-40"
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              backgroundColor: particle.color,
+              left: `${particle.initialX}%`,
+              top: `${particle.initialY}%`,
+              filter: 'blur(0.5px)',
+              boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`
+            }}
+            animate={{
+              y: [0, -80, 0],
+              x: [0, 25, -25, 0],
+              opacity: [0.4, 0.7, 0.4],
+              scale: [1, 1.3, 1]
+            }}
+            transition={{
+              duration: particle.animationDuration,
+              repeat: Infinity,
+              delay: particle.animationDelay,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8E6DA] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
-          <p className="text-amber-800 font-medium">Loading artists...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-600 mx-auto mb-4"></div>
+          <p className="text-[#134856] font-medium font-lora">Loading artists...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-amber-800 mb-4">
+    <div className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
+      {/* Floating Particles Background */}
+      <FloatingParticles />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Hero Section */}
+        <motion.section 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Animated Background Elements */}
+          <motion.div 
+            className="absolute w-96 h-96 bg-gradient-to-r from-[#E05264]/20 to-[#F48C8C]/20 rounded-full blur-3xl opacity-30 top-0 left-0"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              rotate: [0, 90, 0],
+              opacity: [0.3, 0.5, 0.3]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+          
+          <h1 className="inline-block text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Traditional Artists
           </h1>
-          <p className="text-lg text-amber-700 max-w-2xl mx-auto">
-            Discover talented artists preserving India's rich traditional art heritage
+          <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
+            Discover talented artists preserving India's rich traditional art heritage. Connect with masters who carry forward centuries of artistic wisdom.
           </p>
-        </div>
+          
+          {/* Action Buttons */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link 
+                to="/signup?role=artist"
+                className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-dm-serif"
+              >
+                <FaPalette className="text-white" />
+                Join as Artist
+              </Link>
+            </motion.div>
+          </div>
+        </motion.section>
 
         {/* Search and Filter Controls */}
-        <div className="mb-8 bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <input
-                type="text"
-                placeholder="Search artists by name, art form, or location..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white/80"
-              />
-            </div>
-            <div className="md:w-48">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white/80"
-              >
-                <option value="name">Sort by Name</option>
-                <option value="followers">Sort by Followers</option>
-                <option value="artworks">Sort by Artworks</option>
-                <option value="likes">Sort by Likes</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        <motion.div 
+          className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-2 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="bg-[#F8E6DA] rounded-2xl p-6">
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+              
+              {/* Search Bar */}
+              <div className="relative flex-1 max-w-md">
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search artists, art forms..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                />
+              </div>
 
-        {/* Artists Count */}
-        <div className="mb-6">
-          <p className="text-amber-700 font-medium">
-            {filteredArtists.length} artist{filteredArtists.length !== 1 ? 's' : ''} found
-          </p>
-        </div>
-
-        {/* Artists Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredArtists.map((artist) => (
-            <Link
-              key={artist._id}
-              to={`/artist/${artist._id}`}
-              className="group bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-white/50"
-            >
-              <div className="text-center">
-                {/* Featured Badge - could be based on premium status or other criteria */}
-                {artist.featured && (
-                  <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                    Featured
-                  </div>
-                )}
-
-                {/* Profile Image */}
-                <div className="relative mb-4 mx-auto w-20 h-20 rounded-full overflow-hidden ring-4 ring-amber-200 group-hover:ring-amber-400 transition-all">
-                  <LazyImage
-                    src={artist.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name)}&background=f59e0b&color=ffffff&size=150`}
-                    alt={artist.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                {/* Artist Info */}
-                <h3 className="font-bold text-lg text-amber-900 mb-2 group-hover:text-amber-700 transition-colors">
-                  {artist.name}
-                </h3>
-                
-                <p className="text-amber-700 font-medium text-sm mb-1">
-                  {artist.artForm || 'Traditional Artist'}
-                </p>
-                
-                <p className="text-amber-600 text-xs mb-4">
-                  {artist.location || 'India'}
-                </p>
-
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 text-center">
-                  <div>
-                    <div className="font-bold text-amber-800">{artist.artworks ? artist.artworks.length : 0}</div>
-                    <div className="text-xs text-amber-600">Artworks</div>
-                  </div>
-                  <div>
-                    <div className="font-bold text-amber-800">{artist.followers || 0}</div>
-                    <div className="text-xs text-amber-600">Followers</div>
-                  </div>
-                  <div>
-                    <div className="font-bold text-amber-800">{artist.totalLikes || 0}</div>
-                    <div className="text-xs text-amber-600">Likes</div>
-                  </div>
-                </div>
-
-                {/* View Profile Button */}
-                <div className="mt-4 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm font-medium">
-                  View Profile
+              {/* Filter and Sort */}
+              <div className="flex gap-4">
+                <div className="flex items-center gap-2">
+                  <FaFilter className="text-gray-600" />
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  >
+                    <option value="name">Sort by Name</option>
+                    <option value="followers">Sort by Followers</option>
+                    <option value="artworks">Sort by Artworks</option>
+                    <option value="likes">Sort by Likes</option>
+                  </select>
                 </div>
               </div>
-            </Link>
-          ))}
-        </div>
+            </div>
+          </div>
+        </motion.div>
 
-        {/* No Results */}
-        {filteredArtists.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🎨</div>
-            <h3 className="text-xl font-semibold text-amber-800 mb-2">No artists found</h3>
-            <p className="text-amber-600">Try adjusting your search criteria</p>
+        {/* Loading State */}
+        {loading && (
+          <div className="flex justify-center items-center py-16">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-600"></div>
           </div>
         )}
 
+        {/* Artists Grid */}
+        <AnimatePresence>
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            {filteredArtists.map((artist, index) => (
+              <motion.div
+                key={artist._id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+              >
+                <Link to={`/artist/${artist._id}`}>
+                  <motion.div
+                    className="bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-sm rounded-3xl shadow-2xl p-6 border border-white/20 hover:shadow-[#E05264]/20 transition-all duration-300 group"
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {/* Featured Badge */}
+                    {artist.featured && (
+                      <div className="absolute top-4 right-4 bg-gradient-to-r from-[#E05264] to-[#F48C8C] text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        Featured
+                      </div>
+                    )}
+
+                    <div className="text-center">
+                      {/* Profile Image */}
+                      <div className="relative mb-6 mx-auto w-24 h-24 rounded-full overflow-hidden ring-4 ring-[#1D7C6F]/20 group-hover:ring-[#E05264]/40 transition-all">
+                        <LazyImage
+                          src={artist.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name)}&background=134856&color=ffffff&size=150`}
+                          alt={artist.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+
+                      {/* Artist Info */}
+                      <h3 className="text-xl font-dm-serif font-bold text-[#134856] mb-2 group-hover:text-[#E05264] transition-colors">
+                        {artist.name}
+                      </h3>
+                      
+                      <p className="text-[#E05264] font-lora font-medium text-sm mb-2">
+                        {artist.artForm || 'Traditional Artist'}
+                      </p>
+                      
+                      <p className="text-gray-500 font-lora text-xs mb-4">
+                        {artist.location || 'India'}
+                      </p>
+
+                      {/* Stats */}
+                      <div className="grid grid-cols-3 gap-4 text-center mb-4">
+                        <div>
+                          <div className="font-bold text-[#134856] text-lg">{artist.artworks ? artist.artworks.length : 0}</div>
+                          <div className="text-xs text-gray-500 font-lora">Artworks</div>
+                        </div>
+                        <div>
+                          <div className="font-bold text-[#134856] text-lg">{artist.followers || 0}</div>
+                          <div className="text-xs text-gray-500 font-lora">Followers</div>
+                        </div>
+                        <div>
+                          <div className="font-bold text-[#134856] text-lg">{artist.totalLikes || 0}</div>
+                          <div className="text-xs text-gray-500 font-lora">Likes</div>
+                        </div>
+                      </div>
+
+                      {/* View Profile Button */}
+                      <motion.div 
+                        className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-6 py-2 rounded-full font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 group-hover:opacity-100"
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        View Profile
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* No Results */}
+        {!loading && filteredArtists.length === 0 && (
+          <motion.div 
+            className="text-center py-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="text-6xl mb-4">🎨</div>
+            <h3 className="text-2xl font-semibold text-gray-700 mb-2">No artists found</h3>
+            <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+          </motion.div>
+        )}
+
         {/* Call to Action */}
-        <div className="mt-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-8 text-center text-white">
-          <h2 className="text-2xl font-bold mb-4">Are you an artist?</h2>
-          <p className="mb-6 opacity-90">
+        <motion.div 
+          className="mt-16 bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-dm-serif font-bold mb-6">Are you an artist?</h2>
+          <p className="text-xl font-lora mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed">
             Join our community of traditional artists and showcase your work to art lovers worldwide.
           </p>
-          <Link
-            to="/signup"
-            className="inline-block px-6 py-3 bg-white text-amber-600 font-semibold rounded-xl hover:bg-amber-50 transition-colors duration-300"
+          <motion.div
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Become an Artist
-          </Link>
-        </div>
+            <Link
+              to="/signup?role=artist"
+              className="inline-block px-8 py-4 bg-white text-[#134856] font-semibold font-dm-serif rounded-full hover:bg-[#F8E6DA] transition-colors duration-300 shadow-lg"
+            >
+              Become an Artist
+            </Link>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

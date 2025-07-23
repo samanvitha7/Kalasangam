@@ -1,12 +1,17 @@
 /* Music Page Styling with Enhanced Floating Notes */
 .music-page {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  background-color: #F8E6DA;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
 }
 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
 /* Multiple Floating Music Notes Background */
 .music-page .musical-notes-background {
   position: absolute;

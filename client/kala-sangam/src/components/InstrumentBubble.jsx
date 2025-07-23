@@ -38,41 +38,57 @@ export default function InstrumentBubble({ name, image, sound, description }) {
 
   return (
     <div className="relative flex flex-col items-center gap-4 pt-8 animate-bob">
+      {/* Gradient Border Container */}
       <motion.div
-        className={`relative w-40 h-40 rounded-full bg-[#fdecec] p-4 shadow-2xl flex items-center justify-center transition-all duration-300 cursor-pointer ${
-          isPlaying
-            ? "ring-4 ring-[#E05264] shadow-[#E05264]/30"
-            : "ring-2 ring-[#1D7C6F]/30"
-        }`}
+        className="relative p-1 rounded-full bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] shadow-2xl"
         animate={{ y: [0, -12, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={handlePlay}
+        whileHover={{ scale: 1.05 }}
       >
-        <img src={image} alt={name} className="max-h-24 w-auto object-contain" />
-        {isPlaying && (
-          <div className="absolute bottom-2 flex gap-1">
-            {[...Array(6)].map((_, i) => (
-              <motion.span
-                key={i}
-                className="w-1 h-5 bg-[#E05264] rounded-sm"
-                animate={{ height: ["1rem", "2rem", "1rem"] }}
-                transition={{ repeat: Infinity, repeatType: "loop", duration: 0.4, delay: i * 0.1 }}
-              />
-            ))}
-          </div>
-        )}
-        <audio src={sound} ref={audioRef} />
+        {/* Play/Stop Button - positioned on the border */}
+        <motion.button
+          onClick={handlePlay}
+          className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] rounded-full flex items-center justify-center text-white shadow-lg z-10"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          {isPlaying ? (
+            <span className="text-xs">⏸</span>
+          ) : (
+            <span className="text-xs">▶</span>
+          )}
+        </motion.button>
+
+        {/* Main Bubble */}
+        <motion.div
+          className="relative w-40 h-40 rounded-full bg-[#fdecec] p-4 flex items-center justify-center transition-all duration-300 cursor-pointer"
+          whileTap={{ scale: 0.95 }}
+          onClick={handlePlay}
+        >
+          <img src={image} alt={name} className="max-h-20 w-auto object-contain" />
+          {isPlaying && (
+            <div className="absolute bottom-3 flex gap-1">
+              {[...Array(6)].map((_, i) => (
+                <motion.span
+                  key={i}
+                  className="w-1 h-5 bg-[#E05264] rounded-sm"
+                  animate={{ height: ["1rem", "2rem", "1rem"] }}
+                  transition={{ repeat: Infinity, repeatType: "loop", duration: 0.4, delay: i * 0.1 }}
+                />
+              ))}
+            </div>
+          )}
+          <audio src={sound} ref={audioRef} />
+        </motion.div>
       </motion.div>
       {showInfo && (
         <motion.div
-          className="relative bg-[#fdecec] border border-[#E05264]/30 text-[#134856] px-4 py-3 rounded-2xl shadow-md max-w-xs text-center text-base font-[Noto Sans]"
+          className="relative bg-[#fdecec] border border-[#E05264]/30 text-[#134856] px-4 py-3 rounded-2xl shadow-md max-w-xs text-center text-sm font-lora"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <strong className="block mb-1 text-lg font-[Winky Rough] text-[#134856]">
+          <strong className="block mb-1 text-base font-dm-serif text-[#134856]">
             {name}
           </strong>
           {description}

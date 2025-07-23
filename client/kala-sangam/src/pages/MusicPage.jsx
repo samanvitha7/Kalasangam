@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import InstrumentBubble from "../components/InstrumentBubble";
 import GuessInstrument from "../components/GuessInstruments";
+import { FaMusic } from 'react-icons/fa';
 import "./MusicPage.css";
 import sitarImage from "../assets/instruments/sitar.png";
 import tablaImage from "../assets/instruments/tabla.png";
@@ -15,10 +16,8 @@ import veenaSound from "../assets/sounds/veena.mp3";
 import mridangamSound from "../assets/sounds/mridangam.mp3";
 
 export default function MusicPage() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const [pageReady, setPageReady] = useState(false);
+  const [showGuessGame, setShowGuessGame] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -119,128 +118,169 @@ export default function MusicPage() {
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
+    <div className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
       {/* Floating Particles Background */}
       <FloatingParticles />
       
-      {/* Hero Section */}
-      <motion.section 
-        className="relative overflow-hidden pb-16"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: pageReady ? 1 : 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-      >
-        {/* Animated Background Elements */}
-        <motion.div 
-          className="absolute w-96 h-96 bg-gradient-to-r from-[#E05264]/20 to-[#F48C8C]/20 rounded-full blur-3xl opacity-30 top-0 left-0"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div 
-          className="absolute w-80 h-80 bg-gradient-to-r from-[#1D7C6F]/20 to-[#FFD700]/20 rounded-full blur-3xl opacity-25 bottom-0 right-0"
-          animate={{ 
-            scale: [1, 1.1, 1],
-            rotate: [0, -90, 0],
-            opacity: [0.25, 0.4, 0.25]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-        
-        <div className="relative container mx-auto px-4 text-center z-10">
-          <motion.h1 
-            className="text-5xl font-dm-serif text-[#134856] mb-8 drop-shadow-lg leading-tight"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            🎵 Musical Heritage 🎵
-          </motion.h1>
-          <motion.p 
-            className="max-w-4xl mx-auto text-lg font-lora leading-relaxed text-gray-700 mb-12"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            Journey through India's rich musical traditions. Discover ancient instruments, learn their melodies, and immerse yourself in the sounds that have echoed through centuries.
-          </motion.p>
-          
-          {/* Floating Music Icons */}
-          <motion.div 
-            className="flex flex-wrap justify-center gap-6 text-sm"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            {[
-              { icon: "🎸", text: "String Instruments" },
-              { icon: "🥁", text: "Percussion" },
-              { icon: "🎺", text: "Wind Instruments" },
-              { icon: "🎼", text: "Classical Ragas" }
-            ].map((item, index) => (
-              <motion.div 
-                key={index}
-                className="bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-white/30"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="font-lora text-gray-700 font-semibold">{item.icon} {item.text}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </motion.section>
-
       <div className="container mx-auto px-4 relative z-10">
+        {/* Hero Section */}
+        <motion.section 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Animated Background Elements */}
+          <motion.div 
+            className="absolute w-96 h-96 bg-gradient-to-r from-[#E05264]/20 to-[#F48C8C]/20 rounded-full blur-3xl opacity-30 top-0 left-0"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              rotate: [0, 90, 0],
+              opacity: [0.3, 0.5, 0.3]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+          
+          <h1 className="inline-block text-6xl font-dm-serif mb-8 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+            Explore Music
+          </h1>
+          <p className="text-xl font-lora font-semibold text-[#E05264] max-w-4xl mx-auto leading-relaxed mb-12">
+            Immerse yourself in the rich tapestry of Indian classical music. From the melodious strings of the sitar to the rhythmic beats of the tabla, discover the instruments that have shaped centuries of musical tradition and continue to enchant audiences worldwide.
+          </p>
+          
+          {/* Action Buttons */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <motion.button
+              onClick={() => setShowGuessGame(!showGuessGame)}
+              className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-dm-serif"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaMusic className="text-white" />
+              {showGuessGame ? 'Hide Game' : 'Test Your Knowledge'}
+            </motion.button>
+          </div>
+        </motion.section>
+
+        {/* Interactive Game Section - Show/Hide */}
+        <AnimatePresence>
+          {showGuessGame && (
+            <motion.section 
+              className="relative py-12 px-6 mb-8 overflow-hidden bg-[#F8E6DA]"
+              initial={{ opacity: 0, y: 20, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: -20, height: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {/* Floating 3D Elements */}
+              <motion.div 
+                className="absolute top-10 left-10 w-20 h-20 bg-gradient-to-br from-[#ff6b6b] to-[#ee5a24] rounded-full opacity-20 blur-sm"
+                animate={{ 
+                  y: [0, -30, 0],
+                  x: [0, 20, 0],
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 180, 360]
+                }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div 
+                className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-br from-[#4834d4] to-[#686de0] rounded-full opacity-25 blur-sm"
+                animate={{ 
+                  y: [0, 40, 0],
+                  x: [0, -25, 0],
+                  scale: [1, 0.8, 1],
+                  rotate: [0, -180, -360]
+                }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              />
+              
+              {/* Particle System */}
+              {Array.from({ length: 10 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 bg-white rounded-full opacity-40"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                  }}
+                  animate={{
+                    y: [0, -100, 0],
+                    opacity: [0.4, 0.8, 0.4],
+                    scale: [1, 1.5, 1],
+                  }}
+                  transition={{
+                    duration: 3 + Math.random() * 2,
+                    repeat: Infinity,
+                    delay: Math.random() * 2,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+              
+              <div className="container mx-auto px-4 relative z-10">
+                {/* Main container with gradient background - matching About page structure */}
+                <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-10 md:p-16 text-center">
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <h2 className="text-4xl md:text-5xl font-lora font-bold mb-6 text-white drop-shadow">
+                      Test Your Musical Knowledge
+                    </h2>
+                    <p className="text-xl leading-relaxed font-lora mb-8 text-white/90">
+                      Challenge yourself with our interactive instrument guessing game
+                    </p>
+                    <GuessInstrument />
+                  </motion.div>
+                </div>
+              </div>
+            </motion.section>
+          )}
+        </AnimatePresence>
+
         {/* Instruments Section */}
         <motion.div
           className="mb-20"
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
-          transition={{ duration: 0.8, delay: 1 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <h2 className="text-5xl font-dm-serif text-[#134856] text-center mb-12">
+          <h2 className="text-4xl font-dm-serif text-[#134856] text-center mb-12 font-normal">
             Discover Traditional Instruments
           </h2>
-          <div className="flex flex-wrap justify-center gap-8 mb-20 z-10 relative">
-            {instruments.map((inst, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 30 }}
-                transition={{ duration: 0.6, delay: 1.2 + idx * 0.1 }}
-              >
-                <InstrumentBubble {...inst} />
-              </motion.div>
-            ))}
-          </div>
+          
+          {/* Instruments bubbles layout */}
+          <AnimatePresence>
+            <motion.div 
+              className="flex flex-wrap justify-center gap-12 mb-20 z-10 relative"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              {instruments.map((instrument, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+                >
+                  <InstrumentBubble {...instrument} />
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </motion.div>
 
-        {/* Interactive Game Section */}
-        <motion.section
-          className="mb-16"
+        {/* No Results equivalent - Musical Categories */}
+        <motion.div 
+          className="text-center py-16"
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
-          transition={{ duration: 0.8, delay: 1.5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
         >
-          <div className="bg-gradient-to-r from-[#E05264] to-[#F48C8C] rounded-2xl p-8 md:p-12 text-white shadow-2xl">
-            <h2 className="text-5xl font-dm-serif text-center mb-8">
-              Test Your Musical Knowledge
-            </h2>
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 border border-white/30">
-              <GuessInstrument />
-            </div>
-          </div>
-        </motion.section>
+        </motion.div>
       </div>
-
-      <div className="musical-notes-background"></div>
     </div>
   );
 }
