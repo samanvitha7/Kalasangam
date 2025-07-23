@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
 const { body, validationResult } = require('express-validator');
+const { auth, authorize } = require('../middleware/auth');
 
 // GET /api/events - Get all events with optional filtering
 router.get('/', async (req, res) => {
@@ -78,8 +79,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST /api/events - Create new event (for admin use)
-router.post('/', [
+// POST /api/events - Create new event (for artists only)
+router.post('/', auth, authorize('Artist', 'Admin'), [
   body('title')
     .trim()
     .isLength({ min: 3, max: 200 })
@@ -127,7 +128,10 @@ router.post('/', [
       });
     }
 
-    const event = new Event(req.body);
+    const event = new Event({
+      ...req.body,
+      createdBy: req.user._id // Associate event with the creating artist
+    });
     await event.save();
 
     res.status(201).json({
@@ -145,8 +149,95 @@ router.post('/', [
   }
 });
 
-// DELETE /api/events/:id - Delete event (for admin use)
-router.delete('/:id', async (req, res) => {
+// PUT /api/events/:id - Update event (for artists only)
+router.put('/:id', auth, authorize('Artist', 'Admin'), [
+  body('title')
+    .trim()
+    .isLength({ min: 3, max: 200 })
+    .withMessage('Title must be between 3 and 200 characters'),
+  body('description')
+    .trim()
+    .isLength({ min: 10, max: 1000 })
+    .withMessage('Description must be between 10 and 1000 characters'),
+  body('type')
+    .isIn(['workshop', 'event', 'exhibition', 'performance'])
+    .withMessage('Type must be one of: workshop, event, exhibition, performance'),
+  body('category')
+    .isIn(['music', 'dance', 'art', 'crafts', 'general'])
+    .withMessage('Category must be one of: music, dance, art, crafts, general'),
+  body('date')
+    .isISO8601()
+    .withMessage('Please provide a valid date'),
+  body('time')
+    .notEmpty()
+    .withMessage('Time is required'),
+  body('location.venue')
+    .trim()
+    .notEmpty()
+    .withMessage('Venue is required'),
+  body('location.address')
+    .trim()
+    .notEmpty()
+    .withMessage('Address is required'),
+  body('location.city')
+    .trim()
+    .notEmpty()
+    .withMessage('City is required'),
+  body('location.state')
+    .trim()
+    .notEmpty()
+    .withMessage('State is required')
+], async (req, res) => {
+  try {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array()
+      });
+    }
+
+    const event = await Event.findById(req.params.id);
+    
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+
+    // Check if user owns this event or is admin
+    if (event.createdBy.toString() !== req.user._id.toString() && req.user.role !== 'Admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to update this event'
+      });
+    }
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    res.json({
+      success: true,
+      message: 'Event updated successfully',
+      data: updatedEvent
+    });
+
+  } catch (error) {
+    console.error('Error updating event:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update event'
+    });
+  }
+});
+
+// DELETE /api/events/:id - Delete event (for artists/admin only)
+router.delete('/:id', auth, authorize('Artist', 'Admin'), async (req, res) => {
   try {
     const event = await Event.findByIdAndDelete(req.params.id);
     

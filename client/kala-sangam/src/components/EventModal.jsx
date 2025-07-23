@@ -187,7 +187,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
           onClick={handleClose}
         >
           <motion.div
-            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-[#F8E6DA] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-[#d4a574]/20"
             initial={{ scale: 0.8, opacity: 0, y: 50 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -195,11 +195,11 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-2xl font-bold text-[#9b2226] font-[Yatra One]">Add New Event</h2>
+            <div className="flex items-center justify-between p-6 border-b border-[#d4a574]/20 bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] rounded-t-2xl">
+              <h2 className="text-2xl font-bold text-white font-dm-serif">Add New Event</h2>
               <button
                 onClick={handleClose}
-                className="text-gray-500 hover:text-gray-700 transition-colors"
+                className="text-white hover:text-gray-200 transition-colors p-2 hover:bg-white/10 rounded-full"
               >
                 <FaTimes size={20} />
               </button>
