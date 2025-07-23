@@ -370,7 +370,7 @@ const ArtWall = () => {
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           
-          <h1 className="text-5xl font-winky text-[#134856] mb-6">
+          <h1 className="text-5xl font-dm-serif text-[#134856] mb-6">
             Art Wall
           </h1>
           <p className="text-lg font-lora text-gray-700 max-w-3xl mx-auto leading-relaxed mb-8">

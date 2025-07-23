@@ -379,56 +379,51 @@ export default function Header({ scrolled, onMapClick }) {
 
               {showMobileDropdown && (
                 <div className="pl-6 space-y-1 mt-1">
-                  <Link
-                    to="/IndiaMapPage"
-                    className="block w-full text-left px-4 py-2 rounded-lg font-yatra text-base font-[500] text-tealblue hover:bg-tealblue/10"
+                  <button
                     onClick={() => {
-                      setMobileMenuOpen(false);
+                      handleExplore("state");
                       setShowMobileDropdown(false);
                     }}
+                    className="block w-full text-left px-4 py-2 rounded-lg font-yatra text-base font-[500] text-tealblue hover:bg-tealblue/10"
                   >
                     Explore by State
-                  </Link>
-                  <Link
-                    to="/ArtGallery"
-                    className="block w-full text-left px-4 py-2 rounded-lg font-yatra text-base font-[500] text-tealblue hover:bg-tealblue/10"
+                  </button>
+                  <button
                     onClick={() => {
-                      setMobileMenuOpen(false);
+                      handleExplore("art");
                       setShowMobileDropdown(false);
                     }}
+                    className="block w-full text-left px-4 py-2 rounded-lg font-yatra text-base font-[500] text-tealblue hover:bg-tealblue/10"
                   >
                     Explore Art
-                  </Link>
-                  <Link
-                    to="/DanceGallery"
-                    className="block w-full text-left px-4 py-2 rounded-lg font-yatra text-base font-[500] text-tealblue hover:bg-tealblue/10"
+                  </button>
+                  <button
                     onClick={() => {
-                      setMobileMenuOpen(false);
+                      handleExplore("dance");
                       setShowMobileDropdown(false);
                     }}
+                    className="block w-full text-left px-4 py-2 rounded-lg font-yatra text-base font-[500] text-tealblue hover:bg-tealblue/10"
                   >
                     Explore Dance
-                  </Link>
-                  <Link
-                    to="/MusicPage"
-                    className="block w-full text-left px-4 py-2 rounded-lg font-yatra text-base font-[500] text-tealblue hover:bg-tealblue/10"
+                  </button>
+                  <button
                     onClick={() => {
-                      setMobileMenuOpen(false);
+                      handleExplore("music");
                       setShowMobileDropdown(false);
                     }}
+                    className="block w-full text-left px-4 py-2 rounded-lg font-yatra text-base font-[500] text-tealblue hover:bg-tealblue/10"
                   >
                     Explore Music
-                  </Link>
-                  <Link
-                    to="/CraftsPage"
-                    className="block w-full text-left px-4 py-2 rounded-lg font-yatra text-base font-[500] text-tealblue hover:bg-tealblue/10"
+                  </button>
+                  <button
                     onClick={() => {
-                      setMobileMenuOpen(false);
+                      handleExplore("crafts");
                       setShowMobileDropdown(false);
                     }}
+                    className="block w-full text-left px-4 py-2 rounded-lg font-yatra text-base font-[500] text-tealblue hover:bg-tealblue/10"
                   >
                     Explore Crafts
-                  </Link>
+                  </button>
                 </div>
               )}
             </div>

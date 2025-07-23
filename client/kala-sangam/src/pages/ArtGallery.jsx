@@ -177,7 +177,7 @@ const navigate = useNavigate();
         
         <div className="relative container mx-auto px-4 text-center z-10">
           <motion.h1 
-            className="text-6xl md:text-7xl font-extrabold font-winky text-deep-teal mb-8 drop-shadow-lg leading-tight"
+            className="text-6xl md:text-7xl font-extrabold font-dm-serif text-deep-teal mb-8 drop-shadow-lg leading-tight"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
