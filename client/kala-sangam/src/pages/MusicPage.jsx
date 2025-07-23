@@ -60,6 +60,22 @@ const instruments = [
 ];
 
 export default function MusicPage() {
+  const [musicNotes, setMusicNotes] = useState([]);
+
+  useEffect(() => {
+    // Initialize page with animation readiness
+    const timer = setTimeout(() => {
+      setMusicNotes(Array.from({ length: 8 }, (_, i) => ({
+        id: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        delay: Math.random() * 5
+      })));
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <main className="pt-24 pb-8 px-4 bg-[#F8E6DA] text-[#E05264] font-dm-serif-display">
       <section className="text-center mb-16">
