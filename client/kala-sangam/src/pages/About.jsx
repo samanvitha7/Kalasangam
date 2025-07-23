@@ -512,7 +512,7 @@ export default function About() {
 
      {/* Contact Us - Call to Action */}
       <section className="relative py-20 px-6 bg-[#F8E6DA] text-[#FF6F61]">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="container mx-auto px-4">
           <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-10 md:p-16 text-center">
               <h2 className="text-4xl md:text-5xl font-dm-serif font-bold mb-6 text-white drop-shadow">
                 Join Our Cultural Revolution
@@ -524,8 +524,6 @@ export default function About() {
           </div>
         </div>
       </section>
-
-
 
       {/* Footer Spacer */}
       <div className="h-20"></div>
