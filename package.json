@@ -5,7 +5,9 @@
   "scripts": {
     "build": "cd client/kala-sangam && npm install && npm run build && cp -r dist ../../",
     "dev": "cd client/kala-sangam && npm run dev",
-    "preview": "cd client/kala-sangam && npm run preview"
+    "preview": "cd client/kala-sangam && npm run preview",
+    "start": "cd server && npm install && npm start",
+    "server-dev": "cd server && npm run dev"
   },
   "engines": {
     "node": ">=18.0.0"
