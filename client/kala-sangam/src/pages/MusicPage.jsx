@@ -94,10 +94,10 @@ const MusicNote = ({ delay = 0, x = 0, y = 0 }) => (
 export default function MusicPage() {
   const [musicNotes, setMusicNotes] = useState([]);
 
-  useEffect(() => {
+  useEffect(() => {
     // Initialize page with animation readiness
-    const timer = setTimeout(() => {
-      setMusicNotes(Array.from({ length: 8 }, (_, i) => ({
+    const timer = setTimeout(() => {
+      setMusicNotes(Array.from({ length: 8 }, (_, i) => ({
         id: i,
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
@@ -105,7 +105,7 @@ export default function MusicPage() {
       })));
     }, 100);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
