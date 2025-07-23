@@ -93,7 +93,7 @@ function ContactUsSection() {
           </motion.h2>
 
           <motion.p
-            className="text-lg mb-6 leading-relaxed font-lora bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent"
+            className="text-xl mb-6 leading-relaxed font-lora bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
@@ -109,15 +109,20 @@ function ContactUsSection() {
             transition={{ duration: 0.6, delay: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
-              <span className="bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">Email: contact@kalasangam.com</span>
-            </div>
+           <div className="flex items-center gap-3">
+  <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
+  <span className="text-lg bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">
+    Email: contact@kalasangam.com
+  </span>
+</div>
 
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
-              <span className="bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">Response time: Within 24 hours</span>
-            </div>
+<div className="flex items-center gap-3">
+  <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
+  <span className="text-lg bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">
+    Response time: Within 24 hours
+  </span>
+</div>
+
           </motion.div>
         </motion.div>
 

@@ -159,7 +159,7 @@ export default function About() {
       
       {/* Hero Section */}
      <motion.section 
-        className="relative overflow-hidden pt-20 pb-32 bg-[#F8E6DA]"
+        className="relative overflow-hidden pt-12 pb-20 bg-[#F8E6DA]"
         initial={{ opacity: 0 }}
         animate={{ opacity: pageReady ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.2 }}
@@ -180,7 +180,7 @@ export default function About() {
         {/* Content */}
         <div className="relative container mx-auto px-4 text-center">
           <motion.h1 
-            className="text-6xl md:text-7xl font-extrabold font-dm-serif mb-8 drop-shadow-lg leading-tight bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
+            className="text-6xl md:text-7xl leading-[1.25] font-extrabold font-dm-serif mb-8 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -191,7 +191,7 @@ export default function About() {
       </motion.section>
 
       {/* Why We Built This - Enhanced */}
-      <section className="relative py-20 px-6 bg-[#F8E6DA]">
+      <section className="relative py-12 px-6 bg-[#F8E6DA]">
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-8 md:p-12">
             <div className="bg-[#F8E6DA] rounded-2xl p-8 md:p-10">
@@ -339,7 +339,7 @@ export default function About() {
       </motion.section>
 
       {/* Meet The Team */}
-      <section className="relative py-20 px-6 bg-[#F8E6DA]">
+      <section className="relative py-12 px-6 bg-[#F8E6DA]">
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-8 md:p-12">
             <div className="bg-[#F8E6DA] rounded-2xl p-8 md:p-10">
