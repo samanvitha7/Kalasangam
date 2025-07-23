@@ -5,13 +5,23 @@ import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark, FaFlag } from 'react-ic
 import { toast } from 'react-toastify';
 import LazyImage from './LazyImage';
 import ReportModal from './ReportModal';
-import api from '../services/api';
+import { api } from '../services/api';
 
-const ArtCard = ({ artwork, index, currentUser, onLike, onBookmark, onImageClick }) => {
+const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked, onLike, onBookmark, onImageClick }) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(initialBookmarked || false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  
+  // Initialize liked and bookmarked states based on current user data
+  useEffect(() => {
+    if (currentUser && currentUser.likes) {
+      setIsLiked(currentUser.likes.includes(artwork.id));
+    }
+    if (initialBookmarked !== undefined) {
+      setIsBookmarked(initialBookmarked);
+    }
+  }, [currentUser, artwork.id, initialBookmarked]);
   
   const animations = {
     initial: { opacity: 0, y: 20 },
@@ -32,8 +42,20 @@ const ArtCard = ({ artwork, index, currentUser, onLike, onBookmark, onImageClick
       });
       return;
     }
+    const previousState = isLiked;
     setIsLiked(!isLiked);
-    onLike(artwork.id);
+    
+    api.toggleLike(artwork.id)
+        .then(() => onLike(artwork.id))
+        .catch((error) => {
+            // Revert the state on error
+            setIsLiked(previousState);
+            console.error('Failed to toggle like:', error);
+            toast.error('Failed to update like. Please try again.', {
+                position: 'top-center',
+                autoClose: 3000,
+            });
+        });
   };
 
   const handleBookmark = () => {
@@ -48,21 +70,34 @@ const ArtCard = ({ artwork, index, currentUser, onLike, onBookmark, onImageClick
       });
       return;
     }
+    const previousState = isBookmarked;
     setIsBookmarked(!isBookmarked);
-    onBookmark(artwork.id);
     
-    // Show success message
-    toast.success(
-      isBookmarked ? 'Removed from bookmarks' : 'Added to bookmarks', 
-      {
-        position: 'top-center',
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      }
-    );
+    api.toggleBookmark(artwork.id)
+      .then(() => {
+        onBookmark(artwork.id);
+        // Show success message
+        toast.success(
+          previousState ? 'Removed from bookmarks' : 'Added to bookmarks', 
+          {
+            position: 'top-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          }
+        );
+      })
+      .catch((error) => {
+        // Revert the state on error
+        setIsBookmarked(previousState);
+        console.error('Failed to toggle bookmark:', error);
+        toast.error('Failed to update bookmark. Please try again.', {
+          position: 'top-center',
+          autoClose: 3000,
+        });
+      });
   };
 
   const formatDate = (dateString) => {
