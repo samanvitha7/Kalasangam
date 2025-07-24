@@ -2,7 +2,7 @@
   width: 100vw;
   overflow-x: hidden;
   background: transparent;
-  padding: 3rem 0;
+  padding: 5vh 0;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -10,17 +10,17 @@
 }
 
 .cinema-title {
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 4vw, 3rem);
   font-weight: 900;
   color: #1E5E75;
-  margin-bottom: 2rem;
+  margin-bottom: 3vh;
   font-family: 'Lora', serif;
 }
 
 .cinema-track {
   display: flex;
-  gap: 2rem;
-  padding: 0 4rem;
+  gap: 2vw;
+  padding: 0 4vw;
   cursor: grab;
   overflow-x: auto;
   scroll-behavior: smooth;
@@ -33,8 +33,8 @@
 }
 
 .cinema-slide {
-  flex: 0 0 50vw;
-  height: 40vh;
+  flex: 0 0 clamp(300px, 45vw, 800px);
+  height: clamp(200px, 35vh, 500px);
   min-width: 300px; /* Prevent layout collapse */
 }
 

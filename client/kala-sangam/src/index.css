@@ -381,7 +381,47 @@ input[type="range"]::-moz-range-thumb:hover {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Fix for gallery grid spacing */
+/* Responsive adjustments for modern high-resolution displays */
+.lotus-responsive {
+  /* Default behavior uses viewport units for consistent scaling */
+}
+
+/* Adjustments for 1680x1050 displays */
+@media (min-width: 1680px) and (max-width: 1920px) {
+  .lotus-responsive {
+    /* Optimized for 1680x1050 resolution */
+  }
+}
+
+/* Adjustments for 1440p displays (2560x1440) */
+@media (min-width: 2560px) and (min-height: 1440px) {
+  .lotus-responsive {
+    /* Use viewport units for consistent scaling */
+  }
+}
+
+/* Adjustments for 1600p displays (2560x1600) */
+@media (min-width: 2560px) and (min-height: 1600px) {
+  .lotus-responsive {
+    /* Optimized for your specific resolution */
+  }
+}
+
+/* Adjustments for ultra-wide displays (3440px+) */
+@media (min-width: 3440px) {
+  .lotus-responsive {
+    max-width: 1400px;
+  }
+}
+
+/* Adjustments for 4K displays (3840px+) */
+@media (min-width: 3840px) {
+  .lotus-responsive {
+    max-width: 1600px;
+  }
+}
+
+/* Fix for gallery grid spacing - Responsive container */
 .container {
   width: 100%;
   max-width: 1400px;
@@ -402,6 +442,27 @@ input[type="range"]::-moz-range-thumb:hover {
   .container {
     padding-left: 3rem;
     padding-right: 3rem;
+  }
+}
+
+/* High-resolution display optimizations */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1600px;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .container {
+    max-width: 1800px;
+  }
+}
+
+@media (min-width: 3440px) {
+  .container {
+    max-width: 2000px;
   }
 }
 
@@ -523,6 +584,22 @@ input[type="range"]::-moz-range-thumb:hover {
   .page-container {
     padding-left: calc(var(--page-padding-x) * 2);
     padding-right: calc(var(--page-padding-x) * 2);
+  }
+}
+
+@media (min-width: 1920px) {
+  .page-container {
+    max-width: 1600px;
+    padding-left: calc(var(--page-padding-x) * 2.5);
+    padding-right: calc(var(--page-padding-x) * 2.5);
+  }
+}
+
+@media (min-width: 2560px) {
+  .page-container {
+    max-width: 1800px;
+    padding-left: calc(var(--page-padding-x) * 3);
+    padding-right: calc(var(--page-padding-x) * 3);
   }
 }
 

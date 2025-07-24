@@ -112,10 +112,10 @@ function Section({ title, description, bg, isVideo, exploreRoute, exploreText })
           hidden: { opacity: 0, y: 50 },
         }}
       >
-        <h2 className="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-lg">
+        <h2 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-extrabold mb-6 drop-shadow-lg">
           {title}
         </h2>
-        <p className="text-xl md:text-2xl leading-relaxed drop-shadow-md mb-6">
+        <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl leading-relaxed drop-shadow-md mb-6">
           {description}
         </p>
 

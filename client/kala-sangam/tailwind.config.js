@@ -6,6 +6,14 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        '2xl': '1536px',
+        '1680': '1680px',
+        '3xl': '1920px',
+        '4xl': '2560px',
+        '5xl': '3440px',
+        '6xl': '3840px',
+      },
       colors: {
         // New Design System Colors
         'deep-teal': '#134856',
