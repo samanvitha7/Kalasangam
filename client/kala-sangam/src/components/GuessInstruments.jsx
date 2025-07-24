@@ -15,7 +15,7 @@ const questions = [
   { sound: mridangamSound, answer: "Mridangam" },
 ];
 
-export default function GuessInstrument() {
+export default function GuessInstrument({ instruments, onClose }) {
   const [current, setCurrent] = useState(null);
   const [selected, setSelected] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -88,13 +88,29 @@ export default function GuessInstrument() {
 
   return (
     <motion.div
-      className="bg-[#fdecec] px-6 py-8 rounded-3xl shadow-xl font-noto text-[#134856] max-w-3xl mx-auto mt-20"
-      initial={{ scale: 0.9, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: true }}
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
     >
-      <div className="flex flex-col items-center mb-6">
+      <motion.div
+        className="bg-[#fdecec] px-6 py-8 rounded-3xl shadow-xl font-noto text-[#134856] max-w-3xl mx-auto relative"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 bg-[#E05264] text-white rounded-full flex items-center justify-center hover:bg-[#d0465a] transition-colors"
+        >
+          ✕
+        </button>
+
+        <div className="flex flex-col items-center mb-6">
         <button
           onClick={handlePlayClick}
           disabled={isPlaying}
@@ -150,6 +166,7 @@ export default function GuessInstrument() {
           {selected === current?.answer ? "✅ Correct!" : `❌ Oops! It was ${current?.answer}.`}
         </motion.p>
       )}
+      </motion.div>
     </motion.div>
   );
 }

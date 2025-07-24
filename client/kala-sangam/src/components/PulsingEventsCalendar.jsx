@@ -141,7 +141,7 @@ const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
           whileHover={{ scale: 1.1, y: -2 }}
           whileTap={{ scale: 0.95 }}
         >
-          ← Previous
+          ← 
         </motion.button>
         <motion.button
           onClick={() => setCurrentMonth((prev) => (prev + 1) % 12)}
@@ -149,7 +149,7 @@ const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
           whileHover={{ scale: 1.1, y: -2 }}
           whileTap={{ scale: 0.95 }}
         >
-          Next →
+           →
         </motion.button>
       </div>
     </div>
