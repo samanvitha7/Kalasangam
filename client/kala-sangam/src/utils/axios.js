@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an instance of axios with default configuration
 const api = axios.create({
-  baseURL: 'https://kalasangam.onrender.com', // API base URL
+  baseURL: import.meta.env.VITE_API_URL || 'https://kalasangam.onrender.com', // API base URL
   timeout: 10000, // Timeout after 10 seconds
   headers: {
     'Content-Type': 'application/json', // Default content type

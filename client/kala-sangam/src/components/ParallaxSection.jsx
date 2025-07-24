@@ -26,7 +26,7 @@ const ParallaxSection = () => {
         <div
           className="absolute w-full text-center z-10 transition-all duration-[2s] ease-out"
           style={{
-            bottom: isLoaded ? '72%' : '65%',
+            bottom: isLoaded ? '70%' : '65%',
           }}
         >
           <h1 className={`text-white text-[6vw] ml-[5vw] md:text-[6vw] font-dm-serif-display font-bold hover:font-extrabold drop-shadow-[0_0_2px_#F6A100] transition-all duration-300 ease-in-out ${
@@ -46,8 +46,8 @@ const ParallaxSection = () => {
         <img
           src="/assets/lotus-hidden.png"
           alt="Lotus"
-          className="absolute left-1/2 transform -translate-x-1/2 w-[90vw] max-w-[1100px] z-20 pointer-events-none"
-          style={{ bottom: '100px' }}
+          className="absolute left-1/2 transform -translate-x-1/2 w-[90vw] max-w-[1150px] z-20 pointer-events-none"
+          style={{ bottom: '160px' }}
         />
       </section>
 
