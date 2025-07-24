@@ -80,34 +80,31 @@ function MeetTheTeam() {
         Meet the Creative Minds
       </motion.h2>
 
-      <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2 justify-items-center max-w-6xl mx-auto">
+      <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2 justify-items-center max-w-6xl mx-auto min-h-[400px]">
         {team.map((member, idx) => (
           <motion.div 
-            key={idx} 
-            className="w-64 h-96 group cursor-pointer"
-            initial={{ opacity: 0, y: 50, rotateY: -30 }}
-            whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-            transition={{ duration: 0.6, delay: idx * 0.15 }}
-            viewport={{ once: true }}
-            style={{
-              perspective: "1000px"
-            }}
-            onClick={() => handleCardClick(idx)}
-          >
-            <motion.div 
-              className="relative w-full h-full"
-              whileHover={{ scale: 1.05 }}
-              animate={{
-                rotateY: flipped[idx] ? 180 : 0
-              }}
-              transition={{
-                duration: 0.7,
-                ease: "easeInOut"
-              }}
-              style={{
-                transformStyle: "preserve-3d"
-              }}
+              key={idx}
+              className="w-64 h-96 group cursor-pointer"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: idx * 0.15 }}
+              viewport={{ once: true }}
+              style={{ perspective: "1000px" }}
+              onClick={() => handleCardClick(idx)}
             >
+            <motion.div
+          className="relative w-full h-full"
+          animate={{
+            rotateY: flipped[idx] ? 180 : 0
+          }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+          style={{
+            transformStyle: "preserve-3d",
+            willChange: "transform"
+          }}
+        >
+
+
               {/* Front Side */}
               <div 
                 className="absolute w-full h-full bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl flex flex-col items-center p-6 border border-white/20"

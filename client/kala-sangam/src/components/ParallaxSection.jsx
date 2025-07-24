@@ -19,8 +19,12 @@ const ParallaxSection = () => {
         <img
           src="/assets/parallaximg.png"
           alt="Hero Background"
-          className="absolute inset-0 w-full h-full object-cover z-0"
+         className="absolute inset-0 w-full h-full object-cover z-0 shadow-[inset_0_-80px_60px_-20px_rgba(0,0,0,0.5)]"
+
         />
+      
+       <div className="absolute bottom-0 w-full h-48 z-10 pointer-events-none bg-gradient-to-b from-transparent to-tealblue " />
+
 
         {/* Animated Text - Rises from 70% to 75% on page load, then starts floating */}
         <div
@@ -49,17 +53,17 @@ const ParallaxSection = () => {
           className="absolute left-1/2 transform -translate-x-1/2 w-[90vw] max-w-[1150px] z-20 pointer-events-none"
           style={{ bottom: '160px' }}
         />
+       
       </section>
 
 
       {/* Decorative Divider (flipped) */}
-      <div className="relative w-full h-24 bg-gradient-to-t from-coral-red via-muted-fuchsia to-teal-blue overflow-hidden">
-        <svg className="absolute top-0 w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
-          <path d="M0,40L50,45C100,50,200,60,300,58C400,55,500,45,600,48C700,50,800,65,900,68C1000,70,1100,60,1150,55L1200,50L1200,120L1150,120C1100,120,1000,120,900,120C800,120,700,120,600,120C500,120,400,120,300,120C200,120,100,120,50,120L0,120Z" fill="#1E5E75" />
-          <path d="M0,20L50,25C100,30,200,40,300,42C400,45,500,40,600,38C700,35,800,35,900,40C1000,45,1100,55,1150,60L1200,65L1200,120L1150,120C1100,120,1000,120,900,120C800,120,700,120,600,120C500,120,400,120,300,120C200,120,100,120,50,120L0,120Z" fill="#DA639B" />
-          <path d="M0,0L50,10C100,20,200,40,300,45C400,50,500,40,600,35C700,30,800,30,900,35C1000,40,1100,50,1150,55L1200,60L1200,120L1150,120C1100,120,1000,120,900,120C800,120,700,120,600,120C500,120,400,120,300,120C200,120,100,120,50,120L0,120Z" fill="#E85A4F" opacity="0.9" />
-        </svg>
-      </div>
+      <div className="w-full h-24 bg-gradient-to-b from-tealblue via-rosered to-[#F8E6DA]" />
+
+
+      
+      
+
     </>
   );
 };
