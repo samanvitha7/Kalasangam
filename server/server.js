@@ -83,6 +83,7 @@ const eventRoutes=require("./routes/eventRoutes");
 const reportRoutes=require("./routes/reports");
 const artformRoutes = require("./routes/artforms");
 const artistRoutes = require('./routes/artists');
+const artworkRoutes = require('./routes/artworks');
 app.use("/api/artforms", artformRoutes);
 app.use("/api/auth",authRoutes);
 app.use("/api/users",userRoutes);
@@ -91,6 +92,7 @@ app.use("/api/events",eventRoutes);
 app.use("/api/reports",reportRoutes);
 app.use("/api/artforms-legacy",artRoutes);
 app.use('/api/artists', artistRoutes);
+app.use('/api/artworks', artworkRoutes);
 
 const DanceForm = require("./models/DanceForm");
 

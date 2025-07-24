@@ -338,7 +338,7 @@ export default function CraftsPage() {
       {/* Full Bleed Divider */}
       <FullBleedDivider />
       
-      <div className="pt-24 pb-8">
+      <div className="pt-10 pb-8">
         {/* Floating Particles Background */}
         <FloatingParticles />
 

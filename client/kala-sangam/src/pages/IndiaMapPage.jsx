@@ -25,7 +25,7 @@ export default function IndiaMapPage({ onStateClick }) {
 
       {/* ────── Top Heading ────── */}
      <div className="relative z-10 container mx-auto px-4 pt-10 pb-10">
-      <h2 className="text-6xl sm:text-5xl font-dm-serif font-bold tracking-wide text-[#134856]">
+      <h2 className="inline-block text-6xl font-dm-serif  drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
         Explore States
       </h2>
 

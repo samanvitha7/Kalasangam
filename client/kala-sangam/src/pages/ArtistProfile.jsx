@@ -83,7 +83,7 @@ const ArtistProfile = () => {
       try {
         setLoading(true);
         
-        // Try to get single artist first
+        // Try to get single artist 
         try {
           const response = await api.getArtist(artistId);
           if (response.success && response.data) {

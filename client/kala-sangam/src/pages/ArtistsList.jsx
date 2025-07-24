@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import LazyImage from '../components/LazyImage';
 import { FaSearch, FaFilter, FaUsers, FaPalette } from 'react-icons/fa';
 import { api } from '../services/api';
+import FullBleedDivider from '../components/FullBleedDivider';
 
 const ArtistsList = () => {
   const [artists, setArtists] = useState([]);
@@ -117,11 +118,12 @@ const ArtistsList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
+    <div className="min-h-screen bg-[#F8E6DA] pb-8 overflow-hidden">
+      <FullBleedDivider />
       {/* Floating Particles Background */}
       <FloatingParticles />
       
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 pt-10 relative z-10">
         {/* Hero Section */}
         <motion.section 
           className="text-center mb-12"
@@ -140,10 +142,10 @@ const ArtistsList = () => {
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           
-          <h1 className="inline-block text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+          <h1 className="inline-block text-6xl font-dm-serif pt-10 mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Traditional Artists
           </h1>
-          <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
+          <p className="text-lg text-xl font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
             Discover talented artists preserving India's rich traditional art heritage. Connect with masters who carry forward centuries of artistic wisdom.
           </p>
           
