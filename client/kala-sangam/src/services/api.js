@@ -451,7 +451,7 @@ export const api = {
 
   // Toggle like for an artwork
   toggleLike: async (artworkId) => {
-    const response = await fetch(`${API_URL}/api/users/like/${artworkId}`, {
+    const response = await fetch(`${API_URL}/api/artworks/${artworkId}/like`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -469,7 +469,7 @@ export const api = {
 
   // Toggle bookmark for an artwork
   toggleBookmark: async (artworkId) => {
-    const response = await fetch(`${API_URL}/api/users/bookmark/${artworkId}`, {
+    const response = await fetch(`${API_URL}/api/artworks/${artworkId}/bookmark`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,

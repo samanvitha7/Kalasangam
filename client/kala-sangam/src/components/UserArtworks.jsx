@@ -17,8 +17,10 @@ export default function UserArtworks({ userId }) {
 
   const loadArtworks = async () => {
     try {
-      const artworks = await api.getArtworks({ userId: userId, limit: 50 });
-      setArtworks(artworks || []);
+      const response = await api.getArtworks({ userId: userId, limit: 50 });
+      // Handle both possible response structures
+      const artworksData = response?.data || response || [];
+      setArtworks(Array.isArray(artworksData) ? artworksData : []);
     } catch (error) {
       console.error('Failed to load artworks:', error);
       toast.error('Failed to load artworks');

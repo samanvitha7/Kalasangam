@@ -19,47 +19,58 @@ const UserLikedArtworks = ({ userId }) => {
     try {
       setLoading(true);
       
-      // Get current user data to fetch their likes and bookmarks
+      // Get current user data
       const userResponse = await api.getCurrentUser();
-      if (userResponse && userResponse.user) {
-        const user = userResponse.user;
+      if (!userResponse || !userResponse.user) {
+        throw new Error('Failed to get current user');
+      }
+      
+      const currentUserId = userResponse.user.id;
+      
+      // Get all artworks
+      const artworksResponse = await api.getArtworks({ limit: 100 });
+      const artworksData = artworksResponse?.data || artworksResponse || [];
+      
+      if (Array.isArray(artworksData)) {
+        const allArtworks = artworksData.map(artwork => ({
+          id: artwork._id || artwork.id,
+          title: artwork.title || artwork.name,
+          description: artwork.description,
+          artist: artwork.artist || 'Cultural Heritage',
+          imageUrl: artwork.imageUrl || artwork.image,
+          category: artwork.category || 'Traditional Art',
+          likes: artwork.likes || 0,
+          bookmarks: artwork.bookmarks || 0,
+          createdAt: artwork.createdAt || new Date().toISOString(),
+          userId: artwork.userId || artwork.artistId,
+          origin: artwork.origin,
+          likesArray: artwork.likes || [],
+          bookmarksArray: artwork.bookmarks || []
+        }));
         
-        // Get all artworks
-        const artworksResponse = await api.getArtworks({ limit: 100 });
-        if (artworksResponse.success) {
-          const allArtworks = artworksResponse.data.map(artwork => ({
-            id: artwork._id || artwork.id,
-            title: artwork.title || artwork.name,
-            description: artwork.description,
-            artist: artwork.artist || 'Cultural Heritage',
-            imageUrl: artwork.imageUrl || artwork.image,
-            category: artwork.category || 'Traditional Art',
-            likes: artwork.likes || 0,
-            bookmarks: artwork.bookmarks || 0,
-            createdAt: artwork.createdAt || new Date().toISOString(),
-            userId: artwork.userId || artwork.artistId,
-            origin: artwork.origin
-          }));
-          
-          // Filter liked artworks
-          const userLikes = user.likes || [];
-          const liked = allArtworks.filter(artwork => 
-            userLikes.some(likeId => likeId.toString() === artwork.id.toString())
-          );
-          
-          // Filter bookmarked artworks
-          const userBookmarks = user.bookmarks || [];
-          const bookmarked = allArtworks.filter(artwork => 
-            userBookmarks.some(bookmarkId => bookmarkId.toString() === artwork.id.toString())
-          );
-          
-          setLikedArtworks(liked);
-          setBookmarkedArtworks(bookmarked);
-        }
+        // Filter liked artworks (artworks where current user is in the likes array)
+        const liked = allArtworks.filter(artwork => {
+          const likesArray = Array.isArray(artwork.likesArray) ? artwork.likesArray : [];
+          return likesArray.some(likeUserId => likeUserId.toString() === currentUserId.toString());
+        });
+        
+        // Filter bookmarked artworks (artworks where current user is in the bookmarks array)
+        const bookmarked = allArtworks.filter(artwork => {
+          const bookmarksArray = Array.isArray(artwork.bookmarksArray) ? artwork.bookmarksArray : [];
+          return bookmarksArray.some(bookmarkUserId => bookmarkUserId.toString() === currentUserId.toString());
+        });
+        
+        setLikedArtworks(liked);
+        setBookmarkedArtworks(bookmarked);
+      } else {
+        setLikedArtworks([]);
+        setBookmarkedArtworks([]);
       }
     } catch (error) {
       console.error('Error fetching user artwork data:', error);
       toast.error('Failed to load your artworks');
+      setLikedArtworks([]);
+      setBookmarkedArtworks([]);
     } finally {
       setLoading(false);
     }
