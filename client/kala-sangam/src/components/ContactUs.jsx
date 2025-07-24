@@ -1,15 +1,38 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // 👈 combine useState + useEffect
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useLocation } from "react-router-dom"; // 👈 useLocation imported
 
 function ContactUsSection() {
+  const location = useLocation(); // ✅ moved inside the function
+
+  // ✅ Scroll to contact section if #contact in URL
+  useEffect(() => {
+    if (location.hash === "#contact") {
+      const el = document.getElementById("contact-section");
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+    }
+
+    // ✅ Pre-fill email if passed via URL query
+    const params = new URLSearchParams(location.search);
+    const emailFromURL = params.get("email");
+    if (emailFromURL) {
+      setFormData((prev) => ({ ...prev, email: emailFromURL }));
+    }
+  }, [location]);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
@@ -41,8 +64,10 @@ function ContactUsSection() {
     }
   };
 
+
   return (
     <motion.section
+      id="contact-section"
       className="relative bg-[#F8E6DA] py-16 px-6 rounded-2xl shadow-2xl mt-16 max-w-7xl mx-auto overflow-hidden font-[Poppins]"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -109,20 +134,15 @@ function ContactUsSection() {
             transition={{ duration: 0.6, delay: 0.8 }}
             viewport={{ once: true }}
           >
-           <div className="flex items-center gap-3">
-  <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
-  <span className="text-lg bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">
-    Email: contact@kalasangam.com
-  </span>
-</div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
+              <span className="text-lg bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">Email: contact@kalasangam.com</span>
+            </div>
 
-<div className="flex items-center gap-3">
-  <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
-  <span className="text-lg bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">
-    Response time: Within 24 hours
-  </span>
-</div>
-
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
+              <span className="text-lg bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">Response time: Within 24 hours</span>
+            </div>
           </motion.div>
         </motion.div>
 
