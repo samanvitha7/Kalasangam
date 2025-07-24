@@ -117,55 +117,53 @@ export default function Header({ scrolled, onMapClick }) {
               Artists
             </Link>
 
-         <div className="relative mt-[8px]" ref={dropdownRef}>
+        <div className="relative mt-[8px]" ref={dropdownRef}>
   <span
     className={`
-       font-winky font-[500]  text-tealblue cursor-pointer
+      font-winky font-[500] text-tealblue cursor-pointer
       transition-all duration-300 ease-in-out
-      hover:text-rosehover 
+      hover:text-rosehover
     `}
     onClick={() => setShowDropdown(!showDropdown)}
   >
-    Explore ▾
+    Explore {showDropdown ? "▾" : ">"}
   </span>
 
+  {showDropdown && (
+    <ul
+      className={`
+        absolute top-full mt-2 z-50 w-52 rounded-xl shadow-lg font-winky text-[1.1rem] font-[500] tracking-wide
+        ${scrolled
+          ? "bg-tealblue text-blushpeach border border-rosered/20"
+          : "bg-blushpeach text-tealblue border border-tealblue/10"}
+      `}
+    >
+      {[
+        { label: "Explore by State", key: "state" },
+        { label: "Explore Art", key: "art" },
+        { label: "Explore Dance", key: "dance" },
+        { label: "Explore Music", key: "music" },
+        { label: "Explore Crafts", key: "crafts" },
+      ].map((item) => (
+        <li
+          key={item.key}
+          className={`
+            px-4 py-2 cursor-pointer transition-all duration-200
+            ${
+              scrolled
+                ? "hover:bg-rosered/20 hover:text-saffronglow"
+                : "hover:text-vermilion"
+            }
+          `}
+          onClick={() => handleExplore(item.key)}
+        >
+          {item.label}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
 
-
-            {showDropdown && (
-  <ul
-    className={`
-      absolute top-full mt-2 z-50 w-52 rounded-xl shadow-lg font-winky text-[1.1rem] font-[500] tracking-wide
-      ${scrolled
-        ? "bg-tealblue text-blushpeach border border-rosered/20"
-        : "bg-blushpeach text-tealblue border border-tealblue/10"}
-    `}
-  >
-    {[
-      { label: "Explore by State", key: "state" },
-      { label: "Explore Art", key: "art" },
-      { label: "Explore Dance", key: "dance" },
-      { label: "Explore Music", key: "music" },
-      { label: "Explore Crafts", key: "crafts" },
-    ].map((item) => (
-      <li
-        key={item.key}
-        className={`
-          px-4 py-2 cursor-pointer transition-all duration-200
-          ${
-            scrolled
-              ? "hover:bg-rosered/20 hover:text-saffronglow"
-              : " hover:text-vermilion"
-          }
-        `}
-        onClick={() => handleExplore(item.key)}
-      >
-        {item.label}
-      </li>
-    ))}
-  </ul>
-)}
-
-          </div>
 
           <Link
             to="/map"
