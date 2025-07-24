@@ -26,43 +26,79 @@ const UserLikedArtworks = ({ userId }) => {
       }
       
       const currentUserId = userResponse.user.id;
+      console.log('Loading liked/bookmarked artworks for user:', currentUserId);
       
       // Get all artworks
-      const artworksResponse = await api.getArtworks({ limit: 100 });
+      const artworksResponse = await api.getArtworks({ limit: 200 });
       const artworksData = artworksResponse?.data || artworksResponse || [];
       
+      console.log('All artworks loaded:', artworksData.length);
+      
       if (Array.isArray(artworksData)) {
-        const allArtworks = artworksData.map(artwork => ({
-          id: artwork._id || artwork.id,
-          title: artwork.title || artwork.name,
-          description: artwork.description,
-          artist: artwork.artist || 'Cultural Heritage',
-          imageUrl: artwork.imageUrl || artwork.image,
-          category: artwork.category || 'Traditional Art',
-          likes: artwork.likes || 0,
-          bookmarks: artwork.bookmarks || 0,
-          createdAt: artwork.createdAt || new Date().toISOString(),
-          userId: artwork.userId || artwork.artistId,
-          origin: artwork.origin,
-          likesArray: artwork.likes || [],
-          bookmarksArray: artwork.bookmarks || []
-        }));
+        const allArtworks = artworksData.map((artwork, index) => {
+          const transformedArtwork = {
+            id: artwork._id || artwork.id,
+            title: artwork.title || artwork.name,
+            description: artwork.description,
+            artist: artwork.artist || 'Cultural Heritage',
+            imageUrl: artwork.imageUrl || artwork.image,
+            category: artwork.category || 'Traditional Art',
+            likes: artwork.likes || 0,
+            bookmarks: artwork.bookmarks || 0,
+            createdAt: artwork.createdAt || new Date().toISOString(),
+            userId: artwork.userId || artwork.artistId,
+            origin: artwork.origin,
+            likesArray: artwork.likesArray || [],
+            bookmarksArray: artwork.bookmarksArray || []
+          };
+          
+          // Debug first few artworks
+          if (index < 3) {
+            console.log(`Artwork ${index + 1}:`, {
+              id: transformedArtwork.id,
+              title: transformedArtwork.title,
+              likesArray: transformedArtwork.likesArray,
+              bookmarksArray: transformedArtwork.bookmarksArray
+            });
+          }
+          
+          return transformedArtwork;
+        });
+        
+        console.log('Transformed artworks:', allArtworks.length);
+        console.log('Current user ID for comparison:', currentUserId);
         
         // Filter liked artworks (artworks where current user is in the likes array)
         const liked = allArtworks.filter(artwork => {
-          const likesArray = Array.isArray(artwork.likesArray) ? artwork.likesArray : [];
-          return likesArray.some(likeUserId => likeUserId.toString() === currentUserId.toString());
+          const likesArray = artwork.likesArray || [];
+          const isLiked = likesArray.some(likeUserId => 
+            likeUserId && likeUserId.toString() === currentUserId.toString()
+          );
+          if (isLiked) {
+            console.log('Found liked artwork:', artwork.title, 'with likesArray:', likesArray);
+          }
+          return isLiked;
         });
         
         // Filter bookmarked artworks (artworks where current user is in the bookmarks array)
         const bookmarked = allArtworks.filter(artwork => {
-          const bookmarksArray = Array.isArray(artwork.bookmarksArray) ? artwork.bookmarksArray : [];
-          return bookmarksArray.some(bookmarkUserId => bookmarkUserId.toString() === currentUserId.toString());
+          const bookmarksArray = artwork.bookmarksArray || [];
+          const isBookmarked = bookmarksArray.some(bookmarkUserId => 
+            bookmarkUserId && bookmarkUserId.toString() === currentUserId.toString()
+          );
+          if (isBookmarked) {
+            console.log('Found bookmarked artwork:', artwork.title, 'with bookmarksArray:', bookmarksArray);
+          }
+          return isBookmarked;
         });
+        
+        console.log('Filtered liked artworks:', liked.length);
+        console.log('Filtered bookmarked artworks:', bookmarked.length);
         
         setLikedArtworks(liked);
         setBookmarkedArtworks(bookmarked);
       } else {
+        console.log('No artworks data or invalid format');
         setLikedArtworks([]);
         setBookmarkedArtworks([]);
       }

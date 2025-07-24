@@ -336,18 +336,70 @@ const getUserStats = async (req, res) => {
     }
 
     const followersCount = await User.countDocuments({ follows: userId });
+    
+    // Get actual artworks count for this user
+    const Artwork = require('../models/Artwork');
+    const userArtworksCount = await Artwork.countDocuments({ userId: userId, isActive: true });
 
     res.status(200).json({
       stats: {
-        likesCount: user.likes.length,
-        followsCount: user.follows.length,
+        likesCount: user.likes ? user.likes.length : 0,
+        followsCount: user.follows ? user.follows.length : 0,
         followersCount: followersCount,
-        bookmarksCount: user.bookmarks.length,
+        bookmarksCount: user.bookmarks ? user.bookmarks.length : 0,
+        artworksCount: userArtworksCount,
         joinedDate: user.createdAt
       }
     });
   } catch (error) {
+    console.error('Error getting user stats:', error);
     res.status(500).json({ message: 'Failed to get user stats', error: error.message });
+  }
+};
+
+// Get user activity (likes, bookmarks, artworks)
+const getUserActivity = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const Artwork = require('../models/Artwork');
+    
+    const user = await User.findById(userId)
+      .populate({
+        path: 'likes',
+        model: 'Artwork',
+        select: 'title imageUrl artist createdAt category',
+        options: { sort: { createdAt: -1 }, limit: 10 }
+      })
+      .populate({
+        path: 'bookmarks', 
+        model: 'Artwork',
+        select: 'title imageUrl artist createdAt category',
+        options: { sort: { createdAt: -1 }, limit: 10 }
+      });
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Get user's own artworks
+    const userArtworks = await Artwork.find({ userId: userId, isActive: true })
+      .select('title imageUrl createdAt category isPublic')
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    res.status(200).json({
+      activity: {
+        likedArtworks: user.likes || [],
+        bookmarkedArtworks: user.bookmarks || [],
+        myArtworks: userArtworks || [],
+        totalLikes: user.likes?.length || 0,
+        totalBookmarks: user.bookmarks?.length || 0,
+        totalArtworks: userArtworks?.length || 0
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching user activity:', error);
+    res.status(500).json({ message: 'Failed to get user activity', error: error.message });
   }
 };
 
@@ -705,6 +757,7 @@ module.exports = {
   changePassword,
   deleteAccount,
   getUserStats,
+  getUserActivity,
   toggleBookmark,
   getBookmarks,
   // Admin functions

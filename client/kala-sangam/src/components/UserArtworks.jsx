@@ -18,9 +18,22 @@ export default function UserArtworks({ userId }) {
 
   const loadArtworks = async () => {
     try {
-      const response = await api.getArtworks({ userId: userId, limit: 50 });
+      // Get current user first to ensure we have the correct user ID
+      const currentUser = await api.getCurrentUser();
+      if (!currentUser || !currentUser.user) {
+        throw new Error('Failed to get current user');
+      }
+      
+      const currentUserId = currentUser.user.id;
+      console.log('Loading artworks for user:', currentUserId);
+      
+      // Fetch artworks specifically for this user
+      const response = await api.getArtworks({ userId: currentUserId, limit: 50 });
+      
       // Handle both possible response structures
       const artworksData = response?.data || response || [];
+      console.log('Loaded artworks:', artworksData);
+      
       setArtworks(Array.isArray(artworksData) ? artworksData : []);
     } catch (error) {
       console.error('Failed to load artworks:', error);

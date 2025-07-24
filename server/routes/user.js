@@ -9,6 +9,7 @@ const {
   changePassword,
   deleteAccount,
   getUserStats,
+  getUserActivity,
   toggleBookmark,
   getBookmarks,
   // Admin functions
@@ -31,6 +32,9 @@ router.get('/profile/:userId', auth, getPublicProfile);
 
 // Get user statistics
 router.get('/stats', auth, getUserStats);
+
+// Get user activity (likes, bookmarks, artworks)
+router.get('/activity', auth, getUserActivity);
 
 // Update user profile
 router.put('/profile', auth, [

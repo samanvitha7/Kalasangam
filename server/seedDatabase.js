@@ -432,7 +432,9 @@ const seedDatabase = async () => {
           userId: user._id,
           artist: user.name,
           likes: [], // Will be populated later
-          bookmarks: [] // Will be populated later
+          bookmarks: [], // Will be populated later
+          isPublic: true, // All seeded artworks are published
+          isActive: true
         });
         
         const savedArtwork = await artwork.save();

@@ -19,9 +19,29 @@ export default function UserEvents({ userId }) {
     try {
       // Get current user first to get their ID
       const currentUser = await api.getCurrentUser();
-      // Fetch all events and filter by the current user's organizer ID
-      const response = await api.getEvents({ organizer: currentUser.id });
-      setEvents(response.data || []);
+      if (!currentUser || !currentUser.user) {
+        throw new Error('Failed to get current user');
+      }
+      
+      const currentUserId = currentUser.user.id;
+      console.log('Loading events for user:', currentUserId);
+      
+      // Fetch events organized by the current user
+      const response = await api.getEvents({ organizer: currentUserId });
+      const eventsData = response?.data || response || [];
+      
+      console.log('Loaded events:', eventsData);
+      
+      // Ensure we only show events created by this user
+      const userEvents = Array.isArray(eventsData) 
+        ? eventsData.filter(event => 
+            event.organizer === currentUserId || 
+            event.organizerId === currentUserId ||
+            (event.createdBy && event.createdBy === currentUserId)
+          )
+        : [];
+      
+      setEvents(userEvents);
     } catch (error) {
       console.error('Failed to load events:', error);
       toast.error('Failed to load events');

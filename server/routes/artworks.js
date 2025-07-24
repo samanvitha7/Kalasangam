@@ -19,10 +19,15 @@ router.get("/", async (req, res) => {
     } = req.query;
 
     // Build filter object
-    const filter = { isPublic: true, isActive: true };
+    let filter = {};
     
     if (userId) {
+      // When filtering by userId, show all artworks for that user (including drafts)
       filter.userId = userId;
+      filter.isActive = true; // Only exclude deleted artworks
+    } else {
+      // For public listing, only show public and active artworks
+      filter = { isPublic: true, isActive: true };
     }
     
     if (category) {
@@ -63,18 +68,24 @@ router.get("/", async (req, res) => {
 
     // Transform data to match frontend expectations
     const transformedArtworks = artworks.map(artwork => ({
+      _id: artwork._id,
       id: artwork._id,
       title: artwork.title,
       artist: artwork.artist,
       description: artwork.description,
       imageUrl: artwork.imageUrl,
+      image: artwork.imageUrl, // Alternative field name for compatibility
       category: artwork.category,
       artform: artwork.artform,
-      likes: artwork.likes ? artwork.likes.length : 0,
-      bookmarks: artwork.bookmarks ? artwork.bookmarks.length : 0,
+      likes: artwork.likes ? artwork.likes.length : 0, // Return count for display
+      bookmarks: artwork.bookmarks ? artwork.bookmarks.length : 0, // Return count for display
+      likesArray: artwork.likes || [], // Return the actual array for likes checking
+      bookmarksArray: artwork.bookmarks || [], // Return the actual array for bookmarks checking
       comments: artwork.comments ? artwork.comments.length : 0,
       tags: artwork.tags || [],
       location: artwork.location,
+      isPublic: artwork.isPublic,
+      isActive: artwork.isActive,
       createdAt: artwork.createdAt,
       updatedAt: artwork.updatedAt,
       userId: artwork.userId
@@ -288,9 +299,14 @@ router.delete("/:id", auth, async (req, res) => {
 router.post("/:id/like", auth, async (req, res) => {
   try {
     const artwork = await Artwork.findById(req.params.id);
+    const user = await User.findById(req.user.id);
 
     if (!artwork) {
       return res.status(404).json({ success: false, message: "Artwork not found" });
+    }
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
     if (!artwork.isPublic || !artwork.isActive) {
@@ -298,21 +314,29 @@ router.post("/:id/like", auth, async (req, res) => {
     }
 
     const userId = req.user.id;
-    const likeIndex = artwork.likes.indexOf(userId);
+    const artworkLikeIndex = artwork.likes.indexOf(userId);
+    const userLikeIndex = user.likes.indexOf(req.params.id);
 
-    if (likeIndex > -1) {
-      // Unlike
-      artwork.likes.splice(likeIndex, 1);
+    if (artworkLikeIndex > -1) {
+      // Unlike - remove from both artwork and user
+      artwork.likes.splice(artworkLikeIndex, 1);
+      if (userLikeIndex > -1) {
+        user.likes.splice(userLikeIndex, 1);
+      }
     } else {
-      // Like
+      // Like - add to both artwork and user
       artwork.likes.push(userId);
+      if (userLikeIndex === -1) {
+        user.likes.push(req.params.id);
+      }
     }
 
-    await artwork.save();
+    // Save both documents
+    await Promise.all([artwork.save(), user.save()]);
 
     res.json({ 
       success: true, 
-      liked: likeIndex === -1,
+      liked: artworkLikeIndex === -1,
       likeCount: artwork.likes.length
     });
 
@@ -326,9 +350,14 @@ router.post("/:id/like", auth, async (req, res) => {
 router.post("/:id/bookmark", auth, async (req, res) => {
   try {
     const artwork = await Artwork.findById(req.params.id);
+    const user = await User.findById(req.user.id);
 
     if (!artwork) {
       return res.status(404).json({ success: false, message: "Artwork not found" });
+    }
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
     if (!artwork.isPublic || !artwork.isActive) {
@@ -336,21 +365,29 @@ router.post("/:id/bookmark", auth, async (req, res) => {
     }
 
     const userId = req.user.id;
-    const bookmarkIndex = artwork.bookmarks.indexOf(userId);
+    const artworkBookmarkIndex = artwork.bookmarks.indexOf(userId);
+    const userBookmarkIndex = user.bookmarks.indexOf(req.params.id);
 
-    if (bookmarkIndex > -1) {
-      // Remove bookmark
-      artwork.bookmarks.splice(bookmarkIndex, 1);
+    if (artworkBookmarkIndex > -1) {
+      // Remove bookmark - remove from both artwork and user
+      artwork.bookmarks.splice(artworkBookmarkIndex, 1);
+      if (userBookmarkIndex > -1) {
+        user.bookmarks.splice(userBookmarkIndex, 1);
+      }
     } else {
-      // Add bookmark
+      // Add bookmark - add to both artwork and user
       artwork.bookmarks.push(userId);
+      if (userBookmarkIndex === -1) {
+        user.bookmarks.push(req.params.id);
+      }
     }
 
-    await artwork.save();
+    // Save both documents
+    await Promise.all([artwork.save(), user.save()]);
 
     res.json({ 
       success: true, 
-      bookmarked: bookmarkIndex === -1,
+      bookmarked: artworkBookmarkIndex === -1,
       bookmarkCount: artwork.bookmarks.length
     });
 

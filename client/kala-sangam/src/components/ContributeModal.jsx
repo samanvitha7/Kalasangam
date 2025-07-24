@@ -7,7 +7,8 @@ const ContributeModal = ({ isOpen, onClose, onSubmit, editingArtwork = null }) =
     title: '',
     description: '',
     category: 'Traditional',
-    imageUrl: ''
+    imageUrl: '',
+    isPublic: true // true = published, false = draft
   });
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({});
@@ -22,7 +23,8 @@ const ContributeModal = ({ isOpen, onClose, onSubmit, editingArtwork = null }) =
         title: editingArtwork.title || '',
         description: editingArtwork.description || '',
         category: editingArtwork.category || 'Traditional',
-        imageUrl: editingArtwork.imageUrl || editingArtwork.image || ''
+        imageUrl: editingArtwork.imageUrl || editingArtwork.image || '',
+        isPublic: editingArtwork.isPublic !== undefined ? editingArtwork.isPublic : true
       });
       setImagePreview(editingArtwork.imageUrl || editingArtwork.image || null);
     } else if (!editingArtwork && isOpen) {
@@ -31,7 +33,8 @@ const ContributeModal = ({ isOpen, onClose, onSubmit, editingArtwork = null }) =
         title: '',
         description: '',
         category: 'Traditional',
-        imageUrl: ''
+        imageUrl: '',
+        isPublic: true // Default to published
       });
       setImagePreview(null);
     }
@@ -100,7 +103,8 @@ const ContributeModal = ({ isOpen, onClose, onSubmit, editingArtwork = null }) =
         title: '',
         description: '',
         category: 'Traditional',
-        imageUrl: ''
+        imageUrl: '',
+        isPublic: true
       });
       setImagePreview(null);
       setErrors({});
@@ -112,7 +116,8 @@ const ContributeModal = ({ isOpen, onClose, onSubmit, editingArtwork = null }) =
       title: '',
       description: '',
       category: 'Traditional',
-      imageUrl: ''
+      imageUrl: '',
+      isPublic: true
     });
     setImagePreview(null);
     setErrors({});
@@ -246,6 +251,56 @@ const ContributeModal = ({ isOpen, onClose, onSubmit, editingArtwork = null }) =
                     </option>
                   ))}
                 </select>
+              </div>
+
+              {/* Publication Status */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Publication Status
+                </label>
+                <div className="flex space-x-4">
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="isPublic"
+                      value="true"
+                      checked={formData.isPublic === true}
+                      onChange={() => setFormData(prev => ({ ...prev, isPublic: true }))}
+                      className="sr-only"
+                    />
+                    <div className={`flex items-center px-4 py-2 rounded-lg border-2 transition-all ${
+                      formData.isPublic === true
+                        ? 'border-green-500 bg-green-50 text-green-700' 
+                        : 'border-gray-300 bg-white text-gray-600 hover:border-gray-400'
+                    }`}>
+                      <span className="mr-2">📄</span>
+                      <span className="font-medium">Published</span>
+                    </div>
+                  </label>
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="isPublic"
+                      value="false"
+                      checked={formData.isPublic === false}
+                      onChange={() => setFormData(prev => ({ ...prev, isPublic: false }))}
+                      className="sr-only"
+                    />
+                    <div className={`flex items-center px-4 py-2 rounded-lg border-2 transition-all ${
+                      formData.isPublic === false
+                        ? 'border-yellow-500 bg-yellow-50 text-yellow-700' 
+                        : 'border-gray-300 bg-white text-gray-600 hover:border-gray-400'
+                    }`}>
+                      <span className="mr-2">📝</span>
+                      <span className="font-medium">Draft</span>
+                    </div>
+                  </label>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  {formData.isPublic 
+                    ? 'Published artworks will be visible to everyone on the Art Wall.' 
+                    : 'Draft artworks are only visible to you in your profile.'}
+                </p>
               </div>
 
               {/* Submit Button */}
