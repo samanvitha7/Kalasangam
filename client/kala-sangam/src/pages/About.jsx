@@ -93,7 +93,7 @@ export default function About() {
       
       {/* Hero Section */}
      <motion.section 
-        className="relative overflow-hidden pt-12 pb-20 bg-[#F8E6DA]"
+        className="relative overflow-hidden pt-12 pb-10 bg-[#F8E6DA]"
         initial={{ opacity: 0 }}
         animate={{ opacity: pageReady ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.2 }}
@@ -110,7 +110,7 @@ export default function About() {
         {/* Content */}
         <div className="relative container mx-auto px-4 text-center">
           <motion.h1 
-            className="inline-block text-6xl pt-10 font-dm-serif font-bold mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
+            className="inline-block text-6xl mt-10 font-dm-serif font-bold mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
