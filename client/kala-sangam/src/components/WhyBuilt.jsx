@@ -64,7 +64,7 @@ function WhyWeBuiltThis() {
 
       {/* Mobile: Horizontal Scroll */}
       <div className="block md:hidden overflow-x-auto">
-        <div className="flex gap-6 px-2 min-w-fit">
+        <div className="flex gap-3 px-2 min-w-fit">
           {timeline.map((item, idx) => (
             <motion.div
               key={idx}
@@ -106,7 +106,7 @@ function WhyWeBuiltThis() {
         {timeline.map((item, idx) => (
           <motion.div
             key={idx}
-            className={`mb-16 flex ${item.side === "left" ? "justify-start" : "justify-end"} w-full relative`}
+            className={`mb-8 flex ${item.side === "left" ? "justify-start" : "justify-end"} w-full relative`}
             initial={{ opacity: 0, x: item.side === "left" ? -100 : 100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: idx * 0.3 }}
