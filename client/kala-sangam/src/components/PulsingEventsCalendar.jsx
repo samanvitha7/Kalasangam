@@ -135,18 +135,22 @@ const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
 
       {/* Month navigation */}
       <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
-        <button
+        <motion.button
           onClick={() => setCurrentMonth((prev) => (prev - 1 + 12) % 12)}
-          className="px-3 py-1 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-colors"
+          className="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-lg font-semibold text-sm"
+          whileHover={{ scale: 1.1, y: -2 }}
+          whileTap={{ scale: 0.95 }}
         >
-          ←
-        </button>
-        <button
+          ← Previous
+        </motion.button>
+        <motion.button
           onClick={() => setCurrentMonth((prev) => (prev + 1) % 12)}
-          className="px-3 py-1 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-colors"
+          className="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-lg font-semibold text-sm"
+          whileHover={{ scale: 1.1, y: -2 }}
+          whileTap={{ scale: 0.95 }}
         >
-          →
-        </button>
+          Next →
+        </motion.button>
       </div>
     </div>
   );
@@ -436,21 +440,21 @@ export default function PulsingEventsCalendar() {
   }
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 py-16 overflow-hidden">
+    <section className="relative min-h-screen bg-[#F8E6DA] py-16 overflow-hidden">
       <SeasonalBackground />
       
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        {/* Header */}
+        {/* Header - Exact ArtWall Match */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-orange-600 via-pink-600 to-purple-600 bg-clip-text text-transparent font-yatra">
+          <h1 className="inline-block text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Cultural Events Calendar
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          </h1>
+          <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
             Discover upcoming festivals, workshops, and performances. Each pulse reveals new opportunities to immerse yourself in India's rich cultural heritage.
           </p>
         </motion.div>
@@ -526,37 +530,7 @@ export default function PulsingEventsCalendar() {
             <p className="text-xl text-gray-600">No events available at the moment.</p>
           </div>
         )}
-
-        {/* CTA Section */}
-        <motion.div
-          className="text-center mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 max-w-2xl mx-auto border border-white/30">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4 font-yatra">Don't Miss Out!</h3>
-            <p className="text-gray-600 mb-6">
-              Subscribe to get notifications about new events and workshops in your area.
-            </p>
-            <form onSubmit={handleEmailSubscription} className="flex flex-col sm:flex-row gap-3 justify-center">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={emailSubscription}
-                onChange={(e) => setEmailSubscription(e.target.value)}
-                className="px-4 py-3 rounded-lg bg-white/80 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-500 flex-1 max-w-xs"
-                required
-              />
-              <button 
-                type="submit"
-                className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </motion.div>
+        
       </div>
 
       {/* Event Details Modal */}

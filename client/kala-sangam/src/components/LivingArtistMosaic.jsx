@@ -119,19 +119,19 @@ const LivingArtistMosaic = () => {
     }
 
     return (
-        <div className="grid-container">
-            <div className="container">
+        <div className="min-h-screen bg-[#F8E6DA] py-16">
+            <div className="container mx-auto px-4">
                 {/* Header */}
                 <motion.div
-                    className="header"
+                    className="text-center mb-12"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    <h1 className="title">
+                    <h1 className="inline-block text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
                         Living Artists
                     </h1>
-                    <p className="subtitle">
+                    <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
                         Discover talented artists preserving India's rich cultural heritage through traditional arts.
                     </p>
                 </motion.div>
@@ -147,15 +147,16 @@ const LivingArtistMosaic = () => {
                             {artists.slice(0, 6).map((artist, index) => (
                                 <motion.div
                                     key={artist._id}
-                                    className="artist-card p-6 hover:shadow-lg transition-shadow border border-orange-100"
+                                    className="artist-card p-6 hover:shadow-xl transition-all duration-300 border border-white/20 bg-white/80 backdrop-blur-sm rounded-xl hover:scale-105 hover:bg-white/90"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.3, delay: index * 0.1 }}
                                     onClick={() => handleArtistClick(artist._id)}
+                                    whileHover={{ y: -5 }}
                                 >
                                     <div className="flex justify-between items-start mb-4">
-                                        <h3 className="text-xl font-bold text-[#9b2226] font-[Yatra One]">{artist.name}</h3>
-                                        <span className="px-3 py-1 rounded-full text-sm font-medium bg-pink-100 text-pink-800">
+                                        <h3 className="text-xl font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent font-[Yatra One]">{artist.name}</h3>
+                                        <span className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-pink-100 to-purple-100 text-pink-800">
                                             Artist
                                         </span>
                                     </div>
@@ -187,7 +188,7 @@ const LivingArtistMosaic = () => {
                                                 e.stopPropagation();
                                                 handleArtistClick(artist._id);
                                             }}
-                                            className="bg-gradient-to-r from-[#582f0e] to-[#8b4513] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform"
+                                            className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                                         >
                                             View Profile
                                         </button>
@@ -197,9 +198,19 @@ const LivingArtistMosaic = () => {
                         </AnimatePresence>
                     </div>
 
-                    <div className="footer">
-                        <button onClick={handleViewAllClick}>View All Artists</button>
-                        <button onClick={() => navigate('/art-wall')}>Explore Art Wall</button>
+                    <div className="footer flex gap-4 justify-center mt-8">
+                        <button 
+                            onClick={handleViewAllClick}
+                            className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                        >
+                            View All Artists
+                        </button>
+                        <button 
+                            onClick={() => navigate('/art-wall')}
+                            className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                        >
+                            Explore Art Wall
+                        </button>
                     </div>
                 </motion.div>
             </div>

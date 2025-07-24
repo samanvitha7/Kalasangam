@@ -14,7 +14,7 @@ export default function Signup() {
     name: "", 
     email: "", 
     password: "",
-    role: isArtistSignup ? "Artist" : "Viewer" 
+    role: "Artist" 
   });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
@@ -112,12 +112,8 @@ export default function Signup() {
     if (result.success) {
       toast.success("Account created successfully! Welcome to KalaSangam!");
       
-      // Redirect artists to their profile page, others to home
-      if (form.role === "Artist") {
-        navigate("/user-profile");
-      } else {
-        navigate("/home");
-      }
+      // Redirect to user profile page
+      navigate("/user-profile");
     } else {
       setError(result.error);
       toast.error(result.error);
@@ -136,10 +132,10 @@ export default function Signup() {
                   p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora"
       >
         <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">
-          {isArtistSignup ? 'Join as Artist' : 'Create Account'}
+          Join as Artist
         </h2>
         <p className="text-center mb-6 text-sm text-teal-200">
-          {isArtistSignup ? 'Start your artistic journey with us!' : 'Join KalaSangam today!'}
+          Start your artistic journey with us!
         </p>
 
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
@@ -284,32 +280,15 @@ export default function Signup() {
             )}
           </div>
         </div>
-        {isArtistSignup ? (
-          <div className="mb-4 p-4 bg-teal-100 rounded-xl border-2 border-teal-300">
-            <p className="text-center text-teal-800 font-semibold">
-              🎨 You're signing up as an Artist!
-            </p>
-            <p className="text-center text-sm text-teal-600 mt-1">
-              You'll have access to create and showcase your artwork.
-            </p>
-            <input type="hidden" name="role" value="Artist" />
-          </div>
-        ) : (
-          <div className="mb-4">
-            <label htmlFor="role" className="block text-sm font-medium mb-2 text-[#284139]">Select Role:</label>
-            <select
-              name="role"
-              value={form.role}
-              onChange={(e) => setForm({ ...form, role: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200"
-              required
-            >
-              <option value="Viewer">Viewer</option>
-              <option value="Artist">Artist</option>
-              <option value="Admin">Admin</option>
-            </select>
-          </div>
-        )}
+        <div className="mb-4 p-4 bg-teal-100 rounded-xl border-2 border-teal-300">
+          <p className="text-center text-teal-800 font-semibold">
+            🎨 You're signing up as an Artist!
+          </p>
+          <p className="text-center text-sm text-teal-600 mt-1">
+            You'll have access to create and showcase your artwork.
+          </p>
+          <input type="hidden" name="role" value="Artist" />
+        </div>
 
 
         <button

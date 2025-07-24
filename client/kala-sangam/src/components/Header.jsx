@@ -195,7 +195,26 @@ export default function Header({ scrolled, onMapClick }) {
         {/* User Profile or Login/Signup buttons - Far Right */}
         <div className="flex-shrink-0 flex items-center space-x-4">
           {isAuthenticated ? (
-            <div className="relative" ref={userDropdownRef}>
+            <>
+              {/* Admin Profile Button - Only for admins */}
+              {user?.role === 'Admin' && (
+                <Link
+                  to="/admin"
+                  className={`px-4 py-2 rounded-xl font-[550] font-winky text-[1rem] transition-all duration-300 ${
+                    scrolled
+                      ? "bg-gradient-to-r from-rosered to-saffronglow text-white hover:from-saffronglow hover:to-rosered"
+                      : "bg-gradient-to-r from-rosered to-saffronglow text-white hover:from-saffronglow hover:to-rosered"
+                  }`}
+                >
+                  <div className="flex items-center space-x-2">
+                    <span>⚡</span>
+                    <span>Admin Panel</span>
+                  </div>
+                </Link>
+              )}
+              
+              {/* Regular User Profile Dropdown */}
+              <div className="relative" ref={userDropdownRef}>
               <button
                 onClick={() => setShowUserDropdown(!showUserDropdown)}
                  className={`group flex items-center space-x-2 px-4 py-2 rounded-xl font-[550] font-winky text-[1rem] transition-all duration-300 ${
@@ -314,6 +333,7 @@ export default function Header({ scrolled, onMapClick }) {
                 </ul>
               )}
             </div>
+            </>
           ) : (
             <>
               <Link

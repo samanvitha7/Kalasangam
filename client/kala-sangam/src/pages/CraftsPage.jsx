@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { Play, Pause, Volume2, VolumeX, ChevronLeft, ChevronRight } from "lucide-react";
 import { FaFilter, FaSearch, FaBookmark, FaHeart, FaUsers } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import FullBleedDivider from '../components/FullBleedDivider';
 
 const crafts = [
   {
@@ -107,7 +108,7 @@ const CraftCard = ({ craft, onPlay, isPlaying }) => {
         >
           <motion.button
             onClick={() => onPlay(craft)}
-            className="bg-[#e05264] text-white p-4 rounded-full shadow-lg transform transition-all duration-200 hover:scale-110"
+            className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] text-white p-4 rounded-full shadow-lg transform transition-all duration-200 hover:scale-110"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -162,7 +163,7 @@ const CraftCard = ({ craft, onPlay, isPlaying }) => {
         {/* Watch Tutorial Button */}
         <button 
           onClick={() => onPlay(craft)}
-          className="w-full bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-md hover:shadow-lg mt-auto"
+          className="w-full bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-md hover:shadow-lg mt-auto"
         >
           Watch Tutorial
         </button>
@@ -333,9 +334,13 @@ export default function CraftsPage() {
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
-      {/* Floating Particles Background */}
-      <FloatingParticles />
+    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] overflow-hidden">
+      {/* Full Bleed Divider */}
+      <FullBleedDivider />
+      
+      <div className="pt-24 pb-8">
+        {/* Floating Particles Background */}
+        <FloatingParticles />
 
       {/* Hero Section */}
       <motion.section
@@ -374,7 +379,7 @@ export default function CraftsPage() {
             Traditional Crafts
           </motion.h1>
           <motion.p
-            className="text-xl font-lora bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent font-semibold max-w-3xl mx-auto leading-relaxed mb-6"
+            className="text-xl font-lora text-coral-pink font-semibold max-w-3xl mx-auto leading-relaxed mb-6"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -429,12 +434,13 @@ export default function CraftsPage() {
         </motion.section>
       </div>
 
-      {/* Video Modal */}
-      <VideoModal
-        craft={selectedCraft}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
+        {/* Video Modal */}
+        <VideoModal
+          craft={selectedCraft}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      </div>
     </div>
   );
 }

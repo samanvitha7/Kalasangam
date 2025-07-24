@@ -1,12 +1,15 @@
 // src/components/UserArtworks.jsx
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import api from "../utils/axios";
+import { motion } from "framer-motion";
+import { api } from "../services/api";
+import ContributeModal from "./ContributeModal";
 
 export default function UserArtworks({ userId }) {
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // all, published, draft
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     loadArtworks();
@@ -14,9 +17,14 @@ export default function UserArtworks({ userId }) {
 
   const loadArtworks = async () => {
     try {
-      // Use current user's artworks endpoint
-      const res = await api.get('/api/artworks/user/me');
-      setArtworks(res.data.artworks || []);
+      // For now, we'll use a simulated user artwork collection since there's no specific user artwork endpoint
+      // In a real implementation, you'd filter artworks by the current user's ID
+      const response = await api.getArtworks({ userId: userId, limit: 50 });
+      if (response.success) {
+        setArtworks(response.data || []);
+      } else {
+        setArtworks([]);
+      }
     } catch (error) {
       console.error('Failed to load artworks:', error);
       toast.error('Failed to load artworks');
@@ -24,6 +32,20 @@ export default function UserArtworks({ userId }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleArtworkSubmit = (newArtwork) => {
+    // Add the new artwork to the local state
+    const artwork = {
+      ...newArtwork,
+      id: Date.now().toString(), // Temporary ID
+      likes: 0,
+      status: 'published',
+      createdAt: new Date().toISOString()
+    };
+    setArtworks([artwork, ...artworks]);
+    setShowModal(false);
+    toast.success('Your artwork has been added successfully!');
   };
 
   const handleDelete=async (artworkId)=>{
@@ -61,7 +83,10 @@ export default function UserArtworks({ userId }) {
           <p className="text-gray-600 mt-1">{artworks.length} total artworks</p>
         </div>
         
-        <button className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
+        <button 
+          onClick={() => setShowModal(true)}
+          className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+        >
           + Add New Artwork
         </button>
       </div>
@@ -93,7 +118,10 @@ export default function UserArtworks({ userId }) {
           <div className="text-6xl mb-4">🎨</div>
           <h3 className="text-xl font-semibold text-gray-700 mb-2">No artworks yet</h3>
           <p className="text-gray-500 mb-6">Start sharing your artistic creations with the community!</p>
-          <button className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
+          <button 
+            onClick={() => setShowModal(true)}
+            className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+          >
             Create Your First Artwork
           </button>
         </div>
@@ -184,6 +212,13 @@ export default function UserArtworks({ userId }) {
           <div className="text-blue-800 font-medium">Avg. Likes</div>
         </div>
       </div>
+
+      {/* Contribute Modal */}
+      <ContributeModal 
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={handleArtworkSubmit}
+      />
     </div>
   );
 }

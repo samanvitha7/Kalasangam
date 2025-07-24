@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import WhyWeBuiltThis from "../components/WhyBuilt.jsx";
 import MeetTheTeam from "../components/MeetTheTeam.jsx";
 import ContactUsSection from "../components/ContactUs.jsx";
+import FullBleedDivider from "../components/FullBleedDivider.jsx";
 
 // Enhanced floating particles system
 const FloatingParticles = () => {
@@ -83,7 +84,10 @@ export default function About() {
   }, [location.pathname]);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-blush-peach text-coral-pink font-lora page-layout overflow-hidden">
+    <div ref={containerRef} className="min-h-screen bg-blush-peach text-coral-pink font-lora pb-20 overflow-hidden">
+      {/* Full Bleed Divider */}
+      <FullBleedDivider />
+      
       {/* Global Floating Particles */}
       <FloatingParticles />
       
@@ -106,15 +110,16 @@ export default function About() {
         {/* Content */}
         <div className="relative container mx-auto px-4 text-center">
           <motion.h1 
-            className="text-6xl md:text-7xl leading-[1.25] font-extrabold font-dm-serif mb-8 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
+            className="inline-block text-6xl pt-10 font-dm-serif font-bold mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             About KalaSangam
           </motion.h1>
+
           <motion.p 
-            className="max-w-3xl mx-auto text-xl md:text-2xl leading-relaxed text-[#E05264] font-semibold font-lora mb-12"
+            className="text-xl max-w-3xl mx-auto leading-relaxed text-coral-pink font-semibold font-lora mb-4"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -122,6 +127,7 @@ export default function About() {
             Where ancient artistry meets modern innovation. A digital sanctuary preserving India's rich cultural heritage through technology.
           </motion.p>
         </div>
+
       </motion.section>
 
       {/* Why We Built This - Enhanced */}

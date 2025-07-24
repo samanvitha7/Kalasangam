@@ -2,17 +2,21 @@ import IndiaMap from "../components/IndiaMap";
 import Lottie from "lottie-react";
 import oceanAnim from "../assets/ocean.json";
 import sunAnim from "../assets/sun.json";
+import FullBleedDivider from "../components/FullBleedDivider";
 
 export default function IndiaMapPage({ onStateClick }) {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#fff4d1] via-[#ffd97d] to-[#ffbc4b] text-center">
+    <main className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#F8E6DA] via-[#FCD5B5] to-[#FFF7C2] text-center">
+      <FullBleedDivider />
+
+
       {/* 🌊 Ocean Lottie at Bottom */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div
           className="w-full h-full origin-center"
-          style={{ transform: "translateY(150px)" }}
+          style={{ transform: "translateY(300px)" }}
         >
-          <Lottie animationData={oceanAnim} loop autoplay className="w-full h-300px object-cover" />
+          <Lottie animationData={oceanAnim} loop autoplay className="w-full h-100px object-cover" />
         </div>
       </div>
 
@@ -20,25 +24,21 @@ export default function IndiaMapPage({ onStateClick }) {
       <div className="absolute inset-0 z-5 bg-black/5 pointer-events-none" />
 
       {/* ────── Top Heading ────── */}
-     <div className="relative z-10 container mx-auto px-4 pt-24">
-  <h2 className="text-4xl sm:text-5xl font-serif font-bold tracking-wide text-[#134856]">
-    Explore States
-  </h2>
+     <div className="relative z-10 container mx-auto px-4 pt-10 pb-10">
+      <h2 className="text-6xl sm:text-5xl font-dm-serif font-bold tracking-wide text-[#134856]">
+        Explore States
+      </h2>
 
 
- <p
-  className="mt-2 text-lg italic font-semibold"
-  style={{
-    color: "#E86F1C",
-    fontFamily: "'Georgia', 'Times New Roman', serif"
-  }}
->
-  Oh, clicking this will lead you to a new world of art!
-</p>
+    <p
+      className="mt-2 text-lg italic font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed"
+    >
+      Oh, clicking this will lead you to a new world of art!
+    </p>
 
 
 
-</div>
+    </div>
 
 
       {/* ────── Sun and Map on Same Row ────── */}

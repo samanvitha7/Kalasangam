@@ -7,7 +7,7 @@ import LivingArtistMosaic from "../components/LivingArtistMosaic.jsx";
 export default function Home({ showMap, mapRef, onStateClick }) {
 
   return (
-<main className="relative w-full overflow-x-hidden  text-center font-lora bg-gradient-to-b from-[#fff5f2] via-blushpeach to-[#fce6da]
+<main className="relative w-full overflow-x-hidden text-center font-lora bg-[#F8E6DA]
 ">
       {/* Fullscreen Parallax Section */}
       <div className="w-full overflow-hidden">

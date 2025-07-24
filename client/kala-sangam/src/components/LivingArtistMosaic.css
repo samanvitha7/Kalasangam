@@ -1,9 +1,11 @@
 /* Living Artist Mosaic Component - Events Page Style */
 .grid-container {
   min-height: 100vh;
-  background: linear-gradient(to br, #fef3c7, #fce7f3);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
   padding-top: 6rem;
   padding-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
@@ -21,16 +23,21 @@
 .title {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #9b2226;
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-family: 'Yatra One', serif;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .subtitle {
   font-size: 1.125rem;
-  color: #6b7280;
+  color: #e2e8f0;
   max-width: 32rem;
   margin: 0 auto;
+  text-align: center;
 }
 
 /* Grid Layout - Fixed for better stability */
@@ -72,7 +79,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.hover\\:shadow-lg:hover {
+.hover-shadow-lg:hover {
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
 }
 
@@ -106,13 +113,7 @@
   font-weight: 700;
 }
 
-.text-\\[\\#9b2226\\] {
-  color: #9b2226;
-}
 
-.font-\\[Yatra\\ One\\] {
-  font-family: 'Yatra One', serif;
-}
 
 .text-gray-600 {
   color: #4b5563;
@@ -207,12 +208,12 @@
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
 
-.from-\\[\\#582f0e\\] {
+.from-orange-900 {
   --tw-gradient-from: #582f0e;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(88, 47, 14, 0));
 }
 
-.to-\\[\\#8b4513\\] {
+.to-orange-700 {
   --tw-gradient-to: #8b4513;
 }
 
@@ -220,7 +221,7 @@
   color: #ffffff;
 }
 
-.hover\\:scale-105:hover {
+.hover-scale-105:hover {
   transform: scale(1.05);
 }
 

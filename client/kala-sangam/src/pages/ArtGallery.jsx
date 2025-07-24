@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import axios from "axios";
 import ArtFormCard from "../components/ArtFormCard";
 import LazyImage from "../components/LazyImage";
+import FullBleedDivider from "../components/FullBleedDivider";
 import { FaSearch, FaFilter, FaTimes, FaMapMarkerAlt, FaPalette, FaGlobe, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 export default function ArtGallery() {
@@ -205,11 +206,15 @@ const navigate = useNavigate();
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
+    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] pb-8 overflow-hidden">
+      <FullBleedDivider />
       {/* Floating Particles Background */}
       <FloatingParticles />
       
       <div className="container mx-auto px-4 relative z-10">
+        {/* Full Bleed Divider */}
+        
+        
         {/* Hero Section */}
         <motion.section 
           className="text-center mb-12"
@@ -228,7 +233,7 @@ const navigate = useNavigate();
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           
-          <h1 className="inline-block text-6xl font-dm-serif font-bold mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+          <h1 className="inline-block text-6xl pt-10 font-dm-serif font-bold mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Art Gallery
           </h1>
           <p className="text-lg font-lora font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">

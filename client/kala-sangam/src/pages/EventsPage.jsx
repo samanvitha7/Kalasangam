@@ -8,6 +8,7 @@ import { FaPlus, FaFilter, FaSearch, FaTimes, FaEdit, FaTrash, FaCalendarAlt, Fa
 import EventModal from '../components/EventModal';
 import api from '../utils/axios';
 import { Link } from 'react-router-dom';
+import FullBleedDivider from "../components/FullBleedDivider";
 
 // Hardcoded event data with links - Updated dates for 2025
 const HARDCODED_EVENTS = [
@@ -263,6 +264,7 @@ function EventsPage() {
     const normalizedEvent = event;
 
     return (
+
       <motion.div
         key={normalizedEvent._id}
         className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-all duration-300 border border-orange-100 hover:shadow-[0_0_20px_rgba(19,72,86,0.3)] group"
@@ -511,11 +513,15 @@ function EventsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
+    <div className="min-h-screen bg-[#F8E6DA] pb-8 overflow-hidden">
+
+      <FullBleedDivider />
       {/* Floating Particles Background */}
       <FloatingParticles />
       
       <div className="container mx-auto px-4 relative z-10">
+        {/* Vertical Divider Line */}
+        
         {/* Hero Section */}
         <motion.section 
           className="text-center mb-12"
@@ -523,10 +529,10 @@ function EventsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="inline-block text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+          <h1 className="inline-block text-6xl pt-10 font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Events & Workshops
           </h1>
-          <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
+          <p className="text-lg font-lora font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
             Immerse yourself in India's vibrant cultural landscape. Join workshops, attend performances, and be part of our living heritage.
           </p>
           

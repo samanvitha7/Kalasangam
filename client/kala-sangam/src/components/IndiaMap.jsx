@@ -68,11 +68,12 @@ const showTooltip = (e, name) => {
 
   // ✨ Glowing aesthetic effect
   element.style.filter = `
-     drop-shadow(0 0 3px #E6A743)
-  drop-shadow(0 0 6px #D88F2A)
-  drop-shadow(0 0 8px #C9791E)
+  drop-shadow(0 0 3px #E05264)
+  drop-shadow(0 0 6px #F48C8C)
+  drop-shadow(0 0 8px #F48C8C)
   `;
   element.style.transform = "scale(1.02)";
+
 };
 
 const handleStateMouseOut = (e) => {

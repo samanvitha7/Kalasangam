@@ -9,6 +9,8 @@ import UserProfile from "../components/UserProfile";
 import UserSettings from "../components/UserSettings";
 import UserArtworks from "../components/UserArtworks";
 import UserEvents from "../components/UserEvents";
+import UserLikedArtworks from "../components/UserLikedArtworks";
+import FullBleedDivider from "../components/FullBleedDivider";
 
 export default function UserPage() {
   const { user, logout } = useAuth();
@@ -111,7 +113,8 @@ export default function UserPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
+    <div className="min-h-screen bg-[#F8E6DA] pb-8 overflow-hidden">
+      <FullBleedDivider />
       {/* Floating Particles Background */}
       <FloatingParticles />
       
@@ -223,12 +226,8 @@ export default function UserPage() {
             )}
             {activeTab === 'likes' && (
               <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-2">
-                <div className="bg-[#F8E6DA] rounded-2xl p-8 text-center py-12">
-                  <div className="text-6xl mb-4">❤️</div>
-                  <h3 className="text-2xl font-semibold font-dm-serif mb-2 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
-                    Liked Posts
-                  </h3>
-                  <p className="text-[#E05264] font-lora">Your liked artworks and posts will appear here soon...</p>
+                <div className="bg-[#F8E6DA] rounded-2xl p-8">
+                  <UserLikedArtworks userId={user?.id} />
                 </div>
               </div>
             )}

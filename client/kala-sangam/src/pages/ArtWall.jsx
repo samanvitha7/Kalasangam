@@ -6,6 +6,8 @@ import ArtCard from '../components/ArtCard';
 import ContributeModal from '../components/ContributeModal';
 import { FaPlus, FaFilter, FaSearch, FaTimes, FaDownload, FaHeart, FaBookmark, FaUsers } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { api } from '../services/api';
+import FullBleedDivider from '../components/FullBleedDivider';
 
 const ArtWall = () => {
   const { user, isAuthenticated } = useAuth();
@@ -19,88 +21,47 @@ const ArtWall = () => {
   const [fullscreenImage, setFullscreenImage] = useState(null);
   const [showFullscreen, setShowFullscreen] = useState(false);
 
-  // Sample data - replace with actual API calls
-  const sampleArtworks = [
-    {
-      id: 1,
-      title: "Sunset Over Mountains",
-      description: "A beautiful landscape painting capturing the golden hour over the Himalayas.",
-      artist: "Priya Sharma",
-      imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
-      category: "Landscape",
-      likes: 24,
-      bookmarks: 5,
-      createdAt: "2024-01-15T10:30:00Z",
-      userId: "user123"
-    },
-    {
-      id: 2,
-      title: "Abstract Emotions",
-      description: "An abstract piece exploring human emotions through vibrant colors and dynamic forms.",
-      artist: "Raj Kumar",
-      imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
-      category: "Abstract",
-      likes: 31,
-      bookmarks: 8,
-      createdAt: "2024-01-14T14:20:00Z",
-      userId: "user456"
-    },
-    {
-      id: 3,
-      title: "Traditional Madhubani",
-      description: "A traditional Madhubani painting depicting nature and mythology in classic style.",
-      artist: "Anjali Devi",
-      imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
-      category: "Traditional",
-      likes: 67,
-      bookmarks: 12,
-      createdAt: "2024-01-13T09:15:00Z",
-      userId: "user789"
-    },
-    {
-      id: 4,
-      title: "Urban Life",
-      description: "A contemporary take on city life, showing the hustle and bustle of modern India.",
-      artist: "Neha Gupta",
-      imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
-      category: "Contemporary",
-      likes: 18,
-      bookmarks: 3,
-      createdAt: "2024-01-12T16:45:00Z",
-      userId: "user321"
-    },
-    {
-      id: 5,
-      title: "Floral Mandala",
-      description: "Intricate floral patterns arranged in a mandala design, symbolizing unity and peace.",
-      artist: "Vikram Singh",
-      imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
-      category: "Traditional",
-      likes: 45,
-      bookmarks: 9,
-      createdAt: "2024-01-11T11:30:00Z",
-      userId: "user654"
-    },
-    {
-      id: 6,
-      title: "Digital Dreams",
-      description: "A digital artwork exploring the intersection of technology and imagination.",
-      artist: "Arjun Patel",
-      imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
-      category: "Digital",
-      likes: 28,
-      bookmarks: 6,
-      createdAt: "2024-01-10T13:20:00Z",
-      userId: "user987"
+  // Fetch artworks from API
+  const fetchArtworks = async () => {
+    try {
+      setLoading(true);
+      const response = await api.getArtworks({
+        limit: 50,
+        sortBy: 'createdAt',
+        sortOrder: 'desc'
+      });
+      
+      if (response.success) {
+        // Transform the API data to match frontend expectations
+        const transformedArtworks = response.data.map(artwork => ({
+          id: artwork._id || artwork.id,
+          title: artwork.title || artwork.name,
+          description: artwork.description,
+          artist: artwork.artist || 'Cultural Heritage',
+          imageUrl: artwork.imageUrl || artwork.image,
+          category: artwork.category || 'Traditional Art',
+          likes: artwork.likes || 0,
+          bookmarks: artwork.bookmarks || 0,
+          createdAt: artwork.createdAt || new Date().toISOString(),
+          userId: artwork.userId || artwork.artistId,
+          origin: artwork.origin
+        }));
+        setArtworks(transformedArtworks);
+      } else {
+        console.error('Failed to fetch artworks:', response.message);
+        setArtworks([]);
+      }
+    } catch (error) {
+      console.error('Error fetching artworks:', error);
+      toast.error('Failed to load artworks. Please try again later.');
+      setArtworks([]);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setArtworks(sampleArtworks);
-      setLoading(false);
-    }, 1000);
+    fetchArtworks();
     
     // Load user bookmarks if authenticated
     if (isAuthenticated && user) {
@@ -110,20 +71,13 @@ const ArtWall = () => {
 
   const fetchUserBookmarks = async () => {
     try {
-      const response = await fetch('/api/users/bookmarks', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      if (response.ok) {
-        const bookmarks = await response.json();
-        const bookmarkIds = new Set(bookmarks.map(bookmark => bookmark._id || bookmark.id));
+      const response = await api.getCurrentUser();
+      if (response && response.user) {
+        const bookmarkIds = new Set((response.user.bookmarks || []).map(id => id.toString()));
         setUserBookmarks(bookmarkIds);
       }
     } catch (error) {
-      console.error('Error fetching bookmarks:', error);
+      console.error('Error fetching user bookmarks:', error);
     }
   };
 
@@ -193,42 +147,27 @@ const ArtWall = () => {
     }
 
     try {
-      const response = await fetch(`/api/users/bookmark/${artworkId}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        
+      const response = await api.toggleBookmark(artworkId);
+      
+      if (response.success) {
         // Update local bookmarks state
         setUserBookmarks(prev => {
           const newBookmarks = new Set(prev);
-          if (data.bookmarked) {
-            newBookmarks.add(artworkId);
+          const artworkIdStr = artworkId.toString();
+          
+          if (response.isBookmarked) {
+            newBookmarks.add(artworkIdStr);
             toast.success('Artwork bookmarked!', { position: 'top-center', autoClose: 2000 });
           } else {
-            newBookmarks.delete(artworkId);
+            newBookmarks.delete(artworkIdStr);
             toast.success('Bookmark removed!', { position: 'top-center', autoClose: 2000 });
           }
           return newBookmarks;
         });
-
-        // Update artwork bookmark count
-        setArtworks(prev => prev.map(art => 
-          art.id === artworkId 
-            ? { ...art, bookmarks: data.bookmarkCount }
-            : art
-        ));
-      } else {
-        throw new Error('Failed to toggle bookmark');
       }
     } catch (error) {
       console.error('Error toggling bookmark:', error);
-      toast.error('Failed to update bookmark. Please try again.', {
+      toast.error('Failed to load bookmarks and likes. Please try again.', {
         position: 'top-center',
         autoClose: 3000,
       });
@@ -347,11 +286,13 @@ const ArtWall = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
+    <div className="min-h-screen bg-[#F8E6DA] pb-8 overflow-hidden">
+
+      <FullBleedDivider />
       {/* Floating Particles Background */}
       <FloatingParticles />
       
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 pt-10 relative z-10">
         {/* Hero Section */}
         <motion.section 
           className="text-center mb-12"
@@ -370,10 +311,10 @@ const ArtWall = () => {
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           
-          <h1 className="inline-block text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+          <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Art Wall
           </h1>
-          <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
+          <p className="text-lg font-lora font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
             A collaborative space where artists share their creativity and passion. 
             Discover, appreciate, and contribute to our growing collection of artistic expressions.
           </p>
@@ -480,7 +421,7 @@ const ArtWall = () => {
                 artwork={artwork} 
                 index={index}
                 currentUser={user}
-                isBookmarked={userBookmarks.has(artwork.id)}
+                isBookmarked={userBookmarks.has(artwork.id.toString())}
                 onLike={(id) => {
                   setArtworks(prev => prev.map(art => 
                     art.id === id ? { ...art, likes: art.likes + 1 } : art
