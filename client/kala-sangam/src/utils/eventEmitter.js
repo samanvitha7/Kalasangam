@@ -60,4 +60,14 @@ export const ARTWORK_EVENTS = {
   USER_STATS_UPDATED: 'user:stats:updated'
 };
 
+// Event types for event synchronization
+export const EVENT_EVENTS = {
+  CREATED: 'event:created',
+  UPDATED: 'event:updated',
+  DELETED: 'event:deleted',
+  REGISTERED: 'event:registered',
+  UNREGISTERED: 'event:unregistered',
+  STATUS_CHANGED: 'event:status:changed'
+};
+
 export default globalEvents;

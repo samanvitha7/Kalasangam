@@ -156,7 +156,7 @@ export default function UserPage() {
             {/* Logout button */}
             <button
               onClick={handleLogout}
-              className="flex items-center space-x-2 px-5 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-lora"
+              className="flex items-center space-x-2 px-5 py-3 bg-gradient-to-r from-[#134856] to-[#E05264] text-white hover:from-red-600 hover:to-red-700 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-lora"
             >
               <FaSignOutAlt className="w-4 h-4" />
               <span className="hidden sm:inline">Logout</span>
@@ -168,7 +168,7 @@ export default function UserPage() {
       <div className="flex">
         {/* Sidebar */}
         <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-64 bg-blush-peach/95 backdrop-blur-sm border-r border-[#E05264]/20 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-0 shadow-lg`}>
-          <div className="h-full px-4 py-8 overflow-y-auto">
+          <div className="h-full px-4 py-8 overflow-y-autobg-blush-peach/95">
             {/* Navigation Header */}
             <div className="mb-8">
               <h3 className="text-lg font-dm-serif text-transparent bg-clip-text bg-gradient-to-r from-[#134856] to-[#E05264]">Dashboard</h3>
