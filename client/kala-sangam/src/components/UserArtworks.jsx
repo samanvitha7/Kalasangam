@@ -58,7 +58,9 @@ export default function UserArtworks({ userId }) {
   
   const filteredArtworks = artworks.filter(artwork => {
     if (filter === 'all') return true;
-    return artwork.status === filter;
+    if (filter === 'published') return artwork.isPublic && artwork.isActive;
+    if (filter === 'draft') return !artwork.isPublic || !artwork.isActive;
+    return true;
   });
 
   if (loading) {
@@ -90,8 +92,8 @@ export default function UserArtworks({ userId }) {
       <div className="flex space-x-4 mb-8">
         {[
           { id: 'all', label: 'All', count: artworks.length },
-          { id: 'published', label: 'Published', count: artworks.filter(a => a.status === 'published').length },
-          { id: 'draft', label: 'Drafts', count: artworks.filter(a => a.status === 'draft').length }
+          { id: 'published', label: 'Published', count: artworks.filter(a => a.isPublic && a.isActive).length },
+          { id: 'draft', label: 'Drafts', count: artworks.filter(a => !a.isPublic || !a.isActive).length }
         ].map((tab) => (
           <button
             key={tab.id}
@@ -132,11 +134,11 @@ export default function UserArtworks({ userId }) {
                 />
                 <div className="absolute top-4 right-4">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    artwork.status === 'published' 
+                    (artwork.isPublic && artwork.isActive) 
                       ? 'bg-green-100 text-green-800' 
                       : 'bg-yellow-100 text-yellow-800'
                   }`}>
-                    {artwork.status === 'published' ? '✓ Published' : '📝 Draft'}
+                    {(artwork.isPublic && artwork.isActive) ? '✓ Published' : '📝 Draft'}
                   </span>
                 </div>
               </div>
@@ -188,7 +190,7 @@ export default function UserArtworks({ userId }) {
         
         <div className="bg-gradient-to-br from-green-100 to-green-200 rounded-xl p-6 text-center">
           <div className="text-2xl font-bold text-green-600">
-            {artworks.filter(a => a.status === 'published').length}
+            {artworks.filter(a => a.isPublic && a.isActive).length}
           </div>
           <div className="text-green-800 font-medium">Published</div>
         </div>

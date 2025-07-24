@@ -31,16 +31,16 @@ export default function Header({ scrolled, onMapClick }) {
         navigate("/explore/state");
         break;
       case "art":
-        navigate("/explore/art");
+        navigate("/explore/art?category=art");
         break;
       case "dance":
-        navigate("/explore/dance");
+        navigate("/explore/dance?category=dance");
         break;
       case "music":
-        navigate("/explore/music");
+        navigate("/explore/music?category=music");
         break;
       case "crafts":
-        navigate("/explore/crafts");
+        navigate("/explore/crafts?category=craft");
         break;
     }
   };

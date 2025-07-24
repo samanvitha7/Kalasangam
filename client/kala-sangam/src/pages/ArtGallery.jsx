@@ -17,9 +17,10 @@ const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
   const stateFromQuery = searchParams.get("state");
+  const categoryFromQuery = searchParams.get("category");
   const [selectedState, setSelectedState] = useState(stateFromQuery || "");
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterCategory, setFilterCategory] = useState('all');
+  const [filterCategory, setFilterCategory] = useState(categoryFromQuery || 'all');
   const [sortBy, setSortBy] = useState('name');
   const [zoomImg, setZoomImg] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -44,6 +45,11 @@ const navigate = useNavigate();
     const stateFromURL = searchParams.get("state");
     if (stateFromURL) {
       setSelectedState(stateFromURL);
+    }
+    
+    const categoryFromURL = searchParams.get("category");
+    if (categoryFromURL) {
+      setFilterCategory(categoryFromURL);
     }
   }, [searchParams]);
 

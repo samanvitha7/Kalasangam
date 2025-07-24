@@ -275,6 +275,7 @@ function AppContent() {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password/:token" element={<ResetPassword />} />
               <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />
+              <Route path="/explore/art" element={<Art />} />
               <Route path="/explore/dance" element={<Dance />} />
               <Route path="/explore/music" element={<Music />} />
               <Route path="/explore/crafts" element={<CraftsPage />} />
