@@ -209,7 +209,7 @@ export const adminApi = {
 
   // Delete artwork (admin only)
   deleteArtwork: async (artworkId) => {
-    const response = await fetch(`${API_URL}/api/artforms/${artworkId}`, {
+    const response = await fetch(`${API_URL}/api/artworks/${artworkId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -497,6 +497,25 @@ export const api = {
     if (!response.ok) {
       const errorData = await response.text();
       throw new Error(`Failed to toggle bookmark: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Create new artwork
+  createArtwork: async (artworkData) => {
+    const response = await fetch(`${API_URL}/api/artworks`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(artworkData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to create artwork: ${response.status} - ${errorData}`);
     }
 
     return response.json();

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Artwork = require("../models/Artwork");
-const auth = require("../middleware/auth");
+const { auth } = require("../middleware/auth");
 const User = require("../models/User");
 
 // Get all public artworks with optional filters and pagination
