@@ -51,7 +51,7 @@ const ParallaxSection = () => {
           src="/assets/lotus-hidden.png"
           alt="Lotus"
           className="absolute left-1/2 transform -translate-x-1/2 w-[90vw] max-w-[1150px] z-20 pointer-events-none"
-          style={{ bottom: '160px' }}
+style={{ bottom: '10vh' }}
         />
        
       </section>
