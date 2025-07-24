@@ -52,8 +52,15 @@ function Section({ title, description, bg, isVideo, exploreRoute, exploreText })
   const ref = useRef(null);
   const controls = useAnimation();
   const navigate = useNavigate();
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -67,7 +74,7 @@ function Section({ title, description, bg, isVideo, exploreRoute, exploreText })
 
     if (ref.current) observer.observe(ref.current);
     return () => ref.current && observer.unobserve(ref.current);
-  }, [controls]);
+  }, [controls, isMounted]);
 
   return (
     <section

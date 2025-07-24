@@ -384,19 +384,30 @@ input[type="range"]::-moz-range-thumb:hover {
 /* Responsive adjustments for modern high-resolution displays */
 .lotus-responsive {
   /* Default behavior uses viewport units for consistent scaling */
+  bottom: 12vh !important;
 }
 
 /* Adjustments for 1680x1050 displays */
-@media (min-width: 1680px) and (max-width: 1920px) {
+@media (min-width: 1680px) and (max-width: 1920px) and (max-height: 1050px) {
   .lotus-responsive {
-    /* Optimized for 1680x1050 resolution */
+    /* Optimized for 1680x1050 resolution - keep default */
+    bottom: 12vh !important;
+  }
+}
+
+/* Adjustments for 1920x1080 displays */
+@media (min-width: 1920px) and (max-width: 2560px) and (min-height: 1080px) and (max-height: 1200px) {
+  .lotus-responsive {
+    /* Higher positioning for 1920x1080 and 1920x1200 */
+    bottom: 15vh !important;
   }
 }
 
 /* Adjustments for 1440p displays (2560x1440) */
-@media (min-width: 2560px) and (min-height: 1440px) {
+@media (min-width: 2560px) and (min-height: 1440px) and (max-height: 1500px) {
   .lotus-responsive {
     /* Use viewport units for consistent scaling */
+    bottom: 14vh !important;
   }
 }
 
@@ -404,6 +415,7 @@ input[type="range"]::-moz-range-thumb:hover {
 @media (min-width: 2560px) and (min-height: 1600px) {
   .lotus-responsive {
     /* Optimized for your specific resolution */
+    bottom: 13vh !important;
   }
 }
 

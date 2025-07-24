@@ -84,9 +84,18 @@ export const AuthProvider = ({ children }) => {
 
   // Load user
   const loadUser = async () => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
+    const token = localStorage.getItem('token');
+    
+    // If no token exists, don't make the API call
+    if (!token) {
+      dispatch({
+        type: 'AUTH_ERROR',
+        payload: 'No token found'
+      });
+      return;
     }
+
+    setAuthToken(token);
 
     try {
       const res = await api.get('/api/auth/me');
@@ -95,6 +104,12 @@ export const AuthProvider = ({ children }) => {
         payload: res.data.user
       });
     } catch (error) {
+      // Handle 401 errors silently as they're expected when not authenticated
+      if (error.response?.status === 401) {
+        localStorage.removeItem('token');
+        setAuthToken(null);
+      }
+      
       dispatch({
         type: 'AUTH_ERROR',
         payload: error.response?.data?.message || 'Authentication failed'

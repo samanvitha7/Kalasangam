@@ -98,18 +98,17 @@ export function LoadingScreen({ onFinish }) {
         ))}
       </div>
 
-      {/* Center logo with enhanced animation */}
+      {/* Center logo with smooth continuous animation */}
       <motion.div
         className="relative flex items-center justify-center z-10"
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{
-          scale: [0.5, 1.2, 1.8, 2.2], // final size bigger
-          opacity: [0, 1, 1, 1],
-          y: [0, 0, -8, 8]
+          scale: 1.8, // smooth growth to final size
+          opacity: 1,
+          y: 0
         }}
         transition={{
-          duration: 6,
-          times: [0, 0.4, 0.7, 1],
+          duration: 3.5,
           ease: "easeOut"
         }}
       >
