@@ -78,7 +78,6 @@ body {
   box-sizing: border-box;
 }
 
-
 body {
   font-family: 'Lora', serif;
   background-color: var(--background-blush-peach);
@@ -525,5 +524,10 @@ input[type="range"]::-moz-range-thumb:hover {
     padding-left: calc(var(--page-padding-x) * 2);
     padding-right: calc(var(--page-padding-x) * 2);
   }
+}
+
+/* for divider gradient */
+.shadow-blend {
+  box-shadow: inset 0px -80px 80px -60px rgba(0, 0, 0, 0.4);
 }
 
