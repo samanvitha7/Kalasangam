@@ -82,12 +82,20 @@ const ArtWall = () => {
   };
 
   const filteredArtworks = artworks
-    .filter(artwork => 
-      (filterCategory === 'all' || artwork.category.toLowerCase() === filterCategory) &&
-      (artwork.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       artwork.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       artwork.description.toLowerCase().includes(searchTerm.toLowerCase()))
-    )
+    .filter(artwork => {
+      // Filter by user if authenticated (show only user's artworks)
+      const userFilter = !isAuthenticated || !user || artwork.userId === user.id;
+      
+      // Filter by category
+      const categoryFilter = filterCategory === 'all' || artwork.category.toLowerCase() === filterCategory;
+      
+      // Filter by search term
+      const searchFilter = artwork.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          artwork.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          artwork.description.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      return userFilter && categoryFilter && searchFilter;
+    })
     .sort((a, b) => {
       switch (sortBy) {
         case 'newest':

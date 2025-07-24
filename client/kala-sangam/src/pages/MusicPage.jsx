@@ -14,6 +14,7 @@ import tablaSound from "../assets/sounds/tabla.mp3";
 import fluteSound from "../assets/sounds/flute.mp3";
 import veenaSound from "../assets/sounds/veena.mp3";
 import mridangamSound from "../assets/sounds/mridangam.mp3";
+import FullBleedDivider from "../components/FullBleedDivider";
 
 export default function MusicPage() {
   const [pageReady, setPageReady] = useState(false);
@@ -118,11 +119,13 @@ export default function MusicPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8E6DA] pt-24 pb-8 overflow-hidden">
+    <div className="min-h-screen bg-[#F8E6DA] pb-8 overflow-hidden">
+
+      <FullBleedDivider />
       {/* Floating Particles Background */}
       <FloatingParticles />
       
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 pt-20 relative z-10">
         {/* Hero Section */}
         <motion.section 
           className="text-center mb-12"
@@ -141,7 +144,7 @@ export default function MusicPage() {
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           
-          <h1 className="inline-block text-6xl font-dm-serif mb-8 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+          <h1 className="inline-block text-6xl pt-10 font-dm-serif mb-8 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Explore Music
           </h1>
           <p className="text-xl font-lora font-semibold text-[#E05264] max-w-4xl mx-auto leading-relaxed mb-12">
