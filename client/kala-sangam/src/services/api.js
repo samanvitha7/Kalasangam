@@ -420,7 +420,7 @@ export const api = {
     return response.json();
   },
 
-  // Fetch artworks (art gallery)
+  // Fetch artworks (real user-created artworks)
   getArtworks: async (filters = {}) => {
     const queryParams = new URLSearchParams();
     if (filters.category) queryParams.append('category', filters.category);
@@ -431,7 +431,7 @@ export const api = {
     if (filters.sortOrder) queryParams.append('sortOrder', filters.sortOrder);
     if (filters.userId) queryParams.append('userId', filters.userId);
 
-    const url = `${API_URL}/api/artforms${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    const url = `${API_URL}/api/artworks${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
 
     const response = await fetch(url, {
       method: 'GET',
