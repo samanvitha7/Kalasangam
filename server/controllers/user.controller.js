@@ -60,39 +60,6 @@ const getPublicProfile = async (req, res) => {
   }
 };
 
-// Follow/Unfollow an artist
-const toggleFollow = async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const currentUserId = req.user.id;
-
-    if (userId === currentUserId) {
-      return res.status(400).json({ message: 'You cannot follow yourself' });
-    }
-
-    const targetUser = await User.findById(userId);
-    if (!targetUser) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    const currentUser = await User.findById(currentUserId);
-    const isFollowing = currentUser.follows.includes(userId);
-
-    if (isFollowing) {
-      // Unfollow
-      currentUser.follows = currentUser.follows.filter(id => id.toString() !== userId);
-      await currentUser.save();
-      res.status(200).json({ message: 'Unfollowed successfully', isFollowing: false });
-    } else {
-      // Follow
-      currentUser.follows.push(userId);
-      await currentUser.save();
-      res.status(200).json({ message: 'Followed successfully', isFollowing: true });
-    }
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to toggle follow', error: error.message });
-  }
-};
 
 // Like/Unlike artwork
 const toggleLike = async (req, res) => {
@@ -699,7 +666,6 @@ const getArtistById = async (req, res) => {
 module.exports = {
   getUserProfile,
   getPublicProfile,
-  toggleFollow,
   toggleLike,
   updateProfile,
   changePassword,

@@ -448,23 +448,6 @@ export const api = {
     return response.json();
   },
 
-  // Toggle follow for a user
-  toggleFollow: async (userId) => {
-    const response = await fetch(`${API_URL}/api/users/follow/${userId}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.text();
-      throw new Error(`Failed to toggle follow: ${response.status} - ${errorData}`);
-    }
-
-    return response.json();
-  },
 
   // Toggle like for an artwork
   toggleLike: async (artworkId) => {
