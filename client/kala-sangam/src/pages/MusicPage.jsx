@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import InstrumentBubble from "../components/InstrumentBubble";
 import GuessInstrument from "../components/GuessInstruments";
 import { FaMusic } from 'react-icons/fa';
@@ -17,10 +17,21 @@ import mridangamSound from "../assets/sounds/mridangam.mp3";
 import FullBleedDivider from "../components/FullBleedDivider";
 
 export default function MusicPage() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: containerRef });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const [pageReady, setPageReady] = useState(false);
   const [showGuessGame, setShowGuessGame] = useState(false);
   const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
   const audioRef = useRef(null);
+
+  // Initialize page animations
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPageReady(true);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handlePlayAudio = (sound, name) => {
     if (currentlyPlaying === name) {
@@ -146,73 +157,118 @@ export default function MusicPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8E6DA] pb-8 overflow-hidden">
+    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] overflow-hidden">
+      {/* Full Bleed Divider */}
       <FullBleedDivider />
-      <FloatingParticles />
       
-      <div className="relative z-10 px-4 py-8">
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+      <div className="pt-10 pb-8">
+        {/* Floating Particles Background */}
+        <FloatingParticles />
+
+        {/* Hero Section */}
+        <motion.section
+          className="relative overflow-hidden pb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: pageReady ? 1 : 0 }}
+          transition={{ duration: 1, delay: 0.2 }}
         >
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <FaMusic className="text-4xl text-[#134856]" />
-            <h1 className="text-5xl font-dm-serif text-[#134856] tracking-wide">
-              Explore Traditional Music
-            </h1>
-            <FaMusic className="text-4xl text-[#134856]" />
-          </div>
-          <p className="text-xl text-[#1d7c6f] font-lora max-w-3xl mx-auto leading-relaxed">
-            Discover the enchanting sounds of Indian classical instruments. Click on each instrument to hear its unique melody and learn about its rich heritage.
-          </p>
-        </motion.div>
+          {/* Animated Background Elements */}
+          <motion.div
+            className="absolute w-96 h-96 bg-gradient-to-r from-[#E05264]/20 to-[#F48C8C]/20 rounded-full blur-3xl opacity-30 top-0 left-0"
+            animate={{
+              scale: [1, 1.2, 1],
+              rotate: [0, 90, 0],
+              opacity: [0.3, 0.5, 0.3]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute w-80 h-80 bg-gradient-to-r from-[#1D7C6F]/20 to-[#FFD700]/20 rounded-full blur-3xl opacity-25 bottom-0 right-0"
+            animate={{
+              scale: [1, 1.1, 1],
+              rotate: [0, -90, 0],
+              opacity: [0.25, 0.4, 0.25]
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          />
 
-        <div className="flex flex-wrap justify-center gap-12 max-w-7xl mx-auto mb-12">
-
-          {instruments.map((instrument, index) => (
-            <motion.div
-              key={instrument.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+          <div className="relative container mx-auto px-4 text-center z-10">
+            <motion.h1
+              className="inline-block text-6xl font-dm-serif mb-4 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <InstrumentBubble
-                name={instrument.name}
-                image={instrument.image}
-                sound={instrument.sound}
-                description={instrument.description}
-                isPlaying={currentlyPlaying === instrument.name}
-                onPlay={handlePlayAudio}
-              />
-            </motion.div>
-          ))}
+              Traditional Music
+            </motion.h1>
+            <motion.p
+              className="text-xl font-lora text-coral-pink font-semibold max-w-3xl mx-auto leading-relaxed mb-6"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              Immerse yourself in the soul-stirring melodies of India's classical traditions. Discover the ancient instruments that have echoed through generations, each carrying stories of devotion, celebration, and cultural heritage.
+            </motion.p>
+          </div>
+        </motion.section>
+
+        <div className="container mx-auto px-2 sm:px-4 relative z-10">
+          {/* Instruments Section */}
+          <motion.section
+            className="mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 1 }}
+          >
+            <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
+              {instruments.map((instrument, index) => (
+                <motion.div
+                  key={instrument.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
+                  transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+                >
+                  <InstrumentBubble
+                    name={instrument.name}
+                    image={instrument.image}
+                    sound={instrument.sound}
+                    description={instrument.description}
+                    isPlaying={currentlyPlaying === instrument.name}
+                    onPlay={handlePlayAudio}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+
+          {/* Test Knowledge Button */}
+          <motion.section
+            className="mb-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 1.5 }}
+          >
+            <motion.button
+              onClick={() => setShowGuessGame(true)}
+              className="bg-gradient-to-r from-[#134856] to-[#e05264] hover:from-[#e05264] hover:to-[#134856] text-white px-8 py-3 rounded-full text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              🎵 Test Your Knowledge! 🎵
+            </motion.button>
+          </motion.section>
         </div>
 
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-        >
-          <button
-            onClick={() => setShowGuessGame(true)}
-            className="bg-gradient-to-r from-[#1d7c6f] to-[#E05264] text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-          >
-            🎵 Test Your Knowledge! 🎵
-          </button>
-        </motion.div>
+        {/* Guess Game Modal */}
+        <AnimatePresence>
+          {showGuessGame && (
+            <GuessInstrument
+              instruments={instruments}
+              onClose={() => setShowGuessGame(false)}
+            />
+          )}
+        </AnimatePresence>
       </div>
-
-      <AnimatePresence>
-        {showGuessGame && (
-          <GuessInstrument
-            instruments={instruments}
-            onClose={() => setShowGuessGame(false)}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }

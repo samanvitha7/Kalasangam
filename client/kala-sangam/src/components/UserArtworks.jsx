@@ -4,11 +4,12 @@ import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { api } from "../services/api";
 import ContributeModal from "./ContributeModal";
+import { globalEvents, ARTWORK_EVENTS } from "../utils/eventEmitter";
 
 export default function UserArtworks({ userId }) {
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all'); // all, published, draft
+  const [filter, setFilter] = useState('all');
   const [showModal, setShowModal] = useState(false);
   const [editingArtwork, setEditingArtwork] = useState(null);
 
@@ -16,27 +17,50 @@ export default function UserArtworks({ userId }) {
     loadArtworks();
   }, [userId]);
 
+  useEffect(() => {
+    const unsubscribeCreated = globalEvents.on(ARTWORK_EVENTS.CREATED, (data) => {
+      if (data.userId === userId) loadArtworks();
+    });
+    const unsubscribeUpdated = globalEvents.on(ARTWORK_EVENTS.UPDATED, (data) => {
+      if (data.userId === userId) loadArtworks();
+    });
+    const unsubscribeDeleted = globalEvents.on(ARTWORK_EVENTS.DELETED, (data) => {
+      if (data.userId === userId) loadArtworks();
+    });
+
+    const handleStorageChange = (e) => {
+      if (e.key === 'artworkCreated') {
+        loadArtworks();
+        localStorage.removeItem('artworkCreated');
+      }
+    };
+
+    const handleCustomEvent = () => {
+      loadArtworks();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('artworkCreated', handleCustomEvent);
+
+    return () => {
+      unsubscribeCreated();
+      unsubscribeUpdated();
+      unsubscribeDeleted();
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('artworkCreated', handleCustomEvent);
+    };
+  }, [userId]);
+
   const loadArtworks = async () => {
     try {
-      // Get current user first to ensure we have the correct user ID
       const currentUser = await api.getCurrentUser();
-      if (!currentUser || !currentUser.user) {
-        throw new Error('Failed to get current user');
-      }
-      
+      if (!currentUser || !currentUser.user) throw new Error('Failed to get current user');
       const currentUserId = currentUser.user.id;
-      console.log('Loading artworks for user:', currentUserId);
-      
-      // Fetch artworks specifically for this user
+
       const response = await api.getArtworks({ userId: currentUserId, limit: 50 });
-      
-      // Handle both possible response structures
       const artworksData = response?.data || response || [];
-      console.log('Loaded artworks:', artworksData);
-      
       setArtworks(Array.isArray(artworksData) ? artworksData : []);
     } catch (error) {
-      console.error('Failed to load artworks:', error);
       toast.error('Failed to load artworks');
       setArtworks([]);
     } finally {
@@ -47,15 +71,11 @@ export default function UserArtworks({ userId }) {
   const handleArtworkSubmit = async (artworkData) => {
     try {
       if (editingArtwork) {
-        // Update existing artwork
         const response = await api.updateArtwork(editingArtwork._id || editingArtwork.id, artworkData);
         const updatedArtwork = response.data || response;
-        setArtworks(prev => prev.map(a => 
-          (a._id || a.id) === (editingArtwork._id || editingArtwork.id) ? updatedArtwork : a
-        ));
+        setArtworks(prev => prev.map(a => (a._id || a.id) === (editingArtwork._id || editingArtwork.id) ? updatedArtwork : a));
         toast.success('Your artwork has been updated successfully!');
       } else {
-        // Create new artwork
         const response = await api.createArtwork(artworkData);
         const createdArtwork = response.data || response;
         setArtworks([createdArtwork, ...artworks]);
@@ -63,8 +83,7 @@ export default function UserArtworks({ userId }) {
       }
       setShowModal(false);
       setEditingArtwork(null);
-    } catch (error) {
-      console.error('Failed to save artwork:', error);
+    } catch {
       toast.error(editingArtwork ? 'Failed to update artwork' : 'Failed to create artwork');
     }
   };
@@ -92,12 +111,11 @@ export default function UserArtworks({ userId }) {
       await api.deleteArtwork(artworkId);
       setArtworks(prev => prev.filter(a => a._id !== artworkId));
       toast.success("Artwork deleted successfully");
-    } catch (error) {
-      console.error('Failed to delete artwork:', error);
+    } catch {
       toast.error("Failed to delete artwork");
     }
   };
-  
+
   const filteredArtworks = artworks.filter(artwork => {
     if (filter === 'all') return true;
     if (filter === 'published') return artwork.isPublic && artwork.isActive;
@@ -107,24 +125,27 @@ export default function UserArtworks({ userId }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-xl text-teal-600">Loading your artworks...</div>
+      <div className="flex items-center justify-center py-16">
+        <div className="text-xl font-serif text-transparent bg-gradient-to-r from-[#E05264] to-[#134856] bg-clip-text">
+          Loading your artworks...
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-7xl mx-auto px-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-teal-800">My Artworks</h2>
-          <p className="text-gray-600 mt-1">{artworks.length} total artworks</p>
+          <h2 className="text-2xl font-serif font-bold text-transparent bg-gradient-to-r from-[#E05264] to-[#134856] bg-clip-text mb-2">
+            My Artworks
+          </h2>
+          <p className="text-gray-600 font-serif">{artworks.length} total artworks</p>
         </div>
-        
         <button 
-          onClick={() => setShowModal(true)}
-          className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+          onClick={handleAddNew}
+          className="px-6 py-3 bg-gradient-to-r from-[#E05264] to-[#F7A072] text-white rounded-full hover:shadow-lg transition-all duration-300 font-serif font-medium"
         >
           + Add New Artwork
         </button>
@@ -137,17 +158,19 @@ export default function UserArtworks({ userId }) {
           { id: 'published', label: 'Published', count: artworks.filter(a => a.isPublic && a.isActive).length },
           { id: 'draft', label: 'Drafts', count: artworks.filter(a => !a.isPublic || !a.isActive).length }
         ].map((tab) => (
-          <button
+          <motion.button
             key={tab.id}
             onClick={() => setFilter(tab.id)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`px-6 py-3 rounded-full font-serif font-medium transition-all duration-300 ${
               filter === tab.id
-                ? 'bg-teal-600 text-white'
-                : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                ? 'bg-gradient-to-r from-[#E05264] to-[#F7A072] text-white shadow-lg'
+                : 'bg-white/70 backdrop-blur-sm text-gray-700 hover:bg-white/90 border border-gray-200/50 hover:shadow-md'
             }`}
           >
             {tab.label} ({tab.count})
-          </button>
+          </motion.button>
         ))}
       </div>
 
@@ -158,7 +181,7 @@ export default function UserArtworks({ userId }) {
           <h3 className="text-xl font-semibold text-gray-700 mb-2">No artworks yet</h3>
           <p className="text-gray-500 mb-6">Start sharing your artistic creations with the community!</p>
           <button 
-            onClick={() => setShowModal(true)}
+            onClick={handleAddNew}
             className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
           >
             Create Your First Artwork
@@ -184,7 +207,6 @@ export default function UserArtworks({ userId }) {
                   </span>
                 </div>
               </div>
-              
               <div className="p-6">
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="text-lg font-semibold text-gray-900">{artwork.title}</h3>
@@ -192,15 +214,12 @@ export default function UserArtworks({ userId }) {
                     ⋯
                   </button>
                 </div>
-                
                 <p className="text-sm text-gray-500 mb-3">{artwork.category || artwork.artform}</p>
-                
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-gray-500">
                     <span className="text-red-500 mr-1">❤️</span>
                     <span className="text-sm">{(artwork.likes && artwork.likes.length) || 0} likes</span>
                   </div>
-                  
                   <div className="flex space-x-2">
                     <button 
                       onClick={() => handleEdit(artwork)}
@@ -216,7 +235,6 @@ export default function UserArtworks({ userId }) {
                     </button>
                   </div>
                 </div>
-                
                 <div className="text-xs text-gray-400 mt-3">
                   Created {artwork.createdAt ? new Date(artwork.createdAt).toLocaleDateString() : 'N/A'}
                 </div>
@@ -226,36 +244,34 @@ export default function UserArtworks({ userId }) {
         </div>
       )}
 
-      {/* Stats */}
-      <div className="mt-12 grid md:grid-cols-4 gap-6">
-        <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl p-6 text-center">
-          <div className="text-2xl font-bold text-purple-600">{artworks.length}</div>
-          <div className="text-purple-800 font-medium">Total Artworks</div>
+      {/* Unified Stats Section */}
+      <div className="mt-12 rounded-2xl p-8 bg-gradient-to-br from-[#1D7C6F] to-[#F48C8C] text-white font-lora grid grid-cols-2 md:grid-cols-4 gap-6 shadow-lg">
+        <div className="text-center">
+          <div className="text-2xl font-bold">{artworks.length}</div>
+          <div>Total Artworks</div>
         </div>
-        
-        <div className="bg-gradient-to-br from-green-100 to-green-200 rounded-xl p-6 text-center">
-          <div className="text-2xl font-bold text-green-600">
+        <div className="text-center">
+          <div className="text-2xl font-bold">
             {artworks.filter(a => a.isPublic && a.isActive).length}
           </div>
-          <div className="text-green-800 font-medium">Published</div>
+          <div>Published</div>
         </div>
-        
-        <div className="bg-gradient-to-br from-red-100 to-red-200 rounded-xl p-6 text-center">
-          <div className="text-2xl font-bold text-red-600">
-            {artworks.reduce((total, artwork) => total + ((artwork.likes && artwork.likes.length) || 0), 0)}
+        <div className="text-center">
+          <div className="text-2xl font-bold">
+            {artworks.reduce((total, a) => total + ((a.likes?.length) || 0), 0)}
           </div>
-          <div className="text-red-800 font-medium">Total Likes</div>
+          <div>Total Likes</div>
         </div>
-        
-        <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl p-6 text-center">
-          <div className="text-2xl font-bold text-blue-600">
-            {artworks.length > 0 ? Math.round(artworks.reduce((total, artwork) => total + ((artwork.likes && artwork.likes.length) || 0), 0) / artworks.length) : 0}
+        <div className="text-center">
+          <div className="text-2xl font-bold">
+            {artworks.length > 0
+              ? Math.round(artworks.reduce((total, a) => total + ((a.likes?.length) || 0), 0) / artworks.length)
+              : 0}
           </div>
-          <div className="text-blue-800 font-medium">Avg. Likes</div>
+          <div>Avg. Likes</div>
         </div>
       </div>
 
-      {/* Contribute Modal */}
       <ContributeModal 
         isOpen={showModal}
         onClose={handleCloseModal}

@@ -69,7 +69,7 @@ const handleSubmit = async (e) => {
           <button
             type="button"
             onClick={() => navigate('/admin/login')}
-            className="text-xs bg-coral-red/20 hover:bg-coral-red/30 text-coral-red font-semibold py-2 px-4 rounded-lg border border-coral-red/30 transition-all"
+            className="text-xs bg-coral-pink/20 hover:bg-coral-pink/30 text-coral-pink font-semibold py-2 px-4 rounded-lg border border-coral-pink/30 transition-all"
           >
             🔐 Login as Admin
           </button>
@@ -83,7 +83,7 @@ const handleSubmit = async (e) => {
           placeholder="Email"
           value={form.email}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
         />
 
         <input
@@ -92,17 +92,17 @@ const handleSubmit = async (e) => {
           placeholder="Password"
           value={form.password}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
         />
 
         <div className="text-right text-sm text-teal-200 mb-6">
-          <Link to="/forgot-password" className="hover:underline hover:text-coral-red">Forgot Password?</Link>
+          <Link to="/forgot-password" className="hover:underline hover:text-coral-pink">Forgot Password?</Link>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-teal-blue hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-teal-blue hover:bg-coral-pink text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Logging in..." : "Login"}
         </button>
@@ -119,7 +119,7 @@ const handleSubmit = async (e) => {
         </div>
 
         <p className="text-center mt-6 text-sm text-teal-200">
-          Don't have an account? <Link to="/signup" className="underline font-semibold hover:text-coral-red">Sign Up</Link>
+          Don't have an account? <Link to="/signup" className="underline font-semibold hover:text-coral-pink">Sign Up</Link>
         </p>
       </form>
 

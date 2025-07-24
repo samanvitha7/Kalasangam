@@ -13,8 +13,24 @@ const AdminLogin = ({ onLogin }) => {
     setLoading(true);
     setError('');
 
+    // Basic validation
+    if (!credentials.email || !credentials.password) {
+      setError('Please fill in all fields');
+      setLoading(false);
+      return;
+    }
+
+    if (!credentials.email.includes('@')) {
+      setError('Please enter a valid email address');
+      setLoading(false);
+      return;
+    }
+
+    console.log('Attempting admin login with:', { email: credentials.email });
+
     try {
       const data = await adminApi.adminLogin(credentials);
+      console.log('Admin login successful:', data);
       
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
@@ -26,7 +42,18 @@ const AdminLogin = ({ onLogin }) => {
       
       navigate('/admin/panel');
     } catch (err) {
-      setError(err.message || 'Login failed');
+      console.error('Admin login error:', err);
+      
+      // More specific error handling
+      if (err.message.includes('401') || err.message.includes('403')) {
+        setError('Invalid admin credentials or insufficient privileges');
+      } else if (err.message.includes('400')) {
+        setError('Please check your email and password');
+      } else if (err.message.includes('500')) {
+        setError('Server error. Please try again later.');
+      } else {
+        setError(err.message || 'Login failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -58,7 +85,7 @@ const AdminLogin = ({ onLogin }) => {
           <button
             type="button"
             onClick={() => navigate('/login')}
-            className="text-xs bg-coral-red/20 hover:bg-coral-red/30 text-coral-red font-semibold py-2 px-4 rounded-lg border border-coral-red/30 transition-all"
+            className="text-xs bg-coral-pink/20 hover:bg-coral-pink/30 text-coral-pink font-semibold py-2 px-4 rounded-lg border border-coral-pink/30 transition-all"
           >
             🔓 Login as User
           </button>
@@ -72,7 +99,7 @@ const AdminLogin = ({ onLogin }) => {
           placeholder="Admin Email"
           value={credentials.email}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
         />
 
         <input
@@ -81,13 +108,13 @@ const AdminLogin = ({ onLogin }) => {
           placeholder="Admin Password"
           value={credentials.password}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
         />
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-teal-blue hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-teal-blue hover:bg-coral-pink text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Logging in..." : "Admin Login"}
         </button>
@@ -104,7 +131,7 @@ const AdminLogin = ({ onLogin }) => {
         </div>
 
         <p className="text-center mt-6 text-sm text-teal-200">
-          Forgot admin credentials? <Link to="/contact" className="underline font-semibold hover:text-coral-red">Contact Support</Link>
+          Forgot admin credentials? <Link to="/contact" className="underline font-semibold hover:text-coral-pink">Contact Support</Link>
         </p>
       </form>
     </div>

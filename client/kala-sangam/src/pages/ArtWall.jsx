@@ -8,6 +8,7 @@ import { FaPlus, FaFilter, FaSearch, FaTimes, FaDownload, FaHeart, FaBookmark, F
 import { Link } from 'react-router-dom';
 import { api } from '../services/api';
 import FullBleedDivider from '../components/FullBleedDivider';
+import { globalEvents, ARTWORK_EVENTS } from '../utils/eventEmitter';
 
 const ArtWall = () => {
   const { user, isAuthenticated } = useAuth();
@@ -132,19 +133,50 @@ const ArtWall = () => {
     setShowModal(true);
   };
 
-  const handleArtworkSubmit = (newArtwork) => {
-    const artwork = {
-      ...newArtwork,
-      id: artworks.length + 1,
-      artist: user?.name || 'Anonymous',
-      likes: 0,
-      bookmarks: 0,
-      createdAt: new Date().toISOString(),
-      userId: user?.id
-    };
-    setArtworks([artwork, ...artworks]);
-    setShowModal(false);
-    toast.success('Your artwork has been added to the Art Wall!');
+  const handleArtworkSubmit = async (newArtwork) => {
+    try {
+      console.log('Submitting artwork:', newArtwork);
+      
+      // Submit to the API
+      const response = await api.createArtwork(newArtwork);
+      console.log('Artwork created:', response);
+      
+      // Get the created artwork data
+      const createdArtwork = response.data || response;
+      
+      // Transform the artwork to match the expected format
+      const transformedArtwork = {
+        id: createdArtwork._id || createdArtwork.id,
+        title: createdArtwork.title,
+        description: createdArtwork.description,
+        artist: createdArtwork.artist || user?.name || 'Anonymous',
+        imageUrl: createdArtwork.imageUrl,
+        category: createdArtwork.category,
+        likes: createdArtwork.likes || 0,
+        bookmarks: createdArtwork.bookmarks || 0,
+        createdAt: createdArtwork.createdAt || new Date().toISOString(),
+        userId: createdArtwork.userId || user?.id
+      };
+      
+      // Add to local state
+      setArtworks([transformedArtwork, ...artworks]);
+      setShowModal(false);
+      toast.success('Your artwork has been added to the Art Wall!');
+      
+      // Emit global event for artwork creation
+      globalEvents.emit(ARTWORK_EVENTS.CREATED, {
+        artwork: transformedArtwork,
+        userId: user?.id
+      });
+      
+      // Keep backward compatibility with existing storage events
+      localStorage.setItem('artworkCreated', Date.now().toString());
+      window.dispatchEvent(new CustomEvent('artworkCreated', { detail: transformedArtwork }));
+      
+    } catch (error) {
+      console.error('Failed to create artwork:', error);
+      toast.error('Failed to create artwork. Please try again.');
+    }
   };
 
   const handleBookmark = async (artworkId) => {
@@ -172,11 +204,29 @@ const ArtWall = () => {
           if (response.isBookmarked) {
             newBookmarks.add(artworkIdStr);
             toast.success('Artwork bookmarked!', { position: 'top-center', autoClose: 2000 });
+            
+            // Emit global event for bookmark
+            globalEvents.emit(ARTWORK_EVENTS.BOOKMARKED, {
+              artworkId: artworkIdStr,
+              userId: user?.id
+            });
           } else {
             newBookmarks.delete(artworkIdStr);
             toast.success('Bookmark removed!', { position: 'top-center', autoClose: 2000 });
+            
+            // Emit global event for unbookmark
+            globalEvents.emit(ARTWORK_EVENTS.UNBOOKMARKED, {
+              artworkId: artworkIdStr,
+              userId: user?.id
+            });
           }
           return newBookmarks;
+        });
+        
+        // Emit user stats update event
+        globalEvents.emit(ARTWORK_EVENTS.USER_STATS_UPDATED, {
+          userId: user?.id,
+          bookmarkChange: response.isBookmarked ? 1 : -1
         });
       }
     } catch (error) {

@@ -330,6 +330,9 @@ function AppContent() {
         draggable
         pauseOnHover
         theme="light"
+        toastClassName="toast-custom"
+        bodyClassName="toast-body-custom"
+        progressClassName="toast-progress-custom"
       />
     </div>
   );

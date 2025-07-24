@@ -19,75 +19,68 @@ const UserLikedArtworks = ({ userId }) => {
     try {
       setLoading(true);
       
-      // Get current user data
+      // Get current user data with their likes and bookmarks arrays
       const userResponse = await api.getCurrentUser();
       if (!userResponse || !userResponse.user) {
         throw new Error('Failed to get current user');
       }
       
-      const currentUserId = userResponse.user.id;
-      console.log('Loading liked/bookmarked artworks for user:', currentUserId);
+      const currentUser = userResponse.user;
+      const userLikes = currentUser.likes || [];
+      const userBookmarks = currentUser.bookmarks || [];
       
-      // Get all artworks
+      console.log('Loading liked/bookmarked artworks for user:', currentUser.id);
+      console.log('User likes array:', userLikes);
+      console.log('User bookmarks array:', userBookmarks);
+      
+      // If user has no likes or bookmarks, set empty arrays
+      if (userLikes.length === 0 && userBookmarks.length === 0) {
+        console.log('User has no likes or bookmarks');
+        setLikedArtworks([]);
+        setBookmarkedArtworks([]);
+        return;
+      }
+      
+      // Get all artworks to find the ones user liked/bookmarked
       const artworksResponse = await api.getArtworks({ limit: 200 });
       const artworksData = artworksResponse?.data || artworksResponse || [];
       
       console.log('All artworks loaded:', artworksData.length);
       
       if (Array.isArray(artworksData)) {
-        const allArtworks = artworksData.map((artwork, index) => {
-          const transformedArtwork = {
-            id: artwork._id || artwork.id,
-            title: artwork.title || artwork.name,
-            description: artwork.description,
-            artist: artwork.artist || 'Cultural Heritage',
-            imageUrl: artwork.imageUrl || artwork.image,
-            category: artwork.category || 'Traditional Art',
-            likes: artwork.likes || 0,
-            bookmarks: artwork.bookmarks || 0,
-            createdAt: artwork.createdAt || new Date().toISOString(),
-            userId: artwork.userId || artwork.artistId,
-            origin: artwork.origin,
-            likesArray: artwork.likesArray || [],
-            bookmarksArray: artwork.bookmarksArray || []
-          };
-          
-          // Debug first few artworks
-          if (index < 3) {
-            console.log(`Artwork ${index + 1}:`, {
-              id: transformedArtwork.id,
-              title: transformedArtwork.title,
-              likesArray: transformedArtwork.likesArray,
-              bookmarksArray: transformedArtwork.bookmarksArray
-            });
-          }
-          
-          return transformedArtwork;
-        });
+        // Transform artworks and filter by user's likes/bookmarks
+        const allArtworks = artworksData.map(artwork => ({
+          id: artwork._id || artwork.id,
+          title: artwork.title || artwork.name,
+          description: artwork.description,
+          artist: artwork.artist || 'Cultural Heritage',
+          imageUrl: artwork.imageUrl || artwork.image,
+          category: artwork.category || 'Traditional Art',
+          likes: artwork.likes || 0,
+          bookmarks: artwork.bookmarks || 0,
+          createdAt: artwork.createdAt || new Date().toISOString(),
+          userId: artwork.userId || artwork.artistId,
+          origin: artwork.origin,
+          likesArray: artwork.likesArray || [],
+          bookmarksArray: artwork.bookmarksArray || []
+        }));
         
-        console.log('Transformed artworks:', allArtworks.length);
-        console.log('Current user ID for comparison:', currentUserId);
-        
-        // Filter liked artworks (artworks where current user is in the likes array)
+        // Filter liked artworks - artworks whose ID is in user's likes array
         const liked = allArtworks.filter(artwork => {
-          const likesArray = artwork.likesArray || [];
-          const isLiked = likesArray.some(likeUserId => 
-            likeUserId && likeUserId.toString() === currentUserId.toString()
-          );
+          const artworkId = artwork.id.toString();
+          const isLiked = userLikes.some(likedId => likedId.toString() === artworkId);
           if (isLiked) {
-            console.log('Found liked artwork:', artwork.title, 'with likesArray:', likesArray);
+            console.log('Found liked artwork:', artwork.title);
           }
           return isLiked;
         });
         
-        // Filter bookmarked artworks (artworks where current user is in the bookmarks array)
+        // Filter bookmarked artworks - artworks whose ID is in user's bookmarks array
         const bookmarked = allArtworks.filter(artwork => {
-          const bookmarksArray = artwork.bookmarksArray || [];
-          const isBookmarked = bookmarksArray.some(bookmarkUserId => 
-            bookmarkUserId && bookmarkUserId.toString() === currentUserId.toString()
-          );
+          const artworkId = artwork.id.toString();
+          const isBookmarked = userBookmarks.some(bookmarkedId => bookmarkedId.toString() === artworkId);
           if (isBookmarked) {
-            console.log('Found bookmarked artwork:', artwork.title, 'with bookmarksArray:', bookmarksArray);
+            console.log('Found bookmarked artwork:', artwork.title);
           }
           return isBookmarked;
         });

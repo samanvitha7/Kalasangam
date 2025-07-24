@@ -201,7 +201,7 @@ const LivingArtistMosaic = () => {
                     <div className="footer flex gap-4 justify-center mt-8">
                         <button 
                             onClick={handleViewAllClick}
-                            className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                            className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                         >
                             View All Artists
                         </button>

@@ -56,7 +56,7 @@ router.get("/", async (req, res) => {
 
     // Execute query
     const artworks = await Artwork.find(filter)
-      .populate('userId', 'username email')
+      .populate('userId', 'name email')
       .sort(sort)
       .skip(skip)
       .limit(parseInt(limit))
@@ -114,8 +114,8 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const artwork = await Artwork.findById(req.params.id)
-      .populate('userId', 'username email')
-      .populate('comments.userId', 'username')
+      .populate('userId', 'name email')
+      .populate('comments.userId', 'name')
       .lean();
 
     if (!artwork) {
@@ -180,7 +180,7 @@ router.post("/", auth, async (req, res) => {
       category,
       artform,
       userId: req.user.id,
-      artist: user.username || user.email,
+      artist: user.name || user.email,
       tags: tags || [],
       location
     });

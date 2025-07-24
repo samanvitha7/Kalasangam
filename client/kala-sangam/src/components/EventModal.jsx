@@ -187,7 +187,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
           onClick={handleClose}
         >
           <motion.div
-            className="bg-[#F8E6DA] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-[#d4a574]/20"
+            className="bg-gradient-to-br from-[#F8E6DA]/95 to-[#F4C8C3]/95 backdrop-blur-lg rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-[#e05264]/20"
             initial={{ scale: 0.8, opacity: 0, y: 50 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -195,7 +195,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-[#d4a574]/20 bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] rounded-t-2xl">
+            <div className="flex items-center justify-between p-6 border-b border-[#d4a574]/20 bg-gradient-to-r from-[#134856] to-[#e05264] rounded-t-2xl">
               <h2 className="text-2xl font-bold text-white font-dm-serif">Add New Event</h2>
               <button
                 onClick={handleClose}

@@ -273,7 +273,7 @@
 
 .footer button {
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #582f0e, #8b4513);
+  background: linear-gradient(135deg, #134856, #e05264);
   color: white;
   border: none;
   border-radius: 1.5rem;
@@ -284,7 +284,7 @@
 }
 
 .footer button:hover {
-  background: linear-gradient(135deg, #8b4513, #a0522d);
+  background: linear-gradient(135deg, #e05264, #134856);
   transform: scale(1.05);
 }
 

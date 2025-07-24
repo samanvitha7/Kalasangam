@@ -72,19 +72,50 @@ export const adminApi = {
 
   // Admin login
   adminLogin: async (credentials) => {
-    const response = await fetch(`${API_URL}/api/auth/admin-login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
-    });
+    console.log('Making admin login request to:', `${API_URL}/api/auth/admin-login`);
+    console.log('Request payload:', { email: credentials.email });
+    
+    try {
+      const response = await fetch(`${API_URL}/api/auth/admin-login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
 
-    if (!response.ok) {
-      throw new Error('Admin login failed');
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+      if (!response.ok) {
+        let errorMessage = 'Admin login failed';
+        
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+          console.log('Error response data:', errorData);
+        } catch (jsonError) {
+          console.log('Could not parse error response as JSON:', jsonError);
+          const textError = await response.text();
+          console.log('Error response text:', textError);
+          errorMessage = textError || errorMessage;
+        }
+        
+        throw new Error(`${response.status}: ${errorMessage}`);
+      }
+
+      const data = await response.json();
+      console.log('Admin login successful:', data);
+      return data;
+    } catch (fetchError) {
+      console.error('Network or fetch error:', fetchError);
+      
+      if (fetchError.name === 'TypeError' && fetchError.message.includes('fetch')) {
+        throw new Error('Network error: Could not connect to server. Please check if the server is running.');
+      }
+      
+      throw fetchError;
     }
-
-    return response.json();
   },
 
   // User management functions
