@@ -10,6 +10,7 @@ export default function UserArtworks({ userId }) {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // all, published, draft
   const [showModal, setShowModal] = useState(false);
+  const [editingArtwork, setEditingArtwork] = useState(null);
 
   useEffect(() => {
     loadArtworks();
@@ -30,16 +31,44 @@ export default function UserArtworks({ userId }) {
     }
   };
 
-  const handleArtworkSubmit = async (newArtwork) => {
+  const handleArtworkSubmit = async (artworkData) => {
     try {
-      const createdArtwork = await api.createArtwork(newArtwork);
-      setArtworks([createdArtwork, ...artworks]);
+      if (editingArtwork) {
+        // Update existing artwork
+        const response = await api.updateArtwork(editingArtwork._id || editingArtwork.id, artworkData);
+        const updatedArtwork = response.data || response;
+        setArtworks(prev => prev.map(a => 
+          (a._id || a.id) === (editingArtwork._id || editingArtwork.id) ? updatedArtwork : a
+        ));
+        toast.success('Your artwork has been updated successfully!');
+      } else {
+        // Create new artwork
+        const response = await api.createArtwork(artworkData);
+        const createdArtwork = response.data || response;
+        setArtworks([createdArtwork, ...artworks]);
+        toast.success('Your artwork has been added successfully!');
+      }
       setShowModal(false);
-      toast.success('Your artwork has been added successfully!');
+      setEditingArtwork(null);
     } catch (error) {
-      console.error('Failed to create artwork:', error);
-      toast.error('Failed to create artwork');
+      console.error('Failed to save artwork:', error);
+      toast.error(editingArtwork ? 'Failed to update artwork' : 'Failed to create artwork');
     }
+  };
+
+  const handleEdit = (artwork) => {
+    setEditingArtwork(artwork);
+    setShowModal(true);
+  };
+
+  const handleAddNew = () => {
+    setEditingArtwork(null);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingArtwork(null);
   };
 
   const handleDelete = async (artworkId) => {
@@ -160,7 +189,10 @@ export default function UserArtworks({ userId }) {
                   </div>
                   
                   <div className="flex space-x-2">
-                    <button className="px-3 py-1 text-sm text-teal-600 hover:bg-teal-50 rounded">
+                    <button 
+                      onClick={() => handleEdit(artwork)}
+                      className="px-3 py-1 text-sm text-teal-600 hover:bg-teal-50 rounded"
+                    >
                       Edit
                     </button>
                     <button 
@@ -213,8 +245,9 @@ export default function UserArtworks({ userId }) {
       {/* Contribute Modal */}
       <ContributeModal 
         isOpen={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={handleCloseModal}
         onSubmit={handleArtworkSubmit}
+        editingArtwork={editingArtwork}
       />
     </div>
   );

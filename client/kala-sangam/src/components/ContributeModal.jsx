@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaUpload, FaImage } from 'react-icons/fa';
 
-const ContributeModal = ({ isOpen, onClose, onSubmit }) => {
+const ContributeModal = ({ isOpen, onClose, onSubmit, editingArtwork = null }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -11,8 +11,32 @@ const ContributeModal = ({ isOpen, onClose, onSubmit }) => {
   });
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const categories = ['Traditional', 'Contemporary', 'Abstract', 'Landscape', 'Digital', 'Portrait'];
+
+  // Initialize form when editing artwork
+  useEffect(() => {
+    if (editingArtwork && isOpen) {
+      setFormData({
+        title: editingArtwork.title || '',
+        description: editingArtwork.description || '',
+        category: editingArtwork.category || 'Traditional',
+        imageUrl: editingArtwork.imageUrl || editingArtwork.image || ''
+      });
+      setImagePreview(editingArtwork.imageUrl || editingArtwork.image || null);
+    } else if (!editingArtwork && isOpen) {
+      // Reset form for new artwork
+      setFormData({
+        title: '',
+        description: '',
+        category: 'Traditional',
+        imageUrl: ''
+      });
+      setImagePreview(null);
+    }
+    setErrors({});
+  }, [editingArtwork, isOpen]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -115,7 +139,9 @@ const ContributeModal = ({ isOpen, onClose, onSubmit }) => {
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-2xl font-bold text-amber-900">Contribute Your Art</h2>
+              <h2 className="text-2xl font-bold text-amber-900">
+                {editingArtwork ? 'Edit Artwork' : 'Contribute Your Art'}
+              </h2>
               <button
                 onClick={handleClose}
                 className="text-gray-500 hover:text-gray-700 transition-colors"
@@ -235,7 +261,7 @@ const ContributeModal = ({ isOpen, onClose, onSubmit }) => {
                   type="submit"
                   className="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  Submit Artwork
+                  {editingArtwork ? 'Update Artwork' : 'Submit Artwork'}
                 </button>
               </div>
             </form>

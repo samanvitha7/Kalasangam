@@ -18,9 +18,12 @@ const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const stateFromQuery = searchParams.get("state");
   const categoryFromQuery = searchParams.get("category");
-  const [selectedState, setSelectedState] = useState(stateFromQuery || "");
+  
+  // For explore/art route, always start with no filters
+  const isExploreRoute = window.location.pathname === '/explore/art';
+  const [selectedState, setSelectedState] = useState(isExploreRoute ? "" : (stateFromQuery || ""));
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterCategory, setFilterCategory] = useState(categoryFromQuery || 'all');
+  const [filterCategory, setFilterCategory] = useState(isExploreRoute ? 'all' : (categoryFromQuery || 'all'));
   const [sortBy, setSortBy] = useState('name');
   const [zoomImg, setZoomImg] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -42,16 +45,19 @@ const navigate = useNavigate();
   }, []);
 
   useEffect(() => {
-    const stateFromURL = searchParams.get("state");
-    if (stateFromURL) {
-      setSelectedState(stateFromURL);
+    // Don't apply URL parameters on explore/art route - keep it clean
+    if (!isExploreRoute) {
+      const stateFromURL = searchParams.get("state");
+      if (stateFromURL) {
+        setSelectedState(stateFromURL);
+      }
+      
+      const categoryFromURL = searchParams.get("category");
+      if (categoryFromURL) {
+        setFilterCategory(categoryFromURL);
+      }
     }
-    
-    const categoryFromURL = searchParams.get("category");
-    if (categoryFromURL) {
-      setFilterCategory(categoryFromURL);
-    }
-  }, [searchParams]);
+  }, [searchParams, isExploreRoute]);
 
   // Fetch artforms data
   useEffect(() => {

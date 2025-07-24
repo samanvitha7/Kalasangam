@@ -18,8 +18,16 @@ const getUserProfile = async (req, res) => {
         name: user.name,
         email: user.email,
         avatar: user.avatar,
+        coverImage: user.coverImage,
+        portfolioUrl: user.portfolioUrl,
+        socialLinks: user.socialLinks || {},
+        bio: user.bio,
+        location: user.location,
+        specialization: user.specialization,
+        role: user.role,
         likes: user.likes,
         follows: user.follows,
+        bookmarks: user.bookmarks,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
       }
@@ -200,7 +208,7 @@ const updateProfile = async (req, res) => {
   }
 
   try {
-    const { name, avatar } = req.body;
+    const { name, avatar, portfolioUrl, socialLinks, bio, location, specialization } = req.body;
     const userId = req.user.id;
 
     const user = await User.findById(userId);
@@ -208,8 +216,26 @@ const updateProfile = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    // Update basic fields
     if (name) user.name = name;
-    if (avatar) user.avatar = avatar;
+    if (avatar !== undefined) user.avatar = avatar;
+    if (portfolioUrl !== undefined) user.portfolioUrl = portfolioUrl;
+    if (bio !== undefined) user.bio = bio;
+    if (location !== undefined) user.location = location;
+    if (specialization !== undefined) user.specialization = specialization;
+
+    // Update social links
+    if (socialLinks && typeof socialLinks === 'object') {
+      if (!user.socialLinks) {
+        user.socialLinks = {};
+      }
+      if (socialLinks.instagram !== undefined) user.socialLinks.instagram = socialLinks.instagram;
+      if (socialLinks.twitter !== undefined) user.socialLinks.twitter = socialLinks.twitter;
+      if (socialLinks.website !== undefined) user.socialLinks.website = socialLinks.website;
+      if (socialLinks.behance !== undefined) user.socialLinks.behance = socialLinks.behance;
+      if (socialLinks.linkedin !== undefined) user.socialLinks.linkedin = socialLinks.linkedin;
+      if (socialLinks.youtube !== undefined) user.socialLinks.youtube = socialLinks.youtube;
+    }
 
     await user.save();
 
@@ -219,10 +245,18 @@ const updateProfile = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        avatar: user.avatar
+        avatar: user.avatar,
+        portfolioUrl: user.portfolioUrl,
+        socialLinks: user.socialLinks,
+        bio: user.bio,
+        location: user.location,
+        specialization: user.specialization,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
       }
     });
   } catch (error) {
+    console.error('Profile update error:', error);
     res.status(500).json({ message: 'Failed to update profile', error: error.message });
   }
 };

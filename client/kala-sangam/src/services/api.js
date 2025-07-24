@@ -504,6 +504,43 @@ export const api = {
     return response.json();
   },
 
+  // Update existing artwork
+  updateArtwork: async (artworkId, artworkData) => {
+    const response = await fetch(`${API_URL}/api/artworks/${artworkId}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(artworkData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to update artwork: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Delete artwork
+  deleteArtwork: async (artworkId) => {
+    const response = await fetch(`${API_URL}/api/artworks/${artworkId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to delete artwork: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
   // Get current user profile
   getCurrentUser: async () => {
     const response = await fetch(`${API_URL}/api/users/profile`, {

@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowLeft, FaHeart, FaComment, FaEye, FaMapMarkerAlt, FaCalendarAlt, FaShare, FaFlag, FaUserPlus, FaUserMinus } from 'react-icons/fa';
+import { FaArrowLeft, FaHeart, FaEye, FaMapMarkerAlt, FaCalendarAlt, FaBookmark } from 'react-icons/fa';
 import LazyImage from '../components/LazyImage';
 import useSmoothScroll from '../hooks/useSmoothScroll';
-import ReportModal from '../components/ReportModal';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
@@ -14,15 +13,14 @@ const ArtistProfile = () => {
   const { artistId } = useParams();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
-  const [artist, setArtist] = useState(null);
+  const [artist, setArtist] = useState({
+    coverImage: '/assets/parallaximg.png'
+  });
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [artworksLoading, setArtworksLoading] = useState(false);
   const [selectedArtwork, setSelectedArtwork] = useState(null);
   const [views, setViews] = useState(0);
-  const [showReportModal, setShowReportModal] = useState(false);
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [followLoading, setFollowLoading] = useState(false);
 
   useSmoothScroll();
 
@@ -91,24 +89,20 @@ const ArtistProfile = () => {
             setArtist({
               ...artistData,
               profileImage: artistData.avatar || 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face',
-              coverImage: artistData.signatureWork || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
+              coverImage: '/assets/parallaximg.png',
               specialties: artistData.specialization ? [artistData.specialization] : ['Traditional Arts'],
               totalLikes: artistData.likesCount || 0,
-              totalComments: artistData.commentsCount || 0,
               totalViews: artistData.viewsCount || Math.floor(Math.random() * 1000) + 100,
               joinedDate: artistData.createdAt || new Date().toISOString(),
               socialLinks: artistData.socialLinks || {},
               location: artistData.location || 'India'
             });
-            setViews(artistData.viewsCount || Math.floor(Math.random() * 1000) + 100);
+            // Calculate profile views from total bookmarks across all artworks
+            setViews(artistData.viewsCount || 0);
             
             // Fetch artist's artworks
             fetchArtworks(artistId);
             
-            // Check if current user follows this artist
-            if (isAuthenticated && user) {
-              setIsFollowing(user.following?.includes(artistId) || false);
-            }
             
             return;
           }
@@ -126,24 +120,20 @@ const ArtistProfile = () => {
             setArtist({
               ...artistData,
               profileImage: artistData.avatar || 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face',
-              coverImage: artistData.signatureWork || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
+              coverImage: '/assets/parallaximg.png',
               specialties: artistData.specialization ? [artistData.specialization] : ['Traditional Arts'],
               totalLikes: artistData.likesCount || 0,
-              totalComments: artistData.commentsCount || 0,
               totalViews: artistData.viewsCount || Math.floor(Math.random() * 1000) + 100,
               joinedDate: artistData.createdAt || new Date().toISOString(),
               socialLinks: artistData.socialLinks || {},
               location: artistData.location || 'India'
             });
-            setViews(artistData.viewsCount || Math.floor(Math.random() * 1000) + 100);
+            // Calculate profile views from total bookmarks across all artworks
+            setViews(artistData.viewsCount || 0);
             
             // Fetch artist's artworks
             fetchArtworks(artistId);
             
-            // Check if current user follows this artist
-            if (isAuthenticated && user) {
-              setIsFollowing(user.following?.includes(artistId) || false);
-            }
           } else {
             console.log('Artist not found in all artists list');
             setArtist(null);
@@ -172,6 +162,20 @@ const ArtistProfile = () => {
       const response = await api.getArtworks({ userId });
       if (response.success && response.data) {
         setArtworks(response.data);
+        
+        // Calculate aggregate statistics from artworks
+        const totalLikes = response.data.reduce((sum, artwork) => sum + (artwork.likes || 0), 0);
+        const totalBookmarks = response.data.reduce((sum, artwork) => sum + (artwork.bookmarks || 0), 0);
+        
+        // Update artist statistics with calculated values
+        setArtist(prevArtist => ({
+          ...prevArtist,
+          totalLikes: totalLikes,
+          totalBookmarks: totalBookmarks
+        }));
+        
+        // Use bookmarks as profile views
+        setViews(totalBookmarks);
       } else {
         setArtworks([]);
       }
@@ -183,30 +187,6 @@ const ArtistProfile = () => {
     }
   };
 
-  // Handle follow/unfollow
-  const handleFollowToggle = async () => {
-    if (!isAuthenticated) {
-      toast.error('Please log in to follow artists');
-      return;
-    }
-
-    try {
-      setFollowLoading(true);
-      const response = await api.toggleFollow(artistId);
-      
-      if (response.success) {
-        setIsFollowing(!isFollowing);
-        toast.success(isFollowing ? 'Unfollowed artist' : 'Now following artist');
-      } else {
-        toast.error(response.message || 'Failed to update follow status');
-      }
-    } catch (error) {
-      console.error('Error toggling follow:', error);
-      toast.error('Failed to update follow status');
-    } finally {
-      setFollowLoading(false);
-    }
-  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -215,25 +195,13 @@ const ArtistProfile = () => {
     });
   };
 
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: `${artist.name} - Artist Profile`,
-        text: `Check out ${artist.name}'s amazing artwork!`,
-        url: window.location.href,
-      });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      // You could show a toast notification here
-    }
-  };
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F8E6DA]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#E05264] mx-auto mb-4"></div>
-          <p className="text-xl font-lora text-[#E05264]">Loading artist profile...</p>
+          <p className="text-xl font-lora font-semibold text-[#E05264] leading-relaxed">Loading artist profile...</p>
         </div>
       </div>
     );
@@ -244,8 +212,8 @@ const ArtistProfile = () => {
       <div className="min-h-screen flex items-center justify-center bg-[#F8E6DA]">
         <div className="text-center">
           <div className="text-6xl mb-4">🎨</div>
-          <h2 className="text-2xl font-bold font-dm-serif mb-2 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">Artist Not Found</h2>
-          <p className="text-[#E05264] font-lora mb-6">The artist you're looking for doesn't exist.</p>
+          <h2 className="text-6xl font-dm-serif mb-2 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent drop-shadow-lg">Artist Not Found</h2>
+          <p className="text-xl font-lora font-semibold text-[#E05264] mb-6 leading-relaxed">The artist you're looking for doesn't exist.</p>
           <motion.button
             onClick={() => navigate('/art-wall')}
             className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 font-dm-serif"
@@ -274,40 +242,12 @@ const ArtistProfile = () => {
           src={artist.coverImage}
           alt={`${artist.name} cover`}
           className="w-full h-full"
+          style={{ objectFit: 'cover', objectPosition: 'center top' }}
           aspectRatio=""
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         
-        {/* Back button */}
-        <motion.button
-          onClick={() => navigate('/art-wall')}
-          className="absolute top-6 left-6 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <FaArrowLeft size={18} />
-        </motion.button>
 
-        {/* Share button */}
-        <motion.button
-          onClick={handleShare}
-          className="absolute top-6 right-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <FaShare size={18} />
-        </motion.button>
-
-        {/* Report button */}
-        <motion.button
-          onClick={() => setShowReportModal(true)}
-          className="absolute top-6 right-6 bg-red-500/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-red-500/40 transition-all"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          title="Report Artist"
-        >
-          <FaFlag size={18} />
-        </motion.button>
 
         {/* Profile info overlay */}
         <div className="absolute bottom-6 left-6 right-6">
@@ -333,32 +273,8 @@ const ArtistProfile = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <div className="flex items-center justify-between mb-2">
-                <h1 className="text-4xl font-bold">{artist.name}</h1>
-                {isAuthenticated && user && user._id !== artistId && (
-                  <motion.button
-                    onClick={handleFollowToggle}
-                    disabled={followLoading}
-                    className={`flex items-center gap-2 px-6 py-2 rounded-full font-semibold transition-all ${
-                      isFollowing
-                        ? 'bg-white/20 text-white border border-white/30 hover:bg-red-500/80'
-                        : 'bg-white text-amber-900 hover:bg-amber-50'
-                    } ${followLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    whileHover={{ scale: followLoading ? 1 : 1.05 }}
-                    whileTap={{ scale: followLoading ? 1 : 0.95 }}
-                  >
-                    {followLoading ? (
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
-                    ) : isFollowing ? (
-                      <FaUserMinus size={16} />
-                    ) : (
-                      <FaUserPlus size={16} />
-                    )}
-                    <span>{followLoading ? 'Loading...' : isFollowing ? 'Unfollow' : 'Follow'}</span>
-                  </motion.button>
-                )}
-              </div>
-              <div className="flex items-center gap-4 text-white/90">
+              <h1 className="text-6xl font-dm-serif font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent drop-shadow-lg mb-2">{artist.name}</h1>
+              <div className="flex items-center gap-4 text-white/90 mb-3">
                 <div className="flex items-center gap-1">
                   <FaMapMarkerAlt size={14} />
                   <span>{artist.location}</span>
@@ -368,6 +284,12 @@ const ArtistProfile = () => {
                   <span>Joined {formatDate(artist.joinedDate)}</span>
                 </div>
               </div>
+              {/* About text inline */}
+              {artist.bio && (
+                <p className="text-white/90 text-lg font-lora leading-relaxed max-w-2xl">
+                  {artist.bio}
+                </p>
+              )}
             </motion.div>
           </div>
         </div>
@@ -383,75 +305,76 @@ const ArtistProfile = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            {/* Stats */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-              <h3 className="text-xl font-bold text-amber-900 mb-4">Statistics</h3>
-              <div className="grid grid-cols-3 gap-4 text-center">
+            {/* Combined Stats, Specialties, and Connect Section */}
+            <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-2">
+              <div className="bg-[#F8E6DA] rounded-2xl p-6">
+              {/* Statistics */}
+              <h3 className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-4">Statistics</h3>
+              <div className="grid grid-cols-3 gap-2 text-center mb-6">
                 <div>
                   <div className="flex items-center justify-center mb-2">
                     <FaHeart className="text-red-500 mr-1" />
-                    <span className="text-2xl font-bold text-amber-900">{artist.totalLikes}</span>
+                    <span className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">{artist.totalLikes || 0}</span>
                   </div>
-                  <p className="text-sm text-amber-700">Total Likes</p>
+                  <p className="text-xs font-lora font-semibold text-[#E05264]">Likes</p>
                 </div>
                 <div>
                   <div className="flex items-center justify-center mb-2">
-                    <FaComment className="text-blue-500 mr-1" />
-                    <span className="text-2xl font-bold text-amber-900">{artist.totalComments}</span>
+                    <FaBookmark className="text-blue-500 mr-1" />
+                    <span className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">{artist.totalBookmarks || 0}</span>
                   </div>
-                  <p className="text-sm text-amber-700">Comments</p>
+                  <p className="text-xs font-lora font-semibold text-[#E05264]">Bookmarks</p>
                 </div>
                 <div>
                   <div className="flex items-center justify-center mb-2">
                     <FaEye className="text-green-500 mr-1" />
-                    <span className="text-2xl font-bold text-amber-900">{views}</span>
+                    <span className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">{views}</span>
                   </div>
-                  <p className="text-sm text-amber-700">Profile Views</p>
+                  <p className="text-xs font-lora font-semibold text-[#E05264]">Views</p>
                 </div>
               </div>
-            </div>
 
-            {/* Bio */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-              <h3 className="text-xl font-bold text-amber-900 mb-4">About</h3>
-              <p className="text-amber-700 leading-relaxed">{artist.bio}</p>
-            </div>
+              {/* Divider */}
+              <div className="border-t border-[#E05264]/30 my-6"></div>
 
-            {/* Specialties */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-              <h3 className="text-xl font-bold text-amber-900 mb-4">Specialties</h3>
-              <div className="flex flex-wrap gap-2">
+              {/* Specialties */}
+              <h3 className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-4">Specialties</h3>
+              <div className="flex flex-wrap gap-2 mb-6">
                 {artist.specialties && artist.specialties.length > 0 ? (
                   artist.specialties.map((specialty, index) => (
                     <span
                       key={index}
-                      className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium"
+                      className="bg-gradient-to-r from-[#1d7c6f]/20 to-[#f58c8c]/20 text-[#134856] px-3 py-1 rounded-full text-sm font-lora font-semibold"
                     >
                       {specialty}
                     </span>
                   ))
                 ) : (
-                  <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-gradient-to-r from-[#1d7c6f]/20 to-[#f58c8c]/20 text-[#134856] px-3 py-1 rounded-full text-sm font-lora font-semibold">
                     Traditional Arts
                   </span>
                 )}
               </div>
-            </div>
 
-            {/* Social Links */}
-            {artist.socialLinks && (
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-                <h3 className="text-xl font-bold text-amber-900 mb-4">Connect</h3>
-                <div className="space-y-2">
-                  {Object.entries(artist.socialLinks).map(([platform, handle]) => (
-                    <div key={platform} className="flex items-center gap-2">
-                      <span className="capitalize font-medium text-amber-800">{platform}:</span>
-                      <span className="text-amber-600">{handle}</span>
-                    </div>
-                  ))}
-                </div>
+              {/* Divider */}
+              {artist.socialLinks && <div className="border-t border-[#E05264]/30 my-6"></div>}
+
+              {/* Social Links */}
+              {artist.socialLinks && (
+                <>
+                  <h3 className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-4">Connect</h3>
+                  <div className="space-y-2">
+                    {Object.entries(artist.socialLinks).map(([platform, handle]) => (
+                      <div key={platform} className="flex items-center gap-2">
+                        <span className="capitalize font-lora font-semibold text-[#134856]">{platform}:</span>
+                        <span className="font-lora text-[#E05264]">{handle}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
               </div>
-            )}
+            </div>
           </motion.div>
 
           {/* Artworks grid */}
@@ -462,7 +385,7 @@ const ArtistProfile = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-3xl font-bold text-amber-900">
+              <h2 className="text-6xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent drop-shadow-lg">
                 Artworks ({artworks.length})
               </h2>
             </div>
@@ -471,7 +394,7 @@ const ArtistProfile = () => {
               {artworks.map((artwork, index) => (
                 <motion.div
                   key={artwork.id}
-                  className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
+                  className="bg-gradient-to-br from-[#1d7c6f]/10 to-[#f58c8c]/10 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
@@ -486,25 +409,25 @@ const ArtistProfile = () => {
                       aspectRatio=""
                     />
                     <div className="absolute top-3 left-3">
-                      <span className="bg-amber-600/90 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                      <span className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-3 py-1 rounded-full text-xs font-dm-serif font-semibold">
                         {artwork.category}
                       </span>
                     </div>
                   </div>
                   
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-amber-900 mb-2">{artwork.title}</h3>
-                    <p className="text-amber-700 text-sm mb-4 line-clamp-2">{artwork.description}</p>
+                    <h3 className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-2">{artwork.title}</h3>
+                    <p className="text-[#E05264] font-lora text-sm mb-4 line-clamp-2 leading-relaxed">{artwork.description}</p>
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4 text-sm">
                         <div className="flex items-center gap-1 text-red-500">
                           <FaHeart size={14} />
-                          <span>{artwork.likes}</span>
+                          <span>{artwork.likes || 0}</span>
                         </div>
                         <div className="flex items-center gap-1 text-blue-500">
-                          <FaComment size={14} />
-                          <span>{artwork.comments}</span>
+                          <FaBookmark size={14} />
+                          <span>{artwork.bookmarks || 0}</span>
                         </div>
                       </div>
                       <span className="text-xs text-gray-500">
@@ -519,8 +442,8 @@ const ArtistProfile = () => {
             {artworks.length === 0 && (
               <div className="text-center py-16">
                 <div className="text-6xl mb-4">🎨</div>
-                <h3 className="text-2xl font-semibold text-amber-900 mb-2">No artworks yet</h3>
-                <p className="text-amber-700">This artist hasn't shared any artworks yet.</p>
+                <h3 className="text-6xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent drop-shadow-lg mb-2">No artworks yet</h3>
+                <p className="text-xl font-lora font-semibold text-[#E05264] leading-relaxed">This artist hasn't shared any artworks yet.</p>
               </div>
             )}
           </motion.div>
@@ -560,18 +483,18 @@ const ArtistProfile = () => {
               </div>
               
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-amber-900 mb-2">{selectedArtwork.title}</h3>
-                <p className="text-amber-700 mb-4">{selectedArtwork.description}</p>
+                <h3 className="text-2xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-2">{selectedArtwork.title}</h3>
+                <p className="text-[#E05264] font-lora mb-4 leading-relaxed">{selectedArtwork.description}</p>
                 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1 text-red-500">
                       <FaHeart />
-                      <span>{selectedArtwork.likes} likes</span>
+                      <span>{selectedArtwork.likes || 0} likes</span>
                     </div>
                     <div className="flex items-center gap-1 text-blue-500">
-                      <FaComment />
-                      <span>{selectedArtwork.comments} comments</span>
+                      <FaBookmark />
+                      <span>{selectedArtwork.bookmarks || 0} bookmarks</span>
                     </div>
                   </div>
                   <span className="text-gray-500">
@@ -584,15 +507,28 @@ const ArtistProfile = () => {
         )}
       </AnimatePresence>
 
-      {/* Report Modal */}
-      {showReportModal && (
-        <ReportModal
-          type="artist"
-          targetId={artist.id}
-          targetName={artist.name}
-          onClose={() => setShowReportModal(false)}
-        />
-      )}
+      {/* Navigation buttons at bottom */}
+      <div className="flex justify-center gap-4 pb-8">
+        <motion.button
+          onClick={() => navigate('/art-wall')}
+          className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-6 py-3 rounded-full hover:shadow-lg transition-all font-dm-serif text-sm font-semibold flex items-center gap-2"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <FaArrowLeft size={14} />
+          <span>Back to Art Wall</span>
+        </motion.button>
+        
+        <motion.button
+          onClick={() => navigate('/artists')}
+          className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-6 py-3 rounded-full hover:shadow-lg transition-all font-dm-serif text-sm font-semibold flex items-center gap-2"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <FaArrowLeft size={14} />
+          <span>Back to Artists</span>
+        </motion.button>
+      </div>
     </div>
   );
 };

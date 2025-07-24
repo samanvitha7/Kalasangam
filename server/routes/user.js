@@ -35,7 +35,12 @@ router.get('/stats', auth, getUserStats);
 // Update user profile
 router.put('/profile', auth, [
   body('name').optional().trim().isLength({ min: 2 }).withMessage('Name must be at least 2 characters'),
-  body('avatar').optional().isURL().withMessage('Avatar must be a valid URL')
+  body('avatar').optional(),
+  body('coverImage').optional(),
+  body('portfolioUrl').optional().isURL().withMessage('Portfolio URL must be a valid URL'),
+  body('bio').optional().isLength({ max: 500 }).withMessage('Bio must be 500 characters or less'),
+  body('location').optional().isLength({ max: 100 }).withMessage('Location must be 100 characters or less'),
+  body('specialization').optional().isLength({ max: 100 }).withMessage('Specialization must be 100 characters or less')
 ], updateProfile);
 
 // Change password
