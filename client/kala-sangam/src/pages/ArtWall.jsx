@@ -33,19 +33,25 @@ const ArtWall = () => {
       
       if (response.success) {
         // Transform the API data to match frontend expectations
-        const transformedArtworks = response.data.map(artwork => ({
-          id: artwork._id || artwork.id,
-          title: artwork.title || artwork.name,
-          description: artwork.description,
-          artist: artwork.artist || 'Cultural Heritage',
-          imageUrl: artwork.imageUrl || artwork.image,
-          category: artwork.category || 'Traditional Art',
-          likes: artwork.likes || 0,
-          bookmarks: artwork.bookmarks || 0,
-          createdAt: artwork.createdAt || new Date().toISOString(),
-          userId: artwork.userId || artwork.artistId,
-          origin: artwork.origin
-        }));
+        const transformedArtworks = response.data.map(artwork => {
+          console.log('ArtWall - Original artwork.userId:', artwork.userId, 'type:', typeof artwork.userId);
+          const transformedUserId = artwork.userId ? (typeof artwork.userId === 'object' ? artwork.userId._id : artwork.userId.toString()) : artwork.artistId?.toString();
+          console.log('ArtWall - Transformed userId:', transformedUserId, 'type:', typeof transformedUserId);
+          
+          return {
+            id: artwork._id || artwork.id,
+            title: artwork.title || artwork.name,
+            description: artwork.description,
+            artist: artwork.artist || 'Cultural Heritage',
+            imageUrl: artwork.imageUrl || artwork.image,
+            category: artwork.category || 'Traditional Art',
+            likes: artwork.likes || 0,
+            bookmarks: artwork.bookmarks || 0,
+            createdAt: artwork.createdAt || new Date().toISOString(),
+            userId: transformedUserId,
+            origin: artwork.origin
+          };
+        });
         setArtworks(transformedArtworks);
       } else {
         console.error('Failed to fetch artworks:', response.message);
@@ -83,8 +89,8 @@ const ArtWall = () => {
 
   const filteredArtworks = artworks
     .filter(artwork => {
-      // Filter by user if authenticated (show only user's artworks)
-      const userFilter = !isAuthenticated || !user || artwork.userId === user.id;
+      // Show all artworks - no user filtering needed for Art Wall
+      // Everyone should see all community artworks
       
       // Filter by category
       const categoryFilter = filterCategory === 'all' || artwork.category.toLowerCase() === filterCategory;
@@ -94,7 +100,7 @@ const ArtWall = () => {
                           artwork.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           artwork.description.toLowerCase().includes(searchTerm.toLowerCase());
       
-      return userFilter && categoryFilter && searchFilter;
+      return categoryFilter && searchFilter;
     })
     .sort((a, b) => {
       switch (sortBy) {

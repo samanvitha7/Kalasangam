@@ -222,7 +222,13 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
             <div className="text-sm">
               <span className="text-amber-700">By: </span>
               <Link 
-                to={`/artist/${artwork.userId || artwork.artistId || artwork.artist.toLowerCase().replace(' ', '-')}`}
+                to={(() => {
+                  const artistId = artwork.userId || artwork.artistId;
+                  console.log('ArtCard - artwork.userId:', artwork.userId, 'type:', typeof artwork.userId);
+                  console.log('ArtCard - artwork.artistId:', artwork.artistId, 'type:', typeof artwork.artistId);
+                  console.log('ArtCard - final artistId:', artistId, 'type:', typeof artistId);
+                  return artistId ? `/artist/${artistId}` : "#";
+                })()}
                 className="font-semibold text-amber-800 hover:text-amber-600 hover:underline transition-colors cursor-pointer"
                 onClick={(e) => e.stopPropagation()}
               >

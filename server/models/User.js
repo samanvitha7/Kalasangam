@@ -81,8 +81,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  portfolioUrl: {
+    type: String,
+    default: null
+  },
   socialLinks: {
     instagram: { type: String, default: null },
+    twitter: { type: String, default: null },
     website: { type: String, default: null },
     behance: { type: String, default: null },
     linkedin: { type: String, default: null },
