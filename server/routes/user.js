@@ -4,7 +4,6 @@ const { auth } = require('../middleware/auth');
 const {
   getUserProfile,
   getPublicProfile,
-  toggleFollow,
   toggleLike,
   updateProfile,
   changePassword,
@@ -50,8 +49,6 @@ router.delete('/delete-account', auth, [
   body('password').notEmpty().withMessage('Password is required to delete account')
 ], deleteAccount);
 
-// Follow/Unfollow user
-router.post('/follow/:userId', auth, toggleFollow);
 
 // Like/Unlike artwork
 router.post('/like/:artworkId', auth, toggleLike);

@@ -17,46 +17,39 @@ export default function UserArtworks({ userId }) {
 
   const loadArtworks = async () => {
     try {
-      // For now, we'll use a simulated user artwork collection since there's no specific user artwork endpoint
-      // In a real implementation, you'd filter artworks by the current user's ID
-      const response = await api.getArtworks({ userId: userId, limit: 50 });
-      if (response.success) {
-        setArtworks(response.data || []);
-      } else {
-        setArtworks([]);
-      }
+      const artworks = await api.getArtworks({ userId: userId, limit: 50 });
+      setArtworks(artworks || []);
     } catch (error) {
       console.error('Failed to load artworks:', error);
       toast.error('Failed to load artworks');
-      setArtworks([]); // Set empty array on error
+      setArtworks([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleArtworkSubmit = (newArtwork) => {
-    // Add the new artwork to the local state
-    const artwork = {
-      ...newArtwork,
-      id: Date.now().toString(), // Temporary ID
-      likes: 0,
-      status: 'published',
-      createdAt: new Date().toISOString()
-    };
-    setArtworks([artwork, ...artworks]);
-    setShowModal(false);
-    toast.success('Your artwork has been added successfully!');
+  const handleArtworkSubmit = async (newArtwork) => {
+    try {
+      const createdArtwork = await api.createArtwork(newArtwork);
+      setArtworks([createdArtwork, ...artworks]);
+      setShowModal(false);
+      toast.success('Your artwork has been added successfully!');
+    } catch (error) {
+      console.error('Failed to create artwork:', error);
+      toast.error('Failed to create artwork');
+    }
   };
 
-  const handleDelete=async (artworkId)=>{
-    const confirmed=window.confirm("Are you sure you want to delete this artwork?");
-    if(!confirmed) return;
+  const handleDelete = async (artworkId) => {
+    const confirmed = window.confirm("Are you sure you want to delete this artwork?");
+    if (!confirmed) return;
 
-    try{
-      await api.delete(`/api/artworks/${artworkId}`);
-      setArtworks(prev=>prev.filter(a=>a.id !==artworkId));
-      toast.success("Artwork deleted succeefully");
-    }catch(error){
+    try {
+      await api.deleteArtwork(artworkId);
+      setArtworks(prev => prev.filter(a => a._id !== artworkId));
+      toast.success("Artwork deleted successfully");
+    } catch (error) {
+      console.error('Failed to delete artwork:', error);
       toast.error("Failed to delete artwork");
     }
   };
@@ -128,10 +121,10 @@ export default function UserArtworks({ userId }) {
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredArtworks.map((artwork) => (
-            <div key={artwork.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+            <div key={artwork._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
               <div className="relative">
                 <img 
-                  src={artwork.image} 
+                  src={artwork.imageUrl || artwork.image} 
                   alt={artwork.title}
                   className="w-full h-48 object-cover"
                 />
@@ -154,12 +147,12 @@ export default function UserArtworks({ userId }) {
                   </button>
                 </div>
                 
-                <p className="text-sm text-gray-500 mb-3">{artwork.category}</p>
+                <p className="text-sm text-gray-500 mb-3">{artwork.category || artwork.artform}</p>
                 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-gray-500">
                     <span className="text-red-500 mr-1">❤️</span>
-                    <span className="text-sm">{artwork.likes} likes</span>
+                    <span className="text-sm">{(artwork.likes && artwork.likes.length) || 0} likes</span>
                   </div>
                   
                   <div className="flex space-x-2">
@@ -167,7 +160,7 @@ export default function UserArtworks({ userId }) {
                       Edit
                     </button>
                     <button 
-                      onClick={() => handleDelete(artwork.id)}
+                      onClick={() => handleDelete(artwork._id)}
                       className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded"
                     >
                       Delete
@@ -200,14 +193,14 @@ export default function UserArtworks({ userId }) {
         
         <div className="bg-gradient-to-br from-red-100 to-red-200 rounded-xl p-6 text-center">
           <div className="text-2xl font-bold text-red-600">
-            {artworks.reduce((total, artwork) => total + artwork.likes, 0)}
+            {artworks.reduce((total, artwork) => total + ((artwork.likes && artwork.likes.length) || 0), 0)}
           </div>
           <div className="text-red-800 font-medium">Total Likes</div>
         </div>
         
         <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl p-6 text-center">
           <div className="text-2xl font-bold text-blue-600">
-            {artworks.length > 0 ? Math.round(artworks.reduce((total, artwork) => total + artwork.likes, 0) / artworks.length) : 0}
+            {artworks.length > 0 ? Math.round(artworks.reduce((total, artwork) => total + ((artwork.likes && artwork.likes.length) || 0), 0) / artworks.length) : 0}
           </div>
           <div className="text-blue-800 font-medium">Avg. Likes</div>
         </div>
