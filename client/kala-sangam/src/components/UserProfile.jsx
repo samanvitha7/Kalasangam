@@ -95,9 +95,7 @@ export default function UserProfile({ profile, stats, onProfileUpdate }) {
 
 
   return (
-    <div className="max-w-6xl mx-auto bg-[#F8E6DA] rounded-3xl p-8 mb-8 border border-[#E05264]/20 shadow-[0_0_30px_rgba(224,82,100,0.2)]">
-      {/* Inner Content Container */}
-      <div className="space-y-8">
+    <div className="space-y-8">
         {/* Header Section */}
         <motion.div 
           className="flex items-center justify-between"
@@ -361,7 +359,6 @@ export default function UserProfile({ profile, stats, onProfileUpdate }) {
             <RecentActivity userId={profile?.id} />
           </div>
         </motion.div>
-      </div>
     </div>
   );
 }

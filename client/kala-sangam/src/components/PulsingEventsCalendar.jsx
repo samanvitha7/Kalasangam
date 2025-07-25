@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 
 const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
+
+const eventSymbols = {
+  music: ['🎵', '🎼', '🎤', '🎸', '🥁', '🎹'],
+  dance: ['💃', '🕺', '👯', '🎭', '🌟', '✨'],
+  art: ['🎨', '🖌️', '🖼️', '🎪', '🌈', '🎭'],
+  crafts: ['🧵', '🪡', '🏺', '🔨', '✂️', '🎁'],
+  default: ['🎊', '🎉', '⭐', '🌟', '✨', '🎈']
+};
 
 const PulsingHeart = ({ event, onClick, isActive }) => {
   const [pulse, setPulse] = useState(false);
@@ -31,11 +40,11 @@ const PulsingHeart = ({ event, onClick, isActive }) => {
 
   const getEventColor = (category) => {
     switch (category) {
-      case 'music': return 'bg-gradient-to-br from-blue-400 to-indigo-500';
-      case 'dance': return 'bg-gradient-to-br from-purple-400 to-pink-500';
-      case 'art': return 'bg-gradient-to-br from-green-400 to-teal-500';
-      case 'crafts': return 'bg-gradient-to-br from-yellow-400 to-orange-500';
-      default: return 'bg-gradient-to-br from-orange-400 to-red-500';
+      case 'music': return 'bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c]';
+      case 'dance': return 'bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c]';
+      case 'art': return 'bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c]';
+      case 'crafts': return 'bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c]';
+      default: return 'bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c]';
     }
   };
 
@@ -98,7 +107,7 @@ const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
   };
 
   return (
-    <div className="relative w-80 h-80 mx-auto">
+    <div className="relative w-96 h-96 mx-auto">
       {/* Calendar background circle */}
       <motion.div
         className="absolute inset-0 rounded-full border-4 border-gradient-to-r from-orange-300 via-pink-300 to-purple-300 bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 shadow-2xl"
@@ -109,9 +118,9 @@ const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
       
       {/* Month indicator */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="text-center bg-white/80 rounded-full px-6 py-4 shadow-lg">
-          <h3 className="text-2xl font-bold text-gray-800 font-yatra">{months[currentMonth]}</h3>
-          <p className="text-sm text-gray-600">Cultural Calendar</p>
+        <div className="text-center bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c] rounded-full px-6 py-4 shadow-lg">
+          <h3 className="text-2xl font-bold text-white font-yatra">{months[currentMonth]}</h3>
+          <p className="text-sm text-white/90">Cultural Calendar</p>
         </div>
       </div>
 
@@ -137,7 +146,7 @@ const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
       <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
         <motion.button
           onClick={() => setCurrentMonth((prev) => (prev - 1 + 12) % 12)}
-          className="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-lg font-semibold text-sm"
+          className="px-4 py-2 bg-gradient-to-r from-[#134856] to-[#e05264] text-white rounded-full hover:from-[#0f3e4a] hover:to-[#d03e56] transition-all duration-300 shadow-lg font-semibold text-sm"
           whileHover={{ scale: 1.1, y: -2 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -145,7 +154,7 @@ const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
         </motion.button>
         <motion.button
           onClick={() => setCurrentMonth((prev) => (prev + 1) % 12)}
-          className="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-lg font-semibold text-sm"
+          className="px-4 py-2 bg-gradient-to-r from-[#134856] to-[#e05264] text-white rounded-full hover:from-[#0f3e4a] hover:to-[#d03e56] transition-all duration-300 shadow-lg font-semibold text-sm"
           whileHover={{ scale: 1.1, y: -2 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -188,11 +197,11 @@ const EventDetailsCard = ({ event, onClose }) => {
 
   const getCategoryColor = (category) => {
     switch (category) {
-      case 'music': return 'bg-blue-100 text-blue-600';
-      case 'dance': return 'bg-purple-100 text-purple-600';
-      case 'art': return 'bg-green-100 text-green-600';
-      case 'crafts': return 'bg-yellow-100 text-yellow-600';
-      default: return 'bg-orange-100 text-orange-600';
+      case 'music': return 'bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c] text-blue';
+      case 'dance': return 'bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c] text-blue';
+      case 'art': return 'bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c] text-blue';
+      case 'crafts': return 'bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c] text-blue';
+      default: return 'bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c] text-blue';
     }
   };
 
@@ -359,6 +368,7 @@ export default function PulsingEventsCalendar() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [emailSubscription, setEmailSubscription] = useState('');
+  const navigate = useNavigate();
 
   // Fetch events from backend
   useEffect(() => {
@@ -440,7 +450,7 @@ export default function PulsingEventsCalendar() {
   }
 
   return (
-    <section className="relative min-h-screen bg-[#F8E6DA] py-16 overflow-hidden">
+    <section className="relative bg-[#F8E6DA] py-8 overflow-hidden">
       <SeasonalBackground />
       
       <div className="relative z-10 max-w-7xl mx-auto px-6">
@@ -451,10 +461,10 @@ export default function PulsingEventsCalendar() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="inline-block text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+          <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Cultural Events Calendar
           </h1>
-          <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
+          <p className="text-lg font-lora text-xl font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
             Discover upcoming festivals, workshops, and performances. Each pulse reveals new opportunities to immerse yourself in India's rich cultural heritage.
           </p>
         </motion.div>
@@ -482,7 +492,7 @@ export default function PulsingEventsCalendar() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <h3 className="text-3xl font-bold text-gray-800 mb-6 font-yatra">Upcoming Events</h3>
+              <h3 className="text-3xl font-bold text-teal-blue mb-6 font-lora">Upcoming Events</h3>
               <div className="space-y-4 max-h-96 overflow-y-auto">
                 {upcomingEvents.length > 0 ? upcomingEvents.map((event, index) => (
                   <motion.div
@@ -495,19 +505,13 @@ export default function PulsingEventsCalendar() {
                     whileHover={{ scale: 1.02 }}
                   >
                     <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl ${
-                        event.category === 'music' ? 'bg-gradient-to-br from-blue-400 to-indigo-500' :
-                        event.category === 'dance' ? 'bg-gradient-to-br from-purple-400 to-pink-500' :
-                        event.category === 'art' ? 'bg-gradient-to-br from-green-400 to-teal-500' :
-                        event.category === 'crafts' ? 'bg-gradient-to-br from-yellow-400 to-orange-500' :
-                        'bg-gradient-to-br from-orange-400 to-red-500'
-                      }`}>
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-xl bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c]">
                         {event.type === 'workshop' ? '🎨' : 
                          event.type === 'performance' ? '🎵' : 
                          event.type === 'exhibition' ? '🖼️' : '🎊'}
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-gray-800">{event.title}</h4>
+                        <h4 className="font-semibold text-[#1D7C6F]">{event.title}</h4>
                         <p className="text-sm text-gray-600">{event.location.city}, {event.location.state}</p>
                         <p className="text-xs text-pink-600 font-medium">
                           {new Date(event.date).toLocaleDateString('en-US', { 
@@ -523,6 +527,23 @@ export default function PulsingEventsCalendar() {
                   <p className="text-gray-500 text-center py-8">No upcoming events found.</p>
                 )}
               </div>
+              
+              {/* View All Events Button */}
+              <motion.div
+                className="mt-6 text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+              >
+                <motion.button
+                  onClick={() => navigate('/events')}
+                  className="px-8 py-3 bg-gradient-to-r from-[#134856] to-[#e05264] text-white rounded-full hover:from-[#0f3e4a] hover:to-[#d03e56] transition-all duration-300 shadow-lg font-semibold text-sm"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  View All Events →
+                </motion.button>
+              </motion.div>
             </motion.div>
           </div>
         ) : (

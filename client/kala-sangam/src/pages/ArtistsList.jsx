@@ -150,20 +150,7 @@ const ArtistsList = () => {
           </p>
           
           {/* Action Buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <motion.div
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link 
-                to="/signup?role=artist"
-                className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-dm-serif"
-              >
-                <FaPalette className="text-white" />
-                Join as Artist
-              </Link>
-            </motion.div>
-          </div>
+          
         </motion.section>
 
         {/* Search and Filter Controls */}

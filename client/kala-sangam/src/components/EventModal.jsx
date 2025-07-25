@@ -21,6 +21,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
     maxParticipants: '',
     imageUrl: '',
     registrationRequired: false,
+    registrationLink: '',
     contactEmail: '',
     contactPhone: ''
   });
@@ -491,6 +492,24 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     Registration Required
                   </label>
                 </div>
+              </div>
+
+              {/* Registration Link */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Registration/Event Link (Optional)
+                </label>
+                <input
+                  type="url"
+                  name="registrationLink"
+                  value={formData.registrationLink}
+                  onChange={handleChange}
+                  placeholder="https://example.com/register or https://eventbrite.com/..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Add a link for registration, tickets, or more information about the event
+                </p>
               </div>
 
               {/* Contact Information */}

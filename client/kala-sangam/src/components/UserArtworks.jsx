@@ -145,7 +145,7 @@ export default function UserArtworks({ userId }) {
         </div>
         <button 
           onClick={handleAddNew}
-          className="px-6 py-3 bg-gradient-to-r from-[#E05264] to-[#F7A072] text-white rounded-full hover:shadow-lg transition-all duration-300 font-serif font-medium"
+          className="px-6 py-3 bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white rounded-full hover:shadow-lg transition-all duration-300 font-serif font-medium"
         >
           + Add New Artwork
         </button>
@@ -165,7 +165,7 @@ export default function UserArtworks({ userId }) {
             whileTap={{ scale: 0.95 }}
             className={`px-6 py-3 rounded-full font-serif font-medium transition-all duration-300 ${
               filter === tab.id
-                ? 'bg-gradient-to-r from-[#E05264] to-[#F7A072] text-white shadow-lg'
+                ? 'bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white shadow-lg'
                 : 'bg-white/70 backdrop-blur-sm text-gray-700 hover:bg-white/90 border border-gray-200/50 hover:shadow-md'
             }`}
           >
@@ -182,7 +182,7 @@ export default function UserArtworks({ userId }) {
           <p className="text-gray-500 mb-6">Start sharing your artistic creations with the community!</p>
           <button 
             onClick={handleAddNew}
-            className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+            className="px-6 py-3 bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white rounded-lg hover:shadow-lg transition-all duration-300"
           >
             Create Your First Artwork
           </button>
@@ -223,13 +223,13 @@ export default function UserArtworks({ userId }) {
                   <div className="flex space-x-2">
                     <button 
                       onClick={() => handleEdit(artwork)}
-                      className="px-3 py-1 text-sm text-teal-600 hover:bg-teal-50 rounded"
+                      className="px-3 py-1 text-sm text-white bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] hover:shadow-lg rounded transition-all duration-300"
                     >
                       Edit
                     </button>
                     <button 
                       onClick={() => handleDelete(artwork._id)}
-                      className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded"
+                      className="px-3 py-1 text-sm text-white bg-gradient-to-r from-red-500 to-red-600 hover:shadow-lg rounded transition-all duration-300"
                     >
                       Delete
                     </button>

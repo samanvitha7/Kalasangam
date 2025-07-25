@@ -95,38 +95,44 @@ export default function Header({ scrolled, onMapClick }) {
 
            <Link
               to="/gallery"
-              className="font-winky mt-[10px] font-[500]  transition-all duration-300 ease-in-out hover:text-rosehover"
+              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
             >
             Art Gallery
             </Link>
 
-
-
-
             <Link
               to="/art-wall"
-              className="font-winky mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
             >
               Art Wall
             </Link>
 
             <Link
               to="/artists"
-              className="font-winky mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
             >
               Artists
             </Link>
 
-        <div className="relative mt-[8px]" ref={dropdownRef}>
+        <div className="relative flex items-center" ref={dropdownRef}>
   <span
     className={`
-      font-winky font-[500] text-tealblue cursor-pointer
+      font-winky font-[500] text-tealblue cursor-pointer flex items-center
       transition-all duration-300 ease-in-out
       hover:text-rosehover
     `}
     onClick={() => setShowDropdown(!showDropdown)}
   >
-    Explore {showDropdown ? "▾" : ">"}
+    Explore 
+    <svg 
+      className={`w-4 h-4 ml-1 transition-transform duration-200 ${
+        showDropdown ? 'rotate-90' : 'rotate-0'
+      }`} 
+      fill="currentColor" 
+      viewBox="0 0 20 20"
+    >
+      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+    </svg>
   </span>
 
   {showDropdown && (
@@ -167,7 +173,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/map"
-           className="font-winky mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+           className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
             
             onClick={onMapClick}
           >
@@ -176,7 +182,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/events"
-            className="font-winky mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+            className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
             
           >
             Events
@@ -184,7 +190,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/about"
-            className="font-winky mt-[10px] font-[500]   transition-all duration-300 ease-in-out hover:text-rosehover"
+            className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
           >
             About
           </Link>
@@ -257,35 +263,32 @@ export default function Header({ scrolled, onMapClick }) {
                   </div>
                 </li>
 
-                  
-                  <li>
-                    
-                    <Link
-                        to="/profile"
-                        className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                          scrolled 
-                            ? " hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
-                            : "text-tealblue hover:text-vermilion"
-                        }`}
-
-                      >
-                        <div className="flex items-center space-x-2">
-                          <span>👤</span>
-                          <span>My Profile</span>
-                        </div>
-                      </Link>
-                      </li>
-
-                  
-                  
+                  {/* Main Menu Items */}
                   <li>
                     <Link
                       to="/profile"
                       className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                          scrolled 
-                            ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
-                            : "text-tealblue hover:text-vermilion"
-                        }`}
+                        scrolled 
+                          ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
+                          : "text-tealblue hover:text-vermilion"
+                      }`}
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>👤</span>
+                        <span>Profile</span>
+                      </div>
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/profile"
+                      className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                        scrolled 
+                          ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
+                          : "text-tealblue hover:text-vermilion"
+                      }`}
                       onClick={() => setShowUserDropdown(false)}
                     >
                       <div className="flex items-center space-x-2">
@@ -299,10 +302,50 @@ export default function Header({ scrolled, onMapClick }) {
                     <Link
                       to="/profile"
                       className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                          scrolled 
-                            ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
-                            : "text-tealblue hover:text-vermilion"
-                        }`}
+                        scrolled 
+                          ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
+                          : "text-tealblue hover:text-vermilion"
+                      }`}
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>📅</span>
+                        <span>My Events</span>
+                      </div>
+                    </Link>
+                  </li>
+                  
+                  <li>
+                    <Link
+                      to="/profile"
+                      className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                        scrolled 
+                          ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
+                          : "text-tealblue hover:text-vermilion"
+                      }`}
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>❤️</span>
+                        <span>Liked Posts</span>
+                      </div>
+                    </Link>
+                  </li>
+                  
+                  {/* Divider */}
+                  <li className="mx-4 my-2">
+                    <div className={`h-px ${scrolled ? "bg-rosered/20" : "bg-tealblue/20"}`}></div>
+                  </li>
+                  
+                  {/* Account Menu Items */}
+                  <li>
+                    <Link
+                      to="/profile"
+                      className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                        scrolled 
+                          ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow" 
+                          : "text-tealblue hover:text-vermilion"
+                      }`}
                       onClick={() => setShowUserDropdown(false)}
                     >
                       <div className="flex items-center space-x-2">
@@ -312,20 +355,20 @@ export default function Header({ scrolled, onMapClick }) {
                     </Link>
                   </li>
                   
-                  <li className="border-t border-gray-100">
+                  <li>
                     <button
-  onClick={handleLogout}
-  className={`w-full block px-4 py-3 rounded-md transition-all duration-300 ${
-    scrolled
-      ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow"
-      : "text-tealblue hover:text-vermilion"
-  }`}
->
-  <div className="flex items-center space-x-2">
-    <span>🚪</span>
-    <span>Sign Out</span>
-  </div>
-</button>
+                      onClick={handleLogout}
+                      className={`w-full text-left block px-4 py-3 rounded-md transition-all duration-300 ${
+                        scrolled
+                          ? "hover:bg-rosered/20 text-blushpeach hover:text-saffronglow"
+                          : "text-tealblue hover:text-vermilion"
+                      }`}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span>🚪</span>
+                        <span>Logout</span>
+                      </div>
+                    </button>
 
                   </li>
                 </ul>

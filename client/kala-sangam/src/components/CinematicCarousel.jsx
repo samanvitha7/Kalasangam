@@ -86,10 +86,10 @@ export default function CinematicCarousel() {
     <div className="cinema-wrapper bg-[#F8E6DA] py-16">
       {/* Hero Section - Exact ArtWall Match */}
       <div className="text-center mb-12 container mx-auto px-4">
-        <h1 className="inline-block text-5xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+        <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
           Art Showcase
         </h1>
-        <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
+        <p className="text-lg text-xl font-lora font-semibold text-coral-pink max-w-3xl mx-auto leading-relaxed mb-10">
           Discover the vibrant tapestry of Indian art through our curated collection of traditional and contemporary masterpieces.
         </p>
       </div>
@@ -104,7 +104,7 @@ export default function CinematicCarousel() {
       <div className="cinema-fade" />
       <div className="cinema-bottom-wrapper">
         <button 
-          className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 font-dm-serif"
+          className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 font-dm-serif"
           onClick={() => navigate("/gallery")}
         >
           Explore Gallery →
