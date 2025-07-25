@@ -71,7 +71,7 @@ function MeetTheTeam() {
       </div>
 
       <motion.h2 
-        className="text-4xl font-bold text-center mb-16 text-[#8b4513] font-[Yatra One]"
+        className="text-4xl font-bold text-center mb-16 text-[#8b4513] font-dm-serif"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
