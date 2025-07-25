@@ -88,7 +88,7 @@ const ArtistProfile = () => {
             const artistData = response.data;
             setArtist({
               ...artistData,
-              profileImage: artistData.avatar || 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face',
+              profileImage: artistData.avatar || '/assets/parallaximg.png',
               coverImage: '/assets/parallaximg.png',
               specialties: artistData.specialization ? [artistData.specialization] : ['Traditional Arts'],
               totalLikes: artistData.likesCount || 0,
@@ -296,7 +296,7 @@ const ArtistProfile = () => {
       </motion.div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      <div className="container px-4 py-8 relative z-10">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Left sidebar */}
           <motion.div
@@ -385,7 +385,7 @@ const ArtistProfile = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-6xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent drop-shadow-lg">
+              <h2 className="text-5xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent drop-shadow-lg">
                 Artworks ({artworks.length})
               </h2>
             </div>

@@ -4,7 +4,8 @@ import 'react-calendar/dist/Calendar.css';
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
-import { FaPlus, FaFilter, FaSearch, FaTimes, FaEdit, FaTrash, FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUsers, FaBookmark, FaHeart } from 'react-icons/fa';
+import { FaPlus, FaFilter, FaSearch, FaTimes, FaEdit, FaTrash, FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUsers, FaBookmark, FaHeart, FaCalendarPlus } from 'react-icons/fa';
+import { SiGooglecalendar } from 'react-icons/si';
 import EventModal from '../components/EventModal';
 import api from '../utils/axios';
 import { Link } from 'react-router-dom';
@@ -259,6 +260,62 @@ function EventsPage() {
     window.open(link, '_blank');
   };
 
+  // Generate Google Calendar URL for an event
+  const generateGoogleCalendarUrl = (event) => {
+    const baseUrl = 'https://calendar.google.com/calendar/render';
+    
+    // Format date and time for Google Calendar
+    const eventDate = new Date(event.date);
+    const [hours, minutes] = event.time.split(/[: ]/);
+    const isPM = event.time.toLowerCase().includes('pm');
+    let hour24 = parseInt(hours);
+    
+    if (isPM && hour24 !== 12) hour24 += 12;
+    if (!isPM && hour24 === 12) hour24 = 0;
+    
+    eventDate.setHours(hour24, parseInt(minutes) || 0, 0, 0);
+    
+    // Create end time (assume 2 hours duration)
+    const endDate = new Date(eventDate.getTime() + 2 * 60 * 60 * 1000);
+    
+    // Format dates for Google Calendar (YYYYMMDDTHHMMSSZ)
+    const formatDateForGoogle = (date) => {
+      return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    };
+    
+    const startTime = formatDateForGoogle(eventDate);
+    const endTime = formatDateForGoogle(endDate);
+    
+    // Construct event details without double encoding
+    const title = event.title;
+    const details = (
+      `${event.description}\n\n` +
+      `Category: ${event.category}\n` +
+      `Type: ${event.type}\n` +
+      (event.instructor ? `Instructor: ${event.instructor}\n` : '') +
+      (event.price > 0 ? `Price: ₹${event.price}\n` : '') +
+      (event.link ? `More Info: ${event.link}` : '')
+    );
+    const location = `${event.location.venue}, ${event.location.city}`;
+    
+    // Build the URL with proper encoding
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: title,
+      dates: `${startTime}/${endTime}`,
+      details: details,
+      location: location,
+      trp: 'false'
+    });
+    
+    return `${baseUrl}?${params.toString()}`;
+  };
+
+  const handleAddToGoogleCalendar = (event) => {
+    const googleCalendarUrl = generateGoogleCalendarUrl(event);
+    window.open(googleCalendarUrl, '_blank');
+  };
+
   const renderEventCard = (event) => {
     // Event data is already normalized since it's hardcoded
     const normalizedEvent = event;
@@ -328,12 +385,23 @@ function EventsPage() {
             {normalizedEvent.type}
           </span>
           
-          <button 
-            onClick={() => handleRegisterClick(normalizedEvent.link || '#')}
-            className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-md hover:shadow-lg"
-          >
-            {normalizedEvent.registrationRequired ? 'Register' : 'Learn More'}
-          </button>
+          <div className="flex gap-2">
+            <button 
+              onClick={() => handleAddToGoogleCalendar(normalizedEvent)}
+              className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-md hover:shadow-lg flex items-center gap-2"
+              title="Add to Google Calendar"
+            >
+              <SiGooglecalendar className="text-base" />
+              <span className="hidden sm:inline">Add to Calendar</span>
+            </button>
+            
+            <button 
+              onClick={() => handleRegisterClick(normalizedEvent.link || '#')}
+              className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-md hover:shadow-lg"
+            >
+              {normalizedEvent.registrationRequired ? 'Register' : 'Learn More'}
+            </button>
+          </div>
         </div>
       </motion.div>
     );
@@ -663,6 +731,30 @@ function EventsPage() {
             <p className="text-gray-500">Try adjusting your search or filter criteria</p>
           </motion.div>
         )}
+
+        {/* Call to Action */}
+        <motion.div 
+          className="mt-16 bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-dm-serif font-bold mb-6">Do you organize events?</h2>
+          <p className="text-xl font-lora mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed">
+            Join our platform to showcase your cultural events and workshops. Connect with art enthusiasts and help preserve India's rich cultural heritage through meaningful experiences.
+          </p>
+          <motion.div
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link
+              to="/signup"
+              className="inline-block px-8 py-4 bg-white text-[#134856] font-semibold font-dm-serif rounded-full hover:bg-[#F8E6DA] transition-colors duration-300 shadow-lg"
+            >
+              Become an Event Organizer
+            </Link>
+          </motion.div>
+        </motion.div>
 
         {/* Event Modal */}
         <EventModal

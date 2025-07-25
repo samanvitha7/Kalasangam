@@ -111,7 +111,7 @@ function Section({ title, description, bg, isVideo, exploreRoute, exploreText })
 
       {/* Animated content */}
       <motion.div
-        className="relative z-20 max-w-4xl px-8 text-center text-white font-yatra"
+        className="relative z-20 max-w-4xl px-8 text-center text-white font-dm-serif"
         initial="hidden"
         animate={controls}
         variants={{
@@ -119,9 +119,10 @@ function Section({ title, description, bg, isVideo, exploreRoute, exploreText })
           hidden: { opacity: 0, y: 50 },
         }}
       >
-        <h2 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-extrabold mb-6 drop-shadow-lg">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold mb-6 drop-shadow-lg">
           {title}
         </h2>
+
         <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl leading-relaxed drop-shadow-md mb-6">
           {description}
         </p>
@@ -129,7 +130,7 @@ function Section({ title, description, bg, isVideo, exploreRoute, exploreText })
 
         {/* Pink underline */}
         <motion.div
-          className="mt-8 mx-auto w-16 h-1 bg-pink-600 rounded-full origin-left"
+          className="mt-8 mx-auto w-16 h-1 bg-coral-pink rounded-full origin-left"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1 }}
@@ -138,7 +139,7 @@ function Section({ title, description, bg, isVideo, exploreRoute, exploreText })
         {/* Explore Button */}
         <motion.button
           onClick={() => navigate(exploreRoute)}
-          className="mt-8 px-8 py-3 bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-dm-serif"
+          className="mt-8 px-8 py-3 bg-gradient-to-r from-[#134856] to-[#e05264] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-lora"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
@@ -176,7 +177,7 @@ export default function StorytellingScroll() {
       {/* Vertical progress bar */}
       <div className="relative w-4 bg-gray-300">
         <motion.div
-          className="absolute left-0 top-0 w-4 bg-pink-600 rounded-full"
+          className="absolute left-0 top-0 w-4 bg-gradient-to-b from-[#134856] to-[#e05264] rounded-full"
           style={{ height: `${progress * 100}%` }}
         />
       </div>

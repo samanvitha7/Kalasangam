@@ -18,6 +18,7 @@ export default function Signup() {
   });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({
     name: "",
@@ -108,7 +109,7 @@ export default function Signup() {
       return;
     }
 
-    const result = await register(form);
+    const result = await register(form, rememberMe);
     if (result.success) {
       toast.success("Account created successfully! Welcome to KalaSangam!");
       
@@ -278,6 +279,24 @@ export default function Signup() {
                 {fieldErrors.privacy}
               </p>
             )}
+          </div>
+          
+          {/* Remember Me Checkbox */}
+          <div>
+            <label className="flex items-start gap-3 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="mt-1 w-4 h-4 text-teal-blue border border-gray-300 rounded focus:ring-2 focus:ring-teal-blue transition-all duration-200"
+              />
+              <span className="text-[#284139] leading-relaxed">
+                <strong>Remember me</strong> - Stay logged in even after closing the browser
+              </span>
+            </label>
+            <p className="text-xs text-teal-200 mt-1 ml-7">
+              If unchecked, you'll need to log in again when you close and reopen the website
+            </p>
           </div>
         </div>
         <div className="mb-4 p-4 bg-teal-100 rounded-xl border-2 border-teal-300">

@@ -4,8 +4,12 @@ import { Link } from 'react-router-dom';
 
 export default function CommunityGuidelines() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-green-50 to-yellow-50 py-12 px-4">
-      <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-12">
+    <div
+      className="min-h-screen bg-cover bg-center flex items-center justify-center px-4 py-12"
+      style={{ backgroundImage: `url('/assets/parallaximg.png')` }}
+    >
+      <div className="bg-[linear-gradient(to_bottom,rgba(255,190,152,0.95),rgba(255,187,233,0.95),rgba(44,165,141,0.95))] 
+                      p-8 md:p-12 rounded-3xl max-w-4xl w-full shadow-xl border border-white/20 font-lora max-h-[90vh] overflow-y-auto">
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold text-tealblue mb-4 font-lora">
             Community Guidelines

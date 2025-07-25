@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login, isAuthenticated, loading, clearError } = useAuth();
@@ -40,7 +41,7 @@ const handleSubmit = async (e) => {
       return;
     }
 
-    const result = await login(form);
+    const result = await login(form, rememberMe);
     if (result.success) {
       toast.success("Login successful!");
       navigate("/home");
@@ -94,6 +95,24 @@ const handleSubmit = async (e) => {
           onChange={handleChange}
           className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
         />
+
+        {/* Remember Me Checkbox */}
+        <div className="mb-4">
+          <label className="flex items-center gap-3 text-sm cursor-pointer">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="w-4 h-4 text-teal-blue border border-gray-300 rounded focus:ring-2 focus:ring-teal-blue transition-all duration-200"
+            />
+            <span className="text-[#284139] leading-relaxed">
+              <strong>Remember me</strong> - Stay logged in after closing browser
+            </span>
+          </label>
+          <p className="text-xs text-teal-200 mt-1 ml-7">
+            If unchecked, you'll be logged out when you close the website
+          </p>
+        </div>
 
         <div className="text-right text-sm text-teal-200 mb-6">
           <Link to="/forgot-password" className="hover:underline hover:text-coral-pink">Forgot Password?</Link>

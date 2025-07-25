@@ -4,9 +4,28 @@ import api from '../utils/axios';
 
 const AuthContext = createContext();
 
+const getStoredToken = () => {
+  return localStorage.getItem('token') || sessionStorage.getItem('token');
+};
+
+const setTokenStorage = (token, rememberMe = true) => {
+  if (rememberMe) {
+    localStorage.setItem('token', token);
+    sessionStorage.removeItem('token');
+  } else {
+    sessionStorage.setItem('token', token);
+    localStorage.removeItem('token');
+  }
+};
+
+const removeTokenFromStorage = () => {
+  localStorage.removeItem('token');
+  sessionStorage.removeItem('token');
+};
+
 const initialState = {
   user: null,
-  token: localStorage.getItem('token'),
+  token: getStoredToken(),
   isAuthenticated: false,
   loading: true,
   error: null
@@ -24,7 +43,7 @@ const authReducer = (state, action) => {
       };
     case 'REGISTER_SUCCESS':
     case 'LOGIN_SUCCESS':
-      localStorage.setItem('token', action.payload.token);
+      // Token storage is now handled in the action dispatch
       return {
         ...state,
         token: action.payload.token,
@@ -36,7 +55,7 @@ const authReducer = (state, action) => {
     case 'REGISTER_FAIL':
     case 'LOGIN_FAIL':
     case 'AUTH_ERROR':
-      localStorage.removeItem('token');
+      removeTokenFromStorage();
       return {
         ...state,
         token: null,
@@ -46,7 +65,7 @@ const authReducer = (state, action) => {
         error: action.payload
       };
     case 'LOGOUT':
-      localStorage.removeItem('token');
+      removeTokenFromStorage();
       return {
         ...state,
         token: null,
@@ -84,7 +103,7 @@ export const AuthProvider = ({ children }) => {
 
   // Load user
   const loadUser = async () => {
-    const token = localStorage.getItem('token');
+    const token = getStoredToken();
     
     // If no token exists, don't make the API call
     if (!token) {
@@ -106,7 +125,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       // Handle 401 errors silently as they're expected when not authenticated
       if (error.response?.status === 401) {
-        localStorage.removeItem('token');
+        removeTokenFromStorage();
         setAuthToken(null);
       }
       
@@ -118,7 +137,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Register user
-  const register = async (formData) => {
+  const register = async (formData, rememberMe = true) => {
   dispatch({ type: 'SET_LOADING', payload: true });
 
   try {
@@ -127,6 +146,9 @@ export const AuthProvider = ({ children }) => {
     console.log('Registration response:', res.data); // Debug log
     
     const { token, user } = res.data;
+
+    // Store token based on remember me preference
+    setTokenStorage(token, rememberMe);
 
     dispatch({
       type: 'REGISTER_SUCCESS',
@@ -172,11 +194,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Login user
-  const login = async (formData) => {
+  const login = async (formData, rememberMe = true) => {
     dispatch({ type: 'SET_LOADING', payload: true });
     
     try {
       const res = await api.post('/api/auth/login', formData);
+      
+      // Store token based on remember me preference
+      setTokenStorage(res.data.token, rememberMe);
+      
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: res.data

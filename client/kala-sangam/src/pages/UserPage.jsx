@@ -51,7 +51,6 @@ export default function UserPage() {
     navigate('/login');
   };
 
-  // Floating particles for background (matching ArtWall and About)
   const FloatingParticles = () => {
     const particles = Array.from({ length: 20 }, (_, i) => ({
       id: i,
@@ -104,12 +103,16 @@ export default function UserPage() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const menuItems = [
+  const mainMenuItems = [
     { id: 'profile', label: 'Profile', icon: FaUser },
     { id: 'artworks', label: 'My Artworks', icon: FaPalette },
     { id: 'events', label: 'My Events', icon: FaCalendarAlt },
-    { id: 'likes', label: 'Liked Posts', icon: FaHeart },
-    { id: 'settings', label: 'Settings', icon: FaCog }
+    { id: 'likes', label: 'Liked Posts', icon: FaHeart }
+  ];
+
+  const accountMenuItems = [
+    { id: 'settings', label: 'Settings', icon: FaCog },
+    { id: 'logout', label: 'Logout', icon: FaSignOutAlt, isAction: true }
   ];
 
   if (loading) {
@@ -123,152 +126,179 @@ export default function UserPage() {
     );
   }
 
+  const handleMenuClick = (itemId) => {
+    if (itemId === 'logout') {
+      handleLogout();
+    } else {
+      setActiveTab(itemId);
+    }
+    setSidebarOpen(false);
+  };
+
   return (
-    <div className="min-h-screen bg-white/10">
+    <div className="min-h-screen bg-blush-peach">
       <FloatingParticles />
       <FullBleedDivider />
       
-      {/* Header */}
-      <header className="bg-blush-peach/90 backdrop-blur-sm border-b border-gray-200/50 sticky top-0 z-50 shadow-sm">
-        <div className="px-6 py-5">
-          <div className="flex items-center justify-between">
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="md:hidden p-3 rounded-md text-[#134856] hover:text-[#E05264] hover:bg-[#E05264]/10 transition-all duration-200"
-            >
-              <FaBars className="w-5 h-5" />
-            </button>
-            
-            {/* Profile section */}
-            <div className="flex items-center space-x-5">
-              <img
-                src={profile?.avatar || '/default-avatar.png'}
-                alt={user?.name}
-                className="w-12 h-12 rounded-full border-2 border-gradient-to-r from-[#E05264] to-[#134856] shadow-lg"
-              />
-              <div className="text-left hidden sm:block">
-                <h1 className="text-xl font-dm-serif text-transparent bg-clip-text bg-gradient-to-r from-[#E05264] to-[#134856]">{user?.name}</h1>
-                <p className="text-base font-lora text-[#134856]/70">Artist Dashboard</p>
-              </div>
-            </div>
-            
-            {/* Logout button */}
-            <button
-              onClick={handleLogout}
-              className="flex items-center space-x-2 px-5 py-3 bg-gradient-to-r from-[#134856] to-[#E05264] text-white hover:from-red-600 hover:to-red-700 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-lora"
-            >
-              <FaSignOutAlt className="w-4 h-4" />
-              <span className="hidden sm:inline">Logout</span>
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* Mobile menu button */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="md:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-2xl shadow-lg text-[#134856] hover:text-[#E05264] transition-all duration-200"
+      >
+        <FaBars className="w-5 h-5" />
+      </button>
 
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-64 bg-blush-peach/95 backdrop-blur-sm border-r border-[#E05264]/20 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-0 shadow-lg`}>
-          <div className="h-full px-4 py-8 overflow-y-autobg-blush-peach/95">
-            {/* Navigation Header */}
-            <div className="mb-8">
-              <h3 className="text-lg font-dm-serif text-transparent bg-clip-text bg-gradient-to-r from-[#134856] to-[#E05264]">Dashboard</h3>
-              <div className="mt-2 h-px bg-gradient-to-r from-[#134856]/30 to-[#E05264]/30"></div>
-            </div>
-            
-            {/* Navigation */}
-            <nav className="space-y-3">
-              {menuItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      setActiveTab(item.id);
-                      setSidebarOpen(false);
-                    }}
-                    className={`w-full flex items-center px-5 py-4 text-left rounded-full transition-all duration-200 font-lora ${
-                      activeTab === item.id
-                        ? 'bg-gradient-to-r from-[#E05264] to-[#E05264]/80 text-white shadow-lg shadow-[#E05264]/30 transform scale-105'
-                        : 'text-[#134856] hover:bg-[#E05264]/10 hover:text-[#E05264] hover:shadow-md hover:scale-102'
-                    }`}
-                  >
-                    <Icon className="w-5 h-5 mr-4" />
-                    <span className="font-medium">{item.label}</span>
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
-        </aside>
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-gray-600 bg-opacity-50 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
 
-        {/* Overlay for mobile */}
-        {sidebarOpen && (
-          <div
-            className="fixed inset-0 z-30 bg-gray-600 bg-opacity-50 md:hidden"
-            onClick={() => setSidebarOpen(false)}
-          ></div>
-        )}
-
-        {/* Main Content */}
-        <main className="flex-1 p-6">
-          <div className="max-w-7xl mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* Page Header */}
-                <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900 capitalize">
-                    {menuItems.find(item => item.id === activeTab)?.label}
-                  </h2>
-                  <div className="mt-2 h-px bg-gray-200"></div>
+      {/* Combined Container */}
+      <div className="px-10 mt-10 mx-auto pb-10">
+        <div className="rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+          <div className="flex">
+            {/* Sidebar */}
+            <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-80 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:w-80 md:flex-shrink-0 bg-gradient-to-b from-[#134856] to-[#E05264]`}>
+              <div className="h-full px-6 py-8 overflow-y-auto">
+                {/* Navigation Header */}
+                <div className="mb-8">
+                  <h3 className="text-3xl font-bold font-dm-serif text-white">Dashboard</h3>
+                  <p className="text-white text-sm mt-1 font-lora">Navigate your workspace</p>
+                  <div className="mt-4 h-px bg-white/20"></div>
+                  
+                  {/* User Info */}
+                  <div className="mt-4 flex items-center space-x-3">
+                    <img
+                      src={profile?.avatar || '/default-avatar.png'}
+                      alt={user?.name}
+                      className="w-12 h-12 rounded-full border-2 border-white shadow-sm"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-white truncate font-dm-serif">{user?.name}</p>
+                      <p className="text-xs text-white/70 truncate font-lora">Artist Account</p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 h-px bg-white/20"></div>
                 </div>
+                
+                {/* Navigation */}
+                <nav className="space-y-2">
+                  {/* Main Menu Items */}
+                  {mainMenuItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = activeTab === item.id;
+                    
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => handleMenuClick(item.id)}
+                        className={`w-full flex items-center px-4 py-3 text-left rounded-2xl transition-all duration-200 font-lora ${
+                          isActive
+                            ? 'bg-gradient-to-r from-[#E05264] to-[#E05264]/90 text-white shadow-md transform scale-[1.02]'
+                            : 'text-white hover:bg-white/10 hover:shadow-sm'
+                        }`}
+                      >
+                        <Icon className="w-5 h-5 mr-3" />
+                        <span className="font-medium">{item.label}</span>
+                      </button>
+                    );
+                  })}
+                  
+                  {/* Divider */}
+                  <div className="mt-6 mb-4 h-px bg-white/20"></div>
+                  
+                  {/* Account Menu Items */}
+                  {accountMenuItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = activeTab === item.id;
+                    const isLogout = item.id === 'logout';
+                    
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => handleMenuClick(item.id)}
+                        className={`w-full flex items-center px-4 py-3 text-left rounded-2xl transition-all duration-200 font-lora ${
+                          isLogout
+                            ? 'text-white hover:bg-red-500/20 hover:text-red-200'
+                            : isActive
+                              ? 'bg-gradient-to-r from-[#E05264] to-[#E05264]/90 text-white shadow-md transform scale-[1.02]'
+                              : 'text-white hover:bg-white/10 hover:shadow-sm'
+                        }`}
+                      >
+                        <Icon className="w-5 h-5 mr-3" />
+                        <span className="font-medium">{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </nav>
+              </div>
+            </aside>
 
-                {/* Content */}
-                <div className="bg-transparent rounded-lg shadow-sm">
-                  {activeTab === 'profile' && (
-                    <div className="p-6">
+            {/* Vertical Divider */}
+            <div className="hidden md:block w-px bg-gray-200"></div>
+
+            {/* Main Content */}
+            <main className="flex-1 flex flex-col min-w-0 bg-white">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex-1 flex flex-col min-h-0"
+                >
+                  {/* Integrated Header inside container */}
+                  <div className="bg-gradient-to-r from-[#134856] to-[#E05264] px-8 py-6 border-b border-gray-100">
+                    <h2 className="text-4xl font-bold text-white capitalize font-dm-serif">
+                      {[...mainMenuItems, ...accountMenuItems].find(item => item.id === activeTab && !item.isAction)?.label}
+                    </h2>
+                    <p className="text-white text-2xl text-sm mt-1 font-lora">
+                      {activeTab === 'profile' && 'Manage your artist profile and personal information'}
+                      {activeTab === 'artworks' && 'View and manage your uploaded artworks'}
+                      {activeTab === 'events' && 'Track your event participation and history'}
+                      {activeTab === 'likes' && 'Browse artworks you\'ve liked and saved'}
+                      {activeTab === 'settings' && 'Configure your account preferences and settings'}
+                    </p>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 p-8">
+                    {activeTab === 'profile' && (
                       <UserProfile 
                         profile={profile} 
                         stats={stats} 
                         onProfileUpdate={loadUserData}
                       />
-                    </div>
-                  )}
-                  {activeTab === 'artworks' && (
-                    <div className="p-6">
+                    )}
+                    {activeTab === 'artworks' && (
                       <UserArtworks userId={user?.id} />
-                    </div>
-                  )}
-                  {activeTab === 'events' && (
-                    <div className="p-6">
+                    )}
+                    {activeTab === 'events' && (
                       <UserEvents userId={user?.id} />
-                    </div>
-                  )}
-                  {activeTab === 'likes' && (
-                    <div className="p-6">
+                    )}
+                    {activeTab === 'likes' && (
                       <UserLikedArtworks userId={user?.id} />
-                    </div>
-                  )}
-                  {activeTab === 'settings' && (
-                    <div className="p-6">
+                    )}
+                    {activeTab === 'settings' && (
                       <UserSettings 
                         user={user}
                         onLogout={handleLogout}
                       />
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                    )}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </main>
           </div>
-        </main>
+        </div>
       </div>
     </div>
   );
 }
+
 
