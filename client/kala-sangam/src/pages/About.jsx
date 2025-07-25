@@ -133,11 +133,7 @@ export default function About() {
       {/* Why We Built This - Enhanced */}
       <section className="relative py-12 px-6 bg-[#F8E6DA]">
         <div className="container mx-auto px-4">
-          <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-8 md:p-12">
-            <div className="bg-[#F8E6DA] rounded-2xl p-8 md:p-10">
-              <WhyWeBuiltThis />
-            </div>
-          </div>
+          <WhyWeBuiltThis />
         </div>
       </section>
 

@@ -26,13 +26,13 @@ const timeline = [
 
 function WhyWeBuiltThis() {
   return (
-    <section className="relative px-4 py-16 bg-[#F8E6DA]">
+    <div className="rounded-3xl p-8 md:p-12 bg-gradient-to-r from-[#1d7c6f] to-[#f48c8c]">
       {/* Background particles */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden rounded-3xl">
         {Array.from({ length: 8 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-3 h-3 bg-[#E05264] rounded-full opacity-20"
+            className="absolute w-3 h-3 bg-white rounded-full opacity-20"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -53,7 +53,7 @@ function WhyWeBuiltThis() {
       </div>
 
       <motion.h2 
-        className="text-4xl font-bold text-center mb-16 text-[#134856] font-[Yatra One]"
+        className="text-4xl font-bold text-center mb-16 text-white font-[Yatra One] relative z-10"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -63,12 +63,12 @@ function WhyWeBuiltThis() {
       </motion.h2>
 
       {/* Mobile: Horizontal Scroll */}
-      <div className="block md:hidden overflow-x-auto">
+      <div className="block md:hidden overflow-x-auto relative z-10">
         <div className="flex gap-3 px-2 min-w-fit">
           {timeline.map((item, idx) => (
             <motion.div
               key={idx}
-              className="flex-shrink-0 w-80 bg-white/95 backdrop-blur-sm border border-white/20 rounded-3xl shadow-xl p-6 relative"
+              className="flex-shrink-0 w-80 bg-[#F8E6DA] backdrop-blur-sm border border-white/20 rounded-3xl shadow-xl p-6 relative"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
@@ -93,9 +93,9 @@ function WhyWeBuiltThis() {
       </div>
 
       {/* Desktop: Vertical Timeline */}
-      <div className="hidden md:block relative max-w-5xl mx-auto">
+      <div className="hidden md:block relative max-w-5xl mx-auto z-10">
         <motion.div 
-          className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-[#134856] via-[#1D7C6F] to-[#E05264] rounded-full"
+          className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-white via-white/80 to-white/60 rounded-full"
           initial={{ scaleY: 0 }}
           whileInView={{ scaleY: 1 }}
           transition={{ duration: 1.5, delay: 0.5 }}
@@ -124,7 +124,7 @@ function WhyWeBuiltThis() {
             </motion.div>
 
             <motion.div
-              className={`bg-white/95 backdrop-blur-sm border border-white/20 max-w-md rounded-3xl shadow-xl p-8 relative z-10 ${item.side === "left" ? "mr-8" : "ml-8"}`}
+              className={`bg-[#F8E6DA] backdrop-blur-sm border border-white/20 max-w-md rounded-3xl shadow-xl p-8 relative z-10 ${item.side === "left" ? "mr-8" : "ml-8"}`}
               whileHover={{ 
                 scale: 1.05, 
                 rotateY: item.side === "left" ? 5 : -5,
@@ -171,7 +171,7 @@ function WhyWeBuiltThis() {
           </motion.div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 

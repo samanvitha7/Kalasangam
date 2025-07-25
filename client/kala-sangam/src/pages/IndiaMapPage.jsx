@@ -72,13 +72,13 @@ export default function IndiaMapPage({ onStateClick }) {
   };
 
   return (
-    <main ref={containerRef} className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#F8E6DA] via-[#FCD5B5] to-[#FFF7C2] text-center">
+    <main ref={containerRef} className="relative min-h-[150vh] overflow-hidden bg-gradient-to-b from-[#F8E6DA] via-[#FCD5B5] to-[#FFF7C2] text-center">
       <FullBleedDivider />
       
       {/* Floating Particles Background */}
       <FloatingParticles />
 
-      {/* Animated Ocean Background - Pushed much further down */}
+      {/* Animated Ocean Background - Behind lower half of map and extending down */}
       <motion.div 
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
         initial={{ opacity: 0 }}
@@ -86,8 +86,12 @@ export default function IndiaMapPage({ onStateClick }) {
         transition={{ duration: 1, delay: 0.3 }}
       >
         <motion.div
-          className="w-full h-full origin-center"
-          style={{ transform: "translateY(700px)" }}
+          className="absolute w-full bottom-0 left-0"
+          style={{ 
+            top: "30vh", 
+            height: "100vh",
+            transform: "translateY(0px)"
+          }}
           animate={{
             y: [0, -10, 0],
             scale: [1, 1.02, 1]
@@ -98,7 +102,7 @@ export default function IndiaMapPage({ onStateClick }) {
             ease: "easeInOut"
           }}
         >
-          <Lottie animationData={oceanAnim} loop autoplay className="w-full h-100px object-cover" />
+          <Lottie animationData={oceanAnim} loop autoplay className="w-full h-full object-cover" />
         </motion.div>
       </motion.div>
 
@@ -137,7 +141,7 @@ export default function IndiaMapPage({ onStateClick }) {
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
         />
 
-        <div className="relative z-10 container mx-auto px-4 pt-10 pb-10">
+        <div className="relative z-10 container mx-auto px-4 pt-5 pb-5">
           <motion.h2 
             className="inline-block text-6xl font-dm-serif drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
             initial={{ y: 50, opacity: 0 }}
@@ -161,22 +165,22 @@ export default function IndiaMapPage({ onStateClick }) {
 
       {/* Interactive Map Section with Animations */}
       <motion.section
-        className="relative z-10 flex items-start justify-between container mx-auto px-4 pt-10"
+        className="relative z-10 flex items-start justify-between container mx-auto px-4 pt-2"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 50 }}
         transition={{ duration: 0.8, delay: 0.8 }}
       >
         {/* 🗺️ India Map with Animation - Much Bigger */}
         <motion.div 
-          className="flex-1 flex justify-start scale-[2.5] sm:scale-[3.0] lg:scale-[3.5] xl:scale-[4.0]"
-          initial={{ opacity: 0, x: -100, rotate: -5 }}
+          className="flex-1 flex justify-start"
+          initial={{ opacity: 0, x: -100, rotate: -5, scale: 0.8 }}
           animate={{ 
             opacity: pageReady ? 1 : 0, 
             x: pageReady ? 0 : -100, 
-            rotate: pageReady ? 0 : -5 
+            rotate: pageReady ? 0 : -5,
+            scale: pageReady ? 1.3 : 0.8
           }}
           transition={{ duration: 1, delay: 1, ease: "easeOut" }}
-          whileHover={{ scale: 1.02 }}
           style={{ transformOrigin: "left center" }}
         >
           <IndiaMap onStateClick={onStateClick} />
@@ -185,7 +189,7 @@ export default function IndiaMapPage({ onStateClick }) {
         {/* ☀️ Sun Animation with Enhanced Effects */}
         <motion.div
           className="w-[180px] h-[180px] relative pl-6"
-          style={{ transform: "translate(20px, -50px)" }}
+          style={{ transform: "translate(20px, 100px)" }}
           initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
           animate={{ 
             opacity: pageReady ? 1 : 0, 
@@ -235,7 +239,7 @@ export default function IndiaMapPage({ onStateClick }) {
       
       {/* Bottom padding with fade-in animation */}
       <motion.div 
-        className="relative z-10 h-32"
+        className="relative z-10 h-96"
         initial={{ opacity: 0 }}
         animate={{ opacity: pageReady ? 1 : 0 }}
         transition={{ duration: 0.8, delay: 1.5 }}
