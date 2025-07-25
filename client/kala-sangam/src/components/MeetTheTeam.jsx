@@ -80,7 +80,7 @@ function MeetTheTeam() {
         Meet the Creative Minds
       </motion.h2>
 
-      <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2 justify-items-center max-w-6xl mx-auto min-h-[400px]">
+      <div className="grid gap-10 md:grid-cols-4 sm:grid-cols-2 justify-items-center max-w-6xl mx-auto min-h-[400px]">
         {team.map((member, idx) => (
           <motion.div 
               key={idx}
