@@ -236,12 +236,8 @@ export const adminApi = {
     }
 
     const result = await response.json();
-<<<<<<< HEAD
     // Return data array if it exists, otherwise return the result directly
     return result.data || result;
-=======
-    return result.data || [];
->>>>>>> 2dfe7dbf218684013395c6b595d4e003107f7843
   },
 
   // Delete artwork (admin only)
@@ -628,6 +624,124 @@ export const api = {
     if (!response.ok) {
       const errorData = await response.text();
       throw new Error(`Failed to fetch current user: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Smart Search AI Functions
+  // Perform smart search with natural language processing
+  smartSearch: async (params = {}) => {
+    const queryParams = new URLSearchParams();
+    if (params.query) queryParams.append('query', params.query);
+    if (params.type) queryParams.append('type', params.type);
+    if (params.limit) queryParams.append('limit', params.limit);
+    if (params.page) queryParams.append('page', params.page);
+
+    const url = `${API_URL}/api/smart-search/search${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Smart search failed: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Get search suggestions for autocomplete
+  getSearchSuggestions: async (query) => {
+    const queryParams = new URLSearchParams();
+    if (query) queryParams.append('query', query);
+
+    const url = `${API_URL}/api/smart-search/suggestions${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to get search suggestions: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Analyze search query with AI
+  analyzeSearchQuery: async (query) => {
+    const response = await fetch(`${API_URL}/api/smart-search/analyze`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to analyze query: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Get trending searches and popular content
+  getTrendingSearches: async () => {
+    const response = await fetch(`${API_URL}/api/smart-search/trending`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to get trending searches: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Advanced search with filters
+  advancedSearch: async (searchParams) => {
+    const response = await fetch(`${API_URL}/api/smart-search/advanced`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(searchParams),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Advanced search failed: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
+  },
+
+  // Get available search filters
+  getSearchFilters: async () => {
+    const response = await fetch(`${API_URL}/api/smart-search/filters`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to get search filters: ${response.status} - ${errorData}`);
     }
 
     return response.json();

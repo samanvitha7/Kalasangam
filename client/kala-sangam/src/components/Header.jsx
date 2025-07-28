@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
+import { HeaderSmartSearch } from "./SmartSearchComponent";
 
 export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -195,6 +196,11 @@ export default function Header({ scrolled, onMapClick }) {
             About
           </Link>
         </nav>
+
+        {/* Smart Search - Center Right */}
+        <div className="flex-shrink-0 flex items-center mx-4">
+          <HeaderSmartSearch scrolled={scrolled} />
+        </div>
 
         {/* User Profile or Login/Signup buttons - Far Right */}
         <div className="flex-shrink-0 flex items-center space-x-4">

@@ -318,7 +318,7 @@ const AdminDashboard = () => {
         </div>
         
         {currentUser.role === 'Admin' && (
-          <>
+          <React.Fragment>
             <div className="dashboard-card">
               <h3>System Status</h3>
               <p>All systems operational</p>
@@ -327,11 +327,11 @@ const AdminDashboard = () => {
               <h3>Recent Activity</h3>
               <p>Monitor platform activity</p>
             </div>
-          </>
+          </React.Fragment>
         )}
         
         {currentUser.role === 'Artist' && (
-          <>
+          <React.Fragment>
             <div className="dashboard-card">
               <h3>Your Artworks</h3>
               <p>Manage your art submissions</p>
@@ -340,7 +340,7 @@ const AdminDashboard = () => {
               <h3>Performance</h3>
               <p>View your artwork statistics</p>
             </div>
-          </>
+          </React.Fragment>
         )}
       </div>
     </div>
