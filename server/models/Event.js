@@ -30,18 +30,6 @@ const eventSchema = new mongoose.Schema({
   endDate: {
     type: Date
   },
-  titleTranslations: {
-    type: Object,
-    default: {}
-  },
-  descriptionTranslations: {
-    type: Object,
-    default: {}
-  },
-  instructorTranslations: {
-    type: Object,
-    default: {}
-  },
   time: {
     type: String,
     required: true

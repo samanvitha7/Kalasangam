@@ -11,22 +11,6 @@ const artworkSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  titleTranslations: {
-    type: Object,
-    default: {}
-  },
-  descriptionTranslations: {
-    type: Object,
-    default: {}
-  },
-  artformTranslations: {
-    type: Object,
-    default: {}
-  },
-  tagTranslations: {
-    type: Object,
-    default: {}
-  },
   imageUrl: {
     type: String,
     required: true

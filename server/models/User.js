@@ -101,9 +101,46 @@ const userSchema = new mongoose.Schema({
   // Artist artworks
   artworks: [{ type: String, default: [] }], // or you can ref artwork model
   
-  // Track likes, follows, and bookmarks
+  // Verification system
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  verifiedAt: {
+    type: Date,
+    default: null
+  },
+  verifiedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  },
+  verificationDocuments: [{
+    type: String, // URLs to verification documents
+    default: []
+  }],
+  verificationNotes: {
+    type: String,
+    default: null
+  },
+  verificationStatus: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected', 'not_requested'],
+    default: 'not_requested'
+  },
+  
+  // Following system
+  following: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User' 
+  }],
+  followers: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User' 
+  }],
+  
+  // Track likes and bookmarks
   likes: [{ type: mongoose.Schema.Types.ObjectId }],
-  follows: [{ type: mongoose.Schema.Types.ObjectId }],
   bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Art' }]
 }, {
   timestamps: true

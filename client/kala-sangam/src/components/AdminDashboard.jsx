@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import AdminPanel from './AdminPanel';
 import { adminApi } from '../services/api';
 import FullBleedDivider from './FullBleedDivider';
+import VerificationAdmin from './admin/VerificationAdmin';
 import { 
   FaHome, 
   FaUsers, 
@@ -22,7 +23,7 @@ const AdminDashboard = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showRoleModal, setShowRoleModal] = useState(false);
@@ -41,6 +42,14 @@ const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
   const [contentLoading, setContentLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [dashboardStats, setDashboardStats] = useState({
+    totalUsers: 0,
+    totalArtists: 0,
+    totalArtworks: 0,
+    totalEvents: 0,
+    recentUsers: [],
+    systemStatus: 'operational'
+  });
   
   const navigate = useNavigate();
 
@@ -48,6 +57,12 @@ const AdminDashboard = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setCurrentUser(user);
+      setLoading(false);
+      if (user.role === 'Admin') {
+        fetchDashboardStats();
+      }
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -56,6 +71,35 @@ const AdminDashboard = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('userRole');
     navigate('/');
+  };
+
+  const fetchDashboardStats = async () => {
+    try {
+      // Fetch multiple stats in parallel
+      const [usersRes, artworksRes, eventsRes] = await Promise.all([
+        adminApi.getAllUsers({ limit: 5 }),
+        adminApi.getAllArtworks(),
+        adminApi.getAllEvents()
+      ]);
+      
+      const totalUsers = usersRes.pagination?.totalCount || usersRes.users?.length || 0;
+      const totalArtists = usersRes.users?.filter(user => user.role === 'Artist').length || 0;
+      const totalArtworks = Array.isArray(artworksRes) ? artworksRes.length : (artworksRes.data?.length || 0);
+      const totalEvents = Array.isArray(eventsRes) ? eventsRes.length : (eventsRes.data?.length || 0);
+      const recentUsers = usersRes.users?.slice(0, 5) || [];
+      
+      setDashboardStats({
+        totalUsers,
+        totalArtists,
+        totalArtworks,
+        totalEvents,
+        recentUsers,
+        systemStatus: 'operational'
+      });
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error);
+      setDashboardStats(prev => ({ ...prev, systemStatus: 'error' }));
+    }
   };
 
   // User management functions
@@ -267,7 +311,8 @@ const AdminDashboard = () => {
     ...(currentUser.role === 'Admin' ? [
       { id: 'reports', label: 'Reports', icon: FaChartBar },
       { id: 'users', label: 'User Management', icon: FaUsers },
-      { id: 'content', label: 'Content Management', icon: FaFileAlt }
+{ id: 'content', label: 'Content Management', icon: FaFileAlt },
+      { id: 'verification-admin', label: 'Verification', icon: FaFileAlt }
     ] : []),
     ...(currentUser.role === 'Artist' ? [
       { id: 'content', label: 'My Content', icon: FaFileAlt }
@@ -299,8 +344,10 @@ const AdminDashboard = () => {
         return renderUserManagement();
       case 'content':
         return renderContentManagement();
-      case 'settings':
+case 'settings':
         return renderSettings();
+      case 'verification-admin':
+        return <VerificationAdmin />;
       default:
         return renderDashboard();
     }
@@ -318,7 +365,7 @@ const AdminDashboard = () => {
         </div>
         
         {currentUser.role === 'Admin' && (
-          <React.Fragment>
+          <>
             <div className="dashboard-card">
               <h3>System Status</h3>
               <p>All systems operational</p>
@@ -327,11 +374,11 @@ const AdminDashboard = () => {
               <h3>Recent Activity</h3>
               <p>Monitor platform activity</p>
             </div>
-          </React.Fragment>
+          </>
         )}
         
         {currentUser.role === 'Artist' && (
-          <React.Fragment>
+          <>
             <div className="dashboard-card">
               <h3>Your Artworks</h3>
               <p>Manage your art submissions</p>
@@ -340,7 +387,7 @@ const AdminDashboard = () => {
               <h3>Performance</h3>
               <p>View your artwork statistics</p>
             </div>
-          </React.Fragment>
+          </>
         )}
       </div>
     </div>
