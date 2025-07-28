@@ -222,7 +222,7 @@ export const adminApi = {
   // Artwork management functions
   // Get all artworks (admin only)
   getAllArtworks: async () => {
-    const response = await fetch(`${API_URL}/api/artforms`, {
+    const response = await fetch(`${API_URL}/api/artworks`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -235,7 +235,8 @@ export const adminApi = {
       throw new Error(`Failed to fetch artworks: ${response.status} - ${errorData}`);
     }
 
-    return response.json();
+    const result = await response.json();
+    return result.data || [];
   },
 
   // Delete artwork (admin only)

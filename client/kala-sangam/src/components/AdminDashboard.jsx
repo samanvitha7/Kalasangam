@@ -30,11 +30,39 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      setCurrentUser(user);
+    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    const userRole = localStorage.getItem('userRole');
+    
+    console.log('AdminDashboard auth check:', { 
+      hasUser: !!user, 
+      hasToken: !!token, 
+      hasRole: !!userRole,
+      userRole
+    });
+    
+    if (user && token && userRole) {
+      try {
+        const parsedUser = JSON.parse(user);
+        setCurrentUser(parsedUser);
+        console.log('Auth successful, user set:', parsedUser);
+      } catch (err) {
+        console.error('Error parsing user data:', err);
+        // Clear corrupted data
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('userRole');
+        navigate('/admin/login');
+      }
+    } else {
+      console.log('Auth failed, redirecting to login');
+      // Clear any incomplete auth data
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('userRole');
+      navigate('/admin/login');
     }
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -435,12 +463,6 @@ const AdminDashboard = () => {
         <div className="content-management">
           <div className="content-header">
             <h2>Manage Artworks</h2>
-            <button 
-              className="btn btn-secondary"
-              onClick={() => setContentView('')}
-            >
-              Back to Content Management
-            </button>
           </div>
           
           {error && <div className="error-message">{error}</div>}
@@ -493,6 +515,15 @@ const AdminDashboard = () => {
               )}
             </div>
           )}
+          
+          <div className="content-footer" style={{ marginTop: '20px', textAlign: 'center' }}>
+            <button 
+              className="btn btn-secondary"
+              onClick={() => setContentView('')}
+            >
+              Back to Content Management
+            </button>
+          </div>
         </div>
       );
     }
@@ -502,12 +533,6 @@ const AdminDashboard = () => {
         <div className="content-management">
           <div className="content-header">
             <h2>Manage Events</h2>
-            <button 
-              className="btn btn-secondary"
-              onClick={() => setContentView('')}
-            >
-              Back to Content Management
-            </button>
           </div>
           
           {error && <div className="error-message">{error}</div>}
@@ -551,6 +576,15 @@ const AdminDashboard = () => {
               )}
             </div>
           )}
+          
+          <div className="content-footer" style={{ marginTop: '20px', textAlign: 'center' }}>
+            <button 
+              className="btn btn-secondary"
+              onClick={() => setContentView('')}
+            >
+              Back to Content Management
+            </button>
+          </div>
         </div>
       );
     }

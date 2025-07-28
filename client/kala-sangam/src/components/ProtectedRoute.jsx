@@ -5,14 +5,25 @@ import { Navigate } from 'react-router-dom';
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const token = localStorage.getItem('token');
   const userRole = localStorage.getItem('userRole');
+  const user = localStorage.getItem('user');
+
+  console.log('ProtectedRoute check:', {
+    hasToken: !!token,
+    hasUser: !!user,
+    userRole,
+    allowedRoles,
+    tokenLength: token ? token.length : 0
+  });
 
   // Check if user is authenticated
   if (!token) {
+    console.log('No token found, redirecting to login');
     return <Navigate to="/admin/login" replace />;
   }
 
   // Check if user has required role
   if (allowedRoles && !allowedRoles.includes(userRole)) {
+    console.log('Role check failed', { userRole, allowedRoles });
     return (
       <div className="access-denied">
         <h2>Access Denied</h2>
@@ -23,6 +34,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     );
   }
 
+  console.log('ProtectedRoute passed, rendering children');
   return children;
 };
 
