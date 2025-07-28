@@ -361,9 +361,45 @@ const resetPassword = async (req, res) => {
 // ✅ GET CURRENT USER
 const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
-    res.status(200).json({ user });
+    // Use userId if available, fallback to id for compatibility
+    const userId = req.user.userId || req.user.id;
+    
+    if (!userId) {
+      return res.status(401).json({ 
+        message: 'User ID not found in request'
+      });
+    }
+    
+    const user = await User.findById(userId).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({ 
+        message: 'User not found'
+      });
+    }
+    
+    // Return the user data directly from req.user if available, otherwise from DB
+    const userData = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      role: user.role,
+      isEmailVerified: user.isEmailVerified,
+      bio: user.bio,
+      location: user.location,
+      specialization: user.specialization,
+      avatar: user.avatar,
+      coverImage: user.coverImage,
+      isVerified: user.isVerified,
+      verificationStatus: user.verificationStatus,
+      createdAt: user.createdAt
+    };
+    
+    res.status(200).json({ user: userData });
+    
   } catch (error) {
+    console.error('Get me error:', error);
     res.status(500).json({ message: 'Failed to fetch user', error: error.message });
   }
 };
@@ -378,7 +414,13 @@ const verifyEmail = async (req, res) => {
   const { token } = req.params;
 
   try {
-    const user = await User.findOne({ emailVerificationToken: token });
+    // Hash the token to match what's stored in database
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+    
+    const user = await User.findOne({ 
+      emailVerificationToken: hashedToken,
+      emailVerificationExpire: { $gt: Date.now() }
+    });
     
     if (!user) {
       return res.status(400).json({ message: 'Invalid or expired verification token' });
@@ -390,6 +432,7 @@ const verifyEmail = async (req, res) => {
 
     user.isEmailVerified = true;
     user.emailVerificationToken = null;
+    user.emailVerificationExpire = null;
     await user.save();
 
     res.status(200).json({

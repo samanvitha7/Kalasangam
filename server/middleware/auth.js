@@ -22,16 +22,24 @@ const auth = async (req, res, next) => {
       });
     }
 
+    // Ensure userId is properly set for compatibility
     req.user = {
       userId: user._id,
+      id: user._id, // Add both for compatibility
       role: user.role,
+      name: user.name,
+      email: user.email,
+      isEmailVerified: user.isEmailVerified,
       ...user.toObject()
     };
+    
     next();
   } catch (error) {
+    console.error('Auth middleware error:', error.message);
     res.status(401).json({ 
       success: false, 
-      message: 'Token is not valid' 
+      message: 'Token is not valid',
+      error: error.message
     });
   }
 };

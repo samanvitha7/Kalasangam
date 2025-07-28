@@ -107,14 +107,6 @@ class VerificationController {
     try {
       const { userId, role } = req.user;
 
-      // Check if user is admin
-      if (role !== 'Admin') {
-        return res.status(403).json({
-          success: false,
-          message: 'Access denied. Admin only.'
-        });
-      }
-
       const { page = 1, limit = 10 } = req.query;
       const skip = (parseInt(page) - 1) * parseInt(limit);
 
@@ -157,14 +149,6 @@ class VerificationController {
       const { userId: adminId, role } = req.user;
       const { targetUserId } = req.params;
       const { action, notes } = req.body; // action: 'approve' or 'reject'
-
-      // Check if user is admin
-      if (role !== 'Admin') {
-        return res.status(403).json({
-          success: false,
-          message: 'Access denied. Admin only.'
-        });
-      }
 
       if (!['approve', 'reject'].includes(action)) {
         return res.status(400).json({
@@ -284,13 +268,6 @@ class VerificationController {
   async getVerificationStats(req, res) {
     try {
       const { role } = req.user;
-
-      if (role !== 'Admin') {
-        return res.status(403).json({
-          success: false,
-          message: 'Access denied. Admin only.'
-        });
-      }
 
       const stats = await User.aggregate([
         {
