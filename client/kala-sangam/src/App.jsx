@@ -167,6 +167,7 @@ const ArtistProfile = lazy(() => import("./pages/ArtistProfile.jsx"));
 const AdminLogin = lazy(() => import("./components/AdminLogin.jsx"));
 const AdminPanel = lazy(() => import("./components/AdminPanel.jsx"));
 const AdminDashboard = lazy(() => import("./components/AdminDashboard.jsx"));
+const SearchResults = lazy(() => import("./pages/SearchResults.jsx"));
  import { AuthProvider } from "./context/AuthContext.jsx";
 import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
 import { AppReadyProvider, useAppReady as useAppReadyContext } from "./context/AppReadyContext.jsx";
@@ -280,6 +281,7 @@ function AppContent() {
               <Route path="/explore/music" element={<Music />} />
               <Route path="/explore/crafts" element={<CraftsPage />} />
               <Route path="/events" element={<EventsPage />} />
+              <Route path="/search" element={<SearchResults />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/community-guidelines" element={<CommunityGuidelines />} />

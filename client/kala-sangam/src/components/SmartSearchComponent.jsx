@@ -3,6 +3,49 @@ import { FaSearch, FaTimes, FaStar, FaClock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 
+// Error Boundary Component
+class SmartSearchErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null, errorInfo: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('SmartSearch Error:', error, errorInfo);
+    this.setState({
+      error: error,
+      errorInfo: errorInfo
+    });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-4 border border-red-200 bg-red-50 rounded-lg">
+          <h3 className="text-red-800 font-semibold mb-2">Search Error</h3>
+          <p className="text-red-600 text-sm mb-2">Something went wrong with the search component.</p>
+          <button 
+            onClick={() => this.setState({ hasError: false, error: null, errorInfo: null })}
+            className="text-sm bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+          >
+            Try Again
+          </button>
+          <details className="mt-2 text-xs text-red-500">
+            <summary>Error Details</summary>
+            <pre>{this.state.error && this.state.error.toString()}</pre>
+          </details>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 // Header Smart Search Component - Compact version for navigation
 const HeaderSmartSearch = ({ scrolled }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,18 +56,55 @@ const HeaderSmartSearch = ({ scrolled }) => {
   const searchRef = useRef();
   const navigate = useNavigate();
 
+  // Test API connection on component mount
+  useEffect(() => {
+    const testConnection = async () => {
+      try {
+        console.log('🔧 Testing API connection...');
+        const response = await fetch('http://localhost:5050/api/smart-search/suggestions?query=test');
+        console.log('🔧 Connection test response status:', response.status);
+        const data = await response.json();
+        console.log('🔧 Connection test data:', data);
+      } catch (error) {
+        console.error('🔧 Connection test failed:', error);
+      }
+    };
+    testConnection();
+  }, []);
+
   // Get search suggestions
   useEffect(() => {
     const getSuggestions = async () => {
       if (searchTerm.length > 1) {
         try {
+          console.log('🔍 Getting suggestions for:', searchTerm);
+          console.log('🔍 API URL will be:', `http://localhost:5050/api/smart-search/suggestions?query=${encodeURIComponent(searchTerm)}`);
           setLoading(true);
+          
+          // Try direct fetch first to test
+          const directResponse = await fetch(`http://localhost:5050/api/smart-search/suggestions?query=${encodeURIComponent(searchTerm)}`);
+          console.log('🔍 Direct fetch status:', directResponse.status);
+          const directData = await directResponse.json();
+          console.log('🔍 Direct fetch data:', directData);
+          
+          // Now try the API function
           const response = await api.getSearchSuggestions(searchTerm);
-          if (response.success) {
+          console.log('📥 API function response:', response);
+          
+          if (response && response.success) {
+            console.log('✅ Setting suggestions:', response.suggestions);
             setSuggestions(response.suggestions || []);
+          } else {
+            console.log('❌ API response not successful:', response);
+            setSuggestions([]);
           }
         } catch (error) {
-          console.error('Error getting suggestions:', error);
+          console.error('❌ Error getting suggestions:', error);
+          console.error('❌ Error details:', {
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+          });
           setSuggestions([]);
         } finally {
           setLoading(false);
@@ -38,23 +118,6 @@ const HeaderSmartSearch = ({ scrolled }) => {
     return () => clearTimeout(debounce);
   }, [searchTerm]);
 
-  // Get trending searches when dropdown opens
-  useEffect(() => {
-    const getTrending = async () => {
-      try {
-        const response = await api.getTrendingSearches();
-        if (response.success) {
-          setTrending(response.trending?.searches || []);
-        }
-      } catch (error) {
-        console.error('Error getting trending searches:', error);
-      }
-    };
-
-    if (showDropdown && trending.length === 0) {
-      getTrending();
-    }
-  }, [showDropdown, trending.length]);
 
   // Handle search submission
   const handleSearch = async (query = searchTerm) => {
@@ -122,11 +185,11 @@ const HeaderSmartSearch = ({ scrolled }) => {
 
       {/* Search Dropdown */}
       {showDropdown && (
-        <div className={`absolute top-full mt-2 w-full max-w-md rounded-xl shadow-2xl z-50 border transition-all duration-300 ${
+        <div className={`absolute top-full mt-2 w-full max-w-md rounded-xl shadow-2xl border transition-all duration-300 ${
           scrolled
-            ? 'bg-white/95 backdrop-blur-md border-tealblue/20'
-            : 'bg-white/90 backdrop-blur-md border-tealblue/30'
-        }`}>
+            ? 'bg-white border-tealblue/20'
+            : 'bg-white border-tealblue/30'
+        }`} style={{zIndex: 9999}}>
           {/* Search Suggestions */}
           {suggestions.length > 0 && (
             <div className="p-4 border-b border-gray-200/50">
@@ -179,10 +242,31 @@ const HeaderSmartSearch = ({ scrolled }) => {
             </div>
           )}
 
-          {/* Empty State */}
-          {!loading && suggestions.length === 0 && searchTerm.length > 0 && (
-            <div className="p-4 text-center text-sm text-gray-500">
-              Start typing to see AI-powered suggestions
+          {/* Default suggestions when no search term or API suggestions */}
+          {!loading && suggestions.length === 0 && (
+            <div className="p-4">
+              <h4 className="text-sm font-semibold text-tealblue mb-2 flex items-center gap-2">
+                <FaStar size={12} className="text-rosered" />
+                {searchTerm.length > 0 ? 'Try these suggestions' : 'Popular searches'}
+              </h4>
+              <div className="space-y-1">
+                {[
+                  'beautiful bharatanatyam dance',
+                  'traditional madhubani art',
+                  'kathak dance performance',
+                  'south indian classical music',
+                  'folk art from rajasthan',
+                  'contemporary indian artists'
+                ].map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSearch(suggestion)}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-tealblue/10 rounded-lg transition-colors duration-200 font-medium"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -293,7 +377,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                       <h4 className="font-bold text-tealblue mb-2">{artwork.title}</h4>
                       <p className="text-gray-600 text-sm mb-2">{artwork.description?.substring(0, 100)}...</p>
                       <div className="flex items-center justify-between text-sm text-gray-500">
-                        <span>{artwork.category}</span>
+                        <span>{artwork.category || 'Art'}</span>
                         {artwork.relevanceScore && (
                           <span className="bg-rosered/20 text-rosered px-2 py-1 rounded-full text-xs font-medium">
                             {Math.round(artwork.relevanceScore * 100)}% match
@@ -319,8 +403,14 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                     <h4 className="font-bold text-tealblue mb-2">{event.title}</h4>
                     <p className="text-gray-600 text-sm mb-3">{event.description?.substring(0, 150)}...</p>
                     <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>{event.type}</span>
-                      <span>{event.location}</span>
+                      <span>{event.type || 'Event'}</span>
+                      <span>
+                        {event.location ? (
+                          typeof event.location === 'string' 
+                            ? event.location
+                            : `${event.location.venue || event.location.city || event.location.address || 'Location TBD'}`
+                        ) : 'Location TBD'}
+                      </span>
                       {event.relevanceScore && (
                         <span className="bg-rosered/20 text-rosered px-2 py-1 rounded-full text-xs font-medium">
                           {Math.round(event.relevanceScore * 100)}% match
@@ -357,7 +447,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                     </div>
                     <p className="text-gray-600 text-sm mb-3">{artist.bio?.substring(0, 100)}...</p>
                     <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>{artist.location}</span>
+                      <span>{artist.location || 'Location not specified'}</span>
                       {artist.relevanceScore && (
                         <span className="bg-rosered/20 text-rosered px-2 py-1 rounded-full text-xs font-medium">
                           {Math.round(artist.relevanceScore * 100)}% match
@@ -387,6 +477,19 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
   );
 };
 
-export { HeaderSmartSearch };
-export default SmartSearchComponent;
+// Wrapped components with error boundaries
+const SafeSmartSearchComponent = (props) => (
+  <SmartSearchErrorBoundary>
+    <SmartSearchComponent {...props} />
+  </SmartSearchErrorBoundary>
+);
+
+const SafeHeaderSmartSearch = (props) => (
+  <SmartSearchErrorBoundary>
+    <HeaderSmartSearch {...props} />
+  </SmartSearchErrorBoundary>
+);
+
+export { SafeHeaderSmartSearch as HeaderSmartSearch };
+export default SafeSmartSearchComponent;
 
