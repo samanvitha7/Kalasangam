@@ -48,12 +48,8 @@ const AdminDashboard = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setCurrentUser(user);
-      setLoading(false);
-    } else {
-      // If no user, redirect to login
-      navigate('/admin/login');
     }
-  }, [navigate]);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -391,7 +387,7 @@ const AdminDashboard = () => {
             <option value="all">All Roles</option>
             <option value="Admin">Admin</option>
             <option value="Artist">Artist</option>
-            <option value="Viewer">Viewer</option>
+            
           </select>
         </div>
 
@@ -548,12 +544,6 @@ const AdminDashboard = () => {
         <div className="content-management">
           <div className="content-header">
             <h2>Manage Artworks</h2>
-            <button 
-              className="btn btn-secondary"
-              onClick={() => setContentView('')}
-            >
-              Back to Content Management
-            </button>
           </div>
           
           {error && <div className="error-message">{error}</div>}
@@ -606,6 +596,15 @@ const AdminDashboard = () => {
               )}
             </div>
           )}
+          
+          <div className="content-footer" style={{ marginTop: '20px', textAlign: 'center' }}>
+            <button 
+              className="btn btn-secondary"
+              onClick={() => setContentView('')}
+            >
+              Back to Content Management
+            </button>
+          </div>
         </div>
       );
     }
@@ -615,12 +614,6 @@ const AdminDashboard = () => {
         <div className="content-management">
           <div className="content-header">
             <h2>Manage Events</h2>
-            <button 
-              className="btn btn-secondary"
-              onClick={() => setContentView('')}
-            >
-              Back to Content Management
-            </button>
           </div>
           
           {error && <div className="error-message">{error}</div>}
@@ -664,6 +657,15 @@ const AdminDashboard = () => {
               )}
             </div>
           )}
+          
+          <div className="content-footer" style={{ marginTop: '20px', textAlign: 'center' }}>
+            <button 
+              className="btn btn-secondary"
+              onClick={() => setContentView('')}
+            >
+              Back to Content Management
+            </button>
+          </div>
         </div>
       );
     }
