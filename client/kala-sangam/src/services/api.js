@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'https://kalasangam.onrender.com';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
 
 // Admin API functions
 export const adminApi = {

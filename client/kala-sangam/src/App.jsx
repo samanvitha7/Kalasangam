@@ -282,6 +282,7 @@ function AppContent() {
               <Route path="/explore/music" element={<Music />} />
               <Route path="/explore/crafts" element={<CraftsPage />} />
               <Route path="/events" element={<EventsPage />} />
+              <Route path="/search" element={<SearchResults />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/community-guidelines" element={<CommunityGuidelines />} />

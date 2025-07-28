@@ -3,6 +3,49 @@ import { FaSearch, FaTimes, FaStar, FaClock, FaUser, FaPalette, FaHistory } from
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 
+// Error Boundary Component
+class SmartSearchErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null, errorInfo: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('SmartSearch Error:', error, errorInfo);
+    this.setState({
+      error: error,
+      errorInfo: errorInfo
+    });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-4 border border-red-200 bg-red-50 rounded-lg">
+          <h3 className="text-red-800 font-semibold mb-2">Search Error</h3>
+          <p className="text-red-600 text-sm mb-2">Something went wrong with the search component.</p>
+          <button 
+            onClick={() => this.setState({ hasError: false, error: null, errorInfo: null })}
+            className="text-sm bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+          >
+            Try Again
+          </button>
+          <details className="mt-2 text-xs text-red-500">
+            <summary>Error Details</summary>
+            <pre>{this.state.error && this.state.error.toString()}</pre>
+          </details>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 // Header Smart Search Component - Compact version for navigation
 const HeaderSmartSearch = ({ scrolled }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,6 +58,22 @@ const HeaderSmartSearch = ({ scrolled }) => {
   const [searchType, setSearchType] = useState('all'); // 'all', 'artists', 'artworks'
   const searchRef = useRef();
   const navigate = useNavigate();
+
+  // Test API connection on component mount
+  useEffect(() => {
+    const testConnection = async () => {
+      try {
+        console.log('🔧 Testing API connection...');
+        const response = await fetch('http://localhost:5050/api/smart-search/suggestions?query=test');
+        console.log('🔧 Connection test response status:', response.status);
+        const data = await response.json();
+        console.log('🔧 Connection test data:', data);
+      } catch (error) {
+        console.error('🔧 Connection test failed:', error);
+      }
+    };
+    testConnection();
+  }, []);
 
   // Load recent searches from localStorage
   useEffect(() => {
@@ -33,29 +92,20 @@ const HeaderSmartSearch = ({ scrolled }) => {
     const getSuggestions = async () => {
       if (searchTerm.length > 1) {
         try {
+          console.log('🔍 Getting suggestions for:', searchTerm);
+          console.log('🔍 API URL will be:', `http://localhost:5050/api/smart-search/suggestions?query=${encodeURIComponent(searchTerm)}`);
           setLoading(true);
-          
-          // Get general suggestions
-          const suggestionsPromise = api.getSearchSuggestions(searchTerm).catch(() => ({ success: false }));
-          
-          // Get artist suggestions
-          const artistsPromise = api.getArtists({ search: searchTerm, limit: 5 }).catch(() => ({ success: false }));
-          
-          const [suggestionsResponse, artistsResponse] = await Promise.all([suggestionsPromise, artistsPromise]);
-          
-          if (suggestionsResponse.success) {
-            setSuggestions(suggestionsResponse.suggestions || []);
-          } else {
-            setSuggestions([]);
-          }
-          
-          if (artistsResponse.success && artistsResponse.data) {
-            setArtistSuggestions(artistsResponse.data.slice(0, 5));
-          } else {
-            setArtistSuggestions([]);
+          const response = await api.getSearchSuggestions(searchTerm);
+          if (response.success) {
+            setSuggestions(response.suggestions || []);
           }
         } catch (error) {
-          console.error('Error getting suggestions:', error);
+          console.error('❌ Error getting suggestions:', error);
+          console.error('❌ Error details:', {
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+          });
           setSuggestions([]);
           setArtistSuggestions([]);
         } finally {
@@ -88,13 +138,6 @@ const HeaderSmartSearch = ({ scrolled }) => {
       getTrending();
     }
   }, [showDropdown, trending.length]);
-
-  // Save search to recent searches
-  const saveToRecentSearches = (query) => {
-    const updatedSearches = [query, ...recentSearches.filter(s => s !== query)].slice(0, 5);
-    setRecentSearches(updatedSearches);
-    localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
-  };
 
   // Handle search submission
   const handleSearch = async (query = searchTerm, type = 'search') => {
@@ -185,43 +228,12 @@ const HeaderSmartSearch = ({ scrolled }) => {
 
       {/* Search Dropdown */}
       {showDropdown && (
-        <div className={`absolute top-full mt-2 w-full max-w-md rounded-xl shadow-2xl z-50 border transition-all duration-300 ${
+        <div className={`absolute top-full mt-2 w-full max-w-md rounded-xl shadow-2xl border transition-all duration-300 ${
           scrolled
             ? 'bg-white/95 backdrop-blur-md border-tealblue/20'
             : 'bg-white/90 backdrop-blur-md border-tealblue/30'
         }`}>
-          {/* Artist Suggestions */}
-          {artistSuggestions.length > 0 && (
-            <div className="p-4 border-b border-gray-200/50">
-              <h4 className="text-sm font-semibold text-tealblue mb-2 flex items-center gap-2">
-                <FaUser size={12} className="text-rosered" />
-                Artists
-              </h4>
-              <div className="space-y-1">
-                {artistSuggestions.map((artist) => (
-                  <button
-                    key={artist._id}
-                    onClick={() => handleArtistSelect(artist)}
-                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-tealblue/10 rounded-lg transition-colors duration-200 font-medium flex items-center gap-3"
-                  >
-                    <img 
-                      src={artist.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name)}&background=134856&color=fff`}
-                      alt={artist.name}
-                      className="w-6 h-6 rounded-full flex-shrink-0"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium">{artist.name}</div>
-                      {artist.specialization && (
-                        <div className="text-xs text-gray-500 truncate">{artist.specialization}</div>
-                      )}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* General Search Suggestions */}
+          {/* Search Suggestions */}
           {suggestions.length > 0 && (
             <div className="p-4 border-b border-gray-200/50">
               <h4 className="text-sm font-semibold text-tealblue mb-2 flex items-center gap-2">
@@ -303,10 +315,31 @@ const HeaderSmartSearch = ({ scrolled }) => {
             </div>
           )}
 
-          {/* Empty State */}
-          {!loading && suggestions.length === 0 && searchTerm.length > 0 && (
-            <div className="p-4 text-center text-sm text-gray-500">
-              Start typing to see AI-powered suggestions
+          {/* Default suggestions when no search term or API suggestions */}
+          {!loading && suggestions.length === 0 && (
+            <div className="p-4">
+              <h4 className="text-sm font-semibold text-tealblue mb-2 flex items-center gap-2">
+                <FaStar size={12} className="text-rosered" />
+                {searchTerm.length > 0 ? 'Try these suggestions' : 'Popular searches'}
+              </h4>
+              <div className="space-y-1">
+                {[
+                  'beautiful bharatanatyam dance',
+                  'traditional madhubani art',
+                  'kathak dance performance',
+                  'south indian classical music',
+                  'folk art from rajasthan',
+                  'contemporary indian artists'
+                ].map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSearch(suggestion)}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-tealblue/10 rounded-lg transition-colors duration-200 font-medium"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -417,7 +450,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                       <h4 className="font-bold text-tealblue mb-2">{artwork.title}</h4>
                       <p className="text-gray-600 text-sm mb-2">{artwork.description?.substring(0, 100)}...</p>
                       <div className="flex items-center justify-between text-sm text-gray-500">
-                        <span>{artwork.category}</span>
+                        <span>{artwork.category || 'Art'}</span>
                         {artwork.relevanceScore && (
                           <span className="bg-rosered/20 text-rosered px-2 py-1 rounded-full text-xs font-medium">
                             {Math.round(artwork.relevanceScore * 100)}% match
@@ -443,8 +476,14 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                     <h4 className="font-bold text-tealblue mb-2">{event.title}</h4>
                     <p className="text-gray-600 text-sm mb-3">{event.description?.substring(0, 150)}...</p>
                     <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>{event.type}</span>
-                      <span>{event.location}</span>
+                      <span>{event.type || 'Event'}</span>
+                      <span>
+                        {event.location ? (
+                          typeof event.location === 'string' 
+                            ? event.location
+                            : `${event.location.venue || event.location.city || event.location.address || 'Location TBD'}`
+                        ) : 'Location TBD'}
+                      </span>
                       {event.relevanceScore && (
                         <span className="bg-rosered/20 text-rosered px-2 py-1 rounded-full text-xs font-medium">
                           {Math.round(event.relevanceScore * 100)}% match
@@ -481,7 +520,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                     </div>
                     <p className="text-gray-600 text-sm mb-3">{artist.bio?.substring(0, 100)}...</p>
                     <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>{artist.location}</span>
+                      <span>{artist.location || 'Location not specified'}</span>
                       {artist.relevanceScore && (
                         <span className="bg-rosered/20 text-rosered px-2 py-1 rounded-full text-xs font-medium">
                           {Math.round(artist.relevanceScore * 100)}% match
@@ -511,6 +550,19 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
   );
 };
 
-export { HeaderSmartSearch };
-export default SmartSearchComponent;
+// Wrapped components with error boundaries
+const SafeSmartSearchComponent = (props) => (
+  <SmartSearchErrorBoundary>
+    <SmartSearchComponent {...props} />
+  </SmartSearchErrorBoundary>
+);
+
+const SafeHeaderSmartSearch = (props) => (
+  <SmartSearchErrorBoundary>
+    <HeaderSmartSearch {...props} />
+  </SmartSearchErrorBoundary>
+);
+
+export { SafeHeaderSmartSearch as HeaderSmartSearch };
+export default SafeSmartSearchComponent;
 
