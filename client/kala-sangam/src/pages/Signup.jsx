@@ -132,7 +132,7 @@ export default function Signup() {
         className="bg-[linear-gradient(to_bottom,rgba(255,190,152,0.8),rgba(255,187,233,0.7),rgba(44,165,141,0.7))] 
                   p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora"
       >
-        <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">
+        <h2 className="text-4xl font-bold text-center mb-3 text-deep-teal">
           Join as Artist
         </h2>
         <p className="text-center mb-6 text-sm text-teal-200">
@@ -153,7 +153,7 @@ export default function Signup() {
               fieldErrors.name 
                 ? 'border-coral-red border-2 placeholder-coral-red' 
                 : 'border-coral-red/30'
-            } text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
+            } text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200`}
           />
           {fieldErrors.name && (
             <p className="text-coral-red text-xs mt-1 ml-2 font-medium">
@@ -174,7 +174,7 @@ export default function Signup() {
               fieldErrors.email 
                 ? 'border-coral-red border-2 placeholder-coral-red' 
                 : 'border-coral-red/30'
-            } text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
+            } text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200`}
           />
           {fieldErrors.email && (
             <p className="text-coral-red text-xs mt-1 ml-2 font-medium">
@@ -214,7 +214,7 @@ export default function Signup() {
               fieldErrors.password 
                 ? 'border-coral-red border-2 placeholder-coral-red' 
                 : 'border-coral-red/30'
-            } text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
+            } text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200`}
           />
           {fieldErrors.password && (
             <p className="text-coral-red text-xs mt-1 ml-2 font-medium">
@@ -231,9 +231,9 @@ export default function Signup() {
                 type="checkbox"
                 checked={agreedToTerms}
                 onChange={(e) => handleCheckboxChange('terms', e.target.checked)}
-                className={`mt-1 w-4 h-4 text-teal-blue border ${
+                className={`mt-1 w-4 h-4 text-deep-teal border ${
                   fieldErrors.terms ? 'border-coral-red border-2' : 'border-gray-300'
-                } rounded focus:ring-2 focus:ring-teal-blue transition-all duration-200`}
+                } rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200`}
               />
               <span className="text-[#284139] leading-relaxed">
                 I agree to KalaSangam's{" "}
@@ -259,9 +259,9 @@ export default function Signup() {
                 type="checkbox"
                 checked={agreedToPrivacy}
                 onChange={(e) => handleCheckboxChange('privacy', e.target.checked)}
-                className={`mt-1 w-4 h-4 text-teal-blue border ${
+                className={`mt-1 w-4 h-4 text-deep-teal border ${
                   fieldErrors.privacy ? 'border-coral-red border-2' : 'border-gray-300'
-                } rounded focus:ring-2 focus:ring-teal-blue transition-all duration-200`}
+                } rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200`}
               />
               <span className="text-[#284139] leading-relaxed">
                 I agree to KalaSangam's{" "}
@@ -288,7 +288,7 @@ export default function Signup() {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="mt-1 w-4 h-4 text-teal-blue border border-gray-300 rounded focus:ring-2 focus:ring-teal-blue transition-all duration-200"
+                className="mt-1 w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
               />
               <span className="text-[#284139] leading-relaxed">
                 <strong>Remember me</strong> - Stay logged in even after closing the browser
@@ -313,7 +313,7 @@ export default function Signup() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-teal-blue hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-deep-teal hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Creating Account..." : "Sign Up"}
         </button>
@@ -323,7 +323,7 @@ export default function Signup() {
           <button
             type="button"
             onClick={() => navigate('/phone-signup')}
-            className="text-sm bg-white/20 hover:bg-white/30 text-teal-blue font-semibold py-2 px-4 rounded-lg border border-teal-blue/30 transition-all"
+            className="text-sm bg-white/20 hover:bg-white/30 text-deep-teal font-semibold py-2 px-4 rounded-lg border border-deep-teal/30 transition-all"
           >
             📱 Continue with Phone Number Instead
           </button>

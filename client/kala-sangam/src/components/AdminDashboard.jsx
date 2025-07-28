@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import AdminPanel from './AdminPanel';
 import { adminApi } from '../services/api';
-import './AdminPanel.css';
+import FullBleedDivider from './FullBleedDivider';
+import { 
+  FaHome, 
+  FaUsers, 
+  FaFileAlt, 
+  FaPalette, 
+  FaCalendarAlt, 
+  FaCog, 
+  FaSignOutAlt, 
+  FaBars,
+  FaTrash,
+  FaArrowLeft,
+  FaChartBar
+} from 'react-icons/fa';
 
 const AdminDashboard = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showRoleModal, setShowRoleModal] = useState(false);
@@ -26,6 +40,7 @@ const AdminDashboard = () => {
   const [artworks, setArtworks] = useState([]);
   const [events, setEvents] = useState([]);
   const [contentLoading, setContentLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const navigate = useNavigate();
 
@@ -33,8 +48,12 @@ const AdminDashboard = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setCurrentUser(user);
+      setLoading(false);
+    } else {
+      // If no user, redirect to login
+      navigate('/admin/login');
     }
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -46,7 +65,6 @@ const AdminDashboard = () => {
   // User management functions
   const fetchUsers = async () => {
     try {
-      setLoading(true);
       setError('');
       const data = await adminApi.getAllUsers(userFilters);
       setUsers(data.users || []);
@@ -55,8 +73,6 @@ const AdminDashboard = () => {
       console.error('Error fetching users:', err);
       setError(`Error fetching users: ${err.message}`);
       setUsers([]);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -103,7 +119,17 @@ const AdminDashboard = () => {
       setContentLoading(true);
       setError('');
       const data = await adminApi.getAllArtworks();
-      setArtworks(data);
+      console.log('Artworks data received:', data);
+      
+      // Handle different response formats
+      if (Array.isArray(data)) {
+        setArtworks(data);
+      } else if (data && Array.isArray(data.data)) {
+        setArtworks(data.data);
+      } else {
+        console.warn('Unexpected artworks data format:', data);
+        setArtworks([]);
+      }
     } catch (err) {
       console.error('Error fetching artworks:', err);
       setError(`Error fetching artworks: ${err.message}`);
@@ -178,9 +204,94 @@ const AdminDashboard = () => {
     }
   }, [contentView]);
 
-  if (!currentUser) {
-    return <div className="loading">Loading...</div>;
+  // FloatingParticles component for background effect
+  const FloatingParticles = () => {
+    const particles = Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 4 + 2,
+      color: [
+        'rgba(19, 72, 86, 0.6)',
+        'rgba(224, 82, 100, 0.6)',
+        'rgba(244, 140, 140, 0.6)',
+        'rgba(29, 124, 111, 0.6)',
+        'rgba(255, 215, 0, 0.6)'
+      ][Math.floor(Math.random() * 5)],
+      initialX: Math.random() * 100,
+      initialY: Math.random() * 100,
+      animationDelay: Math.random() * 5,
+      animationDuration: 8 + Math.random() * 6
+    }));
+
+    return (
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full opacity-40"
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              backgroundColor: particle.color,
+              left: `${particle.initialX}%`,
+              top: `${particle.initialY}%`,
+              filter: 'blur(0.5px)',
+              boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`
+            }}
+            animate={{
+              y: [0, -80, 0],
+              x: [0, 25, -25, 0],
+              opacity: [0.4, 0.7, 0.4],
+              scale: [1, 1.3, 1]
+            }}
+            transition={{
+              duration: particle.animationDuration,
+              repeat: Infinity,
+              delay: particle.animationDelay,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+
+  if (loading || !currentUser) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#F48C8C]/10 via-white to-[#134856]/10 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#E05264] mx-auto mb-4"></div>
+          <p className="text-2xl font-dm-serif text-transparent bg-clip-text bg-gradient-to-r from-[#E05264] to-[#134856]">Loading admin dashboard...</p>
+        </div>
+      </div>
+    );
   }
+
+  const mainMenuItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: FaHome },
+    ...(currentUser.role === 'Admin' ? [
+      { id: 'reports', label: 'Reports', icon: FaChartBar },
+      { id: 'users', label: 'User Management', icon: FaUsers },
+      { id: 'content', label: 'Content Management', icon: FaFileAlt }
+    ] : []),
+    ...(currentUser.role === 'Artist' ? [
+      { id: 'content', label: 'My Content', icon: FaFileAlt }
+    ] : [])
+  ];
+
+  const accountMenuItems = [
+    { id: 'settings', label: 'Settings', icon: FaCog },
+    { id: 'logout', label: 'Logout', icon: FaSignOutAlt, isAction: true }
+  ];
+
+  const handleMenuClick = (itemId) => {
+    if (itemId === 'logout') {
+      handleLogout();
+    } else {
+      setActiveTab(itemId);
+      setContentView(''); // Reset content view when switching tabs
+    }
+    setSidebarOpen(false);
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -192,6 +303,8 @@ const AdminDashboard = () => {
         return renderUserManagement();
       case 'content':
         return renderContentManagement();
+      case 'settings':
+        return renderSettings();
       default:
         return renderDashboard();
     }
@@ -558,56 +671,158 @@ const AdminDashboard = () => {
     return null;
   };
 
-  const getAvailableTabs = () => {
-    const baseTabs = [
-      { id: 'dashboard', label: 'Dashboard', roles: ['Admin', 'Artist', 'Viewer'] }
-    ];
-
-    if (currentUser.role === 'Admin') {
-      return [
-        ...baseTabs,
-        { id: 'reports', label: 'Reports', roles: ['Admin'] },
-        { id: 'users', label: 'Users', roles: ['Admin'] },
-        { id: 'content', label: 'Content', roles: ['Admin'] }
-      ];
-    } else if (currentUser.role === 'Artist') {
-      return [
-        ...baseTabs,
-        { id: 'content', label: 'My Content', roles: ['Artist'] }
-      ];
-    } else {
-      return baseTabs;
-    }
-  };
+  const renderSettings = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">Account Settings</h3>
+        <p className="text-gray-600">Manage your admin account preferences and settings.</p>
+        <div className="mt-4">
+          <button className="px-4 py-2 bg-[#E05264] text-white rounded-lg hover:bg-[#E05264]/90 transition-colors">
+            Coming Soon
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="admin-dashboard">
-      <div className="admin-header">
-        <div className="header-left">
-          <h1>Admin Panel</h1>
-        </div>
-        <div className="header-right">
-          <span className="welcome-text">Welcome, {currentUser.name}</span>
-          <button onClick={handleLogout} className="logout-btn">
-            Logout
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-blush-peach">
+      <FloatingParticles />
+      <FullBleedDivider />
+      
+      {/* Mobile menu button */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="md:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-2xl shadow-lg text-[#134856] hover:text-[#E05264] transition-all duration-200"
+      >
+        <FaBars className="w-5 h-5" />
+      </button>
 
-      <div className="admin-nav">
-        {getAvailableTabs().map(tab => (
-          <button
-            key={tab.id}
-            className={`nav-tab ${activeTab === tab.id ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-gray-600 bg-opacity-50 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
 
-      <div className="admin-content">
-        {renderContent()}
+      {/* Combined Container */}
+      <div className="px-10 mt-10 mx-auto pb-10">
+        <div className="rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+          <div className="flex">
+            {/* Sidebar */}
+            <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-80 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:w-80 md:flex-shrink-0 bg-gradient-to-b from-[#134856] to-[#E05264]`}>
+              <div className="h-full px-6 py-8 overflow-y-auto">
+                {/* Navigation Header */}
+                <div className="mb-8">
+                  <h3 className="text-3xl font-bold font-dm-serif text-white">Admin Panel</h3>
+                  <p className="text-white text-sm mt-1 font-lora">Manage platform operations</p>
+                  <div className="mt-4 h-px bg-white/20"></div>
+                  
+                  {/* User Info */}
+                  <div className="mt-4 flex items-center space-x-3">
+                    <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+                      <FaUsers className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-white truncate font-dm-serif">{currentUser?.name}</p>
+                      <p className="text-xs text-white/70 truncate font-lora">{currentUser?.role} Account</p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 h-px bg-white/20"></div>
+                </div>
+                
+                {/* Navigation */}
+                <nav className="space-y-2">
+                  {/* Main Menu Items */}
+                  {mainMenuItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = activeTab === item.id;
+                    
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => handleMenuClick(item.id)}
+                        className={`w-full flex items-center px-4 py-3 text-left rounded-2xl transition-all duration-200 font-lora ${
+                          isActive
+                            ? 'bg-gradient-to-r from-[#E05264] to-[#E05264]/90 text-white shadow-md transform scale-[1.02]'
+                            : 'text-white hover:bg-white/10 hover:shadow-sm'
+                        }`}
+                      >
+                        <Icon className="w-5 h-5 mr-3" />
+                        <span className="font-medium">{item.label}</span>
+                      </button>
+                    );
+                  })}
+                  
+                  {/* Divider */}
+                  <div className="mt-6 mb-4 h-px bg-white/20"></div>
+                  
+                  {/* Account Menu Items */}
+                  {accountMenuItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = activeTab === item.id;
+                    const isLogout = item.id === 'logout';
+                    
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => handleMenuClick(item.id)}
+                        className={`w-full flex items-center px-4 py-3 text-left rounded-2xl transition-all duration-200 font-lora ${
+                          isLogout
+                            ? 'text-white hover:bg-red-500/20 hover:text-red-200'
+                            : isActive
+                              ? 'bg-gradient-to-r from-[#E05264] to-[#E05264]/90 text-white shadow-md transform scale-[1.02]'
+                              : 'text-white hover:bg-white/10 hover:shadow-sm'
+                        }`}
+                      >
+                        <Icon className="w-5 h-5 mr-3" />
+                        <span className="font-medium">{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </nav>
+              </div>
+            </aside>
+
+            {/* Vertical Divider */}
+            <div className="hidden md:block w-px bg-gray-200"></div>
+
+            {/* Main Content */}
+            <main className="flex-1 flex flex-col min-w-0 bg-white">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex-1 flex flex-col min-h-0"
+                >
+                  {/* Integrated Header inside container */}
+                  <div className="bg-gradient-to-r from-[#134856] to-[#E05264] px-8 py-6 border-b border-gray-100">
+                    <h2 className="text-4xl font-bold text-white capitalize font-dm-serif">
+                      {[...mainMenuItems, ...accountMenuItems].find(item => item.id === activeTab && !item.isAction)?.label}
+                    </h2>
+                    <p className="text-white text-sm mt-1 font-lora">
+                      {activeTab === 'dashboard' && 'Overview of your admin operations and system status'}
+                      {activeTab === 'reports' && 'Review and manage user reports and platform moderation'}
+                      {activeTab === 'users' && 'Manage user accounts, roles, and permissions'}
+                      {activeTab === 'content' && 'Oversee artworks and events submitted by users'}
+                      {activeTab === 'settings' && 'Configure your admin account preferences'}
+                    </p>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 p-8">
+                    {renderContent()}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </main>
+          </div>
+        </div>
       </div>
     </div>
   );

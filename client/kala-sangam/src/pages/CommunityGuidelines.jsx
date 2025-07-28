@@ -24,7 +24,7 @@ export default function CommunityGuidelines() {
 
         <div className="prose prose-lg max-w-none space-y-8">
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">1. Be Respectful and Inclusive</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">1. Be Respectful and Inclusive</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 KalaSangam celebrates the diversity of Indian arts and welcomes artists, enthusiasts, and learners from all backgrounds. Treat everyone with respect, kindness, and dignity.
@@ -40,7 +40,7 @@ export default function CommunityGuidelines() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">2. Share Authentic and Relevant Content</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">2. Share Authentic and Relevant Content</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 Keep your contributions focused on traditional Indian arts, crafts, music, dance, and cultural heritage.
@@ -56,7 +56,7 @@ export default function CommunityGuidelines() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">3. Respect Intellectual Property and Attribution</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">3. Respect Intellectual Property and Attribution</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 Honor the creative rights of artists and the cultural heritage of traditional art forms.
@@ -72,7 +72,7 @@ export default function CommunityGuidelines() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">4. Maintain a Safe and Supportive Environment</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">4. Maintain a Safe and Supportive Environment</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 Help create a welcoming space where artists and enthusiasts can learn, share, and grow together.
@@ -88,7 +88,7 @@ export default function CommunityGuidelines() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">5. Protect Your Account and Privacy</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">5. Protect Your Account and Privacy</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 Keep your account secure and be mindful of the personal information you share.
@@ -104,7 +104,7 @@ export default function CommunityGuidelines() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">6. Report Violations and Seek Help</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">6. Report Violations and Seek Help</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 Help us maintain community standards by reporting inappropriate content or behavior.
@@ -120,7 +120,7 @@ export default function CommunityGuidelines() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">7. Consequences of Violations</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">7. Consequences of Violations</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 Violations of these guidelines may result in:
@@ -147,7 +147,7 @@ export default function CommunityGuidelines() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 to="/terms-of-service" 
-                className="inline-flex items-center px-6 py-3 bg-white border border-teal-blue text-teal-blue font-semibold rounded-xl hover:bg-teal-blue hover:text-white transition-colors duration-300"
+                className="inline-flex items-center px-6 py-3 bg-white border border-deep-teal text-deep-teal font-semibold rounded-xl hover:bg-deep-teal hover:text-white transition-colors duration-300"
               >
                 View Terms of Service
               </Link>
@@ -159,7 +159,7 @@ export default function CommunityGuidelines() {
               </Link>
               <Link 
                 to="/home" 
-                className="inline-flex items-center px-6 py-3 bg-teal-blue text-off-white font-semibold rounded-xl hover:bg-coral-red transition-colors duration-300"
+                className="inline-flex items-center px-6 py-3 bg-deep-teal text-off-white font-semibold rounded-xl hover:bg-coral-red transition-colors duration-300"
               >
                 Return to KalaSangam
               </Link>

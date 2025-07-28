@@ -57,6 +57,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  emailVerificationExpire: {
+    type: Date,
+    default: null
+  },
   role: {
     type: String,
     enum: ['Admin', 'Artist', 'Viewer'],
@@ -140,6 +144,20 @@ userSchema.methods.getResetPasswordToken = function() {
 // Generate password reset token (for compatibility)
 userSchema.methods.generatePasswordReset = function() {
   return this.getResetPasswordToken();
+};
+
+// Generate email verification token
+userSchema.methods.generateEmailVerificationToken = function() {
+  const verificationToken = require('crypto').randomBytes(32).toString('hex');
+  
+  this.emailVerificationToken = require('crypto')
+    .createHash('sha256')
+    .update(verificationToken)
+    .digest('hex');
+  
+  this.emailVerificationExpire = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+  
+  return verificationToken;
 };
 
 module.exports = mongoose.model('User', userSchema);

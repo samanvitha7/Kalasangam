@@ -60,7 +60,7 @@ export default function PhoneLogin() {
         className="p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora
                   bg-[linear-gradient(to_bottom,rgba(255,190,152,0.7),rgba(255,187,233,0.7),rgba(44,165,141,0.67))]"
       >
-        <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">Welcome Back!</h2>
+        <h2 className="text-4xl font-bold text-center mb-3 text-deep-teal">Welcome Back!</h2>
         <p className="text-center mb-4 text-sm text-teal-200">Login with your phone number</p>
         
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
@@ -71,7 +71,7 @@ export default function PhoneLogin() {
           placeholder="Phone Number (e.g., +1234567890)"
           value={form.phoneNumber}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
         />
 
         <input
@@ -80,13 +80,13 @@ export default function PhoneLogin() {
           placeholder="Password"
           value={form.password}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
         />
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-teal-blue hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-deep-teal hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Logging in..." : "Login"}
         </button>
@@ -96,7 +96,7 @@ export default function PhoneLogin() {
           <button
             type="button"
             onClick={() => navigate('/login')}
-            className="text-sm bg-white/20 hover:bg-white/30 text-teal-blue font-semibold py-2 px-4 rounded-lg border border-teal-blue/30 transition-all"
+            className="text-sm bg-white/20 hover:bg-white/30 text-deep-teal font-semibold py-2 px-4 rounded-lg border border-deep-teal/30 transition-all"
           >
             📧 Continue with Email Instead
           </button>

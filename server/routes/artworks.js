@@ -269,7 +269,7 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// Delete artwork (requires authentication and ownership)
+// Delete artwork (requires authentication and ownership or admin)
 router.delete("/:id", auth, async (req, res) => {
   try {
     const artwork = await Artwork.findById(req.params.id);
@@ -278,8 +278,11 @@ router.delete("/:id", auth, async (req, res) => {
       return res.status(404).json({ success: false, message: "Artwork not found" });
     }
 
-    // Check ownership
-    if (artwork.userId.toString() !== req.user.id) {
+    // Check ownership or admin privileges
+    const isOwner = artwork.userId.toString() === req.user.id;
+    const isAdmin = req.user.role === 'Admin';
+    
+    if (!isOwner && !isAdmin) {
       return res.status(403).json({ success: false, message: "Not authorized to delete this artwork" });
     }
 

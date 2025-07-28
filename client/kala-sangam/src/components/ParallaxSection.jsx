@@ -44,11 +44,11 @@ const ParallaxSection = () => {
         </div>
 
         {/* Lotus Overlay - Top layer that initially hides part of the text */}
-        <img
+       {/* <img
           src="/assets/lotus-hidden.png"
           alt="Lotus"
           className="absolute left-1/2 transform -translate-x-1/2 w-[85vw] max-w-[1200px] xl:w-[80vw] 2xl:w-[75vw] z-20 pointer-events-none lotus-responsive"
-        />
+        /> */}
        
       </section>
 

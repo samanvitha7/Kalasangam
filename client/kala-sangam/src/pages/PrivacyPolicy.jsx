@@ -24,7 +24,7 @@ export default function PrivacyPolicy() {
 
         <div className="prose prose-lg max-w-none space-y-8">
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">1. Information We Collect</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">1. Information We Collect</h2>
             <div className="space-y-4">
               <div>
                 <h3 className="text-xl font-medium text-gray-800 mb-2">Information You Provide</h3>
@@ -47,7 +47,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">2. How We Use Your Information</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">2. How We Use Your Information</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">We use your information to:</p>
               <ul className="list-disc ml-6 text-gray-700 space-y-2">
@@ -64,7 +64,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">3. Information Sharing and Disclosure</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">3. Information Sharing and Disclosure</h2>
             <div className="space-y-4">
               <p className="text-gray-700 leading-relaxed">
                 <strong>We do not sell your personal information.</strong> We may share information in the following circumstances:
@@ -91,7 +91,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">4. Data Security</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">4. Data Security</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 We implement appropriate security measures to protect your personal information:
@@ -111,7 +111,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">5. Your Rights and Choices</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">5. Your Rights and Choices</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">You have the following rights regarding your personal information:</p>
               <ul className="list-disc ml-6 text-gray-700 space-y-2">
@@ -129,7 +129,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">6. Cookie Policy</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">6. Cookie Policy</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">KalaSangam uses cookies and similar technologies:</p>
               <ul className="list-disc ml-6 text-gray-700 space-y-2">
@@ -145,7 +145,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">7. Children's Privacy</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">7. Children's Privacy</h2>
             <p className="text-gray-700 leading-relaxed">
               KalaSangam is designed for users of all ages interested in traditional Indian arts. For users under 13, 
               we require parental consent before collecting personal information. Parents can review, modify, or 
@@ -155,7 +155,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">8. International Users</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">8. International Users</h2>
             <p className="text-gray-700 leading-relaxed">
               KalaSangam is operated from India and serves users worldwide. By using our platform, you consent to 
               the transfer and processing of your information in India and other countries where our service providers operate. 
@@ -164,7 +164,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">9. Data Retention</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">9. Data Retention</h2>
             <p className="text-gray-700 leading-relaxed">
               We retain your personal information for as long as necessary to provide our services and fulfill the 
               purposes described in this policy. When you delete your account, we will delete or anonymize your 
@@ -174,7 +174,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">10. Changes to This Privacy Policy</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">10. Changes to This Privacy Policy</h2>
             <p className="text-gray-700 leading-relaxed">
               We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. 
               We will notify you of significant changes via email or platform notifications. The "Last updated" date at 
@@ -183,7 +183,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">11. Contact Us</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">11. Contact Us</h2>
             <p className="text-gray-700 leading-relaxed">
               If you have questions about this Privacy Policy or our data practices, please contact us:
             </p>
@@ -203,13 +203,13 @@ export default function PrivacyPolicy() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 to="/terms-of-service" 
-                className="inline-flex items-center px-6 py-3 bg-white border border-teal-blue text-teal-blue font-semibold rounded-xl hover:bg-teal-blue hover:text-white transition-colors duration-300"
+                className="inline-flex items-center px-6 py-3 bg-white border border-deep-teal text-deep-teal font-semibold rounded-xl hover:bg-deep-teal hover:text-white transition-colors duration-300"
               >
                 View Terms of Service
               </Link>
               <Link 
                 to="/home" 
-                className="inline-flex items-center px-6 py-3 bg-teal-blue text-off-white font-semibold rounded-xl hover:bg-coral-red transition-colors duration-300"
+                className="inline-flex items-center px-6 py-3 bg-deep-teal text-off-white font-semibold rounded-xl hover:bg-coral-red transition-colors duration-300"
               >
                 Return to KalaSangam
               </Link>

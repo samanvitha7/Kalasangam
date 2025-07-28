@@ -492,7 +492,7 @@ export default function PulsingEventsCalendar() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <h3 className="text-3xl font-bold text-teal-blue mb-6 font-lora">Upcoming Events</h3>
+              <h3 className="text-3xl font-bold text-deep-teal mb-6 font-lora">Upcoming Events</h3>
               <div className="space-y-4 max-h-96 overflow-y-auto">
                 {upcomingEvents.length > 0 ? upcomingEvents.map((event, index) => (
                   <motion.div

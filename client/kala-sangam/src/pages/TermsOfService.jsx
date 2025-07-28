@@ -24,7 +24,7 @@ export default function TermsOfService() {
 
         <div className="prose prose-lg max-w-none space-y-8">
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">1. Acceptance of Terms</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">1. Acceptance of Terms</h2>
             <p className="text-gray-700 leading-relaxed">
               By accessing or using KalaSangam ("the Platform"), you agree to be bound by these Terms of Service ("Terms"). 
               If you do not agree to these terms, please do not use our platform. These terms apply to all users, including 
@@ -33,7 +33,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">2. About KalaSangam</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">2. About KalaSangam</h2>
             <p className="text-gray-700 leading-relaxed">
               KalaSangam is a digital platform dedicated to preserving, promoting, and celebrating traditional Indian arts, 
               crafts, music, dance, and cultural heritage. We provide a space for artists, enthusiasts, and learners to 
@@ -42,7 +42,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">3. User Accounts and Registration</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">3. User Accounts and Registration</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 <strong>Account Creation:</strong> You may create an account using either your email address or phone number. 
@@ -60,7 +60,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">4. User Content and Conduct</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">4. User Content and Conduct</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 <strong>Content Guidelines:</strong> When sharing content (artwork, videos, comments, etc.), you must ensure it:
@@ -86,7 +86,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">5. Intellectual Property Rights</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">5. Intellectual Property Rights</h2>
             <div className="space-y-3">
               <p className="text-gray-700 leading-relaxed">
                 <strong>Your Content:</strong> You retain ownership of content you create and share on KalaSangam. 
@@ -106,7 +106,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">6. Privacy and Data Protection</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">6. Privacy and Data Protection</h2>
             <p className="text-gray-700 leading-relaxed">
               Your privacy is important to us. Please review our <Link to="/privacy-policy" className="text-coral-red hover:underline">Privacy Policy</Link> 
               to understand how we collect, use, and protect your personal information. By using KalaSangam, 
@@ -115,7 +115,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">7. Platform Availability</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">7. Platform Availability</h2>
             <p className="text-gray-700 leading-relaxed">
               We strive to keep KalaSangam available 24/7, but we do not guarantee uninterrupted access. 
               We may temporarily suspend the platform for maintenance, updates, or other technical reasons. 
@@ -124,7 +124,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">8. Limitation of Liability</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">8. Limitation of Liability</h2>
             <p className="text-gray-700 leading-relaxed">
               KalaSangam is provided "as is" without warranties of any kind. We are not liable for any damages 
               arising from your use of the platform, including but not limited to direct, indirect, incidental, 
@@ -133,7 +133,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">9. Termination</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">9. Termination</h2>
             <p className="text-gray-700 leading-relaxed">
               Either party may terminate your account at any time. We may suspend or terminate accounts that 
               violate these terms or our Community Guidelines. Upon termination, your right to use the platform 
@@ -142,7 +142,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">10. Changes to Terms</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">10. Changes to Terms</h2>
             <p className="text-gray-700 leading-relaxed">
               We may update these Terms of Service from time to time. We will notify users of significant changes 
               via email or platform notifications. Your continued use of KalaSangam after changes constitutes 
@@ -151,7 +151,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-teal-blue mb-4">11. Contact Information</h2>
+            <h2 className="text-2xl font-semibold text-deep-teal mb-4">11. Contact Information</h2>
             <p className="text-gray-700 leading-relaxed">
               If you have questions about these Terms of Service, please contact us through our 
               <Link to="/about" className="text-coral-red hover:underline"> contact page</Link> or reach out to our support team.
@@ -166,7 +166,7 @@ export default function TermsOfService() {
             </p>
             <Link 
               to="/home" 
-              className="inline-flex items-center px-6 py-3 bg-teal-blue text-off-white font-semibold rounded-xl hover:bg-coral-red transition-colors duration-300"
+              className="inline-flex items-center px-6 py-3 bg-deep-teal text-off-white font-semibold rounded-xl hover:bg-coral-red transition-colors duration-300"
             >
               Return to KalaSangam
             </Link>

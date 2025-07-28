@@ -152,7 +152,7 @@ export default function PhoneSignup() {
         className="bg-[linear-gradient(to_bottom,rgba(255,190,152,0.8),rgba(255,187,233,0.7),rgba(44,165,141,0.7))] 
                   p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora"
       >
-        <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">Create Account</h2>
+        <h2 className="text-4xl font-bold text-center mb-3 text-deep-teal">Create Account</h2>
         <p className="text-center mb-6 text-sm text-teal-200">Join KalaSangam with your phone!</p>
 
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
@@ -167,7 +167,7 @@ export default function PhoneSignup() {
             onBlur={handleBlur}
             className={`w-full px-4 py-3 rounded-xl bg-white/70 border-2 ${
               fieldErrors.name ? 'border-coral-red' : 'border-coral-red/30'
-            } placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
+            } placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200`}
           />
           {fieldErrors.name && (
             <p className="text-coral-red text-xs mt-1 font-medium">
@@ -186,7 +186,7 @@ export default function PhoneSignup() {
             onBlur={handleBlur}
             className={`w-full px-4 py-3 rounded-xl bg-white/70 border-2 ${
               fieldErrors.phoneNumber ? 'border-coral-red' : 'border-coral-red/30'
-            } placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
+            } placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200`}
           />
           {fieldErrors.phoneNumber && (
             <p className="text-coral-red text-xs mt-1 font-medium">
@@ -243,7 +243,7 @@ export default function PhoneSignup() {
             onBlur={handleBlur}
             className={`w-full px-4 py-3 rounded-xl bg-white/70 border-2 ${
               fieldErrors.password ? 'border-coral-red' : 'border-coral-red/30'
-            } placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none transition-all duration-200`}
+            } placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200`}
           />
           {fieldErrors.password && (
             <p className="text-coral-red text-xs mt-1 font-medium">
@@ -260,9 +260,9 @@ export default function PhoneSignup() {
                 type="checkbox"
                 checked={agreedToTerms}
                 onChange={(e) => handleCheckboxChange('terms', e.target.checked)}
-                className={`mt-1 w-4 h-4 text-teal-blue border ${
+                className={`mt-1 w-4 h-4 text-deep-teal border ${
                   fieldErrors.terms ? 'border-coral-red border-2' : 'border-gray-300'
-                } rounded focus:ring-2 focus:ring-teal-blue transition-all duration-200`}
+                } rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200`}
               />
               <span className="text-[#284139] leading-relaxed">
                 I agree to KalaSangam's{" "}
@@ -288,9 +288,9 @@ export default function PhoneSignup() {
                 type="checkbox"
                 checked={agreedToPrivacy}
                 onChange={(e) => handleCheckboxChange('privacy', e.target.checked)}
-                className={`mt-1 w-4 h-4 text-teal-blue border ${
+                className={`mt-1 w-4 h-4 text-deep-teal border ${
                   fieldErrors.privacy ? 'border-coral-red border-2' : 'border-gray-300'
-                } rounded focus:ring-2 focus:ring-teal-blue transition-all duration-200`}
+                } rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200`}
               />
               <span className="text-[#284139] leading-relaxed">
                 I agree to KalaSangam's{" "}
@@ -314,7 +314,7 @@ export default function PhoneSignup() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-teal-blue hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-deep-teal hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Creating Account..." : "Sign Up"}
         </button>
@@ -324,7 +324,7 @@ export default function PhoneSignup() {
           <button
             type="button"
             onClick={() => navigate('/signup')}
-            className="text-sm bg-white/20 hover:bg-white/30 text-teal-blue font-semibold py-2 px-4 rounded-lg border border-teal-blue/30 transition-all"
+            className="text-sm bg-white/20 hover:bg-white/30 text-deep-teal font-semibold py-2 px-4 rounded-lg border border-deep-teal/30 transition-all"
           >
             📧 Continue with Email Instead
           </button>

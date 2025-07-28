@@ -222,7 +222,7 @@ export const adminApi = {
   // Artwork management functions
   // Get all artworks (admin only)
   getAllArtworks: async () => {
-    const response = await fetch(`${API_URL}/api/artforms`, {
+    const response = await fetch(`${API_URL}/api/artworks`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -235,7 +235,9 @@ export const adminApi = {
       throw new Error(`Failed to fetch artworks: ${response.status} - ${errorData}`);
     }
 
-    return response.json();
+    const result = await response.json();
+    // Return data array if it exists, otherwise return the result directly
+    return result.data || result;
   },
 
   // Delete artwork (admin only)
@@ -301,6 +303,43 @@ export const adminApi = {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
       throw new Error(errorData.message || 'Failed to delete event');
+    }
+
+    return response.json();
+  },
+
+  // Email verification functions
+  // Get email verification status
+  getEmailVerificationStatus: async () => {
+    const response = await fetch(`${API_URL}/api/email-verification/status`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+      throw new Error(errorData.message || 'Failed to fetch email verification status');
+    }
+
+    return response.json();
+  },
+
+  // Send email verification
+  sendEmailVerification: async () => {
+    const response = await fetch(`${API_URL}/api/email-verification/send`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+      throw new Error(errorData.message || 'Failed to send verification email');
     }
 
     return response.json();

@@ -61,7 +61,7 @@ const handleSubmit = async (e) => {
         className="p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora
                   bg-[linear-gradient(to_bottom,rgba(255,190,152,0.7),rgba(255,187,233,0.7),rgba(44,165,141,0.67))]"
       >
-        <h2 className="text-4xl font-bold text-center mb-3 text-teal-blue">Welcome Back!</h2>
+        <h2 className="text-4xl font-bold text-center mb-3 text-deep-teal">Welcome Back!</h2>
         <p className="text-center mb-4 text-sm text-teal-200">Login to continue</p>
         
         {/* Admin Login Option */}
@@ -84,7 +84,7 @@ const handleSubmit = async (e) => {
           placeholder="Email"
           value={form.email}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
         />
 
         <input
@@ -93,7 +93,7 @@ const handleSubmit = async (e) => {
           placeholder="Password"
           value={form.password}
           onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-teal-blue outline-none"
+          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
         />
 
         {/* Remember Me Checkbox */}
@@ -103,7 +103,7 @@ const handleSubmit = async (e) => {
               type="checkbox"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className="w-4 h-4 text-teal-blue border border-gray-300 rounded focus:ring-2 focus:ring-teal-blue transition-all duration-200"
+              className="w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
             />
             <span className="text-[#284139] leading-relaxed">
               <strong>Remember me</strong> - Stay logged in after closing browser
@@ -121,7 +121,7 @@ const handleSubmit = async (e) => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-teal-blue hover:bg-coral-pink text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-deep-teal hover:bg-coral-pink text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Logging in..." : "Login"}
         </button>
@@ -131,7 +131,7 @@ const handleSubmit = async (e) => {
           <button
             type="button"
             onClick={() => navigate('/phone-login')}
-            className="text-sm bg-white/20 hover:bg-white/30 text-teal-blue font-semibold py-2 px-4 rounded-lg border border-teal-blue/30 transition-all"
+            className="text-sm bg-white/20 hover:bg-white/30 text-deep-teal font-semibold py-2 px-4 rounded-lg border border-deep-teal/30 transition-all"
           >
             📱 Continue with Phone Number Instead
           </button>

@@ -84,6 +84,9 @@ const reportRoutes=require("./routes/reports");
 const artformRoutes = require("./routes/artforms");
 const artistRoutes = require('./routes/artists');
 const artworkRoutes = require('./routes/artworks');
+const emailVerificationRoutes = require('./routes/emailVerification');
+const translationRoutes = require('./routes/translationRoutes');
+const smartSearchRoutes = require('./routes/smartSearchRoutes');
 app.use("/api/artforms", artformRoutes);
 app.use("/api/auth",authRoutes);
 app.use("/api/users",userRoutes);
@@ -93,6 +96,9 @@ app.use("/api/reports",reportRoutes);
 app.use("/api/artforms-legacy",artRoutes);
 app.use('/api/artists', artistRoutes);
 app.use('/api/artworks', artworkRoutes);
+app.use('/api/email-verification', emailVerificationRoutes);
+app.use('/api/translation', translationRoutes);
+app.use('/api/smart-search', smartSearchRoutes);
 
 const DanceForm = require("./models/DanceForm");
 

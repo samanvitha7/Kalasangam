@@ -27,7 +27,7 @@ export default function FloatingSoundToggle() {
           return (
             <div
               key={index}
-              className="bg-gradient-to-t from-teal-blue to-coral-red rounded-sm transition-all duration-100"
+              className="bg-gradient-to-t from-deep-teal to-coral-red rounded-sm transition-all duration-100"
               style={{
                 width: '2px',
                 height: `${height}px`,
@@ -48,7 +48,7 @@ export default function FloatingSoundToggle() {
         <div className="bg-mist-blush/95 backdrop-blur-sm rounded-lg p-4 shadow-xl border border-coral-red/20 min-w-[200px]">
           {/* Audio Visualizer */}
           <div className="mb-4">
-            <div className="text-xs font-medium text-teal-blue mb-2">Audio Visualizer</div>
+            <div className="text-xs font-medium text-deep-teal mb-2">Audio Visualizer</div>
             <div className="bg-warm-sand rounded-lg p-2">
               <AudioVisualizer />
             </div>
@@ -57,7 +57,7 @@ export default function FloatingSoundToggle() {
           {/* Volume Control */}
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-medium text-teal-blue">Volume</label>
+              <label className="text-xs font-medium text-deep-teal">Volume</label>
               <span className="text-xs text-deep-charcoal/70">{Math.round(volume * 100)}%</span>
             </div>
             <input
@@ -84,7 +84,7 @@ export default function FloatingSoundToggle() {
             </button>
             <button
               onClick={() => changeVolume(0.5)}
-              className="flex-1 px-3 py-2 bg-teal-blue text-white text-xs rounded-md hover:bg-indigo-purple transition-colors"
+              className="flex-1 px-3 py-2 bg-deep-teal text-white text-xs rounded-md hover:bg-indigo-purple transition-colors"
             >
               Reset Volume
             </button>
@@ -99,7 +99,7 @@ export default function FloatingSoundToggle() {
         className={`
           p-3 rounded-full shadow-lg transition-all duration-300
           ${soundEnabled 
-            ? 'bg-teal-blue hover:bg-coral-red text-white' 
+            ? 'bg-deep-teal hover:bg-coral-red text-white' 
             : 'bg-deep-charcoal hover:bg-muted-fuchsia text-white'
           }
           hover:scale-105 active:scale-95
@@ -136,7 +136,7 @@ export default function FloatingSoundToggle() {
         className={`
           px-3 py-1 rounded-full text-xs font-medium transition-all duration-300
           ${showControls 
-            ? 'bg-teal-blue text-white' 
+            ? 'bg-deep-teal text-white' 
             : soundEnabled 
               ? 'bg-saffron-mist text-coral-red hover:bg-golden-saffron' 
               : 'bg-mist-blush text-deep-charcoal hover:bg-warm-sand'
