@@ -141,7 +141,53 @@ const userSchema = new mongoose.Schema({
   
   // Track likes and bookmarks
   likes: [{ type: mongoose.Schema.Types.ObjectId }],
-  bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Art' }]
+  bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Art' }],
+  
+  // Notifications system
+  notifications: [{
+    type: { 
+      type: String, 
+      enum: ['follow', 'like', 'artwork_upload', 'verification_approved'], 
+      required: true 
+    },
+    from: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User',
+      required: true 
+    },
+    message: { 
+      type: String, 
+      required: true 
+    },
+    read: { 
+      type: Boolean, 
+      default: false 
+    },
+    createdAt: { 
+      type: Date, 
+      default: Date.now 
+    }
+  }],
+  
+  // Email notification preferences
+  emailNotifications: {
+    enabled: { 
+      type: Boolean, 
+      default: false 
+    },
+    followNotifications: { 
+      type: Boolean, 
+      default: false 
+    },
+    likeNotifications: { 
+      type: Boolean, 
+      default: false 
+    },
+    artworkNotifications: { 
+      type: Boolean, 
+      default: false 
+    }
+  }
 }, {
   timestamps: true
 });

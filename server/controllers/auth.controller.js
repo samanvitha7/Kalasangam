@@ -20,7 +20,7 @@ const register = async (req, res) => {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
 
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, emailNotifications } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -36,7 +36,13 @@ const register = async (req, res) => {
       email,
       password,
       role: normalizedRole,
-      isEmailVerified: false // Start with unverified email
+      isEmailVerified: false, // Start with unverified email
+      emailNotifications: emailNotifications || {
+        enabled: false,
+        followNotifications: false,
+        likeNotifications: false,
+        artworkNotifications: false
+      }
     });
 
     // ✅ Create ArtistProfile if role is artist

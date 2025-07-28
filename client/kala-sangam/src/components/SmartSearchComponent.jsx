@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaSearch, FaTimes, FaStar, FaClock } from 'react-icons/fa';
+import { FaSearch, FaTimes, FaStar, FaClock, FaUser, FaPalette, FaHistory } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 
@@ -7,30 +7,63 @@ import { api } from '../services/api';
 const HeaderSmartSearch = ({ scrolled }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [artistSuggestions, setArtistSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const [trending, setTrending] = useState([]);
+  const [recentSearches, setRecentSearches] = useState([]);
+  const [searchType, setSearchType] = useState('all'); // 'all', 'artists', 'artworks'
   const searchRef = useRef();
   const navigate = useNavigate();
 
-  // Get search suggestions
+  // Load recent searches from localStorage
+  useEffect(() => {
+    const savedSearches = localStorage.getItem('recentSearches');
+    if (savedSearches) {
+      try {
+        setRecentSearches(JSON.parse(savedSearches));
+      } catch (error) {
+        console.error('Error parsing recent searches:', error);
+      }
+    }
+  }, []);
+
+  // Get search suggestions and artist suggestions
   useEffect(() => {
     const getSuggestions = async () => {
       if (searchTerm.length > 1) {
         try {
           setLoading(true);
-          const response = await api.getSearchSuggestions(searchTerm);
-          if (response.success) {
-            setSuggestions(response.suggestions || []);
+          
+          // Get general suggestions
+          const suggestionsPromise = api.getSearchSuggestions(searchTerm).catch(() => ({ success: false }));
+          
+          // Get artist suggestions
+          const artistsPromise = api.getArtists({ search: searchTerm, limit: 5 }).catch(() => ({ success: false }));
+          
+          const [suggestionsResponse, artistsResponse] = await Promise.all([suggestionsPromise, artistsPromise]);
+          
+          if (suggestionsResponse.success) {
+            setSuggestions(suggestionsResponse.suggestions || []);
+          } else {
+            setSuggestions([]);
+          }
+          
+          if (artistsResponse.success && artistsResponse.data) {
+            setArtistSuggestions(artistsResponse.data.slice(0, 5));
+          } else {
+            setArtistSuggestions([]);
           }
         } catch (error) {
           console.error('Error getting suggestions:', error);
           setSuggestions([]);
+          setArtistSuggestions([]);
         } finally {
           setLoading(false);
         }
       } else {
         setSuggestions([]);
+        setArtistSuggestions([]);
       }
     };
 
@@ -56,14 +89,44 @@ const HeaderSmartSearch = ({ scrolled }) => {
     }
   }, [showDropdown, trending.length]);
 
+  // Save search to recent searches
+  const saveToRecentSearches = (query) => {
+    const updatedSearches = [query, ...recentSearches.filter(s => s !== query)].slice(0, 5);
+    setRecentSearches(updatedSearches);
+    localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+  };
+
   // Handle search submission
-  const handleSearch = async (query = searchTerm) => {
+  const handleSearch = async (query = searchTerm, type = 'search') => {
     if (query.trim()) {
       setShowDropdown(false);
       setSearchTerm('');
-      // Navigate to a search results page with the query
-      navigate(`/search?q=${encodeURIComponent(query)}`);
+      
+      // Save to recent searches
+      saveToRecentSearches(query);
+      
+      if (type === 'artist') {
+        // Navigate to artist profile
+        navigate(`/artist/${query}`);
+      } else {
+        // Navigate to search results page
+        navigate(`/search?q=${encodeURIComponent(query)}`);
+      }
     }
+  };
+
+  // Handle artist selection
+  const handleArtistSelect = (artist) => {
+    setShowDropdown(false);
+    setSearchTerm('');
+    saveToRecentSearches(artist.name);
+    navigate(`/artist/${artist._id}`);
+  };
+
+  // Clear recent searches
+  const clearRecentSearches = () => {
+    setRecentSearches([]);
+    localStorage.removeItem('recentSearches');
   };
 
   // Handle clicking outside to close dropdown
@@ -95,7 +158,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
           
           <input
             type="text"
-            placeholder="Search with AI... (try 'beautiful dance from kerala')"
+            placeholder="Search artists, artworks... (try 'Priya', 'kerala dance')"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onFocus={() => setShowDropdown(true)}
@@ -127,21 +190,82 @@ const HeaderSmartSearch = ({ scrolled }) => {
             ? 'bg-white/95 backdrop-blur-md border-tealblue/20'
             : 'bg-white/90 backdrop-blur-md border-tealblue/30'
         }`}>
-          {/* Search Suggestions */}
+          {/* Artist Suggestions */}
+          {artistSuggestions.length > 0 && (
+            <div className="p-4 border-b border-gray-200/50">
+              <h4 className="text-sm font-semibold text-tealblue mb-2 flex items-center gap-2">
+                <FaUser size={12} className="text-rosered" />
+                Artists
+              </h4>
+              <div className="space-y-1">
+                {artistSuggestions.map((artist) => (
+                  <button
+                    key={artist._id}
+                    onClick={() => handleArtistSelect(artist)}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-tealblue/10 rounded-lg transition-colors duration-200 font-medium flex items-center gap-3"
+                  >
+                    <img 
+                      src={artist.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name)}&background=134856&color=fff`}
+                      alt={artist.name}
+                      className="w-6 h-6 rounded-full flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium">{artist.name}</div>
+                      {artist.specialization && (
+                        <div className="text-xs text-gray-500 truncate">{artist.specialization}</div>
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* General Search Suggestions */}
           {suggestions.length > 0 && (
             <div className="p-4 border-b border-gray-200/50">
               <h4 className="text-sm font-semibold text-tealblue mb-2 flex items-center gap-2">
-                <FaStar size={12} className="text-rosered" />
-                AI Suggestions
+                <FaPalette size={12} className="text-rosered" />
+                Suggestions
               </h4>
               <div className="space-y-1">
-                {suggestions.slice(0, 5).map((suggestion, index) => (
+                {suggestions.slice(0, 4).map((suggestion, index) => (
                   <button
                     key={index}
                     onClick={() => handleSearch(suggestion)}
                     className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-tealblue/10 rounded-lg transition-colors duration-200 font-medium"
                   >
                     {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Recent Searches */}
+          {recentSearches.length > 0 && searchTerm.length === 0 && (
+            <div className="p-4 border-b border-gray-200/50">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-sm font-semibold text-tealblue flex items-center gap-2">
+                  <FaHistory size={12} className="text-saffronglow" />
+                  Recent Searches
+                </h4>
+                <button
+                  onClick={clearRecentSearches}
+                  className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  Clear
+                </button>
+              </div>
+              <div className="space-y-1">
+                {recentSearches.map((search, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSearch(search)}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-tealblue/10 rounded-lg transition-colors duration-200 flex items-center gap-2"
+                  >
+                    <FaClock size={10} className="text-gray-400" />
+                    {search}
                   </button>
                 ))}
               </div>

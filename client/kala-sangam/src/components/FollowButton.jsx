@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { followingApi } from '../services/followingApi';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const FollowButton = ({ userId, className = '', onFollowChange }) => {
   const [isFollowing, setIsFollowing] = useState(false);
@@ -9,7 +10,7 @@ const FollowButton = ({ userId, className = '', onFollowChange }) => {
   const { user, isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (isAuthenticated && userId && userId !== user?.id) {
+    if (isAuthenticated && userId && userId !== user?._id) {
       checkFollowStatus();
     }
   }, [userId, isAuthenticated, user]);
@@ -29,7 +30,7 @@ const FollowButton = ({ userId, className = '', onFollowChange }) => {
       return;
     }
 
-    if (userId === user?.id) {
+    if (userId === user?._id) {
       alert('You cannot follow yourself');
       return;
     }
@@ -41,10 +42,12 @@ const FollowButton = ({ userId, className = '', onFollowChange }) => {
         response = await followingApi.unfollowUser(userId);
         setIsFollowing(false);
         setFollowerCount(prev => Math.max(0, prev - 1));
+        toast.info('Unfollowed artist');
       } else {
         response = await followingApi.followUser(userId);
         setIsFollowing(true);
         setFollowerCount(prev => prev + 1);
+        toast.success('Following artist! They will be notified.');
       }
 
       // Notify parent component of follow change
@@ -61,7 +64,7 @@ const FollowButton = ({ userId, className = '', onFollowChange }) => {
   };
 
   // Don't show follow button for own profile or if not authenticated
-  if (!isAuthenticated || userId === user?.id) {
+  if (!isAuthenticated || userId === user?._id) {
     return null;
   }
 

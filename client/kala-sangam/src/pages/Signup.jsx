@@ -19,6 +19,7 @@ export default function Signup() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
+  const [emailNotifications, setEmailNotifications] = useState(false);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({
     name: "",
@@ -109,7 +110,18 @@ export default function Signup() {
       return;
     }
 
-    const result = await register(form, rememberMe);
+    // Add email notifications preference to form data
+    const formWithNotifications = {
+      ...form,
+      emailNotifications: {
+        enabled: emailNotifications,
+        followNotifications: emailNotifications,
+        likeNotifications: false,
+        artworkNotifications: false
+      }
+    };
+    
+    const result = await register(formWithNotifications, rememberMe);
     if (result.success) {
       toast.success("Account created successfully! Welcome to KalaSangam!");
       
@@ -279,6 +291,24 @@ export default function Signup() {
                 {fieldErrors.privacy}
               </p>
             )}
+          </div>
+          
+          {/* Email Notifications Checkbox */}
+          <div>
+            <label className="flex items-start gap-3 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={emailNotifications}
+                onChange={(e) => setEmailNotifications(e.target.checked)}
+                className="mt-1 w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
+              />
+              <span className="text-[#284139] leading-relaxed">
+                <strong>📧 Email Updates</strong> - Get notified when someone follows you
+              </span>
+            </label>
+            <p className="text-xs text-teal-200 mt-1 ml-7">
+              You'll receive email notifications for new followers and important updates
+            </p>
           </div>
           
           {/* Remember Me Checkbox */}

@@ -167,6 +167,7 @@ const ArtistProfile = lazy(() => import("./pages/ArtistProfile.jsx"));
 const AdminLogin = lazy(() => import("./components/AdminLogin.jsx"));
 const AdminPanel = lazy(() => import("./components/AdminPanel.jsx"));
 const AdminDashboard = lazy(() => import("./components/AdminDashboard.jsx"));
+const SearchResults = lazy(() => import("./pages/SearchResults.jsx"));
  import { AuthProvider } from "./context/AuthContext.jsx";
 import { SoundProvider, useSoundContext } from "./context/SoundContext.jsx";
 import { AppReadyProvider, useAppReady as useAppReadyContext } from "./context/AppReadyContext.jsx";
@@ -272,6 +273,7 @@ function AppContent() {
               <Route path="/phone-login" element={<PhoneLogin />} />
               <Route path="/phone-signup" element={<PhoneSignup />} />
               <Route path="/profile" element={<UserPage />} />
+              <Route path="/search" element={<SearchResults />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password/:token" element={<ResetPassword />} />
               <Route path="/explore/state" element={<IndiaMapPage onStateClick={handleStateClick} />} />

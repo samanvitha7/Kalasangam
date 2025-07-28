@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { HeaderSmartSearch } from "./SmartSearchComponent";
+import NotificationsBell from "./NotificationsBell";
 
 export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -197,9 +198,10 @@ export default function Header({ scrolled, onMapClick }) {
           </Link>
         </nav>
 
-        {/* Smart Search - Center Right */}
-        <div className="flex-shrink-0 flex items-center mx-4">
+        {/* Smart Search and Notifications - Center Right */}
+        <div className="flex-shrink-0 flex items-center mx-4 space-x-4">
           <HeaderSmartSearch scrolled={scrolled} />
+          <NotificationsBell />
         </div>
 
         {/* User Profile or Login/Signup buttons - Far Right */}

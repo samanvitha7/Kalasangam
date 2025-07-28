@@ -31,6 +31,14 @@ class FollowingController {
       user.following.push(followId);
       followUser.followers.push(userId);
 
+      // Create notification for the followed user
+      followUser.notifications.push({
+        type: 'follow',
+        from: userId,
+        message: `${user.name} started following you!`,
+        read: false
+      });
+
       await user.save();
       await followUser.save();
 
