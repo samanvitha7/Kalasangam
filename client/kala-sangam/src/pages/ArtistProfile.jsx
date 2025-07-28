@@ -8,6 +8,8 @@ import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import axios from "axios";
+import FollowButton from '../components/FollowButton';
+import VerificationBadge from '../components/VerificationBadge';
 
 const ArtistProfile = () => {
   const { artistId } = useParams();
@@ -273,7 +275,22 @@ const ArtistProfile = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <h1 className="text-6xl font-dm-serif font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent drop-shadow-lg mb-2">{artist.name}</h1>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-3">
+                  <h1 className="text-6xl font-dm-serif font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent drop-shadow-lg">{artist.name}</h1>
+                  <VerificationBadge isVerified={artist.isVerified} size="lg" />
+                </div>
+                <div className="flex items-center gap-3">
+                  <FollowButton 
+                    userId={artist._id} 
+                    className="px-6 py-3 text-sm font-dm-serif shadow-xl"
+                    onFollowChange={(isFollowing, count) => {
+                      // Optional: Update local state if needed
+                      console.log('Follow status changed:', isFollowing, count);
+                    }}
+                  />
+                </div>
+              </div>
               <div className="flex items-center gap-4 text-white/90 mb-3">
                 <div className="flex items-center gap-1">
                   <FaMapMarkerAlt size={14} />

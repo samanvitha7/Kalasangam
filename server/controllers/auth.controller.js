@@ -28,16 +28,19 @@ const register = async (req, res) => {
       return res.status(400).json({ message: 'Email already in use' });
     }
 
+    // Normalize role to proper casing
+    const normalizedRole = role ? role.charAt(0).toUpperCase() + role.slice(1).toLowerCase() : 'Viewer';
+
     const user = await User.create({
       name,
       email,
       password,
-      role,
+      role: normalizedRole,
       isEmailVerified: false // Start with unverified email
     });
 
     // ✅ Create ArtistProfile if role is artist
-    if (role === "artist") {
+    if (normalizedRole === "Artist") {
       await ArtistProfile.create({
         userId: user._id,
         name: user.name,

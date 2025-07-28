@@ -236,12 +236,8 @@ export const adminApi = {
     }
 
     const result = await response.json();
-<<<<<<< HEAD
     // Return data array if it exists, otherwise return the result directly
     return result.data || result;
-=======
-    return result.data || [];
->>>>>>> 2dfe7dbf218684013395c6b595d4e003107f7843
   },
 
   // Delete artwork (admin only)

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import AdminPanel from './AdminPanel';
 import { adminApi } from '../services/api';
 import FullBleedDivider from './FullBleedDivider';
+import VerificationAdmin from './admin/VerificationAdmin';
 import { 
   FaHome, 
   FaUsers, 
@@ -22,7 +23,7 @@ const AdminDashboard = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showRoleModal, setShowRoleModal] = useState(false);
@@ -41,6 +42,14 @@ const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
   const [contentLoading, setContentLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [dashboardStats, setDashboardStats] = useState({
+    totalUsers: 0,
+    totalArtists: 0,
+    totalArtworks: 0,
+    totalEvents: 0,
+    recentUsers: [],
+    systemStatus: 'operational'
+  });
   
   const navigate = useNavigate();
 
@@ -48,6 +57,12 @@ const AdminDashboard = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setCurrentUser(user);
+      setLoading(false);
+      if (user.role === 'Admin') {
+        fetchDashboardStats();
+      }
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -56,6 +71,35 @@ const AdminDashboard = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('userRole');
     navigate('/');
+  };
+
+  const fetchDashboardStats = async () => {
+    try {
+      // Fetch multiple stats in parallel
+      const [usersRes, artworksRes, eventsRes] = await Promise.all([
+        adminApi.getAllUsers({ limit: 5 }),
+        adminApi.getAllArtworks(),
+        adminApi.getAllEvents()
+      ]);
+      
+      const totalUsers = usersRes.pagination?.totalCount || usersRes.users?.length || 0;
+      const totalArtists = usersRes.users?.filter(user => user.role === 'Artist').length || 0;
+      const totalArtworks = Array.isArray(artworksRes) ? artworksRes.length : (artworksRes.data?.length || 0);
+      const totalEvents = Array.isArray(eventsRes) ? eventsRes.length : (eventsRes.data?.length || 0);
+      const recentUsers = usersRes.users?.slice(0, 5) || [];
+      
+      setDashboardStats({
+        totalUsers,
+        totalArtists,
+        totalArtworks,
+        totalEvents,
+        recentUsers,
+        systemStatus: 'operational'
+      });
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error);
+      setDashboardStats(prev => ({ ...prev, systemStatus: 'error' }));
+    }
   };
 
   // User management functions
@@ -267,7 +311,8 @@ const AdminDashboard = () => {
     ...(currentUser.role === 'Admin' ? [
       { id: 'reports', label: 'Reports', icon: FaChartBar },
       { id: 'users', label: 'User Management', icon: FaUsers },
-      { id: 'content', label: 'Content Management', icon: FaFileAlt }
+{ id: 'content', label: 'Content Management', icon: FaFileAlt },
+      { id: 'verification-admin', label: 'Verification', icon: FaFileAlt }
     ] : []),
     ...(currentUser.role === 'Artist' ? [
       { id: 'content', label: 'My Content', icon: FaFileAlt }
@@ -299,50 +344,168 @@ const AdminDashboard = () => {
         return renderUserManagement();
       case 'content':
         return renderContentManagement();
-      case 'settings':
+case 'settings':
         return renderSettings();
+      case 'verification-admin':
+        return <VerificationAdmin />;
       default:
         return renderDashboard();
     }
   };
 
   const renderDashboard = () => (
-    <div className="dashboard-overview">
-      <h2>Welcome, {currentUser.name}!</h2>
-      <p>Role: <span className="role-badge">{currentUser.role}</span></p>
-      
-      <div className="dashboard-cards">
-        <div className="dashboard-card">
-          <h3>Quick Stats</h3>
-          <p>Your dashboard overview goes here</p>
-        </div>
-        
-        {currentUser.role === 'Admin' && (
-          <>
-            <div className="dashboard-card">
-              <h3>System Status</h3>
-              <p>All systems operational</p>
-            </div>
-            <div className="dashboard-card">
-              <h3>Recent Activity</h3>
-              <p>Monitor platform activity</p>
-            </div>
-          </>
-        )}
-        
-        {currentUser.role === 'Artist' && (
-          <>
-            <div className="dashboard-card">
-              <h3>Your Artworks</h3>
-              <p>Manage your art submissions</p>
-            </div>
-            <div className="dashboard-card">
-              <h3>Performance</h3>
-              <p>View your artwork statistics</p>
-            </div>
-          </>
-        )}
+    <div className="space-y-6">
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome back, {currentUser.name}!</h2>
+        <p className="text-gray-600">Role: <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">{currentUser.role}</span></p>
       </div>
+      
+      {currentUser.role === 'Admin' && (
+        <>
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Total Users</p>
+                  <p className="text-2xl font-bold text-gray-900">{dashboardStats.totalUsers}</p>
+                </div>
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Artists</p>
+                  <p className="text-2xl font-bold text-gray-900">{dashboardStats.totalArtists}</p>
+                </div>
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Artworks</p>
+                  <p className="text-2xl font-bold text-gray-900">{dashboardStats.totalArtworks}</p>
+                </div>
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Events</p>
+                  <p className="text-2xl font-bold text-gray-900">{dashboardStats.totalEvents}</p>
+                </div>
+                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* System Status and Recent Activity */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">System Status</h3>
+              <div className="flex items-center gap-3">
+                <div className={`w-3 h-3 rounded-full ${
+                  dashboardStats.systemStatus === 'operational' ? 'bg-green-500' : 'bg-red-500'
+                }`}></div>
+                <span className="text-sm font-medium text-gray-700">
+                  {dashboardStats.systemStatus === 'operational' ? 'All systems operational' : 'System issues detected'}
+                </span>
+              </div>
+              <div className="mt-4 space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Server Status</span>
+                  <span className="text-green-600 font-medium">Online</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Database</span>
+                  <span className="text-green-600 font-medium">Connected</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">API Status</span>
+                  <span className="text-green-600 font-medium">Active</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Users</h3>
+              <div className="space-y-3">
+                {dashboardStats.recentUsers.length > 0 ? (
+                  dashboardStats.recentUsers.map((user, index) => (
+                    <div key={user._id || index} className="flex items-center gap-3">
+                      <img
+                        src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=134856&color=fff`}
+                        alt={user.name}
+                        className="w-8 h-8 rounded-full"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
+                        <p className="text-xs text-gray-500 truncate">{user.role}</p>
+                      </div>
+                      <span className="text-xs text-gray-400">
+                        {new Date(user.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500">No recent users</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      
+      {currentUser.role === 'Artist' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Artworks</h3>
+            <p className="text-gray-600">Manage and upload your art submissions</p>
+            <button 
+              onClick={() => setActiveTab('content')}
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              View Artworks
+            </button>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance</h3>
+            <p className="text-gray-600">View your artwork statistics and engagement</p>
+            <div className="mt-4 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Total Views</span>
+                <span className="font-medium">-</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Total Likes</span>
+                <span className="font-medium">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 

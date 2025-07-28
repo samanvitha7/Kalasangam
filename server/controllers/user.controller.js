@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator');
 // Get current user profile with detailed info
 const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.user.userId)
       .select('-password');
     
     if (!user) {
@@ -49,7 +49,7 @@ const getPublicProfile = async (req, res) => {
     }
 
     // Check if current user follows this user
-    const currentUser = await User.findById(req.user.id);
+    const currentUser = await User.findById(req.user.userId);
     const isFollowing = currentUser.follows.includes(userId);
 
     res.status(200).json({
@@ -73,7 +73,7 @@ const getPublicProfile = async (req, res) => {
 const toggleLike = async (req, res) => {
   try {
     const { artworkId } = req.params;
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     if (!artworkId) {
       return res.status(400).json({ 
@@ -125,7 +125,7 @@ const toggleLike = async (req, res) => {
 const toggleBookmark = async (req, res) => {
   try {
     const { artworkId } = req.params;
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     if (!artworkId) {
       return res.status(400).json({ 
@@ -176,7 +176,7 @@ const toggleBookmark = async (req, res) => {
 // Get user's bookmarked artworks
 const getBookmarks = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     
     const user = await User.findById(userId)
       .populate({
@@ -209,7 +209,7 @@ const updateProfile = async (req, res) => {
 
   try {
     const { name, avatar, portfolioUrl, socialLinks, bio, location, specialization } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -270,7 +270,7 @@ const changePassword = async (req, res) => {
 
   try {
     const { currentPassword, newPassword } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -297,7 +297,7 @@ const changePassword = async (req, res) => {
 const deleteAccount = async (req, res) => {
   try {
     const { password } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -328,7 +328,7 @@ const deleteAccount = async (req, res) => {
 // Get user statistics
 const getUserStats = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     
     const user = await User.findById(userId);
     if (!user) {
@@ -360,7 +360,7 @@ const getUserStats = async (req, res) => {
 // Get user activity (likes, bookmarks, artworks)
 const getUserActivity = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     const Artwork = require('../models/Artwork');
     
     const user = await User.findById(userId)
@@ -408,7 +408,10 @@ const getUserActivity = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     // Check if user is admin
-    const currentUser = await User.findById(req.user.id);
+    const currentUser = await User.findById(req.user.userId);
+    if (!currentUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     if (currentUser.role !== 'Admin') {
       return res.status(403).json({ message: 'Access denied. Admin role required.' });
     }
@@ -454,7 +457,7 @@ const getAllUsers = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     // Check if user is admin
-    const currentUser = await User.findById(req.user.id);
+    const currentUser = await User.findById(req.user.userId);
     if (currentUser.role !== 'Admin') {
       return res.status(403).json({ message: 'Access denied. Admin role required.' });
     }
@@ -497,7 +500,7 @@ const createUser = async (req, res) => {
 const updateUserRole = async (req, res) => {
   try {
     // Check if user is admin
-    const currentUser = await User.findById(req.user.id);
+    const currentUser = await User.findById(req.user.userId);
     if (currentUser.role !== 'Admin') {
       return res.status(403).json({ message: 'Access denied. Admin role required.' });
     }
@@ -512,7 +515,7 @@ const updateUserRole = async (req, res) => {
     }
 
     // Prevent admin from changing their own role
-    if (userId === req.user.id) {
+    if (userId === req.user.userId) {
       return res.status(400).json({ message: 'Cannot change your own role' });
     }
 
@@ -539,7 +542,7 @@ const updateUserRole = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     // Check if user is admin
-    const currentUser = await User.findById(req.user.id);
+    const currentUser = await User.findById(req.user.userId);
     if (currentUser.role !== 'Admin') {
       return res.status(403).json({ message: 'Access denied. Admin role required.' });
     }
@@ -547,7 +550,7 @@ const deleteUser = async (req, res) => {
     const { userId } = req.params;
 
     // Prevent admin from deleting their own account
-    if (userId === req.user.id) {
+    if (userId === req.user.userId) {
       return res.status(400).json({ message: 'Cannot delete your own account' });
     }
 
@@ -575,7 +578,7 @@ const deleteUser = async (req, res) => {
 const getUserStatsAdmin = async (req, res) => {
   try {
     // Check if user is admin
-    const currentUser = await User.findById(req.user.id);
+    const currentUser = await User.findById(req.user.userId);
     if (currentUser.role !== 'Admin') {
       return res.status(403).json({ message: 'Access denied. Admin role required.' });
     }

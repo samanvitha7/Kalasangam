@@ -10,15 +10,16 @@ import UserSettings from "../components/UserSettings";
 import UserArtworks from "../components/UserArtworks";
 import UserEvents from "../components/UserEvents";
 import UserLikedArtworks from "../components/UserLikedArtworks";
+import FollowingLists from "../components/FollowingLists";
 import FullBleedDivider from "../components/FullBleedDivider";
-import { FaUser, FaPalette, FaCalendarAlt, FaHeart, FaCog, FaSignOutAlt, FaBars } from "react-icons/fa";
+import { FaUser, FaPalette, FaCalendarAlt, FaHeart, FaCog, FaSignOutAlt, FaBars, FaUserFriends } from "react-icons/fa";
 
 export default function UserPage() {
   const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('profile');
   const [profile, setProfile] = useState(null);
   const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function UserPage() {
 
   const loadUserData = async () => {
     try {
+      setLoading(true);
       const [profileRes, statsRes] = await Promise.all([
         api.get('/api/users/profile'),
         api.get('/api/users/stats')
@@ -39,7 +41,10 @@ export default function UserPage() {
       setProfile(profileRes.data.user);
       setStats(statsRes.data.stats);
     } catch (error) {
+      console.error('Error loading user data:', error);
       toast.error('Failed to load user data');
+      setProfile({ name: user?.name, avatar: null });
+      setStats({ totalArtworks: 0, totalLikes: 0, totalViews: 0 });
     } finally {
       setLoading(false);
     }
@@ -107,7 +112,8 @@ export default function UserPage() {
     { id: 'profile', label: 'Profile', icon: FaUser },
     { id: 'artworks', label: 'My Artworks', icon: FaPalette },
     { id: 'events', label: 'My Events', icon: FaCalendarAlt },
-    { id: 'likes', label: 'Liked Posts', icon: FaHeart }
+    { id: 'likes', label: 'Liked Posts', icon: FaHeart },
+    { id: 'following', label: 'Following & Followers', icon: FaUserFriends }
   ];
 
   const accountMenuItems = [
@@ -262,6 +268,7 @@ export default function UserPage() {
                       {activeTab === 'artworks' && 'View and manage your uploaded artworks'}
                       {activeTab === 'events' && 'Track your event participation and history'}
                       {activeTab === 'likes' && 'Browse artworks you\'ve liked and saved'}
+                      {activeTab === 'following' && 'Manage your following and followers lists'}
                       {activeTab === 'settings' && 'Configure your account preferences and settings'}
                     </p>
                   </div>
@@ -283,6 +290,13 @@ export default function UserPage() {
                     )}
                     {activeTab === 'likes' && (
                       <UserLikedArtworks userId={user?.id} />
+                    )}
+                    {activeTab === 'following' && (
+                      <FollowingLists 
+                        showFollowing={true}
+                        showFollowers={true}
+                        compact={false}
+                      />
                     )}
                     {activeTab === 'settings' && (
                       <UserSettings 
