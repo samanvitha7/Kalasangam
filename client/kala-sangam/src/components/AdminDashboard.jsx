@@ -278,7 +278,7 @@ const AdminDashboard = () => {
             <option value="all">All Roles</option>
             <option value="Admin">Admin</option>
             <option value="Artist">Artist</option>
-            <option value="Viewer">Viewer</option>
+            
           </select>
         </div>
 
