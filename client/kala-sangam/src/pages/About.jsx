@@ -5,6 +5,7 @@ import WhyWeBuiltThis from "../components/WhyBuilt.jsx";
 import MeetTheTeam from "../components/MeetTheTeam.jsx";
 import ContactUsSection from "../components/ContactUs.jsx";
 import FullBleedDivider from "../components/FullBleedDivider.jsx";
+import useHardReload from "../hooks/useHardReload";
 
 // Enhanced floating particles system
 const FloatingParticles = () => {
@@ -63,6 +64,9 @@ const FloatingParticles = () => {
 };
 
 export default function About() {
+  // Add hard reload functionality
+  useHardReload();
+  
   const containerRef = useRef(null);
   const location = useLocation();
   const [pageReady, setPageReady] = useState(false);
