@@ -4,7 +4,10 @@ import IndiaMap from "../components/IndiaMap.jsx";
 import ParallaxSection from "../components/ParallaxSection.jsx";
 import PulsingEventsCalendar from "../components/PulsingEventsCalendar.jsx";
 import LivingArtistMosaic from "../components/LivingArtistMosaic.jsx";
+import useHardReload from "../hooks/useHardReload";
 export default function Home({ showMap, mapRef, onStateClick }) {
+  // Add hard reload functionality
+  useHardReload();
 
   return (
 <main className="relative w-full overflow-x-hidden text-center font-lora bg-[#F8E6DA]
