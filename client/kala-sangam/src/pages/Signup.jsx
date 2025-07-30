@@ -31,6 +31,11 @@ export default function Signup() {
   const [touchedFields, setTouchedFields] = useState({});
   const navigate = useNavigate();
   const { register, isAuthenticated, loading, clearError } = useAuth();
+  const [passwordRequirements, setPasswordRequirements] = useState({
+    minLength: false,
+    hasNumber: false,
+    hasSpecialChar: false,
+  });
 
 
   useEffect(() => {
@@ -46,7 +51,13 @@ export default function Signup() {
         return !isEmailValid(value) ? 'Please enter a valid email address' : '';
       case 'password':
         if (value.trim() === '') return 'Password is required';
-        return !isPasswordStrong(value) ? 'Password must be at least 6 characters' : '';
+        const newRequirements = {
+          minLength: value.length >= 6,
+          hasNumber: /\d/.test(value),
+          hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+        };
+        setPasswordRequirements(newRequirements);
+        return !isPasswordStrong(value) ? 'Password does not meet all requirements' : '';
       default:
         return '';
     }
@@ -56,6 +67,16 @@ export default function Signup() {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
     setError("");
+    
+    // Update password requirements in real-time
+    if (name === 'password') {
+      const newRequirements = {
+        minLength: value.length >= 6,
+        hasNumber: /\d/.test(value),
+        hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+      };
+      setPasswordRequirements(newRequirements);
+    }
     
     // Clear field error when user starts typing
     if (fieldErrors[name]) {
@@ -141,13 +162,13 @@ export default function Signup() {
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-[linear-gradient(to_bottom,rgba(255,190,152,0.8),rgba(255,187,233,0.7),rgba(44,165,141,0.7))] 
+        className="bg-[rgba(82,200,180,0.8)] 
                   p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora"
       >
-        <h2 className="text-4xl font-bold text-center mb-3 text-deep-teal">
+        <h2 className="text-4xl font-bold text-center mb-3 text-slate-800">
           Join as Artist
         </h2>
-        <p className="text-center mb-6 text-sm text-teal-200">
+        <p className="text-center mb-6 text-base text-gray-200">
           Start your artistic journey with us!
         </p>
 
@@ -196,23 +217,25 @@ export default function Signup() {
         </div>
 
         {/* Password Requirements */}
-        <div className="mb-3">
-          <p className="text-sm font-semibold text-[#284139] mb-2">Password Requirements:</p>
-          <ul className="text-xs text-teal-200 space-y-1 ml-4">
-            <li className="flex items-center">
-              <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
-              At least 6 characters long
-            </li>
-            <li className="flex items-center">
-              <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
-              Mix of letters and numbers recommended
-            </li>
-            <li className="flex items-center">
-              <span className="w-1 h-1 bg-teal-200 rounded-full mr-2"></span>
-              Avoid common passwords
-            </li>
-          </ul>
-        </div>
+        {form.password && (!passwordRequirements.minLength || !passwordRequirements.hasNumber || !passwordRequirements.hasSpecialChar) && (
+          <div className="mb-3 transition-all duration-300 ease-in-out">
+            <p className="text-base font-semibold text-slate-800 mb-2">Password Requirements:</p>
+            <ul className="text-sm text-gray-200 space-y-1 ml-4">
+              <li className={`flex items-center ${passwordRequirements.minLength ? 'text-green-300' : 'text-gray-200'}`}>
+                <span className={`w-1 h-1 rounded-full mr-2 ${passwordRequirements.minLength ? 'bg-green-300' : 'bg-gray-200'}`}></span>
+                At least 6 characters long
+              </li>
+              <li className={`flex items-center ${passwordRequirements.hasNumber ? 'text-green-300' : 'text-gray-200'}`}>
+                <span className={`w-1 h-1 rounded-full mr-2 ${passwordRequirements.hasNumber ? 'bg-green-300' : 'bg-gray-200'}`}></span>
+                Contains at least one number
+              </li>
+              <li className={`flex items-center ${passwordRequirements.hasSpecialChar ? 'text-green-300' : 'text-gray-200'}`}>
+                <span className={`w-1 h-1 rounded-full mr-2 ${passwordRequirements.hasSpecialChar ? 'bg-green-300' : 'bg-gray-200'}`}></span>
+                Contains at least one special character
+              </li>
+            </ul>
+          </div>
+        )}
 
         <div className="mb-4">
           <input
@@ -238,7 +261,7 @@ export default function Signup() {
         {/* Agreement Checkboxes */}
         <div className="space-y-4 mb-6">
           <div>
-            <label className="flex items-start gap-3 text-sm cursor-pointer">
+            <label className="flex items-start gap-3 text-base cursor-pointer">
               <input
                 type="checkbox"
                 checked={agreedToTerms}
@@ -247,14 +270,14 @@ export default function Signup() {
                   fieldErrors.terms ? 'border-coral-red border-2' : 'border-gray-300'
                 } rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200`}
               />
-              <span className="text-[#284139] leading-relaxed">
+              <span className="text-slate-800 leading-relaxed">
                 I agree to KalaSangam's{" "}
                 <Link 
                   to="/terms-of-service" 
                   target="_blank" 
-                  className="text-coral-red hover:underline font-semibold"
+                  className="text-white hover:underline font-semibold hover:text-gray-200"
                 >
-                  Terms of Service
+                  TOS and Privacy Policy
                 </Link>
               </span>
             </label>
@@ -265,79 +288,44 @@ export default function Signup() {
             )}
           </div>
           
-          <div>
-            <label className="flex items-start gap-3 text-sm cursor-pointer">
-              <input
-                type="checkbox"
-                checked={agreedToPrivacy}
-                onChange={(e) => handleCheckboxChange('privacy', e.target.checked)}
-                className={`mt-1 w-4 h-4 text-deep-teal border ${
-                  fieldErrors.privacy ? 'border-coral-red border-2' : 'border-gray-300'
-                } rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200`}
-              />
-              <span className="text-[#284139] leading-relaxed">
-                I agree to KalaSangam's{" "}
-                <Link 
-                  to="/privacy-policy" 
-                  target="_blank" 
-                  className="text-coral-red hover:underline font-semibold"
-                >
-                  Privacy Policy
-                </Link>
-              </span>
-            </label>
-            {fieldErrors.privacy && (
-              <p className="text-coral-red text-xs mt-1 ml-7 font-medium">
-                {fieldErrors.privacy}
-              </p>
-            )}
-          </div>
           
           {/* Email Notifications Checkbox */}
           <div>
-            <label className="flex items-start gap-3 text-sm cursor-pointer">
+            <label className="flex items-start gap-3 text-base cursor-pointer">
               <input
                 type="checkbox"
                 checked={emailNotifications}
                 onChange={(e) => setEmailNotifications(e.target.checked)}
                 className="mt-1 w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
               />
-              <span className="text-[#284139] leading-relaxed">
-                <strong>📧 Email Updates</strong> - Get notified when someone follows you
+              <span className="text-slate-800 leading-relaxed">
+                <strong> Email Updates</strong> - Get notified when someone follows you
               </span>
             </label>
-            <p className="text-xs text-teal-200 mt-1 ml-7">
+            {/* <p className="text-xs text-teal-200 mt-1 ml-7">
               You'll receive email notifications for new followers and important updates
-            </p>
+            </p> */}
           </div>
           
           {/* Remember Me Checkbox */}
           <div>
-            <label className="flex items-start gap-3 text-sm cursor-pointer">
+            <label className="flex items-start gap-3 text-base cursor-pointer">
               <input
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
                 className="mt-1 w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
               />
-              <span className="text-[#284139] leading-relaxed">
+              <span className="text-slate-800 leading-relaxed">
                 <strong>Remember me</strong> - Stay logged in even after closing the browser
               </span>
             </label>
-            <p className="text-xs text-teal-200 mt-1 ml-7">
+            {/* <p className="text-xs text-teal-200 mt-1 ml-7">
               If unchecked, you'll need to log in again when you close and reopen the website
-            </p>
+            </p> */}
           </div>
         </div>
-        <div className="mb-4 p-4 bg-teal-100 rounded-xl border-2 border-teal-300">
-          <p className="text-center text-teal-800 font-semibold">
-            🎨 You're signing up as an Artist!
-          </p>
-          <p className="text-center text-sm text-teal-600 mt-1">
-            You'll have access to create and showcase your artwork.
-          </p>
-          <input type="hidden" name="role" value="Artist" />
-        </div>
+        
 
 
         <button
@@ -359,7 +347,7 @@ export default function Signup() {
           </button>
         </div>
 
-        <p className="text-center mt-6 text-sm text-teal-200">
+        <p className="text-center mt-6 text-base text-white font-medium">
           Already have an account? <Link to="/login" className="underline font-semibold hover:text-coral-red">Login</Link>
         </p>
       </form>

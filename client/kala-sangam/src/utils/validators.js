@@ -3,8 +3,12 @@
 export const isEmailValid = (email) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-export const isPasswordStrong = (password) =>
-  password.length >= 6;
+export const isPasswordStrong = (password) => {
+  if (password.length < 6) return false;
+  if (!/\d/.test(password)) return false;
+  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) return false;
+  return true;
+};
 
 export const isPhoneNumberValid = (phoneNumber) => {
   if (!phoneNumber || typeof phoneNumber !== 'string') {
