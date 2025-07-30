@@ -46,8 +46,10 @@ const ArtWall = () => {
             artist: artwork.artist || 'Cultural Heritage',
             imageUrl: artwork.imageUrl || artwork.image,
             category: artwork.category || 'Traditional Art',
-            likes: artwork.likes || 0,
-            bookmarks: artwork.bookmarks || 0,
+            likes: artwork.likes || [],
+            bookmarks: artwork.bookmarks || [],
+            likeCount: artwork.likeCount || (artwork.likes ? artwork.likes.length : 0),
+            bookmarkCount: artwork.bookmarkCount || (artwork.bookmarks ? artwork.bookmarks.length : 0),
             createdAt: artwork.createdAt || new Date().toISOString(),
             userId: transformedUserId,
             origin: artwork.origin
@@ -110,7 +112,7 @@ const ArtWall = () => {
         case 'oldest':
           return new Date(a.createdAt) - new Date(b.createdAt);
         case 'likes':
-          return b.likes - a.likes;
+          return (b.likeCount || 0) - (a.likeCount || 0);
         case 'artist':
           return a.artist.localeCompare(b.artist);
         default:
@@ -179,6 +181,66 @@ const ArtWall = () => {
     }
   };
 
+  const handleLike = async (artworkId) => {
+    if (!isAuthenticated) {
+      toast.error('Please login to like artworks', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+
+    try {
+      const response = await api.toggleLike(artworkId);
+      
+      if (response.success) {
+        // Update local artworks state with new like count
+        setArtworks(prev => prev.map(art => 
+          art.id === artworkId ? { 
+            ...art, 
+            likeCount: response.likeCount,
+            likes: response.likeCount // Keep both for compatibility
+          } : art
+        ));
+        
+        // Show toast message
+        if (response.liked) {
+          toast.success('Artwork liked!', { position: 'top-center', autoClose: 2000 });
+          
+          // Emit global event for like
+          globalEvents.emit(ARTWORK_EVENTS.LIKED, {
+            artworkId: artworkId.toString(),
+            userId: user?.id
+          });
+        } else {
+          toast.success('Like removed!', { position: 'top-center', autoClose: 2000 });
+          
+          // Emit global event for unlike
+          globalEvents.emit(ARTWORK_EVENTS.UNLIKED, {
+            artworkId: artworkId.toString(),
+            userId: user?.id
+          });
+        }
+        
+        // Emit user stats update event
+        globalEvents.emit(ARTWORK_EVENTS.USER_STATS_UPDATED, {
+          userId: user?.id,
+          likeChange: response.liked ? 1 : -1
+        });
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+      toast.error('Failed to toggle like. Please try again.', {
+        position: 'top-center',
+        autoClose: 3000,
+      });
+    }
+  };
+
   const handleBookmark = async (artworkId) => {
     if (!isAuthenticated) {
       toast.error('Please login to bookmark artworks', {
@@ -201,7 +263,7 @@ const ArtWall = () => {
           const newBookmarks = new Set(prev);
           const artworkIdStr = artworkId.toString();
           
-          if (response.isBookmarked) {
+          if (response.bookmarked) {
             newBookmarks.add(artworkIdStr);
             toast.success('Artwork bookmarked!', { position: 'top-center', autoClose: 2000 });
             
@@ -223,15 +285,24 @@ const ArtWall = () => {
           return newBookmarks;
         });
         
+        // Update artworks state with new bookmark count
+        setArtworks(prev => prev.map(art => 
+          art.id === artworkId ? { 
+            ...art, 
+            bookmarkCount: response.bookmarkCount,
+            bookmarks: response.bookmarkCount // Keep both for compatibility
+          } : art
+        ));
+        
         // Emit user stats update event
         globalEvents.emit(ARTWORK_EVENTS.USER_STATS_UPDATED, {
           userId: user?.id,
-          bookmarkChange: response.isBookmarked ? 1 : -1
+          bookmarkChange: response.bookmarked ? 1 : -1
         });
       }
     } catch (error) {
       console.error('Error toggling bookmark:', error);
-      toast.error('Failed to load bookmarks and likes. Please try again.', {
+      toast.error('Failed to toggle bookmark. Please try again.', {
         position: 'top-center',
         autoClose: 3000,
       });
@@ -486,11 +557,7 @@ const ArtWall = () => {
                 index={index}
                 currentUser={user}
                 isBookmarked={userBookmarks.has(artwork.id.toString())}
-                onLike={(id) => {
-                  setArtworks(prev => prev.map(art => 
-                    art.id === id ? { ...art, likes: art.likes + 1 } : art
-                  ));
-                }}
+                onLike={handleLike}
                 onBookmark={handleBookmark}
                 onImageClick={handleImageClick}
               />
@@ -586,11 +653,11 @@ const ArtWall = () => {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2 text-white">
                       <FaHeart className="text-red-500" />
-                      <span>{fullscreenImage.likes}</span>
+                      <span>{fullscreenImage.likeCount}</span>
                     </div>
                     <div className="flex items-center gap-2 text-white">
                       <FaBookmark className="text-blue-500" />
-                      <span>{fullscreenImage.bookmarks}</span>
+                      <span>{fullscreenImage.bookmarkCount}</span>
                     </div>
                     <span className="text-gray-400 text-sm">
                       {fullscreenImage.category}

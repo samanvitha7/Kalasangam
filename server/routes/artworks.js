@@ -77,10 +77,10 @@ router.get("/", async (req, res) => {
       image: artwork.imageUrl, // Alternative field name for compatibility
       category: artwork.category,
       artform: artwork.artform,
-      likes: artwork.likes ? artwork.likes.length : 0, // Return count for display
-      bookmarks: artwork.bookmarks ? artwork.bookmarks.length : 0, // Return count for display
-      likesArray: artwork.likes || [], // Return the actual array for likes checking
-      bookmarksArray: artwork.bookmarks || [], // Return the actual array for bookmarks checking
+      likes: artwork.likes,
+      bookmarks: artwork.bookmarks,
+      likeCount: artwork.likeCount,
+      bookmarkCount: artwork.bookmarkCount,
       comments: artwork.comments ? artwork.comments.length : 0,
       tags: artwork.tags || [],
       location: artwork.location,
@@ -135,8 +135,10 @@ router.get("/:id", async (req, res) => {
       imageUrl: artwork.imageUrl,
       category: artwork.category,
       artform: artwork.artform,
-      likes: artwork.likes ? artwork.likes.length : 0,
-      bookmarks: artwork.bookmarks ? artwork.bookmarks.length : 0,
+      likes: artwork.likes,
+      bookmarks: artwork.bookmarks,
+      likeCount: artwork.likeCount,
+      bookmarkCount: artwork.bookmarkCount,
       comments: artwork.comments || [],
       tags: artwork.tags || [],
       location: artwork.location,
