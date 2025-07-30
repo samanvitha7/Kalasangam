@@ -5,12 +5,9 @@ import IndiaMap from "../components/IndiaMap.jsx";
 import ParallaxSection from "../components/ParallaxSection.jsx";
 import PulsingEventsCalendar from "../components/PulsingEventsCalendar.jsx";
 import LivingArtistMosaic from "../components/LivingArtistMosaic.jsx";
-import useHardReload from "../hooks/useHardReload";
 import { motion } from "framer-motion";
 
 export default function Home({ showMap, mapRef, onStateClick }) {
-  // Add hard reload functionality
-  useHardReload();
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {

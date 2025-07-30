@@ -59,8 +59,7 @@ router.get("/", async (req, res) => {
       .populate('userId', 'name email')
       .sort(sort)
       .skip(skip)
-      .limit(parseInt(limit))
-      .lean();
+      .limit(parseInt(limit));
 
     // Get total count for pagination
     const totalCount = await Artwork.countDocuments(filter);
@@ -115,8 +114,7 @@ router.get("/:id", async (req, res) => {
   try {
     const artwork = await Artwork.findById(req.params.id)
       .populate('userId', 'name email')
-      .populate('comments.userId', 'name')
-      .lean();
+      .populate('comments.userId', 'name');
 
     if (!artwork) {
       return res.status(404).json({ success: false, message: "Artwork not found" });
@@ -342,7 +340,8 @@ router.post("/:id/like", auth, async (req, res) => {
     res.json({ 
       success: true, 
       liked: artworkLikeIndex === -1,
-      likeCount: artwork.likes.length
+      likeCount: artwork.likes.length,
+      likes: artwork.likes
     });
 
   } catch (error) {
@@ -393,7 +392,8 @@ router.post("/:id/bookmark", auth, async (req, res) => {
     res.json({ 
       success: true, 
       bookmarked: artworkBookmarkIndex === -1,
-      bookmarkCount: artwork.bookmarks.length
+      bookmarkCount: artwork.bookmarks.length,
+      bookmarks: artwork.bookmarks
     });
 
   } catch (error) {

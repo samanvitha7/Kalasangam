@@ -10,7 +10,7 @@ const FollowButton = ({ userId, className = '', onFollowChange }) => {
   const { user, isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (isAuthenticated && userId && userId !== user?._id) {
+    if (isAuthenticated && userId && userId !== user?.id && userId !== user?._id) {
       checkFollowStatus();
     }
   }, [userId, isAuthenticated, user]);
@@ -30,7 +30,7 @@ const FollowButton = ({ userId, className = '', onFollowChange }) => {
       return;
     }
 
-    if (userId === user?._id) {
+    if (userId === user?.id || userId === user?._id) {
       alert('You cannot follow yourself');
       return;
     }
@@ -64,7 +64,7 @@ const FollowButton = ({ userId, className = '', onFollowChange }) => {
   };
 
   // Don't show follow button for own profile or if not authenticated
-  if (!isAuthenticated || userId === user?._id) {
+  if (!isAuthenticated || userId === user?.id || userId === user?._id) {
     return null;
   }
 
