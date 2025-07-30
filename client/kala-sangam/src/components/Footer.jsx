@@ -17,13 +17,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-r from-tealblue to-rosered text-white border-t border-rosered/20 px-6 py-10 font-lora font-medium">
+    <footer className="bg-gradient-to-r from-deep-teal to-coral-red text-white border-t border-coral-red/20 px-6 py-10 font-lora font-medium">
       {/* Main Footer Content */}
       <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 text-center sm:text-left">
         
         {/* About Section */}
         <div>
-          <h2 className="text-xl font-bold font-dm-serif-display mb-3 text-rosered">
+          <h2 className="text-xl font-bold font-dm-serif-display mb-3 text-coral-red">
             About KalaSangam
           </h2>
           <p className="font-lora text-sm leading-relaxed max-w-md mx-auto sm:mx-0">
@@ -35,7 +35,7 @@ export default function Footer() {
 
         {/* Quick Links */}
         <div>
-          <h2 className="text-xl font-bold font-dm-serif-display mb-3 text-rosered">Explore</h2>
+          <h2 className="text-xl font-bold font-dm-serif-display mb-3 text-coral-red">Explore</h2>
           <ul className="font-lora text-sm space-y-2">
             {[
               { to: "/", label: "Home" },
@@ -75,7 +75,7 @@ export default function Footer() {
 
             <motion.button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#134856] to-[#e05264] text-white py-4 rounded-full text-lg font-lora font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              className="w-full bg-blush-peach text-deep-teal py-4 rounded-full text-lg font-lora font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

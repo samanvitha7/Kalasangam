@@ -175,7 +175,7 @@ export function SoundPrompt({ onContinue }) {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 font-lora text-rosered">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 font-lora text-coral-red">
             Ready to Explore? 
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto font-lora text-deep-charcoal">
@@ -184,14 +184,14 @@ export function SoundPrompt({ onContinue }) {
           <div className="space-y-4 md:space-x-4 md:space-y-0 md:flex md:justify-center">
             <button
               onClick={() => handleContinue(true)}
-              className="px-8 py-4 rounded-full bg-tealblue border-rosered text-off-white hover:border-tealblue hover:bg-rosered transition-all font-bold font-lora text-lg shadow-lg"
+              className="px-8 py-4 rounded-full bg-deep-teal border-coral-red text-off-white hover:border-deep-teal hover:bg-coral-red transition-all font-bold font-lora text-lg shadow-lg"
               type="button"
             >
               Continue with Sound
             </button>
             <button
               onClick={() => handleContinue(false)}
-              className="px-8 py-4 rounded-full bg-tealblue border-rosered text-off-white hover:border-tealblue hover:bg-rosered transition-all font-bold font-lora text-lg shadow-lg"
+              className="px-8 py-4 rounded-full bg-deep-teal border-coral-red text-off-white hover:border-deep-teal hover:bg-coral-red transition-all font-bold font-lora text-lg shadow-lg"
               type="button"
             >
               Continue without Sound

@@ -196,7 +196,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
       {/* Search Button */}
       <button
         className={`p-2 transition-all duration-300 rounded-full hover:scale-110 ${
-          scrolled ? 'bg-white/90 text-tealblue/60 hover:text-tealblue' : 'bg-white/80 text-tealblue/70 hover:text-tealblue'
+          scrolled ? 'bg-white/90 text-deep-teal/60 hover:text-deep-teal' : 'bg-white/80 text-deep-teal/70 hover:text-deep-teal'
         }`}
         onClick={() => setShowDropdown(!showDropdown)}
       >
@@ -207,15 +207,15 @@ const HeaderSmartSearch = ({ scrolled }) => {
       {showDropdown && (
         <div className={`absolute top-full right-0 mt-2 w-80 rounded-xl shadow-2xl border transition-all duration-300 z-50 ${
           scrolled
-            ? 'bg-white/95 backdrop-blur-md border-tealblue/20'
-            : 'bg-white/90 backdrop-blur-md border-tealblue/30'
+            ? 'bg-white/95 backdrop-blur-md border-deep-teal/20'
+            : 'bg-white/90 backdrop-blur-md border-deep-teal/30'
         }`}>
           {/* Search Input */}
           <div className="p-4 border-b border-gray-200/50">
             <div className={`relative flex items-center w-full rounded-full transition-all duration-300 ${
               scrolled 
-                ? 'bg-white/90 backdrop-blur-sm border border-tealblue/20' 
-                : 'bg-white/80 backdrop-blur-sm border border-tealblue/30'
+                ? 'bg-white/90 backdrop-blur-sm border border-deep-teal/20' 
+                : 'bg-white/80 backdrop-blur-sm border border-deep-teal/30'
             }`}>
               <FaSearch className="absolute left-3 text-gray-400" size={14} />
               <input
@@ -225,7 +225,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                 className={`w-full pl-10 pr-10 py-2.5 rounded-full bg-transparent text-sm font-medium placeholder-gray-500 focus:outline-none transition-all duration-300 ${
-                  scrolled ? 'text-tealblue' : 'text-tealblue'
+                  scrolled ? 'text-deep-teal' : 'text-deep-teal'
                 }`}
                 autoFocus
               />
@@ -243,8 +243,8 @@ const HeaderSmartSearch = ({ scrolled }) => {
           {/* Search Suggestions */}
           {suggestions.length > 0 && (
             <div className="p-4 border-b border-gray-200/50">
-              <h4 className="text-sm font-semibold text-tealblue mb-2 flex items-center gap-2">
-                <FaPalette size={12} className="text-rosered" />
+              <h4 className="text-sm font-semibold text-deep-teal mb-2 flex items-center gap-2">
+                <FaPalette size={12} className="text-coral-red" />
                 Suggestions
               </h4>
               <div className="space-y-1">
@@ -252,7 +252,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
                   <button
                     key={index}
                     onClick={() => handleSearch(suggestion)}
-                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-tealblue/10 rounded-lg transition-colors duration-200 font-medium"
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-deep-teal/10 rounded-lg transition-colors duration-200 font-medium"
                   >
                     {suggestion}
                   </button>
@@ -265,7 +265,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
           {recentSearches.length > 0 && searchTerm.length === 0 && (
             <div className="p-4 border-b border-gray-200/50">
               <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-semibold text-tealblue flex items-center gap-2">
+                <h4 className="text-sm font-semibold text-deep-teal flex items-center gap-2">
                   <FaHistory size={12} className="text-saffronglow" />
                   Recent Searches
                 </h4>
@@ -281,7 +281,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
                   <button
                     key={index}
                     onClick={() => handleSearch(search)}
-                    className="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-tealblue/10 rounded-lg transition-colors duration-200 flex items-center gap-2"
+                    className="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-deep-teal/10 rounded-lg transition-colors duration-200 flex items-center gap-2"
                   >
                     <FaClock size={10} className="text-gray-400" />
                     {search}
@@ -294,7 +294,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
           {/* Trending Searches */}
           {trending.length > 0 && searchTerm.length === 0 && (
             <div className="p-4">
-              <h4 className="text-sm font-semibold text-tealblue mb-2 flex items-center gap-2">
+              <h4 className="text-sm font-semibold text-deep-teal mb-2 flex items-center gap-2">
                 <FaClock size={12} className="text-saffronglow" />
                 Trending Searches
               </h4>
@@ -303,7 +303,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
                   <button
                     key={index}
                     onClick={() => handleSearch(trend)}
-                    className="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-tealblue/10 rounded-lg transition-colors duration-200"
+                    className="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-deep-teal/10 rounded-lg transition-colors duration-200"
                   >
                     {trend}
                   </button>
@@ -315,8 +315,8 @@ const HeaderSmartSearch = ({ scrolled }) => {
           {/* Loading State */}
           {loading && (
             <div className="p-4 text-center">
-              <div className="inline-flex items-center gap-2 text-sm text-tealblue">
-                <div className="w-4 h-4 border-2 border-tealblue/30 border-t-tealblue rounded-full animate-spin"></div>
+              <div className="inline-flex items-center gap-2 text-sm text-deep-teal">
+                <div className="w-4 h-4 border-2 border-deep-teal/30 border-t-deep-teal rounded-full animate-spin"></div>
                 Searching...
               </div>
             </div>
@@ -325,8 +325,8 @@ const HeaderSmartSearch = ({ scrolled }) => {
           {/* Default suggestions when no search term or API suggestions */}
           {!loading && suggestions.length === 0 && (
             <div className="p-4">
-              <h4 className="text-sm font-semibold text-tealblue mb-2 flex items-center gap-2">
-                <FaStar size={12} className="text-rosered" />
+              <h4 className="text-sm font-semibold text-deep-teal mb-2 flex items-center gap-2">
+                <FaStar size={12} className="text-coral-red" />
                 {searchTerm.length > 0 ? 'Try these suggestions' : 'Popular searches'}
               </h4>
               <div className="space-y-1">
@@ -341,7 +341,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
                   <button
                     key={index}
                     onClick={() => handleSearch(suggestion)}
-                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-tealblue/10 rounded-lg transition-colors duration-200 font-medium"
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-deep-teal/10 rounded-lg transition-colors duration-200 font-medium"
                   >
                     {suggestion}
                   </button>
@@ -399,24 +399,24 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
       {/* Search Bar */}
       <div className="relative mb-8">
         <div className="relative flex items-center">
-          <FaSearch className="absolute left-4 text-tealblue/60" size={20} />
+          <FaSearch className="absolute left-4 text-deep-teal/60" size={20} />
           <input
             type="text"
             placeholder="Ask me anything... 'show me beautiful odissi dance', 'find spiritual art from south india'"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-14 pr-14 py-4 rounded-2xl bg-white border-2 border-tealblue/20 focus:border-tealblue focus:outline-none text-lg font-medium placeholder-gray-500 shadow-lg transition-all duration-300"
+            className="w-full pl-14 pr-14 py-4 rounded-2xl bg-white border-2 border-deep-teal/20 focus:border-deep-teal focus:outline-none text-lg font-medium placeholder-gray-500 shadow-lg transition-all duration-300"
           />
-          <FaStar className="absolute right-4 text-rosered/60" size={20} />
+          <FaStar className="absolute right-4 text-coral-red/60" size={20} />
         </div>
       </div>
 
       {/* Search Insights */}
       {insights && (
-        <div className="mb-6 p-4 bg-gradient-to-r from-tealblue/10 to-rosered/10 rounded-xl border border-tealblue/20">
+        <div className="mb-6 p-4 bg-gradient-to-r from-deep-teal/10 to-coral-red/10 rounded-xl border border-deep-teal/20">
           <div className="flex items-center gap-2 mb-2">
-            <FaStar className="text-rosered" size={14} />
-            <span className="text-sm font-semibold text-tealblue">AI Analysis</span>
+            <FaStar className="text-coral-red" size={14} />
+            <span className="text-sm font-semibold text-deep-teal">AI Analysis</span>
           </div>
           <div className="text-sm text-gray-700">
             <span className="font-medium">Intent:</span> {insights.queryAnalysis?.intent} • 
@@ -429,8 +429,8 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
       {/* Loading State */}
       {loading && (
         <div className="text-center py-12">
-          <div className="inline-flex items-center gap-3 text-tealblue">
-            <div className="w-6 h-6 border-2 border-tealblue/30 border-t-tealblue rounded-full animate-spin"></div>
+          <div className="inline-flex items-center gap-3 text-deep-teal">
+            <div className="w-6 h-6 border-2 border-deep-teal/30 border-t-deep-teal rounded-full animate-spin"></div>
             <span className="text-lg font-medium">AI is searching...</span>
           </div>
         </div>
@@ -442,7 +442,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           {/* Artworks */}
           {results.artworks && results.artworks.length > 0 && (
             <div>
-              <h3 className="text-2xl font-bold text-tealblue mb-4 flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-deep-teal mb-4 flex items-center gap-2">
                 🎨 Artworks ({results.artworks.length})
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -454,12 +454,12 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                       className="w-full h-48 object-cover"
                     />
                     <div className="p-4">
-                      <h4 className="font-bold text-tealblue mb-2">{artwork.title}</h4>
+                      <h4 className="font-bold text-deep-teal mb-2">{artwork.title}</h4>
                       <p className="text-gray-600 text-sm mb-2">{artwork.description?.substring(0, 100)}...</p>
                       <div className="flex items-center justify-between text-sm text-gray-500">
                         <span>{artwork.category || 'Art'}</span>
                         {artwork.relevanceScore && (
-                          <span className="bg-rosered/20 text-rosered px-2 py-1 rounded-full text-xs font-medium">
+                          <span className="bg-coral-red/20 text-coral-red px-2 py-1 rounded-full text-xs font-medium">
                             {Math.round(artwork.relevanceScore * 100)}% match
                           </span>
                         )}
@@ -474,13 +474,13 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           {/* Events */}
           {results.events && results.events.length > 0 && (
             <div>
-              <h3 className="text-2xl font-bold text-tealblue mb-4 flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-deep-teal mb-4 flex items-center gap-2">
                 📅 Events ({results.events.length})
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {results.events.map((event) => (
                   <div key={event._id || event.id} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                    <h4 className="font-bold text-tealblue mb-2">{event.title}</h4>
+                    <h4 className="font-bold text-deep-teal mb-2">{event.title}</h4>
                     <p className="text-gray-600 text-sm mb-3">{event.description?.substring(0, 150)}...</p>
                     <div className="flex items-center justify-between text-sm text-gray-500">
                       <span>{event.type || 'Event'}</span>
@@ -492,7 +492,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                         ) : 'Location TBD'}
                       </span>
                       {event.relevanceScore && (
-                        <span className="bg-rosered/20 text-rosered px-2 py-1 rounded-full text-xs font-medium">
+                        <span className="bg-coral-red/20 text-coral-red px-2 py-1 rounded-full text-xs font-medium">
                           {Math.round(event.relevanceScore * 100)}% match
                         </span>
                       )}
@@ -506,7 +506,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           {/* Artists */}
           {results.artists && results.artists.length > 0 && (
             <div>
-              <h3 className="text-2xl font-bold text-tealblue mb-4 flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-deep-teal mb-4 flex items-center gap-2">
                 👥 Artists ({results.artists.length})
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -516,12 +516,12 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                       {artist.profilePicture ? (
                         <img src={artist.profilePicture} alt={artist.username} className="w-12 h-12 rounded-full object-cover" />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-tealblue/20 flex items-center justify-center text-tealblue font-bold">
+                        <div className="w-12 h-12 rounded-full bg-deep-teal/20 flex items-center justify-center text-deep-teal font-bold">
                           {artist.username?.charAt(0)?.toUpperCase()}
                         </div>
                       )}
                       <div>
-                        <h4 className="font-bold text-tealblue">{artist.username}</h4>
+                        <h4 className="font-bold text-deep-teal">{artist.username}</h4>
                         <p className="text-gray-500 text-sm">{artist.specialization}</p>
                       </div>
                     </div>
@@ -529,7 +529,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                     <div className="flex items-center justify-between text-sm text-gray-500">
                       <span>{artist.location || 'Location not specified'}</span>
                       {artist.relevanceScore && (
-                        <span className="bg-rosered/20 text-rosered px-2 py-1 rounded-full text-xs font-medium">
+                        <span className="bg-coral-red/20 text-coral-red px-2 py-1 rounded-full text-xs font-medium">
                           {Math.round(artist.relevanceScore * 100)}% match
                         </span>
                       )}

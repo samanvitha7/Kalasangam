@@ -108,7 +108,7 @@ export default function About() {
           animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
-          <div className="w-full h-full bg-gradient-to-br from-tealblue to-rosered rounded-full opacity-50" />
+          <div className="w-full h-full bg-gradient-to-br from-deep-teal to-coral-red rounded-full opacity-50" />
         </motion.div>
 
         {/* Content */}

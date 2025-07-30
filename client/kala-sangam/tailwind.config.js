@@ -24,9 +24,6 @@ export default {
         'rich-gold': '#FFD700',
         
         // Legacy colors for backward compatibility
-        'tealblue': '#134856',
-        'rosered': '#D95A70',
-        'blushpeach': '#FBD1C6',
         'vermilion': '#E84338',
         'rosehover': '#AC1E5E',
         'saffronglow': '#F2AA6B',

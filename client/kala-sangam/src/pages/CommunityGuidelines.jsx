@@ -11,7 +11,7 @@ export default function CommunityGuidelines() {
       <div className="bg-[linear-gradient(to_bottom,rgba(255,190,152,0.95),rgba(255,187,233,0.95),rgba(44,165,141,0.95))] 
                       p-8 md:p-12 rounded-3xl max-w-4xl w-full shadow-xl border border-white/20 font-lora max-h-[90vh] overflow-y-auto">
         <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold text-tealblue mb-4 font-lora">
+          <h1 className="text-4xl md:text-5xl font-bold text-deep-teal mb-4 font-lora">
             Community Guidelines
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">

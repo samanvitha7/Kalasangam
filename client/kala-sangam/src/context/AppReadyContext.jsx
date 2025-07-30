@@ -25,7 +25,7 @@ export function AppReadyProvider({ children }) {
         // Check if CSS is loaded and applied
         const checkStyles = () => {
           const testElement = document.createElement('div');
-          testElement.className = 'hidden opacity-0 transition-opacity duration-300 bg-warm-sand text-tealblue font-lora';
+          testElement.className = 'hidden opacity-0 transition-opacity duration-300 bg-warm-sand text-deep-teal font-lora';
           testElement.style.position = 'absolute';
           testElement.style.left = '-9999px';
           document.body.appendChild(testElement);
@@ -117,7 +117,7 @@ export function withAppReady(Component) {
       return (
         <div className="flex items-center justify-center min-h-screen bg-warm-sand">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-tealblue mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-deep-teal mx-auto mb-4"></div>
             <div className="text-deep-charcoal font-lora">Loading...</div>
           </div>
         </div>

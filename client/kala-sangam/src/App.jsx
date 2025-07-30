@@ -15,7 +15,7 @@ function useAppReady() {
       try {
         // Test multiple CSS properties to ensure Tailwind is fully loaded
         const testDiv = document.createElement('div');
-        testDiv.className = 'container mx-auto px-4 text-tealblue bg-warm-sand font-lora transition-all';
+        testDiv.className = 'container mx-auto px-4 text-deep-teal bg-warm-sand font-lora transition-all';
         testDiv.style.position = 'absolute';
         testDiv.style.left = '-9999px';
         testDiv.style.top = '-9999px';
@@ -269,7 +269,7 @@ function AppContent() {
           <Suspense fallback={
             <div className="flex justify-center items-center min-h-screen bg-warm-sand">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-tealblue mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-deep-teal mx-auto mb-4"></div>
                 <div className="text-lg text-deep-charcoal font-lora">Loading...</div>
               </div>
             </div>
