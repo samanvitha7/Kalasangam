@@ -241,11 +241,11 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-1 text-red-500">
               <FaHeart size={14} />
-              <span className="text-sm font-medium">{artwork.likes}</span>
+              <span className="text-sm font-medium">{artwork.likeCount || artwork.likes || 0}</span>
             </div>
             <div className="flex items-center space-x-1 text-amber-600">
               <FaBookmark size={14} />
-              <span className="text-sm font-medium">{artwork.bookmarks || 0}</span>
+              <span className="text-sm font-medium">{artwork.bookmarkCount || artwork.bookmarks || 0}</span>
             </div>
           </div>
         </motion.div>
