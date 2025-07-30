@@ -15,8 +15,8 @@ import FullBleedDivider from "../components/FullBleedDivider";
 const HARDCODED_EVENTS = [
   {
     _id: "1",
-    title: "Classical Bharatanatyam Workshop",
-    description: "Learn the fundamentals of Bharatanatyam dance from expert instructors. This workshop covers basic steps, expressions, and traditional choreography.",
+    title: "Classical Kuchipudi Workshop",
+    description: "Learn the fundamentals of Kuchipudi dance from expert instructors. This workshop covers basic steps, expressions, and traditional choreography.",
     category: "dance",
     type: "workshop",
     date: "2025-08-15",
@@ -28,7 +28,7 @@ const HARDCODED_EVENTS = [
     price: 1500,
     instructor: "Guru Priya Sharma",
     registrationRequired: true,
-    link: "https://example.com/bharatanatyam-workshop"
+    link: "https://example.com/kuchipudi-workshop"
   },
   {
     _id: "2",

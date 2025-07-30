@@ -6,10 +6,10 @@ dotenv.config();
 
 const danceForms = [
   {
-    name: "Bharatanatyam",
-    origin: "Tamil Nadu",
+    name: "Odissi",
+    origin: "Odisha",
     description:
-      "Bharatanatyam is a classical dance form from Tamil Nadu known for its fixed upper torso, bent legs, intricate footwork, and expressive gestures. It originated in Hindu temples and is one of the oldest and most widely practiced dance styles in India.",
+      "Odissi is a classical dance form from Odisha known for its fluid movements, sculpturesque poses, and devotional themes. It originated in Hindu temples and is characterized by its tribhangi posture and intricate storytelling through graceful movements.",
   },
   {
     name: "Kathak",
