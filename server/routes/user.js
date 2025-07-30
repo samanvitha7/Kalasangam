@@ -80,12 +80,12 @@ router.post('/admin/create', auth, [
   body('name').trim().isLength({ min: 2 }).withMessage('Name must be at least 2 characters'),
   body('email').isEmail().withMessage('Valid email is required'),
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-  body('role').optional().isIn(['Admin', 'Artist', 'Viewer']).withMessage('Invalid role')
+  body('role').optional().isIn(['Admin', 'Artist']).withMessage('Invalid role')
 ], createUser);
 
 // Update user role (admin only)
 router.put('/admin/:userId/role', auth, [
-  body('role').isIn(['Admin', 'Artist', 'Viewer']).withMessage('Invalid role')
+  body('role').isIn(['Admin', 'Artist']).withMessage('Invalid role')
 ], updateUserRole);
 
 // Delete user (admin only)

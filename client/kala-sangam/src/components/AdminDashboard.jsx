@@ -883,7 +883,7 @@ const CreateUserModal = ({ onClose, onSubmit, error }) => {
     name: '',
     email: '',
     password: '',
-    role: 'Viewer'
+    role: 'Artist'
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -894,7 +894,7 @@ const CreateUserModal = ({ onClose, onSubmit, error }) => {
     setSubmitting(true);
     try {
       await onSubmit(formData);
-      setFormData({ name: '', email: '', password: '', role: 'Viewer' });
+      setFormData({ name: '', email: '', password: '', role: 'Artist' });
     } finally {
       setSubmitting(false);
     }
@@ -952,7 +952,6 @@ const CreateUserModal = ({ onClose, onSubmit, error }) => {
               onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
               disabled={submitting}
             >
-              <option value="Viewer">Viewer</option>
               <option value="Artist">Artist</option>
               <option value="Admin">Admin</option>
             </select>
@@ -1019,7 +1018,6 @@ const ChangeRoleModal = ({ user, onClose, onSubmit, error }) => {
               onChange={(e) => setNewRole(e.target.value)}
               disabled={submitting}
             >
-              <option value="Viewer">Viewer</option>
               <option value="Artist">Artist</option>
               <option value="Admin">Admin</option>
             </select>

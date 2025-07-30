@@ -7,8 +7,7 @@ import PulsingEventsCalendar from "../components/PulsingEventsCalendar.jsx";
 import LivingArtistMosaic from "../components/LivingArtistMosaic.jsx";
 
 export default function Home({ showMap, mapRef, onStateClick }) {
-  // Add hard reload functionality
-  useHardReload();
+  
 
   return (
     <main className="relative w-full overflow-x-hidden bg-[#F8E6DA] pb-20 text-center font-lora">
