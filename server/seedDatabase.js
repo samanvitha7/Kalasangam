@@ -139,7 +139,7 @@ const artworksData = [
     {
       title: "Kuchipudi Recital - Tarangam",
       description: "Classical Kuchipudi performance of traditional Tarangam, showcasing graceful movements and rhythmic footwork on a brass plate.",
-      imageUrl: "https://i.pinimg.com/originals/6a/35/66/6a356616a5b399a8b23a547a06f398e9.jpg",
+      imageUrl: "https://i.pinimg.com/736x/06/10/13/061013f23364e957e974816785a2f294.jpg",
       category: "Dance",
       artform: "Kuchipudi",
       tags: ["kuchipudi", "tarangam", "classical dance", "andhra pradesh"],
@@ -148,7 +148,7 @@ const artworksData = [
     {
       title: "Contemporary Fusion",
       description: "Innovative choreography blending Kuchipudi with contemporary dance forms.",
-      imageUrl: "https://i.pinimg.com/originals/8a/24/4d/8a244d85b5a6b88937510f0749443690.jpg",
+      imageUrl: "https://i.pinimg.com/736x/a1/83/a4/a183a46fcf5da179beb2b1d1ed1111c3.jpg",
       category: "Dance",
       artform: "Kuchipudi Fusion",
       tags: ["contemporary", "fusion", "kuchipudi", "modern"],
@@ -157,7 +157,7 @@ const artworksData = [
     {
       title: "Manduka Shabdam",
       description: "Traditional Kuchipudi item depicting the story of a frog, known for its expressive storytelling.",
-      imageUrl: "https://i.ytimg.com/vi/a-lCTM_k-3E/maxresdefault.jpg",
+      imageUrl: "https://i.pinimg.com/736x/84/bd/3e/84bd3e49ac56fed297cb061da5b4a78c.jpg",
       category: "Dance",
       artform: "Kuchipudi",
       tags: ["manduka shabdam", "storytelling", "kuchipudi", "classical"],
@@ -166,7 +166,7 @@ const artworksData = [
     {
       title: "Thillana",
       description: "Pure dance piece showcasing intricate rhythmic patterns and sculpturesque poses of Kuchipudi.",
-      imageUrl: "https://www.livemint.com/rf/Image-621x414/LiveMint/Period1/2012/11/26/Photos/kuchipudi--621x414.jpg",
+      imageUrl: "https://i.pinimg.com/1200x/af/dc/a5/afdca5bb9b427a07b74795b77f7fef4b.jpg",
       category: "Dance",
       artform: "Kuchipudi",
       tags: ["thillana", "rhythm", "pure dance", "classical"],
@@ -229,7 +229,7 @@ const artworksData = [
     {
       title: "Chinar Leaf Panel",
       description: "Intricately carved wooden panel featuring the iconic Chinar leaves of Kashmir.",
-      imageUrl: "/public/Artwall_Images/chinarLeaves.jpg",
+      imageUrl: "https://i.pinimg.com/1200x/1a/bd/4b/1abd4bb479034e06cf88fc778d9099d1.jpg",
       category: "Craft",
       artform: "Wood Carving",
       tags: ["chinar", "kashmir", "wood carving", "leaves", "panel"],
