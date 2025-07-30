@@ -11,7 +11,7 @@ import useHardReload from "../hooks/useHardReload";
 const FloatingParticles = () => {
   const particles = Array.from({ length: 50 }, (_, i) => ({
     id: i,
-    size: Math.random() * 6 + 2,
+    size: Math.random() * 6+2,
     color: [
       'rgba(255, 107, 107, 0.6)',
       'rgba(0, 210, 211, 0.6)',
@@ -102,15 +102,6 @@ export default function About() {
         animate={{ opacity: pageReady ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.2 }}
       >
-        {/* Decorative floating element */}
-        <motion.div 
-          className="absolute top-20 right-20 w-32 h-32 opacity-30"
-          animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="w-full h-full bg-gradient-to-br from-deep-teal to-coral-red rounded-full opacity-50" />
-        </motion.div>
-
         {/* Content */}
         <div className="relative container mx-auto px-4 text-center">
           <motion.h1 
@@ -142,141 +133,80 @@ export default function About() {
       </section>
 
       {/* Our Vision Section */}
-      <motion.section className="relative py-20 px-6 overflow-hidden bg-[#F8E6DA]">
-        {/* Floating Team Images */}
-        <motion.div 
-          className="absolute -left-32 top-20 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
-          initial={{ x: -200, y: 100, rotate: -45, scale: 0.5, opacity: 0 }}
-          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
-          transition={{ duration: 1.5, delay: 0.5, ease: "easeOutBack" }}
-          viewport={{ once: true }}
-        >
-          <img src="/images/naina.jpg" alt="Naina" className="w-full h-full object-cover" />
-        </motion.div>
+<motion.section className="relative py-20 px-6 overflow-hidden bg-[#F8E6DA]">
+  <div className="container mx-auto px-4">
+    <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-8 md:p-12">
+      <div className="bg-[#F8E6DA] rounded-2xl p-8 md:p-10">
         
+        {/* Heading */}
         <motion.div 
-          className="absolute -right-32 top-32 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
-          initial={{ x: 200, y: -50, rotate: 45, scale: 0.5, opacity: 0 }}
-          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
-          transition={{ duration: 1.5, delay: 0.7, ease: "easeOutBack" }}
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <img src="/images/sam.jpg" alt="Samanvitha" className="w-full h-full object-cover" />
+          <h2 className="text-4xl md:text-5xl font-bold font-dm-serif mb-2 text-lotus-green relative -top-3">
+            Our Vision
+          </h2>
+          <p className="text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed font-lora">
+            Building a future where traditional arts thrive in the digital age
+          </p>
         </motion.div>
-        
-        <motion.div 
-          className="absolute -left-24 bottom-32 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
-          initial={{ x: -250, y: 50, rotate: -30, scale: 0.5, opacity: 0 }}
-          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
-          transition={{ duration: 1.5, delay: 0.9, ease: "easeOutBack" }}
-          viewport={{ once: true }}
-        >
-          <img src="/images/shreya.jpg" alt="Shreya" className="w-full h-full object-cover" />
-        </motion.div>
-        
-        <motion.div 
-          className="absolute -right-24 bottom-20 w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-white z-10"
-          initial={{ x: 250, y: -80, rotate: 30, scale: 0.5, opacity: 0 }}
-          whileInView={{ x: 0, y: 0, rotate: 0, scale: 1, opacity: 0.8 }}
-          transition={{ duration: 1.5, delay: 1.1, ease: "easeOutBack" }}
-          viewport={{ once: true }}
-        >
-          <img src="/images/Vaishalii.jpg" alt="Vaishali" className="w-full h-full object-cover" />
-        </motion.div>
-        <div className="container mx-auto px-4">
-          <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-8 md:p-12">
-            <div className="bg-[#F8E6DA] rounded-2xl p-8 md:p-10">
-              <motion.div 
-                className="text-center mb-16"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                <h2 className="text-4xl md:text-5xl font-bold font-dm-serif mb-6 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
-                  Our Vision
-                </h2>
-                <p className="text-xl text-[#F48C8C] max-w-3xl mx-auto leading-relaxed font-lora">
-                  Building a future where traditional arts thrive in the digital age
-                </p>
-              </motion.div>
-          
-              <div className="grid md:grid-cols-3 gap-4">
-                {[
-                  {
-                    icon: "🌍",
-                    title: "Global Reach",
-                    description: "Making Indian traditional arts accessible to audiences worldwide through innovative digital experiences.",
-                    gradient: "from-[#5E97A7] to-[#134856]",
-                    delay: 0
-                  },
-                  {
-                    icon: "🎓",
-                    title: "Education First",
-                    description: "Creating immersive learning experiences that inspire the next generation of artists and art lovers.",
-                    gradient: "from-[#6FC4B7] to-[#1D7C6F]",
-                    delay: 0.2
-                  },
-                  {
-                    icon: "🤝",
-                    title: "Community Building",
-                    description: "Fostering connections between artists, scholars, and enthusiasts across the globe.",
-                    gradient: "from-[#F5959F] to-[#E05264]",
-                    delay: 0.4
-                  }
-                ].map((vision, index) => (
-                  <motion.div 
-                    key={index}
-                    className={`bg-gradient-to-br ${vision.gradient} rounded-3xl p-8 text-white shadow-xl`}
-                    initial={{ opacity: 0, y: 50, rotateY: -30 }}
-                    whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-                    transition={{ duration: 0.8, delay: vision.delay }}
-                    viewport={{ once: true }}
-                    whileHover={{ 
-                      scale: 1.05, 
-                      rotateY: 5,
-                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4)"
-                    }}
-                    style={{ transformStyle: "preserve-3d" }}
-                  >
-                    <motion.div 
-                      className="text-4xl mb-4"
-                      animate={{ 
-                        rotateY: [0, 360],
-                        scale: [1, 1.1, 1]
-                      }}
-                      transition={{ 
-                        duration: 6, 
-                        repeat: Infinity, 
-                        ease: "easeInOut",
-                        delay: index * 0.5
-                      }}
-                    >
-                      {vision.icon}
-                    </motion.div>
-                    <motion.h3 
-                      className="text-xl font-bold mb-4 font-dm-serif"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.6, delay: vision.delay + 0.3 }}
-                    >
-                      {vision.title}
-                    </motion.h3>
-                    <motion.p 
-                      className="leading-relaxed opacity-90 font-lora"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.6, delay: vision.delay + 0.5 }}
-                    >
-                      {vision.description}
-                    </motion.p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
+
+        {/* Vision Cards */}
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              icon: "🌍",
+              title: "Global Reach",
+              description:
+                "Making Indian traditional arts accessible to audiences worldwide through innovative digital experiences.",
+              gradient: "from-[#5E97A7] to-[#134856]",
+              delay: 0
+            },
+            {
+              icon: "🎓",
+              title: "Education First",
+              description:
+                "Creating immersive learning experiences that inspire the next generation of artists and art lovers.",
+              gradient: "from-[#6FC4B7] to-[#1D7C6F]",
+              delay: 0.2
+            },
+            {
+              icon: "🤝",
+              title: "Community Building",
+              description:
+                "Fostering connections between artists, scholars, and enthusiasts across the globe.",
+              gradient: "from-[#F5959F] to-[#E05264]",
+              delay: 0.4
+            }
+          ].map((vision, index) => (
+            <motion.div
+              key={index}
+              className={`bg-gradient-to-br ${vision.gradient} rounded-3xl p-8 text-white shadow-xl`}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: vision.delay }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="text-4xl mb-4">{vision.icon}</div>
+              <h3 className="text-xl font-bold mb-3 font-dm-serif">
+                {vision.title}
+              </h3>
+              <p className="leading-relaxed opacity-90 font-lora">
+                {vision.description}
+              </p>
+            </motion.div>
+          ))}
         </div>
-      </motion.section>
+
+      </div>
+    </div>
+  </div>
+</motion.section>
+
 
       {/* Meet The Team */}
       <section className="relative py-12 px-6 bg-[#F8E6DA]">
@@ -381,7 +311,7 @@ export default function About() {
               >
                 <div className="flex items-center mb-6">
                   <motion.div 
-                    className="w-12 h-12 bg-gradient-to-br from-[#f7b7bb] to-[#F48C8C] rounded-full flex items-center justify-center text-white font-bold mr-4"
+                    className="w-12 h-12 bg-gradient-to-br from-[#5a8fa0] to-[#134856] rounded-full flex items-center justify-center text-white font-bold mr-4"
                     animate={{ 
                       rotateZ: [0, 360],
                       scale: [1, 1.1, 1]
@@ -420,7 +350,7 @@ export default function About() {
               >
                 <div className="flex items-center mb-6">
                   <motion.div 
-                    className="w-12 h-12 bg-gradient-to-br from-[#5a8fa0] to-[#134856] rounded-full flex items-center justify-center text-white font-bold mr-4"
+                    className="w-12 h-12 bg-gradient-to-br from-[#f7b7bb] to-[#F48C8C] rounded-full flex items-center justify-center text-white font-bold mr-4"
                     animate={{ 
                       rotateZ: [0, -360],
                       scale: [1, 1.1, 1]

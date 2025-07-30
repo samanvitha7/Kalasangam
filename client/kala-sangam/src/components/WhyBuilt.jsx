@@ -5,7 +5,7 @@ const timeline = [
     title: "The Problem",
     text: "Indian art forms are fading away due to lack of exposure and modern engagement.",
     side: "left",
-    icon: "⚠️",
+    icon: "🚨",
     gradient: "from-[#134856] to-[#1D7C6F]",
   },
   {
@@ -113,7 +113,8 @@ function WhyWeBuiltThis() {
             viewport={{ once: true }}
           >
             <motion.div
-              className={`absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gradient-to-br ${item.gradient} rounded-full flex items-center justify-center text-white font-bold shadow-lg z-20`}
+              className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-blush-peach text-[#134856] rounded-full flex items-center justify-center font-bold shadow-lg z-20 border border-[#134856]"
+
               initial={{ scale: 0, rotate: -180 }}
               whileInView={{ scale: 1, rotate: 0 }}
               transition={{ duration: 0.6, delay: idx * 0.3 + 0.2 }}

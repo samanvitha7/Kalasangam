@@ -79,7 +79,7 @@ function ContactUsSection() {
         {Array.from({ length: 6 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-3 h-3 bg-[#FFD700] rounded-full opacity-30"
+            className="absolute w-3 h-3  rounded-full opacity-30"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -210,7 +210,7 @@ function ContactUsSection() {
               disabled={isSubmitting}
               className={`w-full bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300 ${
                 isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
-              } hover:ring-2 hover:ring-[#FFD700]`}
+              }`}
               whileHover={!isSubmitting ? { scale: 1.02, y: -2 } : {}}
               whileTap={!isSubmitting ? { scale: 0.98 } : {}}
             >
