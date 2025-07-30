@@ -99,7 +99,7 @@ export default function Header({ scrolled, onMapClick }) {
               to="/gallery"
               className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
             >
-            Art Gallery
+            Gallery
             </Link>
 
             <Link
@@ -179,7 +179,7 @@ export default function Header({ scrolled, onMapClick }) {
             
             onClick={onMapClick}
           >
-            India Map
+             Map
           </Link>
 
           <Link
