@@ -12,9 +12,9 @@ const artistsData = [
     name: "Priya Sharma",
     email: "priya.sharma@kalasangam.com",
     password: "priya123",
-    bio: "Traditional Madhubani artist from Bihar, preserving ancient storytelling through vibrant paintings.",
+    bio: "Traditional folk artist specializing in Madhubani and Pattachitra paintings, preserving ancient storytelling through vibrant traditional art forms.",
     location: "Patna, Bihar",
-    specialization: "Madhubani Painting",
+    specialization: "Madhubani & Pattachitra Painting",
     socialLinks: {
       instagram: "https://instagram.com/priya_madhubani",
       website: "https://priyasharmaart.com"
@@ -36,12 +36,12 @@ const artistsData = [
     name: "Kavya Nair",
     phoneNumber: "+91-9876543210",
     password: "kavya123",
-    bio: "Bharatanatyam dancer and choreographer, blending classical traditions with contemporary expressions.",
-    location: "Chennai, Tamil Nadu", 
-    specialization: "Bharatanatyam Dance",
+    bio: "Traditional textile artist specializing in Bandhani tie-dye techniques, creating vibrant patterns that tell stories of Gujarat's rich heritage.",
+    location: "Bhuj, Gujarat", 
+    specialization: "Bandhani Textile Art",
     socialLinks: {
       youtube: "https://youtube.com/kavyanair",
-      instagram: "https://instagram.com/kavya_bharatanatyam"
+      instagram: "https://instagram.com/kavya_bandhani"
     }
   },
   {
@@ -86,18 +86,18 @@ const artworksData = [
   // Priya Sharma's artworks (Madhubani)
   [
     {
-      title: "Ganga Aarti",
-      description: "A vibrant Madhubani painting depicting the evening Ganga Aarti ceremony with traditional motifs and natural pigments.",
-      imageUrl: "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800",
+      title: "Jagannath Rath Yatra",
+      description: "A vibrant Pattachitra painting depicting the grand Rath Yatra festival of Lord Jagannath in Puri.",
+      imageUrl: "https://i.pinimg.com/736x/86/1d/4d/861d4d9bbd7dd593bf6188fecd856a73.jpg",
       category: "Traditional Art",
-      artform: "Madhubani",
-      tags: ["madhubani", "ganga", "traditional", "bihar", "folk art"],
-      location: "Patna, Bihar"
+      artform: "Pattachitra",
+      tags: ["pattachitra", "jagannath", "puri", "odisha", "folk art"],
+      location: "Puri, Odisha"
     },
     {
       title: "Tree of Life",
       description: "Traditional Madhubani tree of life motif with peacocks and fish, symbolizing fertility and prosperity.",
-      imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800",
+      imageUrl: "https://i.pinimg.com/1200x/11/3c/2d/113c2db136109d474c7b453d1e96ece9.jpg",
       category: "Traditional Art", 
       artform: "Madhubani",
       tags: ["tree of life", "peacock", "madhubani", "traditional"],
@@ -106,7 +106,7 @@ const artworksData = [
     {
       title: "Durga Maa",
       description: "Powerful depiction of Goddess Durga in traditional Madhubani style, celebrating feminine divine energy.",
-      imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+      imageUrl: "https://i.pinimg.com/736x/38/fa/24/38fa2457fa091abe3770356f4a933a80.jpg",
       category: "Traditional Art",
       artform: "Madhubani", 
       tags: ["durga", "goddess", "madhubani", "spiritual"],
@@ -118,7 +118,7 @@ const artworksData = [
     {
       title: "Dancing Shiva",
       description: "Bronze sculpture of Nataraja in cosmic dance pose, representing the eternal cycle of creation and destruction.",
-      imageUrl: "https://images.unsplash.com/photo-1604488745147-b76146862ce4?w=800",
+      imageUrl: "https://i.pinimg.com/1200x/4d/c3/31/4dc331ab8388b0ce4d0aa6ee0d06e8d7.jpg",
       category: "Sculpture",
       artform: "Bronze Casting",
       tags: ["shiva", "nataraja", "bronze", "sculpture", "dance"],
@@ -127,7 +127,7 @@ const artworksData = [
     {
       title: "Rajasthani Elephant",
       description: "Intricately carved stone elephant with traditional Rajasthani motifs and patterns.",
-      imageUrl: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800",
+      imageUrl: "https://i.pinimg.com/1200x/59/88/96/59889619d26448bc6dc8fac92da19b03.jpg",
       category: "Sculpture",
       artform: "Stone Carving",
       tags: ["elephant", "rajasthan", "stone", "carving", "traditional"],
@@ -137,40 +137,40 @@ const artworksData = [
   // Kavya Nair's artworks (Dance)
   [
     {
-      title: "Bharatanatyam Recital - Varnam",
-      description: "Classical Bharatanatyam performance of traditional Varnam, showcasing pure dance and expression.",
-      imageUrl: "https://images.unsplash.com/photo-1594736797933-d0c93edf3043?w=800",
+      title: "Kuchipudi Recital - Tarangam",
+      description: "Classical Kuchipudi performance of traditional Tarangam, showcasing graceful movements and rhythmic footwork on a brass plate.",
+      imageUrl: "https://i.pinimg.com/originals/6a/35/66/6a356616a5b399a8b23a547a06f398e9.jpg",
       category: "Dance",
-      artform: "Bharatanatyam",
-      tags: ["bharatanatyam", "varnam", "classical dance", "tamil nadu"],
-      location: "Chennai, Tamil Nadu"
+      artform: "Kuchipudi",
+      tags: ["kuchipudi", "tarangam", "classical dance", "andhra pradesh"],
+      location: "Vijayawada, Andhra Pradesh"
     },
     {
       title: "Contemporary Fusion",
-      description: "Innovative choreography blending Bharatanatyam with contemporary dance forms.",
-      imageUrl: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=800",
+      description: "Innovative choreography blending Kuchipudi with contemporary dance forms.",
+      imageUrl: "https://i.pinimg.com/originals/8a/24/4d/8a244d85b5a6b88937510f0749443690.jpg",
       category: "Dance",
-      artform: "Bharatanatyam Fusion",
-      tags: ["contemporary", "fusion", "bharatanatyam", "modern"],
-      location: "Chennai, Tamil Nadu"
+      artform: "Kuchipudi Fusion",
+      tags: ["contemporary", "fusion", "kuchipudi", "modern"],
+      location: "Vijayawada, Andhra Pradesh"
     },
     {
-      title: "Pushpanjali",
-      description: "Traditional Bharatanatyam offering dance dedicated to Lord Ganesha, performed in temple style.",
-      imageUrl: "https://images.unsplash.com/photo-1588182137726-8a0d6b0e8659?w=800",
+      title: "Manduka Shabdam",
+      description: "Traditional Kuchipudi item depicting the story of a frog, known for its expressive storytelling.",
+      imageUrl: "https://i.ytimg.com/vi/a-lCTM_k-3E/maxresdefault.jpg",
       category: "Dance",
-      artform: "Bharatanatyam",
-      tags: ["pushpanjali", "ganesha", "temple dance", "classical"],
-      location: "Chennai, Tamil Nadu"
+      artform: "Kuchipudi",
+      tags: ["manduka shabdam", "storytelling", "kuchipudi", "classical"],
+      location: "Vijayawada, Andhra Pradesh"
     },
     {
-      title: "Jatiswaram",
-      description: "Pure dance piece showcasing intricate rhythmic patterns and geometric movements of Bharatanatyam.",
-      imageUrl: "https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800",
+      title: "Thillana",
+      description: "Pure dance piece showcasing intricate rhythmic patterns and sculpturesque poses of Kuchipudi.",
+      imageUrl: "https://www.livemint.com/rf/Image-621x414/LiveMint/Period1/2012/11/26/Photos/kuchipudi--621x414.jpg",
       category: "Dance",
-      artform: "Bharatanatyam",
-      tags: ["jatiswaram", "rhythm", "pure dance", "classical"],
-      location: "Chennai, Tamil Nadu"
+      artform: "Kuchipudi",
+      tags: ["thillana", "rhythm", "pure dance", "classical"],
+      location: "Vijayawada, Andhra Pradesh"
     }
   ],
   // Arjun Patel's artworks (Warli)
@@ -178,7 +178,7 @@ const artworksData = [
     {
       title: "Urban Warli",
       description: "Contemporary interpretation of traditional Warli art depicting modern city life with tribal motifs.",
-      imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+      imageUrl: "https://i.pinimg.com/1200x/12/ce/61/12ce616222ca47f603cd6ad426802f4f.jpg",
       category: "Traditional Art",
       artform: "Warli",
       tags: ["warli", "urban", "contemporary", "tribal art", "mumbai"],
@@ -187,7 +187,7 @@ const artworksData = [
     {
       title: "Harvest Festival",
       description: "Traditional Warli painting celebrating the harvest season with dancing figures and nature motifs.",
-      imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800",
+      imageUrl: "https://i.pinimg.com/1200x/fd/8a/e0/fd8ae0ae7f6b8dcb8627f325596afd5e.jpg",
       category: "Traditional Art",
       artform: "Warli",
       tags: ["harvest", "festival", "warli", "tribal", "traditional"],
@@ -199,7 +199,7 @@ const artworksData = [
     {
       title: "Ramayana Saga",
       description: "Hand-painted Kalamkari textile narrating scenes from the Ramayana using natural dyes.",
-      imageUrl: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=800",
+      imageUrl: "https://i.pinimg.com/1200x/61/1f/fb/611ffb84c675e00ee5097e962e9ba1e1.jpg",
       category: "Craft",
       artform: "Kalamkari",
       tags: ["kalamkari", "ramayana", "textile", "natural dyes", "storytelling"],
@@ -208,7 +208,7 @@ const artworksData = [
     {
       title: "Peacock Paradise",
       description: "Intricate Kalamkari work featuring peacocks and floral motifs in traditional blue and red dyes.",
-      imageUrl: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=800",
+      imageUrl: "https://i.pinimg.com/736x/d7/56/f8/d756f84fc9fd977ad5945eac4064aeeb.jpg",
       category: "Craft",
       artform: "Kalamkari",
       tags: ["peacock", "kalamkari", "floral", "blue", "textile art"],
@@ -217,7 +217,7 @@ const artworksData = [
     {
       title: "Tree of Life Tapestry",
       description: "Large Kalamkari tapestry featuring the tree of life motif with birds and animals.",
-      imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+      imageUrl: "https://i.pinimg.com/736x/0d/c6/0d/0dc60dbd759acc61ede6268b04ea2470.jpg",
       category: "Craft",
       artform: "Kalamkari",
       tags: ["tree of life", "tapestry", "kalamkari", "animals", "birds"],
@@ -229,7 +229,7 @@ const artworksData = [
     {
       title: "Chinar Leaf Panel",
       description: "Intricately carved wooden panel featuring the iconic Chinar leaves of Kashmir.",
-      imageUrl: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800",
+      imageUrl: "/public/Artwall_Images/chinarLeaves.jpg",
       category: "Craft",
       artform: "Wood Carving",
       tags: ["chinar", "kashmir", "wood carving", "leaves", "panel"],
@@ -238,7 +238,7 @@ const artworksData = [
     {
       title: "Mughal Garden Gate",
       description: "Ornate wooden gate design inspired by Mughal garden architecture with geometric patterns.",
-      imageUrl: "https://images.unsplash.com/photo-1574712681043-48dfe9cb4e49?w=800",
+      imageUrl: "https://i.pinimg.com/736x/c8/32/01/c83201f8a9383b8fd5303a644e78aca5.jpg",
       category: "Craft",
       artform: "Wood Carving",
       tags: ["mughal", "garden", "gate", "geometric", "architecture"],
@@ -251,8 +251,8 @@ const artworksData = [
 const eventsData = [
   {
     artistIndex: 0, // Priya Sharma
-    title: "Madhubani Art Workshop",
-    description: "Learn the traditional art of Madhubani painting with natural pigments and authentic techniques passed down through generations.",
+    title: "Traditional Folk Art Workshop - Madhubani & Pattachitra",
+    description: "Learn the traditional art of Madhubani and Pattachitra painting with natural pigments and authentic techniques passed down through generations.",
     type: "workshop",
     category: "art",
     date: new Date("2025-08-15"),
@@ -269,7 +269,7 @@ const eventsData = [
     registrationRequired: true,
     contactEmail: "priya.sharma@kalasangam.com",
     contactPhone: "+91-9123456789",
-    tags: ["madhubani", "workshop", "traditional art", "bihar"]
+    tags: ["madhubani", "pattachitra", "workshop", "traditional art", "bihar"]
   },
   {
     artistIndex: 1, // Rajesh Kumar
@@ -293,24 +293,24 @@ const eventsData = [
   },
   {
     artistIndex: 2, // Kavya Nair
-    title: "Bharatanatyam Classical Recital",
-    description: "Classical Bharatanatyam performance featuring traditional compositions and contemporary choreography.",
+    title: "Kuchipudi Classical Recital",
+    description: "Classical Kuchipudi performance featuring traditional compositions including Tarangam and contemporary choreography.",
     type: "performance",
     category: "dance",
     date: new Date("2025-09-05"),
     time: "7:00 PM - 9:00 PM",
     location: {
-      venue: "Music Academy",
-      address: "T. T. K. Road",
-      city: "Chennai",
-      state: "Tamil Nadu"
+      venue: "Ravindra Bharathi",
+      address: "Public Gardens",
+      city: "Hyderabad",
+      state: "Telangana"
     },
     price: 500,
     maxParticipants: 200,
-    imageUrl: "https://images.unsplash.com/photo-1594736797933-d0c93edf3043?w=800",
+    imageUrl: "https://i.pinimg.com/originals/6a/35/66/6a356616a5b399a8b23a547a06f398e9.jpg",
     registrationRequired: true,
     contactPhone: "+91-9876543210",
-    tags: ["bharatanatyam", "classical dance", "performance", "chennai"]
+    tags: ["kuchipudi", "classical dance", "performance", "hyderabad"]
   },
   {
     artistIndex: 3, // Arjun Patel
@@ -363,7 +363,7 @@ const artFormsData = [
   { name: "Pattachitra", origin: "Odisha", image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800" },
   { name: "Stone Carving", origin: "Rajasthan", image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800" },
   { name: "Wood Carving", origin: "Kashmir", image: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800" },
-  { name: "Bharatanatyam", origin: "Tamil Nadu", image: "https://images.unsplash.com/photo-1594736797933-d0c93edf3043?w=800" }
+  { name: "Kuchipudi", origin: "Andhra Pradesh", image: "https://i.pinimg.com/originals/6a/35/66/6a356616a5b399a8b23a547a06f398e9.jpg" }
 ];
 
 const seedDatabase = async () => {

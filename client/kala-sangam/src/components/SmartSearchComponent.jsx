@@ -331,7 +331,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
               </h4>
               <div className="space-y-1">
                 {[
-                  'beautiful bharatanatyam dance',
+                  'beautiful odissi dance',
                   'traditional madhubani art',
                   'kathak dance performance',
                   'south indian classical music',
@@ -402,7 +402,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           <FaSearch className="absolute left-4 text-tealblue/60" size={20} />
           <input
             type="text"
-            placeholder="Ask me anything... 'show me beautiful bharatanatyam dance', 'find spiritual art from south india'"
+            placeholder="Ask me anything... 'show me beautiful odissi dance', 'find spiritual art from south india'"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-14 pr-14 py-4 rounded-2xl bg-white border-2 border-tealblue/20 focus:border-tealblue focus:outline-none text-lg font-medium placeholder-gray-500 shadow-lg transition-all duration-300"
