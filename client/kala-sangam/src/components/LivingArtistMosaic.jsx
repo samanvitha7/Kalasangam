@@ -273,37 +273,32 @@ const LivingArtistMosaic = () => {
         const cardVariants = {
             hidden: { 
                 opacity: 0, 
-                y: 50, 
-                rotateX: -15,
-                scale: 0.9
+                y: 20,
+                scale: 0.95
             },
             visible: { 
                 opacity: 1, 
                 y: 0, 
-                rotateX: 0,
                 scale: 1,
                 transition: {
-                    duration: 0.8,
-                    delay: index * 0.15,
-                    type: "spring",
-                    stiffness: 100
+                    duration: 0.5,
+                    delay: index * 0.1,
+                    ease: "easeOut"
                 }
             },
             hover: {
-                y: -15,
-                rotateY: 5,
-                scale: 1.05,
+                y: -10,
+                scale: 1.03,
                 transition: {
-                    duration: 0.4,
-                    type: "spring",
-                    stiffness: 300
+                    duration: 0.3,
+                    ease: "easeOut"
                 }
             }
         };
 
         return (
             <motion.div
-                className="relative group cursor-pointer perspective-1000"
+                className="relative group cursor-pointer"
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
@@ -318,39 +313,11 @@ const LivingArtistMosaic = () => {
                 }}
                 onClick={() => setSelectedArtist(artist)}
             >
-                {/* Glowing Background Effect */}
-                <motion.div
-                    className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100"
-                    style={{
-                        background: `radial-gradient(circle at 50% 50%, rgba(224, 82, 100, 0.3), rgba(19, 72, 86, 0.2), transparent)`,
-                        filter: 'blur(20px)',
-                        transform: 'scale(1.1)'
-                    }}
-                    animate={{
-                        opacity: glowIntensity * 0.8
-                    }}
-                    transition={{ duration: 0.3 }}
-                />
 
                 {/* Main Card */}
                 <motion.div
                     className="relative h-full bg-gradient-to-br from-white/95 via-white/90 to-[#F8E6DA]/80 backdrop-blur-lg rounded-3xl border-2 border-white/30 shadow-2xl overflow-hidden transform-gpu min-h-[320px]"
-                    style={{
-                        boxShadow: `0 20px 40px rgba(224, 82, 100, ${glowIntensity * 0.3}), 
-                                   0 8px 32px rgba(19, 72, 86, ${glowIntensity * 0.2}),
-                                   inset 0 2px 4px rgba(255, 255, 255, 0.4)`
-                    }}
                 >
-                    {/* Artistic Background Pattern */}
-                    <div className="absolute inset-0 opacity-10">
-                        <svg width="100%" height="100%" viewBox="0 0 100 100" className="fill-current text-[#134856]">
-                            <pattern id={`pattern-${artist._id}`} x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                                <circle cx="10" cy="10" r="2" />
-                                <path d="M10,2 Q18,10 10,18 Q2,10 10,2" stroke="currentColor" strokeWidth="0.5" fill="none" />
-                            </pattern>
-                            <rect width="100%" height="100%" fill={`url(#pattern-${artist._id})`} />
-                        </svg>
-                    </div>
 
                     {/* Content */}
                     <div className="relative z-10 p-6 h-full flex flex-col">
@@ -369,18 +336,6 @@ const LivingArtistMosaic = () => {
                                     {artist.specialization || 'Traditional Artist'}
                                 </p>
                             </div>
-                            
-                            {/* Status Badge */}
-                            <motion.div
-                                className="relative"
-                                animate={{
-                                    rotate: isHovered ? 360 : 0
-                                }}
-                                transition={{ duration: 0.8 }}
-                            >
-                                <div className="w-4 h-4 bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] rounded-full animate-pulse" />
-                                <div className="absolute inset-0 w-4 h-4 bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] rounded-full animate-ping opacity-20" />
-                            </motion.div>
                         </div>
 
                         {/* Bio */}
@@ -421,15 +376,10 @@ const LivingArtistMosaic = () => {
                                 handleArtistClick(artist._id);
                             }}
                         >
-                            Explore Portfolio ✨
+                            Explore Portfolio
                         </motion.button>
                     </div>
 
-                    {/* Hover Overlay */}
-                    <motion.div
-                        className="absolute inset-0 bg-gradient-to-br from-[#134856]/10 to-[#e05264]/10 
-                                 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    />
                 </motion.div>
             </motion.div>
         );
@@ -497,7 +447,7 @@ const LivingArtistMosaic = () => {
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        🎨 Discover All Artists
+                        Discover All Artists
                     </motion.button>
                     <motion.button 
                         onClick={() => navigate('/art-wall')}
@@ -505,7 +455,7 @@ const LivingArtistMosaic = () => {
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        🖼️ Explore Art Gallery
+                        Explore Art Gallery
                     </motion.button>
                 </motion.div>
             </div>
