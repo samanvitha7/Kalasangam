@@ -54,8 +54,8 @@ export default {
           glow: '0 0 8px #facc15', // glowing yellow
         },
       animation: {
-        popFade: "popFade 1.2s ease-out both",
-        sinkFade: "sinkFade 2s ease-out forwards",
+        popFade: "popFade 0.8s ease-out both",
+        sinkFade: "sinkFade 1.5s ease-out forwards",
         fadeInUp: "fadeInUp 0.6s ease-out forwards",
         fadeIn: "fadeIn 0.3s ease-in-out forwards",
       },
