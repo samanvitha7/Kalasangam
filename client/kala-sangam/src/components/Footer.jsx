@@ -1,6 +1,21 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!email.trim()) {
+      alert("Please enter your email before submitting!");
+      return;
+    }
+
+    window.location.href = `/about?email=${encodeURIComponent(email)}#contact`;
+  };
+
   return (
     <footer className="bg-gradient-to-r from-tealblue to-rosered text-white border-t border-rosered/20 px-6 py-10 font-lora font-medium">
       {/* Main Footer Content */}
@@ -41,6 +56,32 @@ export default function Footer() {
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Contact Form */}
+        <div className="mt-4">
+          <form onSubmit={handleSubmit} className="space-y-4 max-w-xs mx-auto">
+            <input
+              type="email"
+              placeholder="Your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 font-lora rounded-full text-base 
+                         bg-white/90 text-[#134856] 
+                         placeholder-[#134856]/50 focus:outline-none 
+                         focus:border-[#e05264] focus:ring-2 focus:ring-[#e05264]/40 
+                         transition-all duration-300 shadow-md"
+            />
+
+            <motion.button
+              type="submit"
+              className="w-full bg-gradient-to-r from-[#134856] to-[#e05264] text-white py-4 rounded-full text-lg font-lora font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Send Feedback 
+            </motion.button>
+          </form>
         </div>
       </div>
 
