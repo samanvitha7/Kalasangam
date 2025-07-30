@@ -26,7 +26,7 @@ const getUserProfile = async (req, res) => {
         specialization: user.specialization,
         role: user.role,
         likes: user.likes,
-        follows: user.follows,
+        following: user.following,
         bookmarks: user.bookmarks,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
@@ -50,15 +50,15 @@ const getPublicProfile = async (req, res) => {
 
     // Check if current user follows this user
     const currentUser = await User.findById(req.user.userId);
-    const isFollowing = currentUser.follows.includes(userId);
+    const isFollowing = currentUser.following.includes(userId);
 
     res.status(200).json({
       user: {
         id: user._id,
         name: user.name,
         avatar: user.avatar,
-        follows: user.follows,
-        followersCount: await User.countDocuments({ follows: userId }),
+        following: user.following,
+        followersCount: await User.countDocuments({ following: userId }),
         createdAt: user.createdAt
       },
       isFollowing
@@ -312,8 +312,8 @@ const deleteAccount = async (req, res) => {
 
     // Remove user from other users' follows
     await User.updateMany(
-      { follows: userId },
-      { $pull: { follows: userId } }
+      { following: userId },
+      { $pull: { following: userId } }
     );
 
     // Delete the user account
@@ -335,7 +335,7 @@ const getUserStats = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const followersCount = await User.countDocuments({ follows: userId });
+    const followersCount = await User.countDocuments({ followers: userId });
     
     // Get actual artworks count for this user
     const Artwork = require('../models/Artwork');
@@ -344,7 +344,7 @@ const getUserStats = async (req, res) => {
     res.status(200).json({
       stats: {
         likesCount: user.likes ? user.likes.length : 0,
-        followsCount: user.follows ? user.follows.length : 0,
+        followingCount: user.following ? user.following.length : 0,
         followersCount: followersCount,
         bookmarksCount: user.bookmarks ? user.bookmarks.length : 0,
         artworksCount: userArtworksCount,
@@ -462,7 +462,7 @@ const createUser = async (req, res) => {
       return res.status(403).json({ message: 'Access denied. Admin role required.' });
     }
 
-    const { name, email, password, role = 'Viewer' } = req.body;
+    const { name, email, password, role = 'Artist' } = req.body;
 
     // Validate required fields
     if (!name || !email || !password) {
@@ -509,9 +509,9 @@ const updateUserRole = async (req, res) => {
     const { role } = req.body;
 
     // Validate role
-    const validRoles = ['Admin', 'Artist', 'Viewer'];
+    const validRoles = ['Admin', 'Artist'];
     if (!validRoles.includes(role)) {
-      return res.status(400).json({ message: 'Invalid role. Must be Admin, Artist, or Viewer.' });
+      return res.status(400).json({ message: 'Invalid role. Must be Admin or Artist.' });
     }
 
     // Prevent admin from changing their own role
@@ -559,10 +559,10 @@ const deleteUser = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Remove user from other users' follows
+    // Remove user from other users' following
     await User.updateMany(
-      { follows: userId },
-      { $pull: { follows: userId } }
+      { following: userId },
+      { $pull: { following: userId } }
     );
 
     // Delete the user
@@ -586,7 +586,6 @@ const getUserStatsAdmin = async (req, res) => {
     const totalUsers = await User.countDocuments();
     const adminUsers = await User.countDocuments({ role: 'Admin' });
     const artistUsers = await User.countDocuments({ role: 'Artist' });
-    const viewerUsers = await User.countDocuments({ role: 'Viewer' });
     const verifiedUsers = await User.countDocuments({ isEmailVerified: true });
     const unverifiedUsers = await User.countDocuments({ isEmailVerified: false });
 
@@ -598,8 +597,7 @@ const getUserStatsAdmin = async (req, res) => {
       totalUsers,
       usersByRole: {
         admin: adminUsers,
-        artist: artistUsers,
-        viewer: viewerUsers
+        artist: artistUsers
       },
       verificationStatus: {
         verified: verifiedUsers,
@@ -668,7 +666,7 @@ const getArtists = async (req, res) => {
       const artworkCount = Math.floor(Math.random() * 4) + 1; // 1-4 artworks
       
       // Count followers
-      const followersCount = await User.countDocuments({ follows: artist._id });
+      const followersCount = await User.countDocuments({ following: artist._id });
       
       return {
         ...artistObj,
@@ -725,7 +723,7 @@ const getArtistById = async (req, res) => {
     
     // Count actual artworks and followers for this artist
     const artworkCount = Math.floor(Math.random() * 4) + 1; // 1-4 artworks
-    const followersCount = await User.countDocuments({ follows: artistId });
+    const followersCount = await User.countDocuments({ following: artistId });
     
     // Add computed fields
     const artistObj = artist.toObject();

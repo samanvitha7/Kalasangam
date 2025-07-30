@@ -16,12 +16,24 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
   // Initialize liked and bookmarked states based on current user data
   useEffect(() => {
     if (currentUser && currentUser.likes) {
-      setIsLiked(currentUser.likes.includes(artwork.id));
+      // Check if the current artwork ID is in the user's likes array
+      const artworkIdStr = artwork.id ? artwork.id.toString() : artwork._id?.toString();
+      const isLikedByUser = currentUser.likes.some(likeId => 
+        likeId.toString() === artworkIdStr
+      );
+      setIsLiked(isLikedByUser);
     }
     if (initialBookmarked !== undefined) {
       setIsBookmarked(initialBookmarked);
+    } else if (currentUser && currentUser.bookmarks) {
+      // Check if the current artwork ID is in the user's bookmarks array
+      const artworkIdStr = artwork.id ? artwork.id.toString() : artwork._id?.toString();
+      const isBookmarkedByUser = currentUser.bookmarks.some(bookmarkId => 
+        bookmarkId.toString() === artworkIdStr
+      );
+      setIsBookmarked(isBookmarkedByUser);
     }
-  }, [currentUser, artwork.id, initialBookmarked]);
+  }, [currentUser, artwork.id, artwork._id, initialBookmarked]);
   
   const animations = {
     initial: { opacity: 0, y: 20 },
@@ -241,11 +253,11 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-1 text-red-500">
               <FaHeart size={14} />
-              <span className="text-sm font-medium">{artwork.likeCount || artwork.likes || 0}</span>
+              <span className="text-sm font-medium">{artwork.likeCount ?? artwork.likes?.length ?? 0}</span>
             </div>
             <div className="flex items-center space-x-1 text-amber-600">
               <FaBookmark size={14} />
-              <span className="text-sm font-medium">{artwork.bookmarkCount || artwork.bookmarks || 0}</span>
+              <span className="text-sm font-medium">{artwork.bookmarkCount ?? artwork.bookmarks?.length ?? 0}</span>
             </div>
           </div>
         </motion.div>

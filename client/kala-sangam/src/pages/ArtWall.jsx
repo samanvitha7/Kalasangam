@@ -202,8 +202,9 @@ const ArtWall = () => {
         setArtworks(prev => prev.map(art => 
           art.id === artworkId ? { 
             ...art, 
-            likeCount: response.likeCount,
-            likes: response.likeCount // Keep both for compatibility
+            likeCount: response.likes.length,
+            likes: response.likes,
+            isLiking: false
           } : art
         ));
         
@@ -289,8 +290,8 @@ const ArtWall = () => {
         setArtworks(prev => prev.map(art => 
           art.id === artworkId ? { 
             ...art, 
-            bookmarkCount: response.bookmarkCount,
-            bookmarks: response.bookmarkCount // Keep both for compatibility
+            bookmarkCount: response.bookmarks.length,
+            bookmarks: response.bookmarks
           } : art
         ));
         
@@ -556,7 +557,7 @@ const ArtWall = () => {
                 artwork={artwork} 
                 index={index}
                 currentUser={user}
-                isBookmarked={userBookmarks.has(artwork.id.toString())}
+                isBookmarked={userBookmarks.has(artwork.id ? artwork.id.toString() : artwork._id?.toString())}
                 onLike={handleLike}
                 onBookmark={handleBookmark}
                 onImageClick={handleImageClick}

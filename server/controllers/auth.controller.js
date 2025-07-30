@@ -29,7 +29,7 @@ const register = async (req, res) => {
     }
 
     // Normalize role to proper casing
-    const normalizedRole = role ? role.charAt(0).toUpperCase() + role.slice(1).toLowerCase() : 'Viewer';
+    const normalizedRole = role ? role.charAt(0).toUpperCase() + role.slice(1).toLowerCase() : 'Artist';
 
     const user = await User.create({
       name,
@@ -271,29 +271,43 @@ const loginWithPhone = async (req, res) => {
 
 // ✅ ADMIN LOGIN CONTROLLER
 const adminLogin = async (req, res) => {
+  console.log('🔐 Admin login attempt:', { email: req.body.email, hasPassword: !!req.body.password });
+  
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log('❌ Validation errors:', errors.array());
     return res.status(400).json({ message: errors.array()[0].msg });
   }
 
   const { email, password } = req.body;
 
   try {
+    console.log('🔍 Looking for user with email:', email);
     const user = await User.findOne({ email });
+    console.log('👤 User found:', !!user, user ? { name: user.name, role: user.role } : 'none');
+    
     if (!user) {
+      console.log('❌ User not found');
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    console.log('🔑 Testing password...');
     const isMatch = await user.comparePassword(password);
+    console.log('🔑 Password match:', isMatch);
+    
     if (!isMatch) {
+      console.log('❌ Password mismatch');
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     // Check if user has admin role
+    console.log('👔 Checking admin role:', user.role);
     if (user.role !== 'Admin') {
+      console.log('❌ Not admin role');
       return res.status(403).json({ message: 'Access denied. Admin role required.' });
     }
 
+    console.log('✅ Admin login successful, generating token...');
     const token = generateToken(user._id);
 
     res.status(200).json({
@@ -308,6 +322,7 @@ const adminLogin = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error('💥 Admin login error:', error);
     res.status(500).json({ message: 'Admin login failed', error: error.message });
   }
 };
