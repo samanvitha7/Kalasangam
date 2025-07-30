@@ -622,7 +622,7 @@ function EventsPage() {
             <div className="flex bg-white rounded-lg shadow-sm p-1">
               <button
                 onClick={() => setViewMode('calendar')}
-                className={`px-4 py-2 rounded-md transition-colors ${
+                className={`px-8 py-4 rounded-md transition-colors ${
                   viewMode === 'calendar' 
                     ? 'bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white' 
                     : 'text-gray-600 hover:text-[#E05264]'
@@ -632,7 +632,7 @@ function EventsPage() {
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`px-4 py-2 rounded-md transition-colors ${
+                className={`px-8 py-4 rounded-md transition-colors ${
                   viewMode === 'list' 
                     ? 'bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white' 
                     : 'text-gray-600 hover:text-[#E05264]'
