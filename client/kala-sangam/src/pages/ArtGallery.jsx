@@ -265,7 +265,7 @@ export default function ArtGallery() {
       {loading && (
         <div className="flex justify-center items-center py-16">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-tealblue mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-deep-teal mx-auto mb-4"></div>
             <p className="text-lg text-gray-600 font-lora">Loading art forms...</p>
           </div>
         </div>

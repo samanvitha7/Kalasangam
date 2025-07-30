@@ -24,9 +24,6 @@ export default {
         'rich-gold': '#FFD700',
         
         // Legacy colors for backward compatibility
-        'tealblue': '#134856',
-        'rosered': '#D95A70',
-        'blushpeach': '#FBD1C6',
         'vermilion': '#E84338',
         'rosehover': '#AC1E5E',
         'saffronglow': '#F2AA6B',
@@ -57,8 +54,8 @@ export default {
           glow: '0 0 8px #facc15', // glowing yellow
         },
       animation: {
-        popFade: "popFade 1.2s ease-out both",
-        sinkFade: "sinkFade 2s ease-out forwards",
+        popFade: "popFade 0.8s ease-out both",
+        sinkFade: "sinkFade 1.5s ease-out forwards",
         fadeInUp: "fadeInUp 0.6s ease-out forwards",
         fadeIn: "fadeIn 0.3s ease-in-out forwards",
       },

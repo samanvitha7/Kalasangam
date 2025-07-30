@@ -14,8 +14,8 @@ export default function FloatingVisuals() {
           key={item.id}
           src={item.src}
           className={`absolute ${item.size} ${item.top} ${item.left} opacity-70`}
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 6, repeat: Infinity }}
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
       ))}
     </div>

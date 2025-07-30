@@ -36,10 +36,6 @@ const handleSubmit = async (e) => {
       return;
     }
     
-    if (!isPasswordStrong(password)) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
 
     const result = await login(form, rememberMe);
     if (result.success) {
@@ -58,19 +54,18 @@ const handleSubmit = async (e) => {
     >
       <form
         onSubmit={handleSubmit}
-        className="p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora
-                  bg-[linear-gradient(to_bottom,rgba(255,190,152,0.7),rgba(255,187,233,0.7),rgba(44,165,141,0.67))]"
+        className="bg-[rgba(82,200,180,0.8)] p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora"
       >
-        <h2 className="text-4xl font-bold text-center mb-3 text-deep-teal">Welcome Back!</h2>
-        <p className="text-center mb-4 text-sm text-teal-200">Login to continue</p>
+        <h2 className="text-4xl font-bold text-center mb-3 text-slate-800">Welcome Back!</h2>
+        <p className="text-center mb-4 text-base text-gray-200">Login to continue</p>
         
         {/* Admin Login Option */}
         <div className="text-center mb-6">
-          <p className="text-xs text-teal-200 mb-2">Need admin access?</p>
+          <p className="text-base text-white font-medium mb-2">Need admin access?</p>
           <button
             type="button"
             onClick={() => navigate('/admin/login')}
-            className="text-xs bg-coral-pink/20 hover:bg-coral-pink/30 text-coral-pink font-semibold py-2 px-4 rounded-lg border border-coral-pink/30 transition-all"
+            className="text-sm bg-white/20 hover:bg-white/30 text-slate-800 font-semibold py-2 px-4 rounded-lg border border-slate-800/30 transition-all"
           >
             🔐 Login as Admin
           </button>
@@ -98,23 +93,23 @@ const handleSubmit = async (e) => {
 
         {/* Remember Me Checkbox */}
         <div className="mb-4">
-          <label className="flex items-center gap-3 text-sm cursor-pointer">
+          <label className="flex items-center gap-3 text-base cursor-pointer">
             <input
               type="checkbox"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
               className="w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
             />
-            <span className="text-[#284139] leading-relaxed">
+            <span className="text-slate-800 leading-relaxed">
               <strong>Remember me</strong> - Stay logged in after closing browser
             </span>
           </label>
-          <p className="text-xs text-teal-200 mt-1 ml-7">
+          {/* <p className="text-sm text-gray-200 mt-1 ml-7">
             If unchecked, you'll be logged out when you close the website
-          </p>
+          </p> */}
         </div>
 
-        <div className="text-right text-sm text-teal-200 mb-6">
+        <div className="text-right text-base text-white font-medium mb-6">
           <Link to="/forgot-password" className="hover:underline hover:text-coral-pink">Forgot Password?</Link>
         </div>
 
@@ -137,7 +132,7 @@ const handleSubmit = async (e) => {
           </button>
         </div>
 
-        <p className="text-center mt-6 text-sm text-teal-200">
+        <p className="text-center mt-6 text-base text-white font-medium">
           Don't have an account? <Link to="/signup" className="underline font-semibold hover:text-coral-pink">Sign Up</Link>
         </p>
       </form>

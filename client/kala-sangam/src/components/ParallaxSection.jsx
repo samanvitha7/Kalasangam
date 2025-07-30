@@ -22,7 +22,7 @@ const ParallaxSection = () => {
           className="absolute inset-0 w-full h-full object-cover z-0 shadow-[inset_0_-80px_60px_-20px_rgba(0,0,0,0.5)]"
         />
       
-        <div className="absolute bottom-0 w-full h-48 z-10 pointer-events-none bg-gradient-to-b from-transparent to-tealblue" />
+        <div className="absolute bottom-0 w-full h-48 z-10 pointer-events-none bg-gradient-to-b from-transparent to-deep-teal" />
 
         {/* Animated Text - Positioned much higher on screen with responsive positioning */}
         <div
@@ -53,7 +53,7 @@ const ParallaxSection = () => {
       </section>
 
       {/* Decorative Divider (flipped) */}
-      <div className="w-full h-24 bg-gradient-to-b from-tealblue via-rosered to-[#F8E6DA]" />
+      <div className="w-full h-24 bg-gradient-to-b from-deep-teal via-coral-red to-[#F8E6DA]" />
     </>
   );
 };

@@ -52,7 +52,7 @@
 - Fixed CSS layout issues that were preventing proper grid display
 - Updated grid layout from `md:grid-cols-3` to `lg:grid-cols-3 xl:grid-cols-4`
 - Removed `max-width` constraint from `ArtFormCard` component
-- Fixed CSS class naming issues (`teal-blue` → `tealblue` to match Tailwind config)
+- Fixed CSS class naming issues (`teal-blue` → `deep-teal` to match Tailwind config)
 
 **Files Modified**:
 - `client/kala-sangam/src/pages/ArtGallery.jsx` (Grid layout, CSS classes, loading states)

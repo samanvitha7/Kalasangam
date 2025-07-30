@@ -47,7 +47,7 @@ const stateArt = {
     art: "Mysore Painting",
     image:"https://i.pinimg.com/1200x/61/f7/75/61f7754128375025e155a85583d2940a.jpg",
   },
-  "Orissa": {
+  "Odisha": {
     art: "Pattachitra",
     image:"https://i.pinimg.com/736x/c8/8a/33/c88a336fd6e7a8f9b32f1ff0d91e65c3.jpg",
   },
