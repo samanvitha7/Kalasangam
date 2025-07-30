@@ -185,7 +185,7 @@ export default function StorytellingScroll() {
       {/* Scrollable storytelling content */}
       <div
         ref={containerRef}
-        className="snap-y snap-mandatory h-screen overflow-y-scroll flex-1"
+        className="snap-y snap-mandatory h-screen overflow-y-scroll flex-1 storytelling-scroll"
       >
         {sections.map((section) => (
           <Section key={section.id} {...section} />

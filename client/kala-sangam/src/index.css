@@ -381,6 +381,28 @@ input[type="range"]::-moz-range-thumb:hover {
   animation: float 4s ease-in-out infinite;
 }
 
+/* Hide scrollbars for storytelling scroll */
+.storytelling-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+/* Hide scrollbar for WebKit browsers (Chrome, Safari, Edge) */
+.storytelling-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbars for upcoming events list */
+.upcoming-events-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+/* Hide scrollbar for WebKit browsers (Chrome, Safari, Edge) */
+.upcoming-events-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* Responsive adjustments for modern high-resolution displays */
 .lotus-responsive {
   /* Default behavior uses viewport units for consistent scaling */
