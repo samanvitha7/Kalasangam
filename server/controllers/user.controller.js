@@ -704,8 +704,21 @@ const getArtistById = async (req, res) => {
   try {
     const { artistId } = req.params;
     
+    // Populate artist with their likes and bookmarks containing full artwork data
     const artist = await User.findById(artistId)
-      .select('-password -email -resetPasswordToken -resetPasswordExpire -emailVerificationToken -phoneNumber');
+      .select('-password -email -resetPasswordToken -resetPasswordExpire -emailVerificationToken -phoneNumber')
+      .populate({
+        path: 'likes',
+        model: 'Artwork',
+        select: 'title description imageUrl category artform createdAt userId',
+        match: { isActive: true, isPublic: true } // Only include active and public artworks
+      })
+      .populate({
+        path: 'bookmarks',
+        model: 'Artwork', 
+        select: 'title description imageUrl category artform createdAt userId',
+        match: { isActive: true, isPublic: true } // Only include active and public artworks
+      });
     
     if (!artist) {
       return res.status(404).json({
@@ -722,17 +735,68 @@ const getArtistById = async (req, res) => {
     }
     
     // Count actual artworks and followers for this artist
-    const artworkCount = Math.floor(Math.random() * 4) + 1; // 1-4 artworks
+    const Artwork = require('../models/Artwork');
+    const actualArtworkCount = await Artwork.countDocuments({ userId: artistId, isActive: true });
     const followersCount = await User.countDocuments({ following: artistId });
     
     // Add computed fields
     const artistObj = artist.toObject();
+    
+    // Transform likes and bookmarks to include artwork details
+    const transformedLikes = await Promise.all(
+      (artist.likes || []).filter(artwork => artwork).map(async (artwork) => {
+        // Get the actual artwork document to count likes and bookmarks
+        const fullArtwork = await Artwork.findById(artwork._id);
+        const likesCount = fullArtwork && fullArtwork.likes ? fullArtwork.likes.length : 0;
+        const bookmarksCount = fullArtwork && fullArtwork.bookmarks ? fullArtwork.bookmarks.length : 0;
+        
+        return {
+          id: artwork._id,
+          title: artwork.title,
+          description: artwork.description,
+          imageUrl: artwork.imageUrl,
+          category: artwork.category,
+          artform: artwork.artform,
+          likes: likesCount,
+          bookmarks: bookmarksCount,
+          createdAt: artwork.createdAt,
+          userId: artwork.userId
+        };
+      })
+    );
+    
+    const transformedBookmarks = await Promise.all(
+      (artist.bookmarks || []).filter(artwork => artwork).map(async (artwork) => {
+        // Get the actual artwork document to count likes and bookmarks
+        const fullArtwork = await Artwork.findById(artwork._id);
+        const likesCount = fullArtwork && fullArtwork.likes ? fullArtwork.likes.length : 0;
+        const bookmarksCount = fullArtwork && fullArtwork.bookmarks ? fullArtwork.bookmarks.length : 0;
+        
+        return {
+          id: artwork._id,
+          title: artwork.title,
+          description: artwork.description,
+          imageUrl: artwork.imageUrl,
+          category: artwork.category,
+          artform: artwork.artform,
+          likes: likesCount,
+          bookmarks: bookmarksCount,
+          createdAt: artwork.createdAt,
+          userId: artwork.userId
+        };
+      })
+    );
+    
     const artistWithExtras = {
       ...artistObj,
       isNew: artist.createdAt > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days
       followersCount,
-      artworks: Array(artworkCount).fill(null), // Create array with proper length
-      artworkCount,
+      artworkCount: actualArtworkCount,
+      likesCount: transformedLikes.length,
+      bookmarksCount: transformedBookmarks.length,
+      // Replace the raw ID arrays with populated artwork data
+      likes: transformedLikes,
+      bookmarks: transformedBookmarks,
       signatureWork: artist.avatar || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop'
     };
     
