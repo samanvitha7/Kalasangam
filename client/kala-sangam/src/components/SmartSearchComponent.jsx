@@ -166,6 +166,13 @@ const HeaderSmartSearch = ({ scrolled }) => {
     navigate(`/artist/${artist._id}`);
   };
 
+  // Save to recent searches
+  const saveToRecentSearches = (query) => {
+    const updatedSearches = [query, ...recentSearches.filter(s => s !== query)].slice(0, 5);
+    setRecentSearches(updatedSearches);
+    localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+  };
+
   // Clear recent searches
   const clearRecentSearches = () => {
     setRecentSearches([]);
@@ -185,54 +192,54 @@ const HeaderSmartSearch = ({ scrolled }) => {
   }, []);
 
   return (
-    <div className="relative" ref={searchRef}>
-      {/* Search Input */}
-      <div className={`relative flex items-center transition-all duration-300 ${
-        scrolled ? 'w-64' : 'w-72'
-      }`}>
-        <div className={`relative flex items-center w-full rounded-full transition-all duration-300 ${
-          scrolled 
-            ? 'bg-white/90 backdrop-blur-sm border border-tealblue/20' 
-            : 'bg-white/80 backdrop-blur-sm border border-tealblue/30'
-        }`}>
-          <FaSearch className={`absolute left-4 transition-colors duration-300 ${
-            scrolled ? 'text-tealblue/60' : 'text-tealblue/70'
-          }`} size={14} />
-          
-          <input
-            type="text"
-            placeholder="Search artists, artworks... (try 'Priya', 'kerala dance')"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onFocus={() => setShowDropdown(true)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            className={`w-full pl-12 pr-12 py-2.5 rounded-full bg-transparent text-sm font-medium placeholder-gray-500 focus:outline-none transition-all duration-300 ${
-              scrolled ? 'text-tealblue' : 'text-tealblue'
-            }`}
-          />
-          
-          {searchTerm && (
-            <button
-              onClick={() => setSearchTerm('')}
-              className="absolute right-10 text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <FaTimes size={12} />
-            </button>
-          )}
-          
-          <FaStar className={`absolute right-4 transition-colors duration-300 ${
-            scrolled ? 'text-rosered/60' : 'text-rosered/70'
-          }`} size={14} />
-        </div>
-      </div>
+    <div className="relative flex items-center" ref={searchRef}>
+      {/* Search Button */}
+      <button
+        className={`p-2 transition-all duration-300 rounded-full hover:scale-110 ${
+          scrolled ? 'bg-white/90 text-tealblue/60 hover:text-tealblue' : 'bg-white/80 text-tealblue/70 hover:text-tealblue'
+        }`}
+        onClick={() => setShowDropdown(!showDropdown)}
+      >
+        <FaSearch size={18} />
+      </button>
 
       {/* Search Dropdown */}
       {showDropdown && (
-        <div className={`absolute top-full mt-2 w-full max-w-md rounded-xl shadow-2xl border transition-all duration-300 ${
+        <div className={`absolute top-full right-0 mt-2 w-80 rounded-xl shadow-2xl border transition-all duration-300 z-50 ${
           scrolled
             ? 'bg-white/95 backdrop-blur-md border-tealblue/20'
             : 'bg-white/90 backdrop-blur-md border-tealblue/30'
         }`}>
+          {/* Search Input */}
+          <div className="p-4 border-b border-gray-200/50">
+            <div className={`relative flex items-center w-full rounded-full transition-all duration-300 ${
+              scrolled 
+                ? 'bg-white/90 backdrop-blur-sm border border-tealblue/20' 
+                : 'bg-white/80 backdrop-blur-sm border border-tealblue/30'
+            }`}>
+              <FaSearch className="absolute left-3 text-gray-400" size={14} />
+              <input
+                type="text"
+                placeholder="Search artists, artworks..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                className={`w-full pl-10 pr-10 py-2.5 rounded-full bg-transparent text-sm font-medium placeholder-gray-500 focus:outline-none transition-all duration-300 ${
+                  scrolled ? 'text-tealblue' : 'text-tealblue'
+                }`}
+                autoFocus
+              />
+
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm('')}
+                  className="absolute right-3 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <FaTimes size={12} />
+                </button>
+              )}
+            </div>
+          </div>
           {/* Search Suggestions */}
           {suggestions.length > 0 && (
             <div className="p-4 border-b border-gray-200/50">
@@ -324,7 +331,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
               </h4>
               <div className="space-y-1">
                 {[
-                  'beautiful bharatanatyam dance',
+                  'beautiful odissi dance',
                   'traditional madhubani art',
                   'kathak dance performance',
                   'south indian classical music',
@@ -395,7 +402,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           <FaSearch className="absolute left-4 text-tealblue/60" size={20} />
           <input
             type="text"
-            placeholder="Ask me anything... 'show me beautiful bharatanatyam dance', 'find spiritual art from south india'"
+            placeholder="Ask me anything... 'show me beautiful odissi dance', 'find spiritual art from south india'"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-14 pr-14 py-4 rounded-2xl bg-white border-2 border-tealblue/20 focus:border-tealblue focus:outline-none text-lg font-medium placeholder-gray-500 shadow-lg transition-all duration-300"

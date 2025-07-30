@@ -179,6 +179,32 @@ function AppContent() {
   const { disableSound } = useSoundContext();
   const { isAppReady, loadingStage } = useAppReadyContext();
 
+  // Auto-reload functionality - hard refresh the page
+  useEffect(() => {
+    const handleAutoReload = () => {
+      // Force a hard refresh by reloading the entire page
+      window.location.reload(true);
+    };
+
+    // Set up automatic reload every 30 minutes (1800000 ms)
+    const autoReloadInterval = setInterval(handleAutoReload, 1800000);
+
+    // Also add a keyboard shortcut for manual reload (Ctrl+Shift+R or Cmd+Shift+R)
+    const handleKeyPress = (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'R') {
+        event.preventDefault();
+        handleAutoReload();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      clearInterval(autoReloadInterval);
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
+
   // Simple redirect root URL to home if splash was already shown
   useEffect(() => {
     if (location.pathname === '/' && sessionStorage.getItem("splashShown")) {

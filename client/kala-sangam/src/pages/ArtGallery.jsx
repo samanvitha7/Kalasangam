@@ -6,9 +6,13 @@ import ArtFormCard from "../components/ArtFormCard";
 import LazyImage from "../components/LazyImage";
 import FullBleedDivider from "../components/FullBleedDivider";
 import { FaSearch, FaFilter, FaTimes, FaMapMarkerAlt, FaPalette, FaGlobe, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import useHardReload from "../hooks/useHardReload";
 
 export default function ArtGallery() {
-const navigate = useNavigate();
+  // Add hard reload functionality
+  useHardReload();
+  
+  const navigate = useNavigate();
   const containerRef = useRef(null); // for scroll animations
   const { scrollYProgress } = useScroll({ target: containerRef });
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -100]);
@@ -465,31 +469,27 @@ const navigate = useNavigate();
         <div
           onClick={() => {
             setZoomImg(null);
-            setIsFullscreen(false);
+          
           }}
           className="fixed inset-0 bg-white bg-opacity-10 backdrop-blur-md flex flex-col items-center justify-center z-50 cursor-zoom-out p-4"
         >
+          {/*Wrapper to give all images uniform bounding box*/}
+          <div className="w-[600px] h-[400px] flex items-center justify-center bg-white rounded-lg shadow-2xl">
+
           <img
             src={zoomImg}
             alt="Zoomed art"
-            className={`max-w-full max-h-full object-contain rounded-lg shadow-2xl cursor-zoom-in select-none ${
-              isFullscreen ? "w-full h-full" : ""
-            }`}
+            //using object-contain to maintain aspect ratio
+            className="w-screen h-screen object-cover cursor-zoom-in select-none"
             onClick={(e) => e.stopPropagation()}
             style={{ userSelect: "auto" }}
           />
 
-          <button
-            onClick={e => {
-              e.stopPropagation();
-              setIsFullscreen(f => !f);
-            }}
-            className="mt-6 px-6 py-2 bg-tealblue text-white rounded-full shadow-lg hover:bg-coral-red focus:outline-none focus:ring-4 focus:ring-golden-saffron transition font-lora font-bold"
-          >
-            {isFullscreen ? "Fit to Screen" : "Full Screen"}
-          </button>
+          </div>
         </div>
       )}
+
+      
 
       <div className="flex justify-center mt-12">
         <motion.button

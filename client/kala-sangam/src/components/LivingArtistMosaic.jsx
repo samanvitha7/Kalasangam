@@ -69,10 +69,10 @@ const LivingArtistMosaic = () => {
                         {
                             _id: '4',
                             name: 'Lakshmi Nair',
-                            specialization: 'Bharatanatyam',
-                            location: 'Chennai, Tamil Nadu',
+                            specialization: 'Odissi',
+                            location: 'Bhubaneswar, Odisha',
                             experience: '18+ years',
-                            bio: 'Expert in Bharatanatyam, bringing ancient stories to life through graceful movements and expressions.'
+                            bio: 'Expert in Odissi, bringing ancient stories to life through graceful movements and sculpturesque poses.'
                         }
                     ];
                     setArtists(mockArtists);
@@ -109,10 +109,10 @@ const LivingArtistMosaic = () => {
                     {
                         _id: '4',
                         name: 'Lakshmi Nair',
-                        specialization: 'Bharatanatyam',
-                        location: 'Chennai, Tamil Nadu',
+                        specialization: 'Odissi',
+                        location: 'Bhubaneswar, Odisha',
                         experience: '18+ years',
-                        bio: 'Expert in Bharatanatyam, bringing ancient stories to life through graceful movements and expressions.'
+                        bio: 'Expert in Odissi, bringing ancient stories to life through graceful movements and sculpturesque poses.'
                     }
                 ];
                 setArtists(mockArtists);
