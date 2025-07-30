@@ -36,10 +36,6 @@ const handleSubmit = async (e) => {
       return;
     }
     
-    if (!isPasswordStrong(password)) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
 
     const result = await login(form, rememberMe);
     if (result.success) {
