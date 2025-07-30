@@ -95,12 +95,8 @@ export default function Header({ scrolled, onMapClick }) {
               ${scrolled ? "text-deep-teal" : "text-deep-teal"}`}
           >
 
-           <Link
-              to="/home"
-              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
-            >
-            Home
-            </Link>
+          
+           
            <Link
               to="/gallery"
               className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
