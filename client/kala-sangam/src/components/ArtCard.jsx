@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark, FaFlag } from 'react-icons/fa';
-import { toast } from 'react-toastify';
+import { showToast } from '../utils/toastUtils';
 import LazyImage from './LazyImage';
 import ReportModal from './ReportModal';
 import { api } from '../services/api';
@@ -52,14 +52,7 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
     
     if (!currentUser) {
       console.log('ArtCard handleLike: No current user, showing login toast');
-      toast.error('Please login or create an account to like artworks', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      showToast.error('Please login or create an account to like artworks');
       return;
     }
     
@@ -76,14 +69,7 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
 
   const handleBookmark = () => {
     if (!currentUser) {
-      toast.error('Please login or create an account to bookmark artworks', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      showToast.error('Please login or create an account to bookmark artworks');
       return;
     }
     // Let parent handle the API call and state updates completely
@@ -136,14 +122,7 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
             onClick={(e) => {
               e.stopPropagation();
               if (!currentUser) {
-                toast.error('Please login to report content', {
-                  position: 'top-center',
-                  autoClose: 3000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                });
+                showToast.error('Please login to report content');
                 return;
               }
               setIsReportModalOpen(true);

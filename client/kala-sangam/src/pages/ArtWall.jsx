@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { toast } from 'react-toastify';
+import { showToast } from '../utils/toastUtils';
 import ArtCard from '../components/ArtCard';
 import ContributeModal from '../components/ContributeModal';
 import { FaPlus, FaFilter, FaSearch, FaTimes, FaDownload, FaHeart, FaBookmark, FaUsers } from 'react-icons/fa';
@@ -63,7 +63,7 @@ const ArtWall = () => {
       }
     } catch (error) {
       console.error('Error fetching artworks:', error);
-      toast.error('Failed to load artworks. Please try again later.');
+      showToast.error('Failed to load artworks. Please try again later.');
       setArtworks([]);
     } finally {
       setLoading(false);
@@ -131,14 +131,7 @@ const ArtWall = () => {
 
   const handleContribute = () => {
     if (!isAuthenticated) {
-      toast.error('Please login or create an account to contribute your artwork', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      showToast.error('Please login or create an account to contribute your artwork');
       return;
     }
     setShowModal(true);
@@ -172,7 +165,7 @@ const ArtWall = () => {
       // Add to local state
       setArtworks([transformedArtwork, ...artworks]);
       setShowModal(false);
-      toast.success('Your artwork has been added to the Art Wall!');
+      showToast.success('Your artwork has been added to the Art Wall!');
       
       // Emit global event for artwork creation
       globalEvents.emit(ARTWORK_EVENTS.CREATED, {
@@ -186,20 +179,13 @@ const ArtWall = () => {
       
     } catch (error) {
       console.error('Failed to create artwork:', error);
-      toast.error('Failed to create artwork. Please try again.');
+      showToast.error('Failed to create artwork. Please try again.');
     }
   };
 
   const handleLike = async (artworkId) => {
     if (!isAuthenticated) {
-      toast.error('Please login to like artworks', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      showToast.error('Please login to like artworks');
       return;
     }
 
@@ -263,7 +249,7 @@ const ArtWall = () => {
         
         // Show toast message
         if (response.liked) {
-          toast.success('Artwork liked!', { position: 'top-center', autoClose: 2000 });
+          showToast.success('Artwork liked!', { autoClose: 2000 });
           
           // Emit global event for like
           globalEvents.emit(ARTWORK_EVENTS.LIKED, {
@@ -271,7 +257,7 @@ const ArtWall = () => {
             userId: user?.id
           });
         } else {
-          toast.success('Like removed!', { position: 'top-center', autoClose: 2000 });
+          showToast.success('Like removed!', { autoClose: 2000 });
           
           // Emit global event for unlike
           globalEvents.emit(ARTWORK_EVENTS.UNLIKED, {
@@ -288,23 +274,13 @@ const ArtWall = () => {
       }
     } catch (error) {
       console.error('Error toggling like:', error);
-      toast.error('Failed to toggle like. Please try again.', {
-        position: 'top-center',
-        autoClose: 3000,
-      });
+      showToast.error('Failed to toggle like. Please try again.');
     }
   };
 
   const handleBookmark = async (artworkId) => {
     if (!isAuthenticated) {
-      toast.error('Please login to bookmark artworks', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      showToast.error('Please login to bookmark artworks');
       return;
     }
 
@@ -319,7 +295,7 @@ const ArtWall = () => {
           
           if (response.bookmarked) {
             newBookmarks.add(artworkIdStr);
-            toast.success('Artwork bookmarked!', { position: 'top-center', autoClose: 2000 });
+            showToast.success('Artwork bookmarked!', { autoClose: 2000 });
             
             // Emit global event for bookmark
             globalEvents.emit(ARTWORK_EVENTS.BOOKMARKED, {
@@ -328,7 +304,7 @@ const ArtWall = () => {
             });
           } else {
             newBookmarks.delete(artworkIdStr);
-            toast.success('Bookmark removed!', { position: 'top-center', autoClose: 2000 });
+            showToast.success('Bookmark removed!', { autoClose: 2000 });
             
             // Emit global event for unbookmark
             globalEvents.emit(ARTWORK_EVENTS.UNBOOKMARKED, {
@@ -356,10 +332,7 @@ const ArtWall = () => {
       }
     } catch (error) {
       console.error('Error toggling bookmark:', error);
-      toast.error('Failed to toggle bookmark. Please try again.', {
-        position: 'top-center',
-        autoClose: 3000,
-      });
+      showToast.error('Failed to toggle bookmark. Please try again.');
     }
   };
 
@@ -387,10 +360,10 @@ const ArtWall = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-      toast.success('Image downloaded successfully!');
+      showToast.success('Image downloaded successfully!');
     } catch (error) {
       console.error('Error downloading image:', error);
-      toast.error('Failed to download image. Please try again.');
+      showToast.error('Failed to download image. Please try again.');
     }
   };
 
