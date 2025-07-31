@@ -199,16 +199,13 @@ export default function Header({ scrolled, onMapClick }) {
             About
           </Link>
 
-          {/* Search Icon in Navigation */}
-          <div className="flex items-center">
+          {/* Search and Notifications in main nav */}
+          <div className="flex items-center space-x-4">
             <HeaderSmartSearch scrolled={scrolled} />
+            <NotificationsBell />
           </div>
-        </nav>
 
-        {/* Notifications - Center Right */}
-        <div className="flex-shrink-0 flex items-center mx-4 space-x-4">
-          <NotificationsBell />
-        </div>
+        </nav>
 
         {/* User Profile or Login/Signup buttons - Far Right */}
         <div className="flex-shrink-0 flex items-center space-x-4">

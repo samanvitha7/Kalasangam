@@ -105,10 +105,11 @@ export default function About() {
         {/* Content */}
         <div className="relative container mx-auto px-4 text-center">
           <motion.h1 
-            className="inline-block text-6xl mt-10 font-dm-serif font-bold mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
+            className="inline-block text-6xl mt-10 font-dm-serif font-bold mb-8 pb-2 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
+            style={{ lineHeight: '1.2' }}
           >
             About KalaSangam
           </motion.h1>

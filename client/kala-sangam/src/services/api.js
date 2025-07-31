@@ -419,29 +419,48 @@ export const api = {
 
   // Fetch cultural events
   getEvents: async (filters = {}) => {
-    const queryParams = new URLSearchParams();
-    if (filters.category) queryParams.append('category', filters.category);
-    if (filters.type) queryParams.append('type', filters.type);
-    if (filters.city) queryParams.append('city', filters.city);
-    if (filters.state) queryParams.append('state', filters.state);
-    if (filters.upcoming) queryParams.append('upcoming', filters.upcoming);
-    if (filters.organizer) queryParams.append('organizer', filters.organizer);
+    try {
+      const queryParams = new URLSearchParams();
+      if (filters.category) queryParams.append('category', filters.category);
+      if (filters.type) queryParams.append('type', filters.type);
+      if (filters.city) queryParams.append('city', filters.city);
+      if (filters.state) queryParams.append('state', filters.state);
+      if (filters.upcoming) queryParams.append('upcoming', filters.upcoming);
+      if (filters.organizer) queryParams.append('organizer', filters.organizer);
 
-    const url = `${API_URL}/api/events${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+      const url = `${API_URL}/api/events${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+      console.log('Fetching events from URL:', url);
 
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    if (!response.ok) {
-      const errorData = await response.text();
-      throw new Error(`Failed to fetch events: ${response.status} - ${errorData}`);
+      console.log('Events API response status:', response.status);
+
+      if (!response.ok) {
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errorData = await response.text();
+          errorMessage += ` - ${errorData}`;
+        } catch (e) {
+          console.warn('Could not read error response body');
+        }
+        throw new Error(`Failed to fetch events: ${errorMessage}`);
+      }
+
+      const result = await response.json();
+      console.log('Events API response data:', result);
+      return result;
+    } catch (error) {
+      console.error('Error in getEvents API call:', error);
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        throw new Error('Network error: Could not connect to server. Please check if the server is running.');
+      }
+      throw error;
     }
-
-    return response.json();
   },
 
   // Fetch artists

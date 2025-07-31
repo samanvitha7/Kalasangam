@@ -249,7 +249,7 @@ export default function ArtGallery() {
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           
-          <h1 className="inline-block text-6xl pt-10 font-dm-serif font-bold mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+          <h1 className="inline-block text-6xl pt-10 font-dm-serif font-bold mb-8 pb-2 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent" style={{ lineHeight: '1.2' }}>
             Art Gallery
           </h1>
           <p className="text-lg font-lora font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
