@@ -213,58 +213,6 @@ const LivingArtistMosaic = () => {
         );
     }
 
-    // Floating Particles Background
-    const FloatingParticles = () => {
-        const particles = Array.from({ length: 25 }, (_, i) => ({
-            id: i,
-            size: Math.random() * 6 + 3,
-            color: [
-                'rgba(19, 72, 86, 0.4)',
-                'rgba(224, 82, 100, 0.4)',
-                'rgba(244, 140, 140, 0.4)',
-                'rgba(29, 124, 111, 0.4)',
-                'rgba(255, 215, 0, 0.4)'
-            ][Math.floor(Math.random() * 5)],
-            initialX: Math.random() * 100,
-            initialY: Math.random() * 100,
-            animationDelay: Math.random() * 5,
-            animationDuration: 12 + Math.random() * 8,
-            symbol: ['✨', '🎨', '🖌️', '🎭', '🏛️', '⭐'][Math.floor(Math.random() * 6)]
-        }));
-
-        return (
-            <div className="fixed inset-0 pointer-events-none z-0">
-                {particles.map((particle) => (
-                    <motion.div
-                        key={particle.id}
-                        className="absolute text-2xl opacity-30"
-                        style={{
-                            left: `${particle.initialX}%`,
-                            top: `${particle.initialY}%`,
-                            color: particle.color,
-                            fontSize: `${particle.size * 4}px`
-                        }}
-                        animate={{
-                            y: [0, -100, 0],
-                            x: [0, 30, -30, 0],
-                            opacity: [0.2, 0.6, 0.2],
-                            scale: [1, 1.4, 1],
-                            rotate: [0, 360]
-                        }}
-                        transition={{
-                            duration: particle.animationDuration,
-                            repeat: Infinity,
-                            delay: particle.animationDelay,
-                            ease: "easeInOut"
-                        }}
-                    >
-                        {particle.symbol}
-                    </motion.div>
-                ))}
-            </div>
-        );
-    };
-
     // Artist Card Component with 3D Effects
     const ArtistCard = ({ artist, index }) => {
         const [glowIntensity, setGlowIntensity] = useState(0);
@@ -366,7 +314,7 @@ const LivingArtistMosaic = () => {
 
                         {/* Action Button */}
                         <motion.button
-                            className="mt-6 w-full bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white 
+                            className="mt-6 w-full bg-gradient-to-r from-[#134856] to-[#e05264] text-white 
                                      py-3 rounded-full font-lora font-semibold shadow-lg
                                      hover:shadow-xl transition-all duration-300"
                             whileHover={{ scale: 1.02, y: -2 }}
@@ -389,7 +337,6 @@ const LivingArtistMosaic = () => {
 
     return (
         <div ref={containerRef} className="bg-[#F8E6DA] py-8 relative overflow-hidden">
-            <FloatingParticles />
             
             <div className="container mx-auto px-4 relative z-10">
                 {/* Header */}
@@ -451,7 +398,7 @@ const LivingArtistMosaic = () => {
                     </motion.button>
                     <motion.button 
                         onClick={() => navigate('/art-wall')}
-                        className="bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white px-8 py-4 rounded-full font-lora font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                        className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-8 py-4 rounded-full font-lora font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                     >

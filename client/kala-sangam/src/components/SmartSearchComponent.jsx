@@ -192,16 +192,19 @@ const HeaderSmartSearch = ({ scrolled }) => {
   }, []);
 
   return (
-    <div className="relative flex items-center" ref={searchRef}>
+    <div className="relative flex items-center group" ref={searchRef}>
       {/* Search Icon */}
       <button
-        className={`p-2 transition-all duration-300 rounded-full hover:scale-110 ${
-          scrolled ? 'text-deep-teal hover:text-deep-teal/80' : 'text-deep-teal hover:text-deep-teal/80'
-        }`}
+        className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover whitespace-nowrap text-[1.35rem] text-deep-teal"
         onClick={() => setShowDropdown(!showDropdown)}
       >
         <FaSearch size={20} />
       </button>
+      
+      {/* Tooltip */}
+      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 -translate-y-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/80 text-white text-xs rounded py-1 px-2 whitespace-nowrap">
+        Search
+      </div>
 
       {/* Search Dropdown */}
       {showDropdown && (
