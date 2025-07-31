@@ -115,11 +115,11 @@ const NotificationsBell = () => {
   if (!isAuthenticated) return null;
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative group" ref={dropdownRef}>
       {/* Bell Icon */}
       <motion.button
         onClick={handleBellClick}
-        className="relative p-2 text-deep-teal hover:text-deep-teal/80 transition-colors duration-200"
+        className="relative font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover whitespace-nowrap text-[1.35rem] text-deep-teal"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -136,6 +136,11 @@ const NotificationsBell = () => {
           </motion.span>
         )}
       </motion.button>
+      
+      {/* Tooltip */}
+      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 -translate-y-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/80 text-white text-xs rounded py-1 px-2 whitespace-nowrap">
+        Notifications
+      </div>
 
       {/* Notifications Dropdown */}
       <AnimatePresence>
