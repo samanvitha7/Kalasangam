@@ -70,10 +70,9 @@ export default function Header({ scrolled, onMapClick }) {
   `}
   style={{ width: scrolled ? "97vw" : "100vw" }}
 >
-  <div className="flex items-center justify-between h-full w-full">
+  <div className="flex items-center h-full w-full">
 {/* Logo - Far Left */}
-
- <div className="flex-shrink-0 flex items-center">
+ <div className="flex-shrink-0 flex items-center w-64">
   <Link to="/home" className="no-underline block">
     <img
       src="/assets/logo-header.png"
@@ -87,33 +86,30 @@ export default function Header({ scrolled, onMapClick }) {
   </Link>
 </div>
 
-
-
         {/* Navigation links - Center */}
         <nav
-            className={`flex space-x-12 text-[1.35rem] font-bold tracking-wide transition-colors duration-500 ease-in-out
+            className={`flex items-center justify-center flex-1 text-[1.35rem] font-bold tracking-wide transition-colors duration-500 ease-in-out
               ${scrolled ? "text-deep-teal" : "text-deep-teal"}`}
           >
-
-          
+          <div className="flex items-center justify-evenly w-full max-w-4xl">
            
            <Link
               to="/gallery"
-              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover whitespace-nowrap"
             >
             Gallery
             </Link>
 
             <Link
               to="/art-wall"
-              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover whitespace-nowrap"
             >
               Art Wall
             </Link>
 
             <Link
               to="/artists"
-              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover whitespace-nowrap"
             >
               Artists
             </Link>
@@ -121,7 +117,7 @@ export default function Header({ scrolled, onMapClick }) {
         <div className="relative flex items-center" ref={dropdownRef}>
   <span
     className={`
-      font-winky font-[500] text-deep-teal cursor-pointer flex items-center
+      font-winky font-[500] text-deep-teal cursor-pointer flex items-center whitespace-nowrap
       transition-all duration-300 ease-in-out
       hover:text-rosehover
     `}
@@ -177,7 +173,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/map"
-           className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+           className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover whitespace-nowrap"
             
             onClick={onMapClick}
           >
@@ -186,7 +182,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/events"
-            className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+            className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover whitespace-nowrap"
             
           >
             Events
@@ -194,7 +190,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/about"
-            className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+            className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover whitespace-nowrap"
           >
             About
           </Link>
@@ -204,11 +200,12 @@ export default function Header({ scrolled, onMapClick }) {
             <HeaderSmartSearch scrolled={scrolled} />
             <NotificationsBell />
           </div>
+          </div>
 
         </nav>
 
         {/* User Profile or Login/Signup buttons - Far Right */}
-        <div className="flex-shrink-0 flex items-center space-x-4">
+        <div className="flex-shrink-0 flex items-center justify-end space-x-4 w-64">
           {isAuthenticated ? (
             <>
               {/* Admin Profile Button - Only for admins */}
