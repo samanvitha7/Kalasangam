@@ -58,13 +58,16 @@ const AdminDashboard = () => {
     if (user) {
       setCurrentUser(user);
       setLoading(false);
-      if (user.role === 'Admin') {
-        fetchDashboardStats();
+      // Only allow admin users to access this panel
+      if (user.role !== 'Admin') {
+        navigate('/');
+        return;
       }
+      fetchDashboardStats();
     } else {
-      setLoading(false);
+      navigate('/');
     }
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -76,8 +79,9 @@ const AdminDashboard = () => {
   const fetchDashboardStats = async () => {
     try {
       // Fetch multiple stats in parallel
-      const [usersRes, artworksRes, eventsRes] = await Promise.all([
-        adminApi.getAllUsers({ limit: 5 }),
+      const [usersRes, recentUsersRes, artworksRes, eventsRes] = await Promise.all([
+        adminApi.getAllUsers({ limit: 100 }), // Get more users to count properly
+        adminApi.getAllUsers({ limit: 5, sortBy: 'createdAt', sortOrder: 'desc' }), // Get recent users
         adminApi.getAllArtworks(),
         adminApi.getAllEvents()
       ]);
@@ -86,7 +90,15 @@ const AdminDashboard = () => {
       const totalArtists = usersRes.users?.filter(user => user.role === 'Artist').length || 0;
       const totalArtworks = Array.isArray(artworksRes) ? artworksRes.length : (artworksRes.data?.length || 0);
       const totalEvents = Array.isArray(eventsRes) ? eventsRes.length : (eventsRes.data?.length || 0);
-      const recentUsers = usersRes.users?.slice(0, 5) || [];
+      const recentUsers = recentUsersRes.users?.slice(0, 5) || [];
+      
+      console.log('Dashboard Stats:', {
+        totalUsers,
+        totalArtists,
+        totalArtworks,
+        totalEvents,
+        recentUsersCount: recentUsers.length
+      });
       
       setDashboardStats({
         totalUsers,
@@ -230,7 +242,7 @@ const AdminDashboard = () => {
 
   // Load users when the users tab is active
   useEffect(() => {
-    if (activeTab === 'users' && currentUser?.role === 'Admin') {
+    if (activeTab === 'users' && currentUser) {
       fetchUsers();
     }
   }, [activeTab, userFilters, currentUser]);
@@ -308,15 +320,10 @@ const AdminDashboard = () => {
 
   const mainMenuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: FaHome },
-    ...(currentUser.role === 'Admin' ? [
-      { id: 'reports', label: 'Reports', icon: FaChartBar },
-      { id: 'users', label: 'User Management', icon: FaUsers },
-{ id: 'content', label: 'Content Management', icon: FaFileAlt },
-      { id: 'verification-admin', label: 'Verification', icon: FaFileAlt }
-    ] : []),
-    ...(currentUser.role === 'Artist' ? [
-      { id: 'content', label: 'My Content', icon: FaFileAlt }
-    ] : [])
+    { id: 'reports', label: 'Reports', icon: FaChartBar },
+    { id: 'users', label: 'User Management', icon: FaUsers },
+    { id: 'content', label: 'Content Management', icon: FaFileAlt },
+    { id: 'verification-admin', label: 'Verification', icon: FaFileAlt }
   ];
 
   const accountMenuItems = [
@@ -354,41 +361,154 @@ case 'settings':
   };
 
   const renderDashboard = () => (
-    <div className="dashboard-overview">
-      <h2>Welcome, {currentUser.name}!</h2>
-      <p>Role: <span className="role-badge">{currentUser.role}</span></p>
-      
-      <div className="dashboard-cards">
-        <div className="dashboard-card">
-          <h3>Quick Stats</h3>
-          <p>Your dashboard overview goes here</p>
+    <div className="space-y-6">
+      {/* Welcome Section */}
+      <div className="bg-gradient-to-r from-[#134856] to-[#E05264] rounded-xl p-6 text-white">
+        <h2 className="text-3xl font-bold font-dm-serif mb-2">Welcome, {currentUser?.name || 'Admin'}!</h2>
+        <p className="font-lora opacity-90">Role: <span className="bg-white/20 px-3 py-1 rounded-full text-sm font-medium">{currentUser?.role}</span></p>
+      </div>
+
+      {/* Quick Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Total Users</p>
+              <p className="text-3xl font-bold text-[#134856]">{dashboardStats.totalUsers}</p>
+            </div>
+            <div className="w-12 h-12 bg-[#134856]/10 rounded-lg flex items-center justify-center">
+              <FaUsers className="w-6 h-6 text-[#134856]" />
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 mt-2">Registered platform users</p>
         </div>
-        
-        {currentUser.role === 'Admin' && (
-          <>
-            <div className="dashboard-card">
-              <h3>System Status</h3>
-              <p>All systems operational</p>
+
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Total Artists</p>
+              <p className="text-3xl font-bold text-[#E05264]">{dashboardStats.totalArtists}</p>
             </div>
-            <div className="dashboard-card">
-              <h3>Recent Activity</h3>
-              <p>Monitor platform activity</p>
+            <div className="w-12 h-12 bg-[#E05264]/10 rounded-lg flex items-center justify-center">
+              <FaPalette className="w-6 h-6 text-[#E05264]" />
             </div>
-          </>
-        )}
-        
-        {currentUser.role === 'Artist' && (
-          <>
-            <div className="dashboard-card">
-              <h3>Your Artworks</h3>
-              <p>Manage your art submissions</p>
+          </div>
+          <p className="text-xs text-gray-500 mt-2">Active artist accounts</p>
+        </div>
+
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Total Artworks</p>
+              <p className="text-3xl font-bold text-[#F48C8C]">{dashboardStats.totalArtworks}</p>
             </div>
-            <div className="dashboard-card">
-              <h3>Performance</h3>
-              <p>View your artwork statistics</p>
+            <div className="w-12 h-12 bg-[#F48C8C]/10 rounded-lg flex items-center justify-center">
+              <FaFileAlt className="w-6 h-6 text-[#F48C8C]" />
             </div>
-          </>
-        )}
+          </div>
+          <p className="text-xs text-gray-500 mt-2">Submitted artworks</p>
+        </div>
+
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Total Events</p>
+              <p className="text-3xl font-bold text-[#1D7C6F]">{dashboardStats.totalEvents}</p>
+            </div>
+            <div className="w-12 h-12 bg-[#1D7C6F]/10 rounded-lg flex items-center justify-center">
+              <FaCalendarAlt className="w-6 h-6 text-[#1D7C6F]" />
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 mt-2">Scheduled cultural events</p>
+        </div>
+      </div>
+
+      {/* System Status and Recent Activity */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* System Status */}
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-800 font-dm-serif">System Status</h3>
+            <div className={`w-3 h-3 rounded-full ${
+              dashboardStats.systemStatus === 'operational' ? 'bg-green-500' : 'bg-red-500'
+            }`}></div>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-600">Platform Status</span>
+              <span className={`text-sm font-medium ${
+                dashboardStats.systemStatus === 'operational' ? 'text-green-600' : 'text-red-600'
+              }`}>
+                {dashboardStats.systemStatus === 'operational' ? 'Operational' : 'Issues Detected'}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-600">Database</span>
+              <span className="text-sm font-medium text-green-600">Connected</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-600">API Services</span>
+              <span className="text-sm font-medium text-green-600">Running</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <h3 className="text-lg font-semibold text-gray-800 font-dm-serif mb-4">Recent Activity</h3>
+          <div className="space-y-3">
+            {dashboardStats.recentUsers && dashboardStats.recentUsers.length > 0 ? (
+              dashboardStats.recentUsers.map((user, index) => (
+                <div key={user._id || index} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg">
+                  <div className="w-8 h-8 bg-gradient-to-r from-[#134856] to-[#E05264] rounded-full flex items-center justify-center text-white text-sm font-medium">
+                    {user.name ? user.name.charAt(0).toUpperCase() : '?'}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">{user.name || 'Unknown User'}</p>
+                    <p className="text-xs text-gray-500 truncate">
+                      New {user.role?.toLowerCase() || 'user'} • {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Recently'}
+                    </p>
+                  </div>
+                  <div className={`w-2 h-2 rounded-full ${
+                    user.role === 'Artist' ? 'bg-[#E05264]' : 'bg-[#134856]'
+                  }`}></div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-4">
+                <p className="text-sm text-gray-500">No recent activity</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <h3 className="text-lg font-semibold text-gray-800 font-dm-serif mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <button
+            onClick={() => setActiveTab('users')}
+            className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <FaUsers className="w-5 h-5 text-[#134856]" />
+            <span className="font-medium text-gray-700">Manage Users</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('content')}
+            className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <FaFileAlt className="w-5 h-5 text-[#E05264]" />
+            <span className="font-medium text-gray-700">Manage Content</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('reports')}
+            className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <FaChartBar className="w-5 h-5 text-[#F48C8C]" />
+            <span className="font-medium text-gray-700">View Reports</span>
+          </button>
+        </div>
       </div>
     </div>
   );
