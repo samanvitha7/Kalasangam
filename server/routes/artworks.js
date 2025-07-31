@@ -76,8 +76,9 @@ router.get("/", async (req, res) => {
       image: artwork.imageUrl, // Alternative field name for compatibility
       category: artwork.category,
       artform: artwork.artform,
-      likes: artwork.likes,
-      bookmarks: artwork.bookmarks,
+      likes: artwork.likes.length,
+      bookmarks: artwork.bookmarks.length,
+      views: artwork.views || 0,
       likeCount: artwork.likeCount,
       bookmarkCount: artwork.bookmarkCount,
       comments: artwork.comments ? artwork.comments.length : 0,
@@ -133,8 +134,9 @@ router.get("/:id", async (req, res) => {
       imageUrl: artwork.imageUrl,
       category: artwork.category,
       artform: artwork.artform,
-      likes: artwork.likes,
-      bookmarks: artwork.bookmarks,
+      likes: artwork.likes.length,
+      bookmarks: artwork.bookmarks.length,
+      views: artwork.views || 0,
       likeCount: artwork.likeCount,
       bookmarkCount: artwork.bookmarkCount,
       comments: artwork.comments || [],
@@ -198,6 +200,7 @@ router.post("/", auth, async (req, res) => {
       artform: savedArtwork.artform,
       likes: 0,
       bookmarks: 0,
+      views: 0,
       comments: 0,
       tags: savedArtwork.tags || [],
       location: savedArtwork.location,
@@ -253,6 +256,7 @@ router.put("/:id", auth, async (req, res) => {
       artform: updatedArtwork.artform,
       likes: updatedArtwork.likes ? updatedArtwork.likes.length : 0,
       bookmarks: updatedArtwork.bookmarks ? updatedArtwork.bookmarks.length : 0,
+      views: updatedArtwork.views || 0,
       comments: updatedArtwork.comments ? updatedArtwork.comments.length : 0,
       tags: updatedArtwork.tags || [],
       location: updatedArtwork.location,
@@ -341,7 +345,7 @@ router.post("/:id/like", auth, async (req, res) => {
       success: true, 
       liked: artworkLikeIndex === -1,
       likeCount: artwork.likes.length,
-      likes: artwork.likes
+      likes: artwork.likes.length // Return count for frontend compatibility
     });
 
   } catch (error) {
@@ -393,12 +397,40 @@ router.post("/:id/bookmark", auth, async (req, res) => {
       success: true, 
       bookmarked: artworkBookmarkIndex === -1,
       bookmarkCount: artwork.bookmarks.length,
-      bookmarks: artwork.bookmarks
+      bookmarks: artwork.bookmarks.length // Return count for frontend compatibility
     });
 
   } catch (error) {
     console.error("Error toggling bookmark:", error);
     res.status(500).json({ success: false, message: "Failed to toggle bookmark" });
+  }
+});
+
+// Increment view count for an artwork
+router.post("/:id/view", async (req, res) => {
+  try {
+    const artwork = await Artwork.findById(req.params.id);
+
+    if (!artwork) {
+      return res.status(404).json({ success: false, message: "Artwork not found" });
+    }
+
+    if (!artwork.isPublic || !artwork.isActive) {
+      return res.status(403).json({ success: false, message: "Artwork not accessible" });
+    }
+
+    // Increment view count
+    artwork.views = (artwork.views || 0) + 1;
+    await artwork.save();
+
+    res.json({ 
+      success: true, 
+      views: artwork.views
+    });
+
+  } catch (error) {
+    console.error("Error incrementing view count:", error);
+    res.status(500).json({ success: false, message: "Failed to increment view count" });
   }
 });
 
