@@ -319,47 +319,6 @@ const EventDetailsCard = ({ event, onClose }) => {
   );
 };
 
-const SeasonalBackground = () => {
-  const [particles, setParticles] = useState([]);
-
-  useEffect(() => {
-    const newParticles = Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 4 + 2,
-      duration: Math.random() * 10 + 10
-    }));
-    setParticles(newParticles);
-  }, []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-gradient-to-br from-orange-300 to-pink-300 opacity-20"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-          }}
-          animate={{
-            y: [-20, 20],
-            x: [-10, 10],
-            opacity: [0.1, 0.3, 0.1]
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      ))}
-    </div>
-  );
-};
 
 export default function PulsingEventsCalendar() {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -466,7 +425,6 @@ export default function PulsingEventsCalendar() {
 
   return (
     <section className="relative bg-[#F8E6DA] py-8 overflow-hidden">
-      <SeasonalBackground />
       
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header - Exact ArtWall Match */}
