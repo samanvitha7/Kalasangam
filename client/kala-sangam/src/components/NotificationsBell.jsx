@@ -123,7 +123,7 @@ const NotificationsBell = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <FaBell size={20} />
+        <FaBell size={24} />
         
         {/* Unread Count Badge */}
         {unreadCount > 0 && (

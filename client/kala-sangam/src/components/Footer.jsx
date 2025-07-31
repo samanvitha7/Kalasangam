@@ -60,6 +60,7 @@ export default function Footer() {
 
         {/* Contact Form */}
         <div className="mt-4">
+          <h2 className="text-xl font-bold font-dm-serif-display mb-3 text-deep-teal text-center">Get in Touch</h2>
           <form onSubmit={handleSubmit} className="space-y-4 max-w-xs mx-auto">
             <input
               type="email"
@@ -75,7 +76,7 @@ export default function Footer() {
 
             <motion.button
               type="submit"
-              className="w-full bg-blush-peach text-deep-teal py-4 rounded-full text-lg font-lora font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              className="w-full bg-blush-peach text-deep-teal py-2 rounded-full text-lg font-lora font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

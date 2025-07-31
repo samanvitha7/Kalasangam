@@ -76,7 +76,7 @@ export default function Header({ scrolled, onMapClick }) {
   <div className="flex items-center h-full w-full">
 {/* Logo - Far Left */}
 
- <div className="flex-shrink-0 flex items-center">
+ <div className="w-64 flex-shrink-0 flex items-center">
  <Link
   to="/home"
   className={`no-underline block ${!scrolled ? "relative top-2" : ""}`}
@@ -99,7 +99,7 @@ export default function Header({ scrolled, onMapClick }) {
             className={`flex items-center justify-center flex-1 text-[1.35rem] font-bold tracking-wide transition-colors duration-500 ease-in-out
               ${scrolled ? "text-deep-teal" : "text-deep-teal"}`}
           >
-          <div className="flex items-center justify-evenly w-full max-w-4xl">
+          <div className="flex items-center justify-center space-x-8">
            
            <Link
           to="/gallery"
@@ -134,7 +134,7 @@ export default function Header({ scrolled, onMapClick }) {
    className={`
   font-winky font-[500] text-deep-teal cursor-pointer flex items-center
   transition-all duration-300 ease-in-out hover:text-rosehover
-  ${!scrolled ? "relative top-2.5" : "relative -top-0.5"}
+  ${!scrolled ? "relative top-3" : ""}
 `}
 
     onClick={() => setShowDropdown(!showDropdown)}
@@ -217,18 +217,22 @@ export default function Header({ scrolled, onMapClick }) {
           >
             About
           </Link>
+          
+          {/* Search and Notifications in nav */}
+          <div className={`flex items-center space-x-4 ${!scrolled ? "relative top-3" : ""}`}>
+            <HeaderSmartSearch scrolled={scrolled} />
+            <div className="relative top-1">
+              <NotificationsBell />
+            </div>
+          </div>
           </div>
 
         </nav>
 
         {/* User Profile or Login/Signup buttons - Far Right */}
-        <div className={`flex-shrink-0 flex items-center space-x-4 ${
+        <div className={`w-64 flex items-center justify-end space-x-4 ${
           !scrolled ? "relative top-3" : ""
         }`}>
-          {/* Search and Notifications */}
-          <HeaderSmartSearch scrolled={scrolled} />
-          <NotificationsBell />
-          
           {isAuthenticated ? (
             <>
               {/* Admin Profile Button - Only for admins */}
