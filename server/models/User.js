@@ -147,7 +147,7 @@ const userSchema = new mongoose.Schema({
   notifications: [{
     type: { 
       type: String, 
-      enum: ['follow', 'like', 'artwork_upload', 'verification_approved'], 
+      enum: ['follow', 'like', 'bookmark', 'artwork_upload', 'verification_approved'], 
       required: true 
     },
     from: { 
