@@ -75,6 +75,7 @@ const ArtWall = () => {
     
     // Load user bookmarks if authenticated
     if (isAuthenticated && user) {
+      console.log('ArtWall useEffect - user authenticated:', { user, userLikes: user.likes });
       fetchUserBookmarks();
     }
   }, [isAuthenticated, user]);
@@ -82,9 +83,16 @@ const ArtWall = () => {
   const fetchUserBookmarks = async () => {
     try {
       const response = await api.getCurrentUser();
+      console.log('ArtWall fetchUserBookmarks response:', response);
       if (response && response.user) {
         const bookmarkIds = new Set((response.user.bookmarks || []).map(id => id.toString()));
         setUserBookmarks(bookmarkIds);
+        
+        // Also update the user in context if the likes are different
+        if (response.user.likes && JSON.stringify(response.user.likes) !== JSON.stringify(user?.likes)) {
+          console.log('Updating user likes from fetchUserBookmarks:', response.user.likes);
+          updateUser({ likes: response.user.likes, bookmarks: response.user.bookmarks });
+        }
       }
     } catch (error) {
       console.error('Error fetching user bookmarks:', error);
@@ -196,7 +204,10 @@ const ArtWall = () => {
     }
 
     try {
+      console.log('ArtWall handleLike starting:', { artworkId, currentUser: user, userLikes: user?.likes });
       const response = await api.toggleLike(artworkId);
+      
+      console.log('ArtWall handleLike API response:', response);
       
       if (response.success) {
         console.log('ArtWall handleLike response:', { artworkId, response });
@@ -225,23 +236,28 @@ const ArtWall = () => {
         });
         
         // Update user's likes array in auth context
-        if (user && user.likes) {
+        if (user) {
           const currentLikes = [...(user.likes || [])];
           const artworkIdStr = artworkId.toString();
+          
+          console.log('Before user likes update:', { currentLikes, artworkIdStr, liked: response.liked });
           
           if (response.liked) {
             // Add to likes if not already there
             if (!currentLikes.find(id => id.toString() === artworkIdStr)) {
               currentLikes.push(artworkIdStr);
+              console.log('Added to likes:', currentLikes);
             }
           } else {
             // Remove from likes
             const index = currentLikes.findIndex(id => id.toString() === artworkIdStr);
             if (index > -1) {
               currentLikes.splice(index, 1);
+              console.log('Removed from likes:', currentLikes);
             }
           }
           
+          console.log('Updating user with new likes:', currentLikes);
           updateUser({ likes: currentLikes });
         }
         

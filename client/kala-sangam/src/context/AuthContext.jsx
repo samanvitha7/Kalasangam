@@ -123,6 +123,9 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const res = await api.get('/api/auth/me');
+      console.log('AuthContext loadUser response:', res.data);
+      console.log('User data loaded:', res.data.user);
+      console.log('User likes:', res.data.user?.likes);
       dispatch({
         type: 'USER_LOADED',
         payload: res.data.user
