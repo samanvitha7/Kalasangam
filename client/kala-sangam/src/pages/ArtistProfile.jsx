@@ -77,8 +77,9 @@ const ArtistProfile = () => {
     );
   };
 
-  // Fetch artist data and artworks
-  useEffect(() => {
+// Remove cover image
+useEffect(() => {
+  setArtist(prev => ({...prev, coverImage: ''}));
     const fetchArtist = async () => {
       try {
         setLoading(true);
@@ -314,158 +315,163 @@ const ArtistProfile = () => {
         </div>
       </motion.div>
 
-      {/* Content */}
-      <div className="container px-4 py-8 relative z-10">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left sidebar */}
-          <motion.div
-            className="lg:col-span-1 space-y-6"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            {/* Combined Stats, Specialties, and Connect Section */}
-            <div className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-2">
-              <div className="bg-[#F8E6DA] rounded-2xl p-6">
+      {/* Content Section - Seamlessly connected to hero */}
+      <div className="relative z-10">
+        <div className="flex">
+          {/* Stats Sidebar */}
+          <aside className="w-80 flex-shrink-0 bg-[#F8E6DA]">
+            <div className="h-full px-6 py-8">
               {/* Statistics */}
-              <h3 className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-4">Statistics</h3>
-              <div className="grid grid-cols-3 gap-2 text-center mb-6">
-                <div>
-                  <div className="flex items-center justify-center mb-2">
-                    <FaHeart className="text-red-500 mr-1" />
-                    <span className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">{artist.totalLikes || 0}</span>
+              <div className="mb-8">
+                <h4 className="text-2xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-6">Statistics</h4>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-[#134856]">
+                      <FaHeart className="text-red-500" />
+                      <span className="font-lora">Likes</span>
+                    </div>
+                    <span className="text-[#134856] font-dm-serif font-bold text-xl">{artist.totalLikes || 0}</span>
                   </div>
-                  <p className="text-xs font-lora font-semibold text-[#E05264]">Likes</p>
-                </div>
-                <div>
-                  <div className="flex items-center justify-center mb-2">
-                    <FaBookmark className="text-blue-500 mr-1" />
-                    <span className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">{artist.totalBookmarks || 0}</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-[#134856]">
+                      <FaBookmark className="text-amber-600" />
+                      <span className="font-lora">Bookmarks</span>
+                    </div>
+                    <span className="text-[#134856] font-dm-serif font-bold text-xl">{artist.totalBookmarks || 0}</span>
                   </div>
-                  <p className="text-xs font-lora font-semibold text-[#E05264]">Bookmarks</p>
-                </div>
-                <div>
-                  <div className="flex items-center justify-center mb-2">
-                    <FaEye className="text-green-500 mr-1" />
-                    <span className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">{views}</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-[#134856]">
+                      <FaEye className="text-green-600" />
+                      <span className="font-lora">Views</span>
+                    </div>
+                    <span className="text-[#134856] font-dm-serif font-bold text-xl">{views}</span>
                   </div>
-                  <p className="text-xs font-lora font-semibold text-[#E05264]">Views</p>
                 </div>
               </div>
 
               {/* Divider */}
-              <div className="border-t border-[#E05264]/30 my-6"></div>
+              <div className="h-px bg-[#E05264]/30 mb-6"></div>
 
               {/* Specialties */}
-              <h3 className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-4">Specialties</h3>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {artist.specialties && artist.specialties.length > 0 ? (
-                  artist.specialties.map((specialty, index) => (
-                    <span
-                      key={index}
-                      className="bg-gradient-to-r from-[#1d7c6f]/20 to-[#f58c8c]/20 text-[#134856] px-3 py-1 rounded-full text-sm font-lora font-semibold"
-                    >
-                      {specialty}
+              <div className="mb-8">
+                <h4 className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-4">Specialties</h4>
+                <div className="flex flex-wrap gap-2">
+                  {artist.specialties && artist.specialties.length > 0 ? (
+                    artist.specialties.map((specialty, index) => (
+                      <span
+                        key={index}
+                        className="bg-gradient-to-r from-[#1d7c6f]/20 to-[#f58c8c]/20 text-[#134856] px-3 py-1 rounded-full text-sm font-lora font-semibold"
+                      >
+                        {specialty}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="bg-gradient-to-r from-[#1d7c6f]/20 to-[#f58c8c]/20 text-[#134856] px-3 py-1 rounded-full text-sm font-lora font-semibold">
+                      Traditional Arts
                     </span>
-                  ))
-                ) : (
-                  <span className="bg-gradient-to-r from-[#1d7c6f]/20 to-[#f58c8c]/20 text-[#134856] px-3 py-1 rounded-full text-sm font-lora font-semibold">
-                    Traditional Arts
-                  </span>
-                )}
+                  )}
+                </div>
               </div>
 
-              {/* Divider */}
-              {artist.socialLinks && <div className="border-t border-[#E05264]/30 my-6"></div>}
-
               {/* Social Links */}
-              {artist.socialLinks && (
+              {artist.socialLinks && Object.keys(artist.socialLinks).length > 0 && (
                 <>
-                  <h3 className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-4">Connect</h3>
-                  <div className="space-y-2">
-                    {Object.entries(artist.socialLinks).map(([platform, handle]) => (
-                      <div key={platform} className="flex items-center gap-2">
-                        <span className="capitalize font-lora font-semibold text-[#134856]">{platform}:</span>
-                        <span className="font-lora text-[#E05264]">{handle}</span>
-                      </div>
-                    ))}
+                  <div className="h-px bg-[#E05264]/30 mb-6"></div>
+                  <div>
+                    <h4 className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-4">Connect</h4>
+                    <div className="space-y-2">
+                      {Object.entries(artist.socialLinks).map(([platform, handle]) => (
+                        <div key={platform} className="flex items-center gap-2">
+                          <span className="capitalize font-lora font-semibold text-[#134856]">{platform}:</span>
+                          <span className="font-lora text-[#E05264]">{handle}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </>
               )}
+            </div>
+          </aside>
+
+          {/* Main Content */}
+          <main className="flex-1 bg-[#F8E6DA]">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="h-full"
+            >
+              {/* Artworks Header */}
+              <div className="px-8 py-6 border-b border-gray-200">
+                <h2 className="text-4xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+                  Artworks ({artworks.length})
+                </h2>
+                <p className="text-[#134856] text-sm mt-1 font-lora">
+                  Browse {artist.name}'s art collection
+                </p>
               </div>
-            </div>
-          </motion.div>
 
-          {/* Artworks grid */}
-          <motion.div
-            className="lg:col-span-2"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-5xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent drop-shadow-lg">
-                Artworks ({artworks.length})
-              </h2>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {artworks.map((artwork, index) => (
-                <motion.div
-                  key={artwork.id}
-                  className="bg-gradient-to-br from-[#1d7c6f]/10 to-[#f58c8c]/10 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  onClick={() => setSelectedArtwork(artwork)}
-                >
-                  <div className="relative">
-                    <LazyImage
-                      src={artwork.imageUrl}
-                      alt={artwork.title}
-                      className="w-full h-64"
-                      aspectRatio=""
-                    />
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-3 py-1 rounded-full text-xs font-dm-serif font-semibold">
-                        {artwork.category}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="p-6">
-                    <h3 className="text-xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent mb-2">{artwork.title}</h3>
-                    <p className="text-[#E05264] font-lora text-sm mb-4 line-clamp-2 leading-relaxed">{artwork.description}</p>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4 text-sm">
-                        <div className="flex items-center gap-1 text-red-500">
-                          <FaHeart size={14} />
-                          <span>{artwork.likes || 0}</span>
-                        </div>
-                        <div className="flex items-center gap-1 text-blue-500">
-                          <FaBookmark size={14} />
-                          <span>{artwork.bookmarks || 0}</span>
+              {/* Artworks Content */}
+              <div className="p-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {artworks.map((artwork, index) => (
+                    <motion.div
+                      key={artwork.id}
+                      className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer group"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: index * 0.1 }}
+                      whileHover={{ y: -5, scale: 1.02 }}
+                      onClick={() => setSelectedArtwork(artwork)}
+                    >
+                      <div className="relative">
+                        <LazyImage
+                          src={artwork.imageUrl}
+                          alt={artwork.title}
+                          className="w-full h-48 group-hover:scale-110 transition-transform duration-500"
+                          aspectRatio=""
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="bg-amber-600/90 text-white px-3 py-1 rounded-full text-xs font-dm-serif font-semibold backdrop-blur-sm">
+                            {artwork.category}
+                          </span>
                         </div>
                       </div>
-                      <span className="text-xs text-gray-500">
-                        {new Date(artwork.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                      
+                      <div className="p-4">
+                        <h3 className="text-lg font-dm-serif font-bold text-amber-900 mb-2">{artwork.title}</h3>
+                        <p className="text-amber-700 font-lora text-sm mb-3 line-clamp-2 leading-relaxed">{artwork.description}</p>
+                        
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3 text-sm">
+                            <div className="flex items-center gap-1 text-red-500">
+                              <FaHeart size={12} />
+                              <span>{artwork.likes || 0}</span>
+                            </div>
+                            <div className="flex items-center gap-1 text-amber-600">
+                              <FaBookmark size={12} />
+                              <span>{artwork.bookmarks || 0}</span>
+                            </div>
+                          </div>
+                          <span className="text-xs text-gray-500">
+                            {new Date(artwork.createdAt).toLocaleDateString()}
+                          </span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
 
-            {artworks.length === 0 && (
-              <div className="text-center py-16">
-                <div className="text-6xl mb-4">🎨</div>
-                <h3 className="text-6xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent drop-shadow-lg mb-2">No artworks yet</h3>
-                <p className="text-xl font-lora font-semibold text-[#E05264] leading-relaxed">This artist hasn't shared any artworks yet.</p>
+                {artworks.length === 0 && (
+                  <div className="text-center py-16">
+                    <div className="text-6xl mb-4">🎨</div>
+                    <h3 className="text-4xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent drop-shadow-lg mb-2">No artworks yet</h3>
+                    <p className="text-lg font-lora font-semibold text-[#E05264] leading-relaxed">This artist hasn't shared any artworks yet.</p>
+                  </div>
+                )}
               </div>
-            )}
-          </motion.div>
+            </motion.div>
+          </main>
         </div>
       </div>
 
