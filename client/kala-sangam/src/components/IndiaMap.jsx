@@ -85,7 +85,7 @@ const handleStateMouseOut = (e) => {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
-      <div  className="relative w-full h-auto translate-x-16 translate-y+6">
+      <div className="relative w-full h-auto">
       <svg
          ref={svgRef}
             viewBox="0 0 1000 1000"

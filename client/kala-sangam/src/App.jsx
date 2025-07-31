@@ -285,12 +285,12 @@ function AppContent() {
               <Route path="/about" element={<About />} />
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin" element={
-                <ProtectedRoute allowedRoles={['Admin', 'Artist', 'Viewer']}>
+                <ProtectedRoute allowedRoles={['Admin']}>
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
               <Route path="/admin/panel" element={
-                <ProtectedRoute allowedRoles={['Admin', 'Artist']}>
+                <ProtectedRoute allowedRoles={['Admin']}>
                   <AdminDashboard />
                 </ProtectedRoute>
               } />

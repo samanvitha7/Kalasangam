@@ -334,21 +334,36 @@ export default function PulsingEventsCalendar() {
     const fetchEvents = async () => {
       try {
         setLoading(true);
+        setError(null);
         
-        // Fetch all events
+        console.log('Fetching events...');
+        
+        // Fetch all events (including past events for circular display)
         const allEventsResponse = await api.getEvents({ upcoming: 'false' });
-        const allEvents = allEventsResponse.data || [];
+        console.log('All events response:', allEventsResponse);
+        const allEvents = allEventsResponse.data || allEventsResponse || [];
         
         // Fetch only upcoming events
         const upcomingEventsResponse = await api.getEvents({ upcoming: 'true' });
-        const upcomingEventsData = upcomingEventsResponse.data || [];
+        console.log('Upcoming events response:', upcomingEventsResponse);
+        const upcomingEventsData = upcomingEventsResponse.data || upcomingEventsResponse || [];
+        
+        console.log('Setting events:', {
+          allEvents: allEvents.length,
+          upcomingEvents: upcomingEventsData.length
+        });
         
         setEvents(allEvents.slice(0, 12)); // Limit to 12 for circular display
         setUpcomingEvents(upcomingEventsData.slice(0, 5)); // Show top 5 upcoming events
         
       } catch (err) {
         console.error('Error fetching events:', err);
-        setError('Failed to load events. Please try again later.');
+        console.error('Error details:', {
+          message: err.message,
+          stack: err.stack,
+          response: err.response
+        });
+        setError(`Failed to load events: ${err.message}`);
       } finally {
         setLoading(false);
       }

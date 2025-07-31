@@ -119,7 +119,7 @@ const NotificationsBell = () => {
       {/* Bell Icon */}
       <motion.button
         onClick={handleBellClick}
-        className="relative p-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
+        className="relative p-2 text-deep-teal hover:text-deep-teal/80 transition-colors duration-200"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >

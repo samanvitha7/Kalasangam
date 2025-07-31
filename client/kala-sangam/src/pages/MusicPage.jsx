@@ -194,7 +194,8 @@ export default function MusicPage() {
 
           <div className="relative container mx-auto px-4 text-center z-10">
             <motion.h1
-              className="inline-block text-6xl font-dm-serif mb-4 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
+              className="inline-block text-6xl font-dm-serif mb-8 pb-2 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
+              style={{ lineHeight: '1.2' }}
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}

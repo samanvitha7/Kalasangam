@@ -2,25 +2,34 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark, FaFlag } from 'react-icons/fa';
-import { toast } from 'react-toastify';
+import { showToast } from '../utils/toastUtils';
 import LazyImage from './LazyImage';
 import ReportModal from './ReportModal';
 import { api } from '../services/api';
 
 const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked, isLiked: initialLiked, onLike, onBookmark, onImageClick }) => {
-  const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(initialBookmarked || false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   
-  // Update both liked and bookmarked states based on current user state
+  // Calculate like state directly from current user state - no local state needed
+  const isLiked = currentUser && currentUser.likes ? (() => {
+    const artworkIdStr = artwork.id ? artwork.id.toString() : artwork._id?.toString();
+    const result = currentUser.likes.some(id => id.toString() === artworkIdStr);
+    console.log('ArtCard isLiked calculation:', { 
+      artworkId: artworkIdStr, 
+      userLikes: currentUser.likes, 
+      isLiked: result 
+    });
+    return result;
+  })() : false;
+  
+  // Update bookmarked state based on current user state
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && currentUser.bookmarks) {
       const artworkIdStr = artwork.id ? artwork.id.toString() : artwork._id?.toString();
-      setIsLiked(currentUser.likes && currentUser.likes.some(id => id.toString() === artworkIdStr));
-      setIsBookmarked(currentUser.bookmarks && currentUser.bookmarks.some(id => id.toString() === artworkIdStr));
+      setIsBookmarked(currentUser.bookmarks.some(id => id.toString() === artworkIdStr));
     } else {
-      setIsLiked(false);
       setIsBookmarked(false);
     }
   }, [currentUser, artwork.id, artwork._id]);
@@ -30,12 +39,6 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
       setIsBookmarked(initialBookmarked);
     }
   }, [initialBookmarked]);
-  
-  useEffect(() => {
-    if (initialLiked !== undefined) {
-      setIsLiked(initialLiked);
-    }
-  }, [initialLiked]);
   
   const animations = {
     initial: { opacity: 0, y: 20 },
@@ -49,14 +52,7 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
     
     if (!currentUser) {
       console.log('ArtCard handleLike: No current user, showing login toast');
-      toast.error('Please login or create an account to like artworks', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      showToast.error('Please login or create an account to like artworks');
       return;
     }
     
@@ -73,14 +69,7 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
 
   const handleBookmark = () => {
     if (!currentUser) {
-      toast.error('Please login or create an account to bookmark artworks', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      showToast.error('Please login or create an account to bookmark artworks');
       return;
     }
     // Let parent handle the API call and state updates completely
@@ -133,14 +122,7 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
             onClick={(e) => {
               e.stopPropagation();
               if (!currentUser) {
-                toast.error('Please login to report content', {
-                  position: 'top-center',
-                  autoClose: 3000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                });
+                showToast.error('Please login to report content');
                 return;
               }
               setIsReportModalOpen(true);

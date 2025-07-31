@@ -220,18 +220,14 @@ export default function Header({ scrolled, onMapClick }) {
           >
             About
           </Link>
-          {/* Search + Notifications Together */}
-          <div
-            className={`flex items-center space-x-4 relative left-20 ${
-              !scrolled ? "top-2" : ""
-            }`}
-          >
+
+          {/* Search and Notifications in main nav */}
+          <div className="flex items-center space-x-4">
             <HeaderSmartSearch scrolled={scrolled} />
             <NotificationsBell />
           </div>
 
-          </nav>
-
+        </nav>
 
         {/* User Profile or Login/Signup buttons - Far Right */}
         <div className={`flex-shrink-0 flex items-center space-x-4 ${

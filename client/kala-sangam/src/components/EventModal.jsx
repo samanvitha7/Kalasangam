@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaCalendarAlt, FaClock, FaMapMarkerAlt, FaImage } from 'react-icons/fa';
 
-const EventModal = ({ isOpen, onClose, onSubmit }) => {
+const EventModal = ({ isOpen, onClose, onSubmit, event = null, isEditing = false }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -27,6 +27,75 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
   });
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({});
+
+  // Effect to populate form when editing
+  useEffect(() => {
+    if (isEditing && event) {
+      setFormData({
+        title: event.title || '',
+        description: event.description || '',
+        type: event.type || 'event',
+        category: event.category || 'general',
+        date: event.date ? (() => {
+          try {
+            const eventDate = new Date(event.date);
+            if (!isNaN(eventDate.getTime())) {
+              return eventDate.toISOString().split('T')[0];
+            }
+            return '';
+          } catch (error) {
+            console.warn('Invalid date format for event:', event.date);
+            return '';
+          }
+        })() : '',
+        time: event.time || '',
+        location: {
+          venue: event.location?.venue || '',
+          address: event.location?.address || '',
+          city: event.location?.city || '',
+          state: event.location?.state || ''
+        },
+        instructor: event.instructor || '',
+        price: event.price || 0,
+        maxParticipants: event.maxParticipants || '',
+        imageUrl: event.imageUrl || '',
+        registrationRequired: event.registrationRequired || false,
+        registrationLink: event.registrationLink || '',
+        contactEmail: event.contactEmail || '',
+        contactPhone: event.contactPhone || ''
+      });
+      
+      // Set image preview if there's an existing image
+      if (event.imageUrl) {
+        setImagePreview(event.imageUrl);
+      }
+    } else if (!isEditing) {
+      // Reset form for new event creation
+      setFormData({
+        title: '',
+        description: '',
+        type: 'event',
+        category: 'general',
+        date: '',
+        time: '',
+        location: {
+          venue: '',
+          address: '',
+          city: '',
+          state: ''
+        },
+        instructor: '',
+        price: 0,
+        maxParticipants: '',
+        imageUrl: '',
+        registrationRequired: false,
+        registrationLink: '',
+        contactEmail: '',
+        contactPhone: ''
+      });
+      setImagePreview(null);
+    }
+  }, [isEditing, event]);
 
   const eventTypes = ['workshop', 'event', 'exhibition', 'performance'];
   const categories = ['music', 'dance', 'art', 'crafts', 'general'];
@@ -92,7 +161,8 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
     
     if (!formData.date) {
       newErrors.date = 'Date is required';
-    } else {
+    } else if (!isEditing) {
+      // Only validate future dates for new events, allow past dates when editing
       const eventDate = new Date(formData.date);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -197,7 +267,9 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-[#d4a574]/20 bg-gradient-to-r from-[#134856] to-[#e05264] rounded-t-2xl">
-              <h2 className="text-2xl font-bold text-white font-dm-serif">Add New Event</h2>
+              <h2 className="text-2xl font-bold text-white font-dm-serif">
+                {isEditing ? 'Edit Event' : 'Add New Event'}
+              </h2>
               <button
                 onClick={handleClose}
                 className="text-white hover:text-gray-200 transition-colors p-2 hover:bg-white/10 rounded-full"
@@ -257,7 +329,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     value={formData.title}
                     onChange={handleChange}
                     placeholder="Enter event name..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                     maxLength="200"
                   />
                   {errors.title && (
@@ -276,7 +348,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     value={formData.instructor}
                     onChange={handleChange}
                     placeholder="Name of instructor or artist..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                   />
                 </div>
               </div>
@@ -292,7 +364,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                   onChange={handleChange}
                   placeholder="Describe your event..."
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none text-teal-800"
                   maxLength="1000"
                 />
                 {errors.description && (
@@ -310,7 +382,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     name="type"
                     value={formData.type}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                   >
                     {eventTypes.map(type => (
                       <option key={type} value={type}>
@@ -328,7 +400,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                   >
                     {categories.map(category => (
                       <option key={category} value={category}>
@@ -351,7 +423,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     name="date"
                     value={formData.date}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                   />
                   {errors.date && (
                     <p className="text-red-500 text-sm mt-1">{errors.date}</p>
@@ -369,7 +441,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     value={formData.time}
                     onChange={handleChange}
                     placeholder="e.g., 10:00 AM, 7:30 PM"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                   />
                   {errors.time && (
                     <p className="text-red-500 text-sm mt-1">{errors.time}</p>
@@ -391,7 +463,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                       value={formData.location.venue}
                       onChange={handleChange}
                       placeholder="Venue name"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                     />
                     {errors['location.venue'] && (
                       <p className="text-red-500 text-sm mt-1">{errors['location.venue']}</p>
@@ -405,7 +477,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                       value={formData.location.address}
                       onChange={handleChange}
                       placeholder="Street address"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                     />
                     {errors['location.address'] && (
                       <p className="text-red-500 text-sm mt-1">{errors['location.address']}</p>
@@ -419,7 +491,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                       value={formData.location.city}
                       onChange={handleChange}
                       placeholder="City"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                     />
                     {errors['location.city'] && (
                       <p className="text-red-500 text-sm mt-1">{errors['location.city']}</p>
@@ -433,7 +505,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                       value={formData.location.state}
                       onChange={handleChange}
                       placeholder="State"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                     />
                     {errors['location.state'] && (
                       <p className="text-red-500 text-sm mt-1">{errors['location.state']}</p>
@@ -455,7 +527,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     onChange={handleChange}
                     min="0"
                     placeholder="0"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                   />
                   {errors.price && (
                     <p className="text-red-500 text-sm mt-1">{errors.price}</p>
@@ -473,7 +545,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     onChange={handleChange}
                     min="1"
                     placeholder="Unlimited"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                   />
                   {errors.maxParticipants && (
                     <p className="text-red-500 text-sm mt-1">{errors.maxParticipants}</p>
@@ -505,7 +577,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                   value={formData.registrationLink}
                   onChange={handleChange}
                   placeholder="https://example.com/register or https://eventbrite.com/..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Add a link for registration, tickets, or more information about the event
@@ -524,7 +596,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     value={formData.contactEmail}
                     onChange={handleChange}
                     placeholder="contact@example.com"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                   />
                   {errors.contactEmail && (
                     <p className="text-red-500 text-sm mt-1">{errors.contactEmail}</p>
@@ -541,7 +613,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                     value={formData.contactPhone}
                     onChange={handleChange}
                     placeholder="+91 98765 43210"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-teal-800"
                   />
                 </div>
               </div>
@@ -559,7 +631,7 @@ const EventModal = ({ isOpen, onClose, onSubmit }) => {
                   type="submit"
                   className="flex-1 bg-gradient-to-r from-[#9b2226] to-[#d62d20] text-white px-4 py-2 rounded-lg font-semibold hover:from-[#7a1b1e] hover:to-[#b8251c] transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  Add Event
+                  {isEditing ? 'Update Event' : 'Add Event'}
                 </button>
               </div>
             </form>
