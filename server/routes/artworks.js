@@ -336,6 +336,20 @@ router.post("/:id/like", auth, async (req, res) => {
       if (userLikeIndex === -1) {
         user.likes.push(req.params.id);
       }
+      
+      // Create notification for artwork owner (only if it's not the same user)
+      if (artwork.userId.toString() !== userId) {
+        const artworkOwner = await User.findById(artwork.userId);
+        if (artworkOwner) {
+          artworkOwner.notifications.push({
+            type: 'like',
+            from: userId,
+            message: `${user.name || user.email} liked your artwork "${artwork.title}"`,
+            read: false
+          });
+          await artworkOwner.save();
+        }
+      }
     }
 
     // Save both documents
@@ -387,6 +401,20 @@ router.post("/:id/bookmark", auth, async (req, res) => {
       artwork.bookmarks.push(userId);
       if (userBookmarkIndex === -1) {
         user.bookmarks.push(req.params.id);
+      }
+      
+      // Create notification for artwork owner (only if it's not the same user)
+      if (artwork.userId.toString() !== userId) {
+        const artworkOwner = await User.findById(artwork.userId);
+        if (artworkOwner) {
+          artworkOwner.notifications.push({
+            type: 'bookmark',
+            from: userId,
+            message: `${user.name || user.email} bookmarked your artwork "${artwork.title}"`,
+            read: false
+          });
+          await artworkOwner.save();
+        }
       }
     }
 

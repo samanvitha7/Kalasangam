@@ -20,7 +20,7 @@ class FollowingController {
       }
 
       // Check if already following
-      if (user.following.includes(followId)) {
+      if (user.following.some(id => id.toString() === followId)) {
         return res.status(400).json({
           success: false,
           message: 'Already following this user'
@@ -75,16 +75,16 @@ class FollowingController {
       }
 
       // Check if currently following
-      if (!user.following.includes(followId)) {
+      if (!user.following.some(id => id.toString() === followId)) {
         return res.status(400).json({
           success: false,
           message: 'Not following this user'
         });
       }
 
-      // Remove from following and followers lists
-      user.following = user.following.filter(id => id.toString() !== followId);
-      unfollowUser.followers = unfollowUser.followers.filter(id => id.toString() !== userId);
+      // Remove from following and followers lists using mongoose pull method for better reliability
+      user.following.pull(followId);
+      unfollowUser.followers.pull(userId);
 
       await user.save();
       await unfollowUser.save();
