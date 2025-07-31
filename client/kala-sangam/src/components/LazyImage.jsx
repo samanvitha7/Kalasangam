@@ -23,7 +23,7 @@ const LazyImage = ({
         }
       },
       {
-        rootMargin: '50px', // Start loading 50px before image comes into view
+        rootMargin: '100px', // Start loading 100px before image comes into view
         threshold: 0.1
       }
     );
@@ -72,10 +72,12 @@ const LazyImage = ({
           className="absolute inset-0 w-full h-full object-cover"
           onLoad={handleLoad}
           onError={handleError}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: isLoaded ? 1 : 0, scale: isLoaded ? 1 : 1.1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: isLoaded ? 1 : 0, scale: isLoaded ? 1 : 1.05 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           loading="lazy"
+          decoding="async"
+          fetchpriority="low"
         />
       )}
 

@@ -58,11 +58,10 @@ const UserLikedArtworks = ({ userId }) => {
           category: artwork.category || 'Traditional Art',
           likes: artwork.likes || 0,
           bookmarks: artwork.bookmarks || 0,
+          views: artwork.views || 0,
           createdAt: artwork.createdAt || new Date().toISOString(),
           userId: artwork.userId || artwork.artistId,
-          origin: artwork.origin,
-          likesArray: artwork.likesArray || [],
-          bookmarksArray: artwork.bookmarksArray || []
+          origin: artwork.origin
         }));
         
         // Filter liked artworks - artworks whose ID is in user's likes array
