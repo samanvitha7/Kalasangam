@@ -44,7 +44,16 @@ export default function UserPage() {
       console.error('Error loading user data:', error);
       toast.error('Failed to load user data');
       setProfile({ name: user?.name, avatar: null });
-      setStats({ totalArtworks: 0, totalLikes: 0, totalViews: 0 });
+      setStats({ 
+        totalArtworks: 0, 
+        totalLikes: 0, 
+        totalViews: 0,
+        likesCount: 0,
+        bookmarksCount: 0,
+        followsCount: 0,
+        followersCount: 0,
+        artworksCount: 0
+      });
     } finally {
       setLoading(false);
     }
