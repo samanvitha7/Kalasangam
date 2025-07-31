@@ -14,11 +14,11 @@ export default function IndiaMapPage({ onStateClick }) {
       <FullBleedDivider />
 
       {/* ────── Top Heading ────── */}
-     <div className="relative z-10 container mx-auto px-4 pt-10 pb-10">
-      <h2 className="inline-block text-6xl font-dm-serif  drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+     <div className="relative z-10 container mx-auto px-4 pt-8 pb-6">
+      <h2 className="inline-block text-6xl font-dm-serif mb-4 pb-1 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
+          style={{ lineHeight: '1.2' }}>
         Explore States
       </h2>
-
 
     <p
       className="mt-2 italic font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed"
@@ -26,15 +26,13 @@ export default function IndiaMapPage({ onStateClick }) {
       Oh, clicking this will lead you to a new world of art!
     </p>
 
-
-
     </div>
 
 
-      {/* ────── Sun and Map on Same Row ────── */}
-      <div className="relative z-10 flex items-start justify-between container mx-auto px-4 pt-10">
+      {/* ────── Map Section ────── */}
+      <div className="relative z-10 container mx-auto px-4 pt-4 pb-8">
         {/* 🗺️ India Map */}
-        <div className="flex-1 flex justify-start scale-110 sm:scale-125">
+        <div className="flex justify-center items-center">
           <IndiaMap onStateClick={onStateClick} />
         </div>
       </div>

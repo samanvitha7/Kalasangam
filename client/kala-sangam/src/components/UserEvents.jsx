@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { api } from "../services/api";
 import EventModal from "./EventModal";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function UserEvents({ userId }) {
   const [events, setEvents] = useState([]);
@@ -10,6 +11,7 @@ export default function UserEvents({ userId }) {
   const [filter, setFilter] = useState('all'); // all, upcoming, past
   const [showEventModal, setShowEventModal] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState({ show: false, eventId: null, eventTitle: '' });
 
   useEffect(() => {
     loadEvents();
@@ -88,19 +90,30 @@ export default function UserEvents({ userId }) {
     }
   };
 
-  const handleDeleteEvent = async (eventId) => {
-    const confirmed = window.confirm("Are you sure you want to delete this event?");
-    if (!confirmed) return;
+  const showDeleteConfirmation = (event) => {
+    setDeleteConfirmation({
+      show: true,
+      eventId: event.id,
+      eventTitle: event.title
+    });
+  };
 
+  const handleDeleteEvent = async () => {
     try {
       // Use the proper delete event API from the service
-      await api.deleteEvent(eventId);
-      setEvents(prev => prev.filter(e => e.id !== eventId));
+      await api.deleteEvent(deleteConfirmation.eventId);
+      setEvents(prev => prev.filter(e => e.id !== deleteConfirmation.eventId));
       toast.success("Event deleted successfully");
     } catch (error) {
       console.error('Delete event error:', error);
       toast.error("Failed to delete event");
+    } finally {
+      setDeleteConfirmation({ show: false, eventId: null, eventTitle: '' });
     }
+  };
+
+  const cancelDelete = () => {
+    setDeleteConfirmation({ show: false, eventId: null, eventTitle: '' });
   };
 
   const openEditModal = (event) => {
@@ -145,7 +158,7 @@ export default function UserEvents({ userId }) {
         
         <button 
           onClick={() => setShowEventModal(true)}
-          className="px-6 py-3 bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white rounded-lg hover:shadow-lg transition-all duration-300 flex items-center gap-2"
+          className="px-6 py-3 bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white rounded-full hover:shadow-lg transition-all duration-300 flex items-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -183,7 +196,7 @@ export default function UserEvents({ userId }) {
           <p className="text-gray-500 mb-6">Start organizing events to engage with the traditional arts community!</p>
           <button 
             onClick={() => setShowEventModal(true)}
-            className="px-6 py-3 bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white rounded-lg hover:shadow-lg transition-all duration-300"
+            className="px-6 py-3 bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] text-white rounded-full hover:shadow-lg transition-all duration-300"
           >
             Create Your First Event
           </button>
@@ -265,13 +278,13 @@ export default function UserEvents({ userId }) {
                     <div className="flex space-x-2">
                       <button 
                         onClick={() => openEditModal(event)}
-                        className="px-3 py-1 text-sm text-white bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] hover:shadow-lg rounded transition-all duration-300"
+                        className="px-3 py-1 text-sm text-white bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] hover:shadow-lg rounded-full transition-all duration-300"
                       >
                         Edit
                       </button>
                       <button 
-                        onClick={() => handleDeleteEvent(event.id)}
-                        className="px-3 py-1 text-sm text-white bg-gradient-to-r from-red-500 to-red-600 hover:shadow-lg rounded transition-all duration-300"
+                        onClick={() => showDeleteConfirmation(event)}
+                        className="px-3 py-1 text-sm text-white bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] hover:shadow-lg rounded-full transition-all duration-300"
                       >
                         Delete
                       </button>
@@ -322,6 +335,49 @@ export default function UserEvents({ userId }) {
           isEditing={true}
         />
       )}
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {deleteConfirmation.show && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6"
+              initial={{ scale: 0.8, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 50 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="text-center">
+                <div className="text-6xl mb-4">⚠️</div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Delete Event</h3>
+                <p className="text-gray-600 mb-6">
+                  Are you sure you want to delete "<span className="font-medium text-gray-900">{deleteConfirmation.eventTitle}</span>"? 
+                  This action cannot be undone.
+                </p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={cancelDelete}
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleDeleteEvent}
+                    className="flex-1 bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300"
+                  >
+                    Delete Event
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
