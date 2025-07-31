@@ -9,14 +9,13 @@ import {
   FaHome, 
   FaUsers, 
   FaFileAlt, 
-  FaPalette, 
   FaCalendarAlt, 
   FaCog, 
   FaSignOutAlt, 
   FaBars,
-  FaTrash,
-  FaArrowLeft,
-  FaChartBar
+  FaChartBar,
+  FaDatabase,
+  FaServer
 } from 'react-icons/fa';
 
 const AdminDashboard = () => {
@@ -44,7 +43,6 @@ const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dashboardStats, setDashboardStats] = useState({
     totalUsers: 0,
-    totalArtists: 0,
     totalArtworks: 0,
     totalEvents: 0,
     recentUsers: [],
@@ -87,14 +85,12 @@ const AdminDashboard = () => {
       ]);
       
       const totalUsers = usersRes.pagination?.totalCount || usersRes.users?.length || 0;
-      const totalArtists = usersRes.users?.filter(user => user.role === 'Artist').length || 0;
       const totalArtworks = Array.isArray(artworksRes) ? artworksRes.length : (artworksRes.data?.length || 0);
       const totalEvents = Array.isArray(eventsRes) ? eventsRes.length : (eventsRes.data?.length || 0);
       const recentUsers = recentUsersRes.users?.slice(0, 5) || [];
       
       console.log('Dashboard Stats:', {
         totalUsers,
-        totalArtists,
         totalArtworks,
         totalEvents,
         recentUsersCount: recentUsers.length
@@ -102,7 +98,6 @@ const AdminDashboard = () => {
       
       setDashboardStats({
         totalUsers,
-        totalArtists,
         totalArtworks,
         totalEvents,
         recentUsers,
@@ -383,18 +378,6 @@ case 'settings':
           <p className="text-xs text-gray-500 mt-2">Registered platform users</p>
         </div>
 
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">Total Artists</p>
-              <p className="text-3xl font-bold text-[#E05264]">{dashboardStats.totalArtists}</p>
-            </div>
-            <div className="w-12 h-12 bg-[#E05264]/10 rounded-lg flex items-center justify-center">
-              <FaPalette className="w-6 h-6 text-[#E05264]" />
-            </div>
-          </div>
-          <p className="text-xs text-gray-500 mt-2">Active artist accounts</p>
-        </div>
 
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div className="flex items-center justify-between">
