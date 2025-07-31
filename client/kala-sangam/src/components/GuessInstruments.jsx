@@ -114,7 +114,7 @@ export default function GuessInstrument({ instruments, onClose }) {
         <button
           onClick={handlePlayClick}
           disabled={isPlaying}
-          className={`font-semibold px-6 py-3 rounded-full transition text-white text-base shadow-md ${
+          className={`font-semibold font-winky px-6 py-3 rounded-full transition text-white text-base shadow-md ${
             isPlaying
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-[#E05264] hover:bg-[#d0465a]"
@@ -159,7 +159,7 @@ export default function GuessInstrument({ instruments, onClose }) {
 
       {showAnswer && (
         <motion.p
-          className="mt-2 text-lg font-semibold text-center"
+          className="mt-2 font-lora text-lg font-semibold text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
