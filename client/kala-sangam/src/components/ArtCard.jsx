@@ -7,33 +7,35 @@ import LazyImage from './LazyImage';
 import ReportModal from './ReportModal';
 import { api } from '../services/api';
 
-const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked, onLike, onBookmark, onImageClick }) => {
+const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked, isLiked: initialLiked, onLike, onBookmark, onImageClick }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(initialBookmarked || false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   
-  // Initialize liked and bookmarked states based on current user data
+  // Update both liked and bookmarked states based on current user state
   useEffect(() => {
-    if (currentUser && currentUser.likes) {
-      // Check if the current artwork ID is in the user's likes array
+    if (currentUser) {
       const artworkIdStr = artwork.id ? artwork.id.toString() : artwork._id?.toString();
-      const isLikedByUser = currentUser.likes.some(likeId => 
-        likeId.toString() === artworkIdStr
-      );
-      setIsLiked(isLikedByUser);
+      setIsLiked(currentUser.likes && currentUser.likes.some(id => id.toString() === artworkIdStr));
+      setIsBookmarked(currentUser.bookmarks && currentUser.bookmarks.some(id => id.toString() === artworkIdStr));
+    } else {
+      setIsLiked(false);
+      setIsBookmarked(false);
     }
+  }, [currentUser, artwork.id, artwork._id]);
+  
+  useEffect(() => {
     if (initialBookmarked !== undefined) {
       setIsBookmarked(initialBookmarked);
-    } else if (currentUser && currentUser.bookmarks) {
-      // Check if the current artwork ID is in the user's bookmarks array
-      const artworkIdStr = artwork.id ? artwork.id.toString() : artwork._id?.toString();
-      const isBookmarkedByUser = currentUser.bookmarks.some(bookmarkId => 
-        bookmarkId.toString() === artworkIdStr
-      );
-      setIsBookmarked(isBookmarkedByUser);
     }
-  }, [currentUser, artwork.id, artwork._id, initialBookmarked]);
+  }, [initialBookmarked]);
+  
+  useEffect(() => {
+    if (initialLiked !== undefined) {
+      setIsLiked(initialLiked);
+    }
+  }, [initialLiked]);
   
   const animations = {
     initial: { opacity: 0, y: 20 },
@@ -43,7 +45,10 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
   };
 
   const handleLike = () => {
+    console.log('ArtCard handleLike clicked:', { artworkId: artwork.id, currentUser: !!currentUser, onLike: !!onLike });
+    
     if (!currentUser) {
+      console.log('ArtCard handleLike: No current user, showing login toast');
       toast.error('Please login or create an account to like artworks', {
         position: 'top-center',
         autoClose: 3000,
@@ -54,20 +59,16 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
       });
       return;
     }
-    const previousState = isLiked;
-    setIsLiked(!isLiked);
     
-    api.toggleLike(artwork.id)
-        .then(() => onLike(artwork.id))
-        .catch((error) => {
-            // Revert the state on error
-            setIsLiked(previousState);
-            console.error('Failed to toggle like:', error);
-            toast.error('Failed to update like. Please try again.', {
-                position: 'top-center',
-                autoClose: 3000,
-            });
-        });
+    console.log('ArtCard handleLike: Calling parent onLike function');
+    // Let parent handle the API call and state updates completely
+    if (onLike) {
+      onLike(artwork.id).catch((error) => {
+        console.error('Failed to toggle like:', error);
+      });
+    } else {
+      console.error('ArtCard handleLike: onLike prop is missing!');
+    }
   };
 
   const handleBookmark = () => {
@@ -82,34 +83,12 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
       });
       return;
     }
-    const previousState = isBookmarked;
-    setIsBookmarked(!isBookmarked);
-    
-    api.toggleBookmark(artwork.id)
-      .then(() => {
-        onBookmark(artwork.id);
-        // Show success message
-        toast.success(
-          previousState ? 'Removed from bookmarks' : 'Added to bookmarks', 
-          {
-            position: 'top-center',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-          }
-        );
-      })
-      .catch((error) => {
-        // Revert the state on error
-        setIsBookmarked(previousState);
+    // Let parent handle the API call and state updates completely
+    if (onBookmark) {
+      onBookmark(artwork.id).catch((error) => {
         console.error('Failed to toggle bookmark:', error);
-        toast.error('Failed to update bookmark. Please try again.', {
-          position: 'top-center',
-          autoClose: 3000,
-        });
       });
+    }
   };
 
   const formatDate = (dateString) => {
@@ -147,10 +126,10 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
         </div>
         
         {/* Action Buttons */}
-        <div className="absolute top-3 right-3 flex space-x-2">
+        <div className="absolute top-3 right-3 flex space-x-2 z-20">
           {/* Report Button */}
-          <motion.button
-            className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm bg-white/80 text-gray-600 hover:bg-red-50 hover:text-red-500 transition-all duration-300"
+          <button
+            className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm bg-white/80 text-gray-600 hover:bg-red-50 hover:text-red-500 transition-all duration-300 z-10"
             onClick={(e) => {
               e.stopPropagation();
               if (!currentUser) {
@@ -166,38 +145,41 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
               }
               setIsReportModalOpen(true);
             }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
             title="Report artwork"
           >
             <FaFlag size={14} />
-          </motion.button>
+          </button>
           
           {/* Bookmark Button */}
-          <motion.button
-            className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
+          <button
+            className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 z-10 ${
               isBookmarked ? 'bg-amber-600 text-white' : 'bg-white/80 text-amber-600 hover:bg-amber-50'
             }`}
-            onClick={handleBookmark}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBookmark();
+            }}
             title={isBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}
           >
             {isBookmarked ? <FaBookmark size={16} /> : <FaRegBookmark size={16} />}
-          </motion.button>
+          </button>
           
           {/* Like Button */}
-          <motion.button
-            className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
+          <button
+            className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 z-10 cursor-pointer ${
               isLiked ? 'bg-red-500 text-white' : 'bg-white/80 text-red-500 hover:bg-red-50'
             }`}
-            onClick={handleLike}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              console.log('LIKE BUTTON CLICKED - RAW EVENT');
+              e.preventDefault();
+              e.stopPropagation();
+              handleLike();
+            }}
+            onMouseDown={() => console.log('LIKE BUTTON MOUSE DOWN')}
             title={isLiked ? 'Unlike' : 'Like'}
           >
             {isLiked ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
-          </motion.button>
+          </button>
         </div>
       </div>
       
@@ -253,11 +235,33 @@ const ArtCard = ({ artwork, index, currentUser, isBookmarked: initialBookmarked,
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-1 text-red-500">
               <FaHeart size={14} />
-              <span className="text-sm font-medium">{artwork.likeCount ?? artwork.likes?.length ?? 0}</span>
+              <span className="text-sm font-medium">
+                {(() => {
+                  const likeCount = Array.isArray(artwork.likes) ? artwork.likes.length : (artwork.likes ?? artwork.likeCount ?? 0);
+                  console.log('ArtCard like display:', { 
+                    artworkId: artwork.id, 
+                    likes: artwork.likes, 
+                    likeCount: artwork.likeCount, 
+                    displayValue: likeCount 
+                  });
+                  return likeCount;
+                })()}
+              </span>
             </div>
             <div className="flex items-center space-x-1 text-amber-600">
               <FaBookmark size={14} />
-              <span className="text-sm font-medium">{artwork.bookmarkCount ?? artwork.bookmarks?.length ?? 0}</span>
+              <span className="text-sm font-medium">
+                {(() => {
+                  const bookmarkCount = Array.isArray(artwork.bookmarks) ? artwork.bookmarks.length : (artwork.bookmarks ?? artwork.bookmarkCount ?? 0);
+                  console.log('ArtCard bookmark display:', { 
+                    artworkId: artwork.id, 
+                    bookmarks: artwork.bookmarks, 
+                    bookmarkCount: artwork.bookmarkCount, 
+                    displayValue: bookmarkCount 
+                  });
+                  return bookmarkCount;
+                })()}
+              </span>
             </div>
           </div>
         </motion.div>

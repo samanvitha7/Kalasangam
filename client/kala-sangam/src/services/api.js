@@ -745,6 +745,23 @@ export const api = {
     }
 
     return response.json();
+  },
+
+  // Increment view count for an artwork
+  incrementView: async (artworkId) => {
+    const response = await fetch(`${API_URL}/api/artworks/${artworkId}/view`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`Failed to increment view: ${response.status} - ${errorData}`);
+    }
+
+    return response.json();
   }
 };
 

@@ -168,16 +168,18 @@ const ArtistProfile = () => {
         // Calculate aggregate statistics from artworks
         const totalLikes = response.data.reduce((sum, artwork) => sum + (artwork.likes || 0), 0);
         const totalBookmarks = response.data.reduce((sum, artwork) => sum + (artwork.bookmarks || 0), 0);
+        const totalViews = response.data.reduce((sum, artwork) => sum + (artwork.views || 0), 0);
         
         // Update artist statistics with calculated values
         setArtist(prevArtist => ({
           ...prevArtist,
           totalLikes: totalLikes,
-          totalBookmarks: totalBookmarks
+          totalBookmarks: totalBookmarks,
+          totalViews: totalViews
         }));
         
-        // Use bookmarks as profile views
-        setViews(totalBookmarks);
+        // Use actual views from artworks
+        setViews(totalViews);
       } else {
         setArtworks([]);
       }

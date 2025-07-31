@@ -11,7 +11,7 @@ import FullBleedDivider from '../components/FullBleedDivider';
 import { globalEvents, ARTWORK_EVENTS } from '../utils/eventEmitter';
 
 const ArtWall = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, updateUser } = useAuth();
   const [artworks, setArtworks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -19,6 +19,7 @@ const ArtWall = () => {
   const [filterCategory, setFilterCategory] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
   const [userBookmarks, setUserBookmarks] = useState(new Set());
+  const [userLikes, setUserLikes] = useState(new Set());
   const [fullscreenImage, setFullscreenImage] = useState(null);
   const [showFullscreen, setShowFullscreen] = useState(false);
 
@@ -198,15 +199,51 @@ const ArtWall = () => {
       const response = await api.toggleLike(artworkId);
       
       if (response.success) {
+        console.log('ArtWall handleLike response:', { artworkId, response });
+        
         // Update local artworks state with new like count
-        setArtworks(prev => prev.map(art => 
-          art.id === artworkId ? { 
-            ...art, 
-            likeCount: response.likes.length,
-            likes: response.likes,
-            isLiking: false
-          } : art
-        ));
+        setArtworks(prev => {
+          const updated = prev.map(art => {
+            if (art.id === artworkId) {
+              const updatedArt = { 
+                ...art, 
+                likeCount: response.likeCount,
+                likes: response.likes, // This is now a count, not array
+                isLiking: false
+              };
+              console.log('ArtWall updating artwork:', { 
+                original: art, 
+                updated: updatedArt,
+                responseLikes: response.likes,
+                responseLikeCount: response.likeCount 
+              });
+              return updatedArt;
+            }
+            return art;
+          });
+          return updated;
+        });
+        
+        // Update user's likes array in auth context
+        if (user && user.likes) {
+          const currentLikes = [...(user.likes || [])];
+          const artworkIdStr = artworkId.toString();
+          
+          if (response.liked) {
+            // Add to likes if not already there
+            if (!currentLikes.find(id => id.toString() === artworkIdStr)) {
+              currentLikes.push(artworkIdStr);
+            }
+          } else {
+            // Remove from likes
+            const index = currentLikes.findIndex(id => id.toString() === artworkIdStr);
+            if (index > -1) {
+              currentLikes.splice(index, 1);
+            }
+          }
+          
+          updateUser({ likes: currentLikes });
+        }
         
         // Show toast message
         if (response.liked) {
@@ -290,8 +327,8 @@ const ArtWall = () => {
         setArtworks(prev => prev.map(art => 
           art.id === artworkId ? { 
             ...art, 
-            bookmarkCount: response.bookmarks.length,
-            bookmarks: response.bookmarks
+            bookmarkCount: response.bookmarkCount,
+            bookmarks: response.bookmarks // This is now a count, not array
           } : art
         ));
         
