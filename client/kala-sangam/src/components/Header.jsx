@@ -73,7 +73,7 @@ export default function Header({ scrolled, onMapClick }) {
   `}
   style={{ width: scrolled ? "97vw" : "100vw" }}
 >
-  <div className="flex items-center justify-between h-full w-full">
+  <div className="flex items-center h-full w-full">
 {/* Logo - Far Left */}
 
  <div className="flex-shrink-0 flex items-center">
@@ -94,15 +94,12 @@ export default function Header({ scrolled, onMapClick }) {
 
 </div>
 
-
-
         {/* Navigation links - Center */}
         <nav
-            className={`flex space-x-12 text-[1.35rem] font-bold tracking-wide transition-colors duration-500 ease-in-out
+            className={`flex items-center justify-center flex-1 text-[1.35rem] font-bold tracking-wide transition-colors duration-500 ease-in-out
               ${scrolled ? "text-deep-teal" : "text-deep-teal"}`}
           >
-
-          
+          <div className="flex items-center justify-evenly w-full max-w-4xl">
            
            <Link
           to="/gallery"
@@ -220,11 +217,6 @@ export default function Header({ scrolled, onMapClick }) {
           >
             About
           </Link>
-
-          {/* Search and Notifications in main nav */}
-          <div className="flex items-center space-x-4">
-            <HeaderSmartSearch scrolled={scrolled} />
-            <NotificationsBell />
           </div>
 
         </nav>
@@ -233,6 +225,10 @@ export default function Header({ scrolled, onMapClick }) {
         <div className={`flex-shrink-0 flex items-center space-x-4 ${
           !scrolled ? "relative top-3" : ""
         }`}>
+          {/* Search and Notifications */}
+          <HeaderSmartSearch scrolled={scrolled} />
+          <NotificationsBell />
+          
           {isAuthenticated ? (
             <>
               {/* Admin Profile Button - Only for admins */}
