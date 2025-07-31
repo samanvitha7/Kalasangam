@@ -130,7 +130,7 @@ export default function GuessInstrument({ instruments, onClose }) {
         )}
 
         {!hasStarted && (
-          <p className="text-[#134856] text-sm mt-2 text-center">
+          <p className="text-[#134856]  font-lora text-sm mt-2 text-center">
             Click to hear an instrument sound and guess what it is!
           </p>
         )}
@@ -144,7 +144,7 @@ export default function GuessInstrument({ instruments, onClose }) {
             key={idx}
             onClick={() => handleGuess(opt)}
             disabled={showAnswer}
-            className={`px-4 py-2 rounded-full border transition text-base font-medium ${
+            className={`px-4 py-2 rounded-full border transition text-base font-winky font-medium ${
               selected === opt
                 ? opt === current?.answer
                   ? "bg-green-200 border-green-500 text-green-800"

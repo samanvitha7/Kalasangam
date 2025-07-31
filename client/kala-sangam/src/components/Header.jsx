@@ -77,17 +77,21 @@ export default function Header({ scrolled, onMapClick }) {
 {/* Logo - Far Left */}
 
  <div className="flex-shrink-0 flex items-center">
-  <Link to="/home" className="no-underline block">
-    <img
-      src="/assets/logo-header.png"
-      alt="KalaSangam Logo"
-      className={`
-        transition-all duration-500 ease-in-out
-        ${scrolled ? "h-20 scale-125" : "h-24 scale-150"}
-        hover:scale-[1.7]"
-      `}
-    />
-  </Link>
+ <Link
+  to="/home"
+  className={`no-underline block ${!scrolled ? "relative top-2" : ""}`}
+>
+  <img
+    src="/assets/logo-header.png"
+    alt="KalaSangam Logo"
+    className={`
+      transition-all duration-500 ease-in-out
+      ${scrolled ? "h-20 scale-125" : "h-24 scale-150"}
+      hover:scale-[1.7]"
+    `}
+  />
+</Link>
+
 </div>
 
 
@@ -101,33 +105,41 @@ export default function Header({ scrolled, onMapClick }) {
           
            
            <Link
-              to="/gallery"
-              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
-            >
-            Gallery
-            </Link>
+          to="/gallery"
+          className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+            !scrolled ? "relative top-3" : ""
+          }`}
+        >
+          Gallery
+        </Link>
+
 
             <Link
               to="/art-wall"
-              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+              className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+            !scrolled ? "relative top-3" : ""
+          }`}
             >
               Art Wall
             </Link>
 
             <Link
               to="/artists"
-              className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+              className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+            !scrolled ? "relative top-3" : ""
+          }`}
             >
               Artists
             </Link>
 
         <div className="relative flex items-center" ref={dropdownRef}>
   <span
-    className={`
-      font-winky font-[500] text-deep-teal cursor-pointer flex items-center
-      transition-all duration-300 ease-in-out
-      hover:text-rosehover
-    `}
+   className={`
+  font-winky font-[500] text-deep-teal cursor-pointer flex items-center
+  transition-all duration-300 ease-in-out hover:text-rosehover
+  ${!scrolled ? "relative top-2.5" : "relative -top-0.5"}
+`}
+
     onClick={() => setShowDropdown(!showDropdown)}
   >
     Explore 
@@ -180,7 +192,10 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/map"
-           className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+           className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+            !scrolled ? "relative top-3" : ""
+          }`}
+
             
             onClick={onMapClick}
           >
@@ -189,7 +204,9 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/events"
-            className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+            className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+            !scrolled ? "relative top-3" : ""
+          }`}
             
           >
             Events
@@ -197,24 +214,29 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/about"
-            className="font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover"
+           className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+            !scrolled ? "relative top-3" : ""
+          }`}
           >
             About
           </Link>
-
-          {/* Search Icon in Navigation */}
-          <div className="flex items-center">
+          {/* Search + Notifications Together */}
+          <div
+            className={`flex items-center space-x-4 relative left-20 ${
+              !scrolled ? "top-2" : ""
+            }`}
+          >
             <HeaderSmartSearch scrolled={scrolled} />
+            <NotificationsBell />
           </div>
-        </nav>
 
-        {/* Notifications - Center Right */}
-        <div className="flex-shrink-0 flex items-center mx-4 space-x-4">
-          <NotificationsBell />
-        </div>
+          </nav>
+
 
         {/* User Profile or Login/Signup buttons - Far Right */}
-        <div className="flex-shrink-0 flex items-center space-x-4">
+        <div className={`flex-shrink-0 flex items-center space-x-4 ${
+          !scrolled ? "relative top-3" : ""
+        }`}>
           {isAuthenticated ? (
             <>
               {/* Admin Profile Button - Only for admins */}
@@ -238,11 +260,12 @@ export default function Header({ scrolled, onMapClick }) {
               <div className="relative" ref={userDropdownRef}>
               <button
                 onClick={() => setShowUserDropdown(!showUserDropdown)}
-                 className={`group flex items-center space-x-2 px-4 py-2 rounded-xl font-[550] font-winky text-[1rem] transition-all duration-300 ${
-                    scrolled
+                 className={`group flex items-center space-x-2 px-4 py-2 rounded-full font-[550] font-winky text-[1rem] transition-all duration-300 ${
+                  scrolled
                     ? "bg-gradient-to-r from-deep-teal to-coral-red text-blush-peach hover:from-coral-red hover:to-saffronglow"
                     : "hover:bg-gradient-to-r from-deep-teal to-coral-red  "}
-                }`}
+                `}
+
               >
                         <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
             <span className={`text-base font-semibold transition-colors duration-300 ${
@@ -252,7 +275,7 @@ export default function Header({ scrolled, onMapClick }) {
             </span>
           </div>
 
-          <span className={`text-[1rem] font-[500] tracking-wide transition-colors duration-300 ${
+          <span className={`text-[1.2rem] font-[500] tracking-wide transition-colors duration-300 ${
             scrolled ? "text-blush-peach group-hover:text-white" : "text-deep-teal group-hover:text-white"
           }`}>
             {user?.name || "Artist"}
@@ -292,7 +315,6 @@ export default function Header({ scrolled, onMapClick }) {
                       onClick={() => setShowUserDropdown(false)}
                     >
                       <div className="flex items-center space-x-2">
-                        <span>👤</span>
                         <span>Profile</span>
                       </div>
                     </Link>
@@ -309,7 +331,6 @@ export default function Header({ scrolled, onMapClick }) {
                       onClick={() => setShowUserDropdown(false)}
                     >
                       <div className="flex items-center space-x-2">
-                        <span>🎨</span>
                         <span>My Artworks</span>
                       </div>
                     </Link>
@@ -326,7 +347,6 @@ export default function Header({ scrolled, onMapClick }) {
                       onClick={() => setShowUserDropdown(false)}
                     >
                       <div className="flex items-center space-x-2">
-                        <span>📅</span>
                         <span>My Events</span>
                       </div>
                     </Link>
@@ -343,7 +363,6 @@ export default function Header({ scrolled, onMapClick }) {
                       onClick={() => setShowUserDropdown(false)}
                     >
                       <div className="flex items-center space-x-2">
-                        <span>❤️</span>
                         <span>Liked Posts</span>
                       </div>
                     </Link>
@@ -366,7 +385,6 @@ export default function Header({ scrolled, onMapClick }) {
                       onClick={() => setShowUserDropdown(false)}
                     >
                       <div className="flex items-center space-x-2">
-                        <span>⚙️</span>
                         <span>Settings</span>
                       </div>
                     </Link>
@@ -382,7 +400,6 @@ export default function Header({ scrolled, onMapClick }) {
                       }`}
                     >
                       <div className="flex items-center space-x-2">
-                        <span>🚪</span>
                         <span>Logout</span>
                       </div>
                     </button>
@@ -396,7 +413,7 @@ export default function Header({ scrolled, onMapClick }) {
             <>
               <Link
             to="/login"
-            className="px-5 py-2 rounded-lg font-bold transition-all duration-300 
+            className="px-5 py-2 rounded-full font-bold transition-all duration-300 
              bg-gradient-to-r from-deep-teal to-coral-red text-white
              hover:from-coral-red hover:to-saffronglow"
             >
@@ -405,7 +422,7 @@ export default function Header({ scrolled, onMapClick }) {
 
               <Link
                 to="/signup"
-                className="px-5 py-2 rounded-lg font-bold transition-all duration-300 
+                className="px-5 py-2 rounded-full font-bold transition-all duration-300 
                   bg-gradient-to-r from-deep-teal to-coral-red text-white
                   hover:from-coral-red hover:to-saffronglow"
               >
