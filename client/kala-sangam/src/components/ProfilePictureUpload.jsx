@@ -24,7 +24,10 @@ export default function ProfilePictureUpload({
     currentAvatar?.startsWith('color:') ? 'color' : 'initials'
   );
   const [selectedColor, setSelectedColor] = useState(
-    currentAvatar?.startsWith('color:') ? currentAvatar.split(':')[1] : 'bg-teal-500'
+    currentAvatar?.startsWith('color:') ? (() => {
+      const parts = currentAvatar.split(':');
+      return parts.length > 1 ? parts[1] : 'bg-teal-500';
+    })() : 'bg-teal-500'
   );
   const [previewImage, setPreviewImage] = useState(
     avatarType === 'image' ? currentAvatar : null

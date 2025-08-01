@@ -40,7 +40,8 @@ const EventModal = ({ isOpen, onClose, onSubmit, event = null, isEditing = false
           try {
             const eventDate = new Date(event.date);
             if (!isNaN(eventDate.getTime())) {
-              return eventDate.toISOString().split('T')[0];
+              const isoString = eventDate.toISOString();
+              return isoString ? isoString.split('T')[0] : '';
             }
             return '';
           } catch (error) {

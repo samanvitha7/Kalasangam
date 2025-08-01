@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useRef } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
 
 const SoundContext = createContext();
 
@@ -14,23 +14,81 @@ export const SoundProvider = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.3);
-  const [audioData, setAudioData] = useState(new Array(128).fill(0));
+  const [audioData, setAudioData] = useState(new Array(128).fill(20)); // Start with some baseline data
   const audioRef = useRef(null);
   const [audioInitialized, setAudioInitialized] = useState(false);
   const audioContextRef = useRef(null);
   const analyserRef = useRef(null);
   const dataArrayRef = useRef(null);
   const animationRef = useRef(null);
+  const sourceRef = useRef(null);
+  const [audioError, setAudioError] = useState(null);
+  const fallbackIntervalRef = useRef(null);
 
-  const setupAudioAnalyzer = () => {
+  // Start fallback animation immediately
+  useEffect(() => {
+    const startFallbackAnimation = () => {
+      if (fallbackIntervalRef.current) {
+        clearInterval(fallbackIntervalRef.current);
+      }
+      
+      fallbackIntervalRef.current = setInterval(() => {
+        if (isPlaying) {
+          const fakeData = new Array(128).fill(0).map((_, index) => {
+            return Math.max(20, Math.random() * 120 + Math.sin(Date.now() * 0.005 + index * 0.1) * 40 + 60);
+          });
+          setAudioData(fakeData);
+        } else {
+          // Even when not playing, show some baseline activity
+          const baselineData = new Array(128).fill(0).map((_, index) => {
+            return Math.max(10, 20 + Math.sin(Date.now() * 0.002 + index * 0.2) * 10);
+          });
+          setAudioData(baselineData);
+        }
+      }, 100);
+    };
+
+    startFallbackAnimation();
+
+    return () => {
+      if (fallbackIntervalRef.current) {
+        clearInterval(fallbackIntervalRef.current);
+      }
+    };
+  }, [isPlaying]);
+
+  const setupAudioAnalyzer = useCallback(() => {
     try {
-      if (!audioContextRef.current && audioRef.current) {
-        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
-        analyserRef.current = audioContextRef.current.createAnalyser();
+      // Check if Web Audio API is supported
+      if (!window.AudioContext && !window.webkitAudioContext) {
+        console.warn('Web Audio API not supported');
+        return;
+      }
+      
+      if (!audioContextRef.current && audioRef.current && !sourceRef.current) {
+        // Create AudioContext safely
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+          throw new Error('AudioContext not available');
+        }
         
-        // Create source from audio element
-        const source = audioContextRef.current.createMediaElementSource(audioRef.current);
-        source.connect(analyserRef.current);
+        audioContextRef.current = new AudioContextClass();
+        if (!audioContextRef.current) {
+          throw new Error('Failed to create AudioContext');
+        }
+        
+        analyserRef.current = audioContextRef.current.createAnalyser();
+        if (!analyserRef.current) {
+          throw new Error('Failed to create analyser');
+        }
+        
+        // Create source from audio element (only once)
+        sourceRef.current = audioContextRef.current.createMediaElementSource(audioRef.current);
+        if (!sourceRef.current) {
+          throw new Error('Failed to create media element source');
+        }
+        
+        sourceRef.current.connect(analyserRef.current);
         analyserRef.current.connect(audioContextRef.current.destination);
         
         // Configure analyser
@@ -40,20 +98,27 @@ export const SoundProvider = ({ children }) => {
         dataArrayRef.current = new Uint8Array(bufferLength);
         
         console.log('Audio analyzer setup complete');
+        setAudioError(null);
       }
     } catch (error) {
       console.warn('Audio analysis not supported:', error);
-      // Fallback: create fake visualization data
-      setInterval(() => {
-        if (isPlaying) {
-          const fakeData = new Array(128).fill(0).map(() => Math.random() * 100 + 50);
-          setAudioData(fakeData);
+      setAudioError(error?.message || 'Unknown audio error');
+      // Clean up any partial setup
+      if (audioContextRef.current) {
+        try {
+          audioContextRef.current.close();
+        } catch (e) {
+          console.warn('Error closing AudioContext:', e);
         }
-      }, 100);
+        audioContextRef.current = null;
+      }
+      analyserRef.current = null;
+      sourceRef.current = null;
+      dataArrayRef.current = null;
     }
-  };
+  }, [isPlaying]);
 
-  const updateAudioData = () => {
+  const updateAudioData = useCallback(() => {
     if (analyserRef.current && dataArrayRef.current && isPlaying) {
       analyserRef.current.getByteFrequencyData(dataArrayRef.current);
       setAudioData(Array.from(dataArrayRef.current));
@@ -66,7 +131,7 @@ export const SoundProvider = ({ children }) => {
       setAudioData(fakeData);
       animationRef.current = requestAnimationFrame(updateAudioData);
     }
-  };
+  }, [isPlaying]);
 
   useEffect(() => {
     if (!audioInitialized) {
@@ -107,40 +172,48 @@ export const SoundProvider = ({ children }) => {
     if (!audioRef.current || !audioInitialized) return;
     
     if (soundEnabled) {
-      // Only stop background music audio, not all audio on the page
-      // This allows music page instruments to play without interference
-      if (audioRef.current) {
-        // Only control our own background audio
-      }
-      
-      audioRef.current.currentTime = 0; // Always start from beginning
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setIsPlaying(true);
-            console.log('Audio started playing');
-            // Start audio analysis
-            if (audioContextRef.current && audioContextRef.current.state === 'suspended') {
-              audioContextRef.current.resume();
-            }
-            updateAudioData();
-          })
-          .catch((error) => {
-            console.error('Error playing audio:', error);
-            setIsPlaying(false);
-          });
+      try {
+        audioRef.current.currentTime = 0; // Always start from beginning
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsPlaying(true);
+              console.log('Audio started playing');
+              // Start audio analysis
+              if (audioContextRef.current && audioContextRef.current.state === 'suspended') {
+                audioContextRef.current.resume().catch(err => {
+                  console.warn('Failed to resume AudioContext:', err);
+                });
+              }
+              updateAudioData();
+            })
+            .catch((error) => {
+              console.error('Error playing audio:', error);
+              setIsPlaying(false);
+            });
+        }
+      } catch (error) {
+        console.error('Error in audio setup:', error);
+        setIsPlaying(false);
       }
     } else {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0; // Reset to beginning
-      setIsPlaying(false);
-      console.log('Audio stopped and reset');
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
+      try {
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0; // Reset to beginning
+        }
+        setIsPlaying(false);
+        console.log('Audio stopped and reset');
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+      } catch (error) {
+        console.error('Error stopping audio:', error);
+        setIsPlaying(false);
       }
     }
-  }, [soundEnabled, audioInitialized]);
+  }, [soundEnabled, audioInitialized, updateAudioData]);
 
   // Update volume when volume state changes
   useEffect(() => {

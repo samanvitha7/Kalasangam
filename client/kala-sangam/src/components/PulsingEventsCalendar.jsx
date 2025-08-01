@@ -349,12 +349,16 @@ export default function PulsingEventsCalendar() {
         const upcomingEventsData = upcomingEventsResponse.data || upcomingEventsResponse || [];
         
         console.log('Setting events:', {
-          allEvents: allEvents.length,
-          upcomingEvents: upcomingEventsData.length
+          allEvents: allEvents?.length || 0,
+          upcomingEvents: upcomingEventsData?.length || 0
         });
         
-        setEvents(allEvents.slice(0, 12)); // Limit to 12 for circular display
-        setUpcomingEvents(upcomingEventsData.slice(0, 5)); // Show top 5 upcoming events
+        // Ensure arrays exist before calling slice
+        const safeAllEvents = Array.isArray(allEvents) ? allEvents : [];
+        const safeUpcomingEvents = Array.isArray(upcomingEventsData) ? upcomingEventsData : [];
+        
+        setEvents(safeAllEvents.slice(0, 12)); // Limit to 12 for circular display
+        setUpcomingEvents(safeUpcomingEvents.slice(0, 5)); // Show top 5 upcoming events
         
       } catch (err) {
         console.error('Error fetching events:', err);
