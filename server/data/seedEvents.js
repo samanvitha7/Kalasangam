@@ -135,7 +135,7 @@ const sampleEvents = [
 async function seedEvents() {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/traditional-arts');
     console.log('Connected to MongoDB');
 
     // Find an admin user to use as creator
