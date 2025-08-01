@@ -36,11 +36,12 @@ const NotificationsBell = () => {
   const fetchUnreadCount = async () => {
     try {
       const response = await notificationsApi.getUnreadCount();
-      if (response.success) {
-        setUnreadCount(response.unreadCount);
+      if (response?.success) {
+        setUnreadCount(response.unreadCount || 0);
       }
     } catch (error) {
       console.error('Error fetching unread count:', error);
+      setUnreadCount(0);
     }
   };
 
@@ -50,12 +51,16 @@ const NotificationsBell = () => {
     try {
       setLoading(true);
       const response = await notificationsApi.getNotifications(1, 10);
-      if (response.success) {
-        setNotifications(response.notifications);
+      if (response?.success) {
+        setNotifications(response.notifications || []);
       }
     } catch (error) {
       console.error('Error fetching notifications:', error);
-      toast.error('Failed to load notifications');
+      setNotifications([]);
+      // Only show toast if user is actually trying to interact
+      if (isOpen) {
+        toast.error('Failed to load notifications');
+      }
     } finally {
       setLoading(false);
     }
