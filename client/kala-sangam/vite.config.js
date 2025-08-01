@@ -6,6 +6,8 @@ export default defineConfig({
   plugins: [
     react(),
   ],
+  // Ensure proper base path for deployment
+  base: process.env.NODE_ENV === 'production' ? '/' : '/',
   server: {
     proxy: {
       "/api": "http://localhost:5050",
@@ -18,7 +20,14 @@ export default defineConfig({
     sourcemap: false,
     // Target modern browsers for better optimization
     target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
+    // Add better error handling
     rollupOptions: {
+      onwarn(warning, warn) {
+        // Skip certain warnings
+        if (warning.code === 'THIS_IS_UNDEFINED') return;
+        if (warning.code === 'EVAL') return;
+        warn(warning);
+      },
       output: {
         manualChunks: {
           // Core React chunks
@@ -69,16 +78,16 @@ export default defineConfig({
     terserOptions: {
       compress: {
         // Remove console.log and debugger in production
-        drop_console: true,
+        drop_console: false, // Keep console.error for debugging
         drop_debugger: true,
         // Remove unused code
         pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.trace'],
         // Additional compression options
-        passes: 2,
-        unsafe: true,
-        unsafe_comps: true,
-        unsafe_math: true,
-        unsafe_proto: true,
+        passes: 1, // Reduce passes to avoid over-optimization
+        unsafe: false, // Disable unsafe optimizations
+        unsafe_comps: false,
+        unsafe_math: false,
+        unsafe_proto: false,
       },
       mangle: {
         // Mangle properties for smaller bundle size
@@ -127,8 +136,8 @@ export default defineConfig({
   },
   // Improve build performance
   esbuild: {
-    // Remove console.log in production
-    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
+    // Remove console.log in production but keep console.error
+    drop: process.env.NODE_ENV === 'production' ? ['debugger'] : [],
     // Enable legal comments
     legalComments: 'none',
   },

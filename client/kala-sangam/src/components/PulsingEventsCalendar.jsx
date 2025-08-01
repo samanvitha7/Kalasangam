@@ -96,9 +96,18 @@ const PulsingHeart = ({ event, onClick, isActive }) => {
 const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
 
+  // Filter events by the selected month
+  const getEventsForCurrentMonth = () => {
+    return events.filter(event => {
+      const eventDate = new Date(event.date);
+      return eventDate.getMonth() === currentMonth;
+    });
+  };
+
   const getEventPositions = () => {
-    return events.map((event, index) => {
-      const angle = (index * 360) / events.length;
+    const monthEvents = getEventsForCurrentMonth();
+    return monthEvents.map((event, index) => {
+      const angle = (index * 360) / monthEvents.length;
       const radius = 150;
       const x = Math.cos((angle - 90) * (Math.PI / 180)) * radius;
       const y = Math.sin((angle - 90) * (Math.PI / 180)) * radius;
@@ -120,27 +129,36 @@ const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="text-center bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c] rounded-full px-6 py-4 shadow-lg">
           <h3 className="text-2xl font-bold text-white font-yatra">{months[currentMonth]}</h3>
-          <p className="text-sm text-white/90">Cultural Calendar</p>
+          <p className="text-sm text-white/90">{getEventsForCurrentMonth().length} Events</p>
         </div>
       </div>
 
       {/* Events positioned around the circle */}
-      {getEventPositions().map(({ event, x, y }, index) => (
-        <div
-          key={event._id}
-          className="absolute"
-          style={{
-            left: `calc(50% + ${x}px - 32px)`,
-            top: `calc(50% + ${y}px - 32px)`,
-          }}
-        >
-          <PulsingHeart 
-            event={event} 
-            onClick={onEventClick}
-            isActive={selectedEvent?._id === event._id}
-          />
+      {getEventPositions().length > 0 ? (
+        getEventPositions().map(({ event, x, y }, index) => (
+          <div
+            key={event._id}
+            className="absolute"
+            style={{
+              left: `calc(50% + ${x}px - 32px)`,
+              top: `calc(50% + ${y}px - 32px)`,
+            }}
+          >
+            <PulsingHeart 
+              event={event} 
+              onClick={onEventClick}
+              isActive={selectedEvent?._id === event._id}
+            />
+          </div>
+        ))
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center text-gray-400 mt-20">
+            <div className="text-4xl mb-2">📅</div>
+            <p className="text-sm">No events this month</p>
+          </div>
         </div>
-      ))}
+      )}
 
       {/* Month navigation */}
       <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
@@ -353,7 +371,10 @@ export default function PulsingEventsCalendar() {
           upcomingEvents: upcomingEventsData.length
         });
         
-        setEvents(allEvents.slice(0, 12)); // Limit to 12 for circular display
+        // Sort events by date for better month-wise organization
+        const sortedEvents = allEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        setEvents(sortedEvents); // Keep all events for month filtering
         setUpcomingEvents(upcomingEventsData.slice(0, 5)); // Show top 5 upcoming events
         
       } catch (err) {

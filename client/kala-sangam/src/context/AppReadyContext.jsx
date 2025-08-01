@@ -1,6 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 
-const AppReadyContext = createContext();
+const AppReadyContext = createContext({
+  isAppReady: false,
+  loadingStage: 'initializing'
+});
 
 export function AppReadyProvider({ children }) {
   const [isAppReady, setIsAppReady] = useState(false);
@@ -103,7 +106,8 @@ export function AppReadyProvider({ children }) {
 export function useAppReady() {
   const context = useContext(AppReadyContext);
   if (!context) {
-    throw new Error('useAppReady must be used within AppReadyProvider');
+    console.warn('useAppReady called outside of AppReadyProvider, using defaults');
+    return { isAppReady: true, loadingStage: 'ready' };
   }
   return context;
 }
