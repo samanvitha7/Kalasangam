@@ -3,11 +3,13 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { HeaderSmartSearch } from "./SmartSearchComponent";
+import { FaBars, FaTimes } from "react-icons/fa";
 // import NotificationsBell from "./NotificationsBell";
 
 export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const dropdownRef = useRef();
   const userDropdownRef = useRef();
   const navigate = useNavigate();

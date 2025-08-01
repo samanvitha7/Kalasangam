@@ -4,11 +4,14 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isEmailValid, isPasswordStrong } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
+import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const { login, isAuthenticated, loading, clearError } = useAuth();
 
@@ -36,14 +39,18 @@ const handleSubmit = async (e) => {
       return;
     }
     
-
-    const result = await login(form, rememberMe);
-    if (result.success) {
-      toast.success("Login successful!");
-      navigate("/home");
-    } else {
-      setError(result.error);
-      toast.error(result.error);
+    setIsSubmitting(true);
+    try {
+      const result = await login(form, rememberMe);
+      if (result.success) {
+        toast.success("Login successful! Welcome back!");
+        navigate("/home");
+      } else {
+        setError(result.error);
+        toast.error(result.error);
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -82,14 +89,25 @@ const handleSubmit = async (e) => {
           className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
         />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
-        />
+        {/* Enhanced Password Input with Visibility Toggle */}
+        <div className="relative mb-4">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            className="w-full px-4 py-3 pr-12 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-[#284139] hover:text-deep-teal transition-colors duration-200"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+          </button>
+        </div>
 
         {/* Remember Me Checkbox */}
         <div className="mb-4">
@@ -115,10 +133,11 @@ const handleSubmit = async (e) => {
 
         <button
           type="submit"
-          disabled={loading}
-          className="w-full bg-deep-teal hover:bg-coral-pink text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={loading || isSubmitting}
+          className="w-full bg-deep-teal hover:bg-coral-pink text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          {loading ? "Logging in..." : "Login"}
+          {(loading || isSubmitting) && <FaSpinner className="animate-spin" size={16} />}
+          {(loading || isSubmitting) ? "Logging in..." : "Login"}
         </button>
 
         {/* Switch to phone login */}
