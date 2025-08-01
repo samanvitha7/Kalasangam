@@ -19,20 +19,30 @@ export default function FloatingSoundToggle() {
 
   // Audio visualization bars
   const AudioVisualizer = () => {
-    const bars = audioData.slice(0, 32); // Use first 32 frequency bins
+    // Ensure we always have 32 bars with fallback data
+    const bars = audioData && audioData.length > 0 
+      ? audioData.slice(0, 32) 
+      : new Array(32).fill(0).map(() => isPlaying ? Math.random() * 100 + 20 : 10);
+    
     return (
       <div className="flex items-end justify-center gap-1 h-12 w-32">
         {bars.map((value, index) => {
-          const height = Math.max(2, (value / 255) * 48);
+          // Ensure minimum height and proper scaling
+          const normalizedValue = Math.max(value || 0, 0);
+          const height = isPlaying 
+            ? Math.max(4, Math.min(48, (normalizedValue / 255) * 48 + Math.sin(Date.now() * 0.01 + index) * 8))
+            : Math.max(2, 8 + Math.sin(index) * 4);
+          
           return (
             <div
               key={index}
-              className="bg-gradient-to-t from-deep-teal to-coral-red rounded-sm transition-all duration-100"
+              className="bg-gradient-to-t from-deep-teal to-coral-red rounded-sm transition-all duration-150"
               style={{
-                width: '2px',
+                width: '3px',
                 height: `${height}px`,
-                opacity: isPlaying ? 1 : 0.3,
-                transform: `scaleY(${isPlaying ? 1 : 0.3})`
+                opacity: isPlaying ? 0.9 : 0.4,
+                transform: `scaleY(${isPlaying ? 1 : 0.6})`,
+                boxShadow: isPlaying ? '0 0 4px rgba(30, 94, 117, 0.5)' : 'none'
               }}
             />
           );

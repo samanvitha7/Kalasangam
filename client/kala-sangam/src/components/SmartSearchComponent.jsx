@@ -59,21 +59,7 @@ const HeaderSmartSearch = ({ scrolled }) => {
   const searchRef = useRef();
   const navigate = useNavigate();
 
-  // Test API connection on component mount
-  useEffect(() => {
-    const testConnection = async () => {
-      try {
-        console.log('🔧 Testing API connection...');
-        const response = await fetch('http://localhost:5050/api/smart-search/suggestions?query=test');
-        console.log('🔧 Connection test response status:', response.status);
-        const data = await response.json();
-        console.log('🔧 Connection test data:', data);
-      } catch (error) {
-        console.error('🔧 Connection test failed:', error);
-      }
-    };
-    testConnection();
-  }, []);
+  // Optimize initial load by removing API test
 
   // Load recent searches from localStorage
   useEffect(() => {
@@ -92,20 +78,13 @@ const HeaderSmartSearch = ({ scrolled }) => {
     const getSuggestions = async () => {
       if (searchTerm.length > 1) {
         try {
-          console.log('🔍 Getting suggestions for:', searchTerm);
-          console.log('🔍 API URL will be:', `http://localhost:5050/api/smart-search/suggestions?query=${encodeURIComponent(searchTerm)}`);
           setLoading(true);
           const response = await api.getSearchSuggestions(searchTerm);
-          if (response.success) {
+          if (response?.success) {
             setSuggestions(response.suggestions || []);
           }
         } catch (error) {
-          console.error('❌ Error getting suggestions:', error);
-          console.error('❌ Error details:', {
-            name: error.name,
-            message: error.message,
-            stack: error.stack
-          });
+          // Silently handle errors to improve user experience
           setSuggestions([]);
           setArtistSuggestions([]);
         } finally {

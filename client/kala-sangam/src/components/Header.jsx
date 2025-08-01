@@ -3,11 +3,13 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { HeaderSmartSearch } from "./SmartSearchComponent";
-import NotificationsBell from "./NotificationsBell";
+import { FaBars, FaTimes } from "react-icons/fa";
+// import NotificationsBell from "./NotificationsBell";
 
 export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const dropdownRef = useRef();
   const userDropdownRef = useRef();
   const navigate = useNavigate();
@@ -221,9 +223,9 @@ export default function Header({ scrolled, onMapClick }) {
           {/* Search and Notifications in nav */}
           <div className={`flex items-center space-x-4 ${!scrolled ? "relative top-3" : ""}`}>
             <HeaderSmartSearch scrolled={scrolled} />
-            <div className="relative top-1">
+            {/* <div className="relative top-1">
               <NotificationsBell />
-            </div>
+            </div> */}
           </div>
           </div>
 

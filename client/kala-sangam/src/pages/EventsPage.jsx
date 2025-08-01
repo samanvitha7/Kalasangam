@@ -280,7 +280,12 @@ function EventsPage() {
     
     // Format dates for Google Calendar (YYYYMMDDTHHMMSSZ)
     const formatDateForGoogle = (date) => {
-      return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      if (!date || isNaN(date.getTime())) return '';
+      const isoString = date.toISOString();
+      if (!isoString) return '';
+      const replaced = isoString.replace(/[-:]/g, '');
+      const parts = replaced.split('.');
+      return parts.length > 0 ? parts[0] + 'Z' : '';
     };
     
     const startTime = formatDateForGoogle(eventDate);

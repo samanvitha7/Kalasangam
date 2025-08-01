@@ -24,9 +24,14 @@ export default function GuessInstrument({ instruments, onClose }) {
   const [audioError, setAudioError] = useState(null);
   const audioRef = useRef(null);
 
+  // Define the instrument options array safely
+  const instrumentOptions = ["Sitar", "Tabla", "Bansuri", "Veena", "Mridangam"];
+
   useEffect(() => {
-    const random = questions[Math.floor(Math.random() * questions.length)];
-    setCurrent(random);
+    if (questions && questions.length > 0) {
+      const random = questions[Math.floor(Math.random() * questions.length)];
+      setCurrent(random);
+    }
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
@@ -36,15 +41,17 @@ export default function GuessInstrument({ instruments, onClose }) {
   }, []);
 
   const pickRandomQuestion = (shouldPlay = true) => {
-    const random = questions[Math.floor(Math.random() * questions.length)];
-    setCurrent(random);
-    setSelected(null);
-    setShowAnswer(false);
-    setIsPlaying(false);
-    if (shouldPlay && hasStarted) {
-      setTimeout(() => {
-        playCurrentSound();
-      }, 100);
+    if (questions && questions.length > 0) {
+      const random = questions[Math.floor(Math.random() * questions.length)];
+      setCurrent(random);
+      setSelected(null);
+      setShowAnswer(false);
+      setIsPlaying(false);
+      if (shouldPlay && hasStarted) {
+        setTimeout(() => {
+          playCurrentSound();
+        }, 100);
+      }
     }
   };
 
@@ -139,7 +146,7 @@ export default function GuessInstrument({ instruments, onClose }) {
       {current && <audio src={current.sound} ref={audioRef} />}
 
       <div className="flex flex-wrap justify-center gap-4 mb-4">
-        {["Sitar", "Tabla", "Bansuri", "Veena", "Mridangam"].map((opt, idx) => (
+        {instrumentOptions.map((opt, idx) => (
           <button
             key={idx}
             onClick={() => handleGuess(opt)}
