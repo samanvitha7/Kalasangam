@@ -25,8 +25,6 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showRoleModal, setShowRoleModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
   const [userFilters, setUserFilters] = useState({
     page: 1,
     limit: 10,
@@ -134,17 +132,6 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleUpdateRole = async (userId, newRole) => {
-    try {
-      setError('');
-      await adminApi.updateUserRole(userId, newRole);
-      setShowRoleModal(false);
-      setSelectedUser(null);
-      fetchUsers(); // Refresh user list
-    } catch (err) {
-      setError(`Error updating role: ${err.message}`);
-    }
-  };
 
   const handleDeleteUser = async (userId) => {
     if (!window.confirm('Are you sure you want to delete this user?')) {
@@ -582,23 +569,18 @@ case 'settings':
                       <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                       <td>
                         <div className="user-actions">
-                          <button
-                            className="btn btn-sm btn-secondary"
-                            onClick={() => {
-                              setSelectedUser(user);
-                              setShowRoleModal(true);
-                            }}
-                            disabled={user._id === currentUser.id}
-                          >
-                            Change Role
-                          </button>
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => handleDeleteUser(user._id)}
-                            disabled={user._id === currentUser.id}
-                          >
-                            Delete
-                          </button>
+                          {user.role !== 'Admin' && (
+                            <button
+                              className="btn btn-sm btn-danger"
+                              onClick={() => handleDeleteUser(user._id)}
+                              disabled={user._id === currentUser.id}
+                            >
+                              Delete
+                            </button>
+                          )}
+                          {user.role === 'Admin' && (
+                            <span className="text-sm text-gray-500 italic">Protected Account</span>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -641,18 +623,6 @@ case 'settings':
           />
         )}
 
-        {/* Change Role Modal */}
-        {showRoleModal && selectedUser && (
-          <ChangeRoleModal
-            user={selectedUser}
-            onClose={() => {
-              setShowRoleModal(false);
-              setSelectedUser(null);
-            }}
-            onSubmit={(newRole) => handleUpdateRole(selectedUser._id, newRole)}
-            error={error}
-          />
-        )}
       </div>
     );
   };
@@ -1083,70 +1053,5 @@ const CreateUserModal = ({ onClose, onSubmit, error }) => {
   );
 };
 
-// Change Role Modal Component
-const ChangeRoleModal = ({ user, onClose, onSubmit, error }) => {
-  const [newRole, setNewRole] = useState(user.role);
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (submitting || newRole === user.role) return;
-    
-    setSubmitting(true);
-    try {
-      await onSubmit(newRole);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  return (
-    <div className="modal-overlay">
-      <div className="modal">
-        <div className="modal-header">
-          <h3>Change User Role</h3>
-          <button className="close-btn" onClick={onClose}>×</button>
-        </div>
-        
-        <form onSubmit={handleSubmit} className="modal-body">
-          {error && <div className="error-message">{error}</div>}
-          
-          <p><strong>User:</strong> {user.name} ({user.email})</p>
-          <p><strong>Current Role:</strong> {user.role}</p>
-          
-          <div className="form-group">
-            <label>New Role:</label>
-            <select
-              value={newRole}
-              onChange={(e) => setNewRole(e.target.value)}
-              disabled={submitting}
-            >
-              <option value="Artist">Artist</option>
-              <option value="Admin">Admin</option>
-            </select>
-          </div>
-          
-          <div className="modal-actions">
-            <button 
-              type="button" 
-              className="btn btn-secondary" 
-              onClick={onClose}
-              disabled={submitting}
-            >
-              Cancel
-            </button>
-            <button 
-              type="submit" 
-              className="btn btn-primary"
-              disabled={submitting || newRole === user.role}
-            >
-              {submitting ? 'Updating...' : 'Update Role'}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
 
 export default AdminDashboard;
