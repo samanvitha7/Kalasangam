@@ -229,12 +229,10 @@ export default function Header({ scrolled, onMapClick }) {
           </div>
         </nav>
 
-        {/* Search, User Profile or Login/Signup buttons - Far Right */}
+        {/* User Profile or Login/Signup buttons - Far Right */}
         <div className={`hidden lg:flex w-64 items-center justify-end space-x-4 transition-all duration-500 ease-in-out ${
           !scrolled ? "relative top-0" : ""
         }`}>
-          {/* Search Component */}
-          <HeaderSmartSearch scrolled={scrolled} />
           {isAuthenticated ? (
             <>
               {user?.role === 'Admin' && (
