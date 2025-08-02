@@ -22,7 +22,6 @@ export default function Signup() {
     role: "Artist" 
   });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(false);
   const [error, setError] = useState("");
@@ -30,8 +29,7 @@ export default function Signup() {
     name: "",
     email: "",
     password: "",
-    terms: "",
-    privacy: ""
+    terms: ""
   });
   const [touchedFields, setTouchedFields] = useState({});
   const navigate = useNavigate();
@@ -102,11 +100,6 @@ export default function Signup() {
       if (fieldErrors.terms) {
         setFieldErrors({ ...fieldErrors, terms: '' });
       }
-    } else if (type === 'privacy') {
-      setAgreedToPrivacy(checked);
-      if (fieldErrors.privacy) {
-        setFieldErrors({ ...fieldErrors, privacy: '' });
-      }
     }
   };
 
@@ -116,12 +109,11 @@ export default function Signup() {
       name: validateField('name', name),
       email: validateField('email', email),
       password: validateField('password', password),
-      terms: !agreedToTerms ? 'You must agree to the Terms of Service to proceed' : '',
-      privacy: !agreedToPrivacy ? 'You must agree to the Privacy Policy to proceed' : ''
+      terms: !agreedToTerms ? 'You must agree to the Terms of Service and Privacy Policy to proceed' : ''
     };
     
     setFieldErrors(errors);
-    setTouchedFields({ name: true, email: true, password: true, terms: true, privacy: true });
+    setTouchedFields({ name: true, email: true, password: true, terms: true });
     
     return !Object.values(errors).some(error => error !== '');
   };
@@ -170,16 +162,16 @@ export default function Signup() {
       {/* Overlay gradient for better text readability */}
       <div className="absolute inset-0 bg-black/25"></div>
       
-      {/* Overlay text - moved closer to center */}
-      <div className="absolute left-32 top-1/2 -translate-y-1/2 z-10">
+      {/* Overlay text */}
+      <div className="absolute left-48 top-1/2 -translate-y-1/2 z-10">
         <SignupOverlayText />
       </div>
       
       {/* Signup card background area for better visibility */}
-      <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-black/40 to-transparent z-15"></div>
+      <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-black/40 to-transparent z-[15]" />
       
-      {/* Signup card - moved closer to center */}
-      <div className="absolute left-1/2 top-1/2 translate-x-16 -translate-y-1/2 z-20">
+      {/* Signup card */}
+      <div className="absolute right-48 top-1/2 -translate-y-1/2 z-20">
         <SignupCard
           form={form}
           handleChange={handleChange}

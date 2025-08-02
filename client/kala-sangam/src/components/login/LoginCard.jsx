@@ -110,6 +110,17 @@ const LoginCard = ({
         </div>
       </form>
 
+      {/* Admin login option */}
+      <div className="text-center mt-4">
+        <button
+          type="button"
+          onClick={() => navigate('/admin/login')}
+          className="text-sm bg-coral-red/10 hover:bg-coral-red/20 text-coral-red font-semibold py-2 px-4 rounded-lg border border-coral-red/30 transition-all"
+        >
+          🔐 Login as Admin
+        </button>
+      </div>
+
       <div className="text-center mt-6 pt-4 border-t border-gray-200">
         <p className="text-gray-600">
           Don't have an account?{' '}

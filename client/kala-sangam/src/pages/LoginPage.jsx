@@ -71,7 +71,7 @@ export default function LoginPage() {
       </div>
 
       {/* Login card background area for better visibility */}
-      <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-black/40 to-transparent z-15" />
+      <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-black/40 to-transparent z-[15]" />
 
       {/* Login card */}
       <div className="absolute right-48 top-1/2 -translate-y-1/2 z-20">

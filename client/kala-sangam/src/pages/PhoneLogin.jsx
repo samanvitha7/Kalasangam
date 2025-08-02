@@ -2,18 +2,23 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash, FaSpinner } from 'react-icons/fa';
 import { isPhoneNumberValid, isPasswordStrong, getPhoneValidationMessage } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
+import BackgroundImageGrid from "../components/login/BackgroundImageGrid";
+import OverlayText from "../components/login/OverlayText";
 
 export default function PhoneLogin() {
   const [form, setForm] = useState({ phoneNumber: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const { loginWithPhone, isAuthenticated, loading, clearError } = useAuth();
 
   useEffect(() => {
     clearError();
-  }, []);
+  }, [clearError]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -40,72 +45,156 @@ export default function PhoneLogin() {
       return;
     }
 
-    const result = await loginWithPhone(form);
-    if (result.success) {
-      toast.success("Login successful!");
-      navigate("/home");
-    } else {
-      setError(result.error);
-      toast.error(result.error);
+    setIsSubmitting(true);
+    try {
+      const result = await loginWithPhone(form);
+      if (result.success) {
+        toast.success("Login successful! Welcome back!");
+        navigate("/home");
+      } else {
+        setError(result.error);
+        toast.error(result.error);
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  const primaryBtnClasses = "w-full bg-deep-teal hover:bg-lotus-green text-white font-semibold py-3 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-xl";
+
   return (
-    <div
-      className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
-      style={{ backgroundImage: `url('/assets/parallaximg.png')` }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        className="p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora
-                  bg-[linear-gradient(to_bottom,rgba(255,190,152,0.7),rgba(255,187,233,0.7),rgba(44,165,141,0.67))]"
-      >
-        <h2 className="text-4xl font-bold text-center mb-3 text-deep-teal">Welcome Back!</h2>
-        <p className="text-center mb-4 text-sm text-teal-200">Login with your phone number</p>
-        
-        {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
+    <div className="relative w-full min-h-screen overflow-hidden">
+      {/* Full screen background image grid */}
+      <div className="absolute inset-0">
+        <BackgroundImageGrid />
+      </div>
 
-        <input
-          type="tel"
-          name="phoneNumber"
-          placeholder="Phone Number (e.g., +1234567890)"
-          value={form.phoneNumber}
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
-        />
+      {/* Overlay gradient for better text readability */}
+      <div className="absolute inset-0 bg-black/25" />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-red/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
-        />
+      {/* Overlay text */}
+      <div className="absolute left-48 top-1/2 -translate-y-1/2 z-10">
+        <OverlayText />
+      </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-deep-teal hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
+      {/* Login card background area for better visibility */}
+      <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-black/40 to-transparent z-[15]" />
 
-        {/* Switch to email login */}
-        <div className="text-center mt-4">
-          <button
-            type="button"
-            onClick={() => navigate('/login')}
-            className="text-sm bg-white/20 hover:bg-white/30 text-deep-teal font-semibold py-2 px-4 rounded-lg border border-deep-teal/30 transition-all"
-          >
-            📧 Continue with Email Instead
-          </button>
+      {/* Phone Login card */}
+      <div className="absolute right-48 top-1/2 -translate-y-1/2 z-20">
+        <div className="bg-blush-peach/100 backdrop-blur-xl p-12 rounded-2xl shadow-2xl w-full max-w-6xl border-2 border-white/50 ring-2 ring-deep-teal/10 drop-shadow-2xl">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-deep-teal mb-2 font-lora">
+              Welcome back
+            </h2>
+            <p className="text-sm text-gray-600">Login with your phone number</p>
+          </div>
+
+          {error && (
+            <div className="bg-coral-pink/10 border border-coral-pink/20 text-coral-pink px-4 py-3 rounded-lg mb-4 text-sm">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <input
+                type="tel"
+                name="phoneNumber"
+                value={form.phoneNumber}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white"
+                placeholder="Phone Number (e.g., +1234567890)"
+                required
+              />
+            </div>
+
+            <div>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white/50"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-deep-teal transition-colors"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            <div className="text-right">
+              <Link 
+                to="/forgot-password" 
+                className="text-sm text-coral-pink hover:text-deep-teal font-medium transition-colors"
+              >
+                Forgot password?
+              </Link>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || isSubmitting}
+              className={primaryBtnClasses}
+            >
+              {(loading || isSubmitting) && <FaSpinner className="animate-spin" size={16} />}
+              {(loading || isSubmitting) ? 'Logging in...' : 'Log in'}
+            </button>
+
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-blush-peach text-gray-500">OR</span>
+              </div>
+            </div>
+
+            {/* Email login as inline link like signup */}
+            <div className="text-center">
+              <span className="text-sm text-gray-600 mr-1">Continue with</span>
+              <button
+                type="button"
+                onClick={() => navigate('/login')}
+                className="text-coral-pink font-semibold hover:text-deep-teal transition-colors text-sm"
+              >
+                Email Address
+              </button>
+            </div>
+          </form>
+
+          {/* Admin login option */}
+          <div className="text-center mt-4">
+            <button
+              type="button"
+              onClick={() => navigate('/admin/login')}
+              className="text-sm bg-coral-red/10 hover:bg-coral-red/20 text-coral-red font-semibold py-2 px-4 rounded-lg border border-coral-red/30 transition-all"
+            >
+              🔐 Login as Admin
+            </button>
+          </div>
+
+          <div className="text-center mt-6 pt-4 border-t border-gray-200">
+            <p className="text-gray-600">
+              Don't have an account?{' '}
+              <Link 
+                to="/phone-signup" 
+                className="font-semibold text-coral-pink hover:text-deep-teal transition-colors"
+              >
+                Sign up with Phone
+              </Link>
+            </p>
+          </div>
         </div>
-
-        <p className="text-center mt-6 text-sm text-teal-200">
-          Don't have an account? <Link to="/phone-signup" className="underline font-semibold hover:text-coral-red">Sign Up with Phone</Link>
-        </p>
-      </form>
+      </div>
     </div>
   );
 }

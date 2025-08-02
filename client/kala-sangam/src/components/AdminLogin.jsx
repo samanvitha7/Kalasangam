@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { FaSpinner } from 'react-icons/fa';
 import { adminApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import BackgroundImageGrid from './login/BackgroundImageGrid';
 
 const AdminLogin = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -73,73 +75,103 @@ const AdminLogin = ({ onLogin }) => {
   };
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
-      style={{ backgroundImage: `url('/assets/parallaximg.png')` }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        className="p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora
-                  bg-[linear-gradient(to_bottom,rgba(255,190,152,0.7),rgba(255,187,233,0.7),rgba(44,165,141,0.67))]"
-      >
-        <h2 className="text-4xl font-bold text-center mb-3 text-deep-teal">Admin Access</h2>
-        <p className="text-center mb-4 text-sm text-teal-200">Administrator login only</p>
-        
-        {/* Back to normal login option */}
-        <div className="text-center mb-6">
-          <p className="text-xs text-teal-200 mb-2">Need regular access?</p>
-          <button
-            type="button"
-            onClick={() => navigate('/login')}
-            className="text-xs bg-coral-pink/20 hover:bg-coral-pink/30 text-coral-pink font-semibold py-2 px-4 rounded-lg border border-coral-pink/30 transition-all"
-          >
-            🔓 Login as User
-          </button>
-        </div>
+    <div className="relative w-full min-h-screen overflow-hidden">
+      {/* Full screen background image grid */}
+      <div className="absolute inset-0">
+        <BackgroundImageGrid />
+      </div>
 
-        {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
+      {/* Overlay gradient for better text readability */}
+      <div className="absolute inset-0 bg-black/25" />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Admin Email"
-          value={credentials.email}
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Admin Password"
-          value={credentials.password}
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
-        />
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-deep-teal hover:bg-coral-pink text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+      {/* Admin Login card */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-blush-peach/100 backdrop-blur-xl p-12 rounded-2xl shadow-2xl w-full max-w-6xl border-2 border-white/50 ring-2 ring-deep-teal/10 drop-shadow-2xl"
         >
-          {loading ? "Logging in..." : "Admin Login"}
-        </button>
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-semibold text-deep-teal mb-2 font-lora">
+              Admin Access
+            </h2>
+            <p className="text-sm text-gray-600">Administrator login only</p>
+          </div>
 
-        {/* Back to app option */}
-        <div className="text-center mt-4">
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-            className="text-sm bg-white/20 hover:bg-white/30 text-deep-teal font-semibold py-2 px-4 rounded-lg border border-deep-teal/30 transition-all"
-          >
-            🏠 Back to App
-          </button>
-        </div>
+          {error && (
+            <div className="bg-coral-pink/10 border border-coral-pink/20 text-coral-pink px-4 py-3 rounded-lg mb-4 text-sm">
+              {error}
+            </div>
+          )}
 
-        <p className="text-center mt-6 text-sm text-teal-200">
-          Forgot admin credentials? <Link to="/contact" className="underline font-semibold hover:text-coral-pink">Contact Support</Link>
-        </p>
-      </form>
+          <div className="space-y-4">
+            <div>
+              <input
+                type="email"
+                name="email"
+                placeholder="Admin Email"
+                value={credentials.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white"
+                required
+              />
+            </div>
+
+            <div>
+              <input
+                type="password"
+                name="password"
+                placeholder="Admin Password"
+                value={credentials.password}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-deep-teal hover:bg-lotus-green text-white font-semibold py-3 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+            >
+              {loading && <FaSpinner className="animate-spin" size={16} />}
+              {loading ? "Logging in..." : "Admin Login"}
+            </button>
+          </div>
+
+          {/* Back to normal login option */}
+          <div className="text-center mt-6">
+            <p className="text-sm text-gray-600 mb-3">Need regular access?</p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                type="button"
+                onClick={() => navigate('/login')}
+                className="text-sm bg-coral-pink/10 hover:bg-coral-pink/20 text-coral-pink font-semibold py-2 px-4 rounded-lg border border-coral-pink/30 transition-all"
+              >
+                🔓 Login as User
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/')}
+                className="text-sm bg-deep-teal/10 hover:bg-deep-teal/20 text-deep-teal font-semibold py-2 px-4 rounded-lg border border-deep-teal/30 transition-all"
+              >
+                🏠 Back to App
+              </button>
+            </div>
+          </div>
+
+          <div className="text-center mt-6 pt-4 border-t border-gray-200">
+            <p className="text-gray-600">
+              Forgot admin credentials?{' '}
+              <Link 
+                to="/contact" 
+                className="font-semibold text-coral-pink hover:text-deep-teal transition-colors"
+              >
+                Contact Support
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
