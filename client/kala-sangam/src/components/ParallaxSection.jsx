@@ -53,7 +53,8 @@ const ParallaxSection = () => {
         <img
           src="/assets/parallax.png"
           alt="Hero Background"
-          className="absolute inset-0 w-full h-full object-cover z-0 shadow-[inset_0_-80px_60px_-20px_rgba(0,0,0,0.5)]"
+          className="absolute w-full h-full object-cover z-0 shadow-[inset_0_-80px_60px_-20px_rgba(0,0,0,0.5)]"
+          style={{ top: '64px', objectPosition: 'center top' }}
         />
       
         <div 
