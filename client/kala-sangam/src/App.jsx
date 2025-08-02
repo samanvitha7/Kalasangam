@@ -1,3 +1,4 @@
+// Cache buster - v2.0.1
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useRef, useState, useEffect, Suspense, lazy } from "react";
 import { ToastContainer } from "react-toastify";
