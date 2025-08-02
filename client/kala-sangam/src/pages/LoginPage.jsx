@@ -1,20 +1,22 @@
 // src/pages/LoginPage.jsx
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { isEmailValid, isPasswordStrong } from "../utils/validators";
+import { isEmailValid } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
-import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
+
+// Import the new Pinterest-inspired components
+import BackgroundImageGrid from "../components/login/BackgroundImageGrid";
+import OverlayText from "../components/login/OverlayText";
+import LoginCard from "../components/login/LoginCard";
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const { login, isAuthenticated, loading, clearError } = useAuth();
-
 
   useEffect(() => {
     clearError();
@@ -25,7 +27,7 @@ export default function LoginPage() {
     setError("");
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = form;
 
@@ -55,109 +57,34 @@ const handleSubmit = async (e) => {
   };
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
-      style={{ backgroundImage: `url('/assets/parallaximg.png')` }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        className="bg-[rgba(82,200,180,0.8)] p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora"
-      >
-        <h2 className="text-4xl font-bold text-center mb-3 text-slate-800">Welcome Back!</h2>
-        <p className="text-center mb-4 text-base text-gray-200">Login to continue</p>
-        
-        {/* Admin Login Option */}
-        <div className="text-center mb-6">
-          <p className="text-base text-white font-medium mb-2">Need admin access?</p>
-          <button
-            type="button"
-            onClick={() => navigate('/admin/login')}
-            className="text-sm bg-white/20 hover:bg-white/30 text-slate-800 font-semibold py-2 px-4 rounded-lg border border-slate-800/30 transition-all"
-          >
-            🔐 Login as Admin
-          </button>
-        </div>
-
-        {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-3 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none"
+    <div className="relative w-full min-h-screen overflow-hidden">
+      {/* Full screen background image grid */}
+      <div className="absolute inset-0">
+        <BackgroundImageGrid />
+      </div>
+      
+      {/* Overlay gradient for better text readability */}
+      <div className="absolute inset-0 bg-black/25"></div>
+      
+      {/* Overlay text - positioned on the left */}
+      <div className="absolute left-12 top-1/2 -translate-y-1/2 z-10">
+        <OverlayText />
+      </div>
+      
+      {/* Login card background area for better visibility */}
+      <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-black/40 to-transparent z-15"></div>
+      
+      {/* Login card - positioned slightly left of center */}
+      <div className="absolute right-1/4 top-1/2 -translate-y-1/2 z-20">
+        <LoginCard
+          form={form}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          error={error}
+          isSubmitting={isSubmitting}
+          loading={loading}
         />
-
-        {/* Enhanced Password Input with Visibility Toggle */}
-        <div className="relative mb-4">
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            className="w-full px-4 py-3 pr-12 rounded-xl bg-white/70 border border-coral-pink/30 placeholder-[#284139] text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-[#284139] hover:text-deep-teal transition-colors duration-200"
-            aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
-          </button>
-        </div>
-
-        {/* Remember Me Checkbox */}
-        <div className="mb-4">
-          <label className="flex items-center gap-3 text-base cursor-pointer">
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              className="w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
-            />
-            <span className="text-slate-800 leading-relaxed">
-              <strong>Remember me</strong> - Stay logged in after closing browser
-            </span>
-          </label>
-          {/* <p className="text-sm text-gray-200 mt-1 ml-7">
-            If unchecked, you'll be logged out when you close the website
-          </p> */}
-        </div>
-
-        <div className="text-right text-base text-white font-medium mb-6">
-          <Link to="/forgot-password" className="hover:underline hover:text-coral-pink">Forgot Password?</Link>
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading || isSubmitting}
-          className="w-full bg-deep-teal hover:bg-coral-pink text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-        >
-          {(loading || isSubmitting) && <FaSpinner className="animate-spin" size={16} />}
-          {(loading || isSubmitting) ? "Logging in..." : "Login"}
-        </button>
-
-        {/* Switch to phone login */}
-        <div className="text-center mt-4">
-          <button
-            type="button"
-            onClick={() => navigate('/phone-login')}
-            className="text-sm bg-white/20 hover:bg-white/30 text-deep-teal font-semibold py-2 px-4 rounded-lg border border-deep-teal/30 transition-all"
-          >
-            📱 Continue with Phone Number Instead
-          </button>
-        </div>
-
-        <p className="text-center mt-6 text-base text-white font-medium">
-          Don't have an account? <Link to="/signup" className="underline font-semibold hover:text-coral-pink">Sign Up</Link>
-        </p>
-      </form>
-
-
-
+      </div>
     </div>
   );
 }
