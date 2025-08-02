@@ -1,11 +1,32 @@
 import { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
 
-const SoundContext = createContext();
+const SoundContext = createContext({
+  soundEnabled: false,
+  isPlaying: false,
+  volume: 0.3,
+  audioData: new Array(128).fill(0),
+  toggleSound: () => {},
+  enableSound: () => {},
+  disableSound: () => {},
+  forceStopAllAudio: () => {},
+  changeVolume: () => {}
+});
 
 export const useSoundContext = () => {
   const context = useContext(SoundContext);
   if (!context) {
-    throw new Error('useSoundContext must be used within a SoundProvider');
+    console.warn('useSoundContext called outside of SoundProvider, using defaults');
+    return {
+      soundEnabled: false,
+      isPlaying: false,
+      volume: 0.3,
+      audioData: new Array(128).fill(0),
+      toggleSound: () => {},
+      enableSound: () => {},
+      disableSound: () => {},
+      forceStopAllAudio: () => {},
+      changeVolume: () => {}
+    };
   }
   return context;
 };
