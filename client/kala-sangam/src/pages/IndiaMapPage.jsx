@@ -6,8 +6,8 @@ import FullBleedDivider from "../components/FullBleedDivider";
 import useHardReload from "../hooks/useHardReload";
 
 export default function IndiaMapPage({ onStateClick }) {
-  // Add hard reload functionality - DISABLED temporarily
-  // useHardReload();
+  // Add hard reload functionality
+  useHardReload();
   
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#F8E6DA] text-center">

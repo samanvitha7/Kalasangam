@@ -9,8 +9,8 @@ import { FaSearch, FaFilter, FaTimes, FaMapMarkerAlt, FaPalette, FaGlobe, FaChev
 import useHardReload from "../hooks/useHardReload";
 
 export default function ArtGallery() {
-  // Add hard reload functionality - DISABLED temporarily
-  // useHardReload();
+  // Add hard reload functionality
+  useHardReload();
   
   const navigate = useNavigate();
   const containerRef = useRef(null); // for scroll animations
