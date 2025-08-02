@@ -8,6 +8,7 @@ import Footer from "./components/Footer.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
 import FloatingSoundToggle from "./components/FloatingSoundToggle.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { SoundProvider } from "./context/SoundContext.jsx";
 
@@ -36,7 +37,7 @@ const ArtistProfile = lazy(() => import("./pages/ArtistProfile.jsx"));
 const AdminLogin = lazy(() => import("./components/AdminLogin.jsx"));
 const AdminPanel = lazy(() => import("./components/AdminPanel.jsx"));
 const AdminDashboard = lazy(() => import("./components/AdminDashboard.jsx"));
-const SearchResults = lazy(() => import("./pages/SearchResults.jsx"));
+import SearchResults from "./pages/SearchResults.jsx";
 
 function AppContent() {
   const location = useLocation();
@@ -179,11 +180,13 @@ function App() {
   }
 
   return (
-    <AuthProvider>
-      <SoundProvider>
-        <AppContent />
-      </SoundProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <SoundProvider>
+          <AppContent />
+        </SoundProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
