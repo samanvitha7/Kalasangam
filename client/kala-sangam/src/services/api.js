@@ -343,6 +343,45 @@ export const adminApi = {
     }
 
     return response.json();
+  },
+
+  // Admin settings functions
+  // Change admin password
+  changePassword: async (passwordData) => {
+    const response = await fetch(`${API_URL}/api/users/change-password`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(passwordData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+      throw new Error(errorData.message || 'Failed to change password');
+    }
+
+    return response.json();
+  },
+
+  // Delete admin account
+  deleteAccount: async (deleteData) => {
+    const response = await fetch(`${API_URL}/api/users/delete-account`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(deleteData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+      throw new Error(errorData.message || 'Failed to delete account');
+    }
+
+    return response.json();
   }
 };
 
