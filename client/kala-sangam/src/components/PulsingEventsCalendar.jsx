@@ -451,7 +451,7 @@ export default function PulsingEventsCalendar() {
   }
 
   return (
-    <section className="relative bg-[#F8E6DA] py-8 overflow-hidden">
+    <section className="relative bg-[#F8E6DA] py-8 overflow-hidden min-h-screen w-full flex flex-col justify-center items-center">
       
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header - Exact ArtWall Match */}
