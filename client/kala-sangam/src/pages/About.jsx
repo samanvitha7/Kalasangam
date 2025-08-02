@@ -64,8 +64,8 @@ const FloatingParticles = () => {
 };
 
 export default function About() {
-  // Add hard reload functionality
-  useHardReload();
+  // Add hard reload functionality - DISABLED temporarily
+  // useHardReload();
   
   const containerRef = useRef(null);
   const location = useLocation();
