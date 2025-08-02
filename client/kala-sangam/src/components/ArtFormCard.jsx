@@ -28,9 +28,7 @@ function ArtFormCard({ name, origin, photoUrl = [], onImageClick }) {
         {displayImages.map((url, index) => (
           <div
             key={index}
-            className={`relative overflow-hidden rounded-md bg-gray-100 w-48 h-48 ${
-              index % 2 === 1 ? 'mt-8' : ''
-            }`}
+            className="relative overflow-hidden rounded-md bg-gray-100 w-48 h-48"
             aria-label={`Image ${index + 1} of ${name || 'art form'}`}
           >
             {/* Loading placeholder */}
