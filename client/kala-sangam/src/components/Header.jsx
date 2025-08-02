@@ -219,9 +219,8 @@ export default function Header({ scrolled, onMapClick }) {
               About
             </Link>
           
-          {/* Search and Notifications in nav */}
+          {/* Notifications only in nav - search is in right section */}
           <div className={`flex items-center space-x-4 transition-all duration-500 ease-in-out ${!scrolled ? "relative top-3" : ""}`}>
-            <HeaderSmartSearch scrolled={scrolled} />
             <div className="relative top-1">
               <NotificationsBell />
             </div>
@@ -229,10 +228,12 @@ export default function Header({ scrolled, onMapClick }) {
           </div>
         </nav>
 
-        {/* User Profile or Login/Signup buttons - Far Right */}
+        {/* Search, User Profile or Login/Signup buttons - Far Right */}
         <div className={`hidden lg:flex w-64 items-center justify-end space-x-4 transition-all duration-500 ease-in-out ${
           !scrolled ? "relative top-3" : ""
         }`}>
+          {/* Search Component */}
+          <HeaderSmartSearch scrolled={scrolled} />
           {isAuthenticated ? (
             <>
               {user?.role === 'Admin' && (
@@ -416,12 +417,7 @@ export default function Header({ scrolled, onMapClick }) {
         </div>
 
         {/* Mobile Menu Button - Visible on mobile only */}
-        <div className="lg:hidden flex items-center space-x-3">
-          {/* Mobile Search - Show on tablet/mobile */}
-          <div className="hidden sm:block">
-            <HeaderSmartSearch scrolled={scrolled} />
-          </div>
-          
+        <div className="lg:hidden flex items-center justify-end">
           <button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
             className={`p-2 rounded-lg transition-all duration-300 ${
@@ -452,10 +448,6 @@ export default function Header({ scrolled, onMapClick }) {
         }`}
       >
         <div className="px-4 py-6 space-y-4">
-          {/* Mobile Search - Show only on very small screens */}
-          <div className="sm:hidden mb-4">
-            <HeaderSmartSearch scrolled={true} />
-          </div>
 
           {/* Navigation Links */}
           <Link

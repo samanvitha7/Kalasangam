@@ -221,24 +221,48 @@ export default function MusicPage() {
             animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
             transition={{ duration: 0.8, delay: 1 }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center max-w-6xl mx-auto">
-              {instruments.map((instrument, index) => (
-                <motion.div
-                  key={instrument.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
-                  transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
-                >
-                  <InstrumentBubble
-                    name={instrument.name}
-                    image={instrument.image}
-                    sound={instrument.sound}
-                    description={instrument.description}
-                    isPlaying={currentlyPlaying === instrument.name}
-                    onPlay={handlePlayAudio}
-                  />
-                </motion.div>
-              ))}
+            <div className="max-w-6xl mx-auto">
+              {/* First row with 3 instruments */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center mb-12">
+                {instruments.slice(0, 3).map((instrument, index) => (
+                  <motion.div
+                    key={instrument.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
+                    transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+                  >
+                    <InstrumentBubble
+                      name={instrument.name}
+                      image={instrument.image}
+                      sound={instrument.sound}
+                      description={instrument.description}
+                      isPlaying={currentlyPlaying === instrument.name}
+                      onPlay={handlePlayAudio}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+              
+              {/* Second row with 2 instruments centered */}
+              <div className="flex justify-center gap-12 flex-wrap">
+                {instruments.slice(3).map((instrument, index) => (
+                  <motion.div
+                    key={instrument.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
+                    transition={{ duration: 0.6, delay: 1.2 + (index + 3) * 0.1 }}
+                  >
+                    <InstrumentBubble
+                      name={instrument.name}
+                      image={instrument.image}
+                      sound={instrument.sound}
+                      description={instrument.description}
+                      isPlaying={currentlyPlaying === instrument.name}
+                      onPlay={handlePlayAudio}
+                    />
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </motion.section>
 

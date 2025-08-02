@@ -22,7 +22,6 @@ export default function ArtGallery() {
   // For explore/art route, always start with no filters
   const isExploreRoute = window.location.pathname === '/explore/art';
   const [selectedState, setSelectedState] = useState(isExploreRoute ? "" : (stateFromQuery || ""));
-  const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState(isExploreRoute ? 'all' : (categoryFromQuery || 'all'));
   const [sortBy, setSortBy] = useState('name');
   const [zoomImg, setZoomImg] = useState(null);
@@ -93,15 +92,9 @@ export default function ArtGallery() {
     fetchArtforms();
   }, []);
 
-  // Enhanced filtering logic with search, category, and state filters
+  // Enhanced filtering logic with category and state filters
   const filteredArtforms = artforms
     .filter(art => {
-      // Search filter
-      const matchesSearch = searchTerm === '' || 
-        art.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        art.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        art.origin?.toLowerCase().includes(searchTerm.toLowerCase());
-      
       // State filter
       const matchesState = selectedState === '' || art.origin === selectedState;
       
@@ -113,7 +106,7 @@ export default function ArtGallery() {
         (filterCategory === 'sculpture' && art.name?.toLowerCase().includes('carving')) ||
         (filterCategory === 'textile' && (art.name?.toLowerCase().includes('embroidery') || art.name?.toLowerCase().includes('shawl') || art.name?.toLowerCase().includes('phulkari')));
       
-      return matchesSearch && matchesState && matchesCategory;
+      return matchesState && matchesCategory;
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -142,7 +135,7 @@ export default function ArtGallery() {
   // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, selectedState, filterCategory, sortBy]);
+  }, [selectedState, filterCategory, sortBy]);
 
   // Debug logging (only log important information)
   useEffect(() => {
@@ -293,17 +286,6 @@ export default function ArtGallery() {
             <div className="bg-[#F8E6DA] rounded-2xl p-6">
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 
-                {/* Search Bar */}
-                <div className="relative flex-1 max-w-md">
-                  <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search for art forms..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  />
-                </div>
 
                 {/* Filter and Sort */}
                 <div className="flex gap-4">
