@@ -69,7 +69,8 @@ export default function ArtGallery() {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get("http://localhost:5050/api/artforms?limit=200");
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
+        const response = await axios.get(`${API_URL}/api/artforms?limit=200`);
         
         // Handle the API response structure
         if (response.data && response.data.success && Array.isArray(response.data.data)) {
