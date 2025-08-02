@@ -3,6 +3,53 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 
+// Minimal floating particles - only small circles
+const FloatingParticles = () => {
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    size: Math.random() * 4 + 3, // Small particles 3-7px
+    color: [
+      'rgba(19, 72, 86, 0.6)',
+      'rgba(224, 82, 100, 0.6)',
+      'rgba(29, 124, 111, 0.6)',
+    ][Math.floor(Math.random() * 3)],
+    initialX: Math.random() * 100,
+    initialY: Math.random() * 100,
+    animationDelay: Math.random() * 5,
+    animationDuration: 8 + Math.random() * 7,
+  }));
+
+  return (
+    <div className="absolute inset-0 pointer-events-none z-0">
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          className="absolute rounded-full"
+          style={{
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            backgroundColor: particle.color,
+            left: `${particle.initialX}%`,
+            top: `${particle.initialY}%`,
+          }}
+          animate={{
+            y: [0, -60, 0],
+            x: [0, 25, -25, 0],
+            opacity: [0.4, 0.8, 0.4],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: particle.animationDuration,
+            repeat: Infinity,
+            delay: particle.animationDelay,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -93,8 +140,15 @@ const PulsingHeart = ({ event, onClick, isActive }) => {
   );
 };
 
-const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
+const CircularCalendar = ({ events, onEventClick, selectedEvent, onMonthChange }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+  
+  // Notify parent component when month changes
+  useEffect(() => {
+    if (onMonthChange) {
+      onMonthChange(currentMonth);
+    }
+  }, [currentMonth, onMonthChange]);
 
   // Filter events by the selected month
   const getEventsForCurrentMonth = () => {
@@ -108,7 +162,7 @@ const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
     const monthEvents = getEventsForCurrentMonth();
     return monthEvents.map((event, index) => {
       const angle = (index * 360) / monthEvents.length;
-      const radius = 150;
+      const radius = 140; // Adjusted for larger container
       const x = Math.cos((angle - 90) * (Math.PI / 180)) * radius;
       const y = Math.sin((angle - 90) * (Math.PI / 180)) * radius;
       return { event, x, y, angle };
@@ -116,7 +170,7 @@ const CircularCalendar = ({ events, onEventClick, selectedEvent }) => {
   };
 
   return (
-    <div className="relative w-96 h-96 mx-auto">
+    <div className="relative w-96 h-96 mx-auto">{/* Increased back to match right column */}
       {/* Calendar background circle */}
       <motion.div
         className="absolute inset-0 rounded-full border-4 border-gradient-to-r from-orange-300 via-pink-300 to-purple-300 bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 shadow-2xl"
@@ -345,7 +399,12 @@ export default function PulsingEventsCalendar() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [emailSubscription, setEmailSubscription] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const navigate = useNavigate();
+  
+  const handleMonthChange = (month) => {
+    setSelectedMonth(month);
+  };
 
   // Fetch events from backend
   useEffect(() => {
@@ -452,28 +511,16 @@ export default function PulsingEventsCalendar() {
 
   return (
     <section className="relative bg-[#F8E6DA] py-8 overflow-hidden min-h-screen w-full flex flex-col justify-center items-center">
+      {/* Floating Particles */}
+      <FloatingParticles />
       
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        {/* Header - Exact ArtWall Match */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
-            Cultural Events Calendar
-          </h1>
-          <p className="text-lg font-lora text-xl font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
-            Discover upcoming festivals, workshops, and performances. Each pulse reveals new opportunities to immerse yourself in India's rich cultural heritage.
-          </p>
-        </motion.div>
-
         {events.length > 0 ? (
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Circular Calendar */}
+          <div className="grid lg:grid-cols-[1fr,1.2fr] gap-16 items-center min-h-[80vh] max-w-full">
+            {/* Left Column - Calendar and View All Events Button */}
             <motion.div
-              className="flex flex-col items-center"
+              className="flex flex-col items-center justify-center h-full"
+              style={{ gap: '4rem' }} // Gap between calendar and button
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -482,58 +529,15 @@ export default function PulsingEventsCalendar() {
                 events={events} 
                 onEventClick={handleEventClick}
                 selectedEvent={selectedEvent}
+                onMonthChange={handleMonthChange}
               />
-            </motion.div>
-
-            {/* Upcoming Events List */}
-            <motion.div
-              className="space-y-4"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <h3 className="text-3xl font-bold text-deep-teal mb-6 font-lora">Upcoming Events</h3>
-              <div className="space-y-4 max-h-96 overflow-y-auto upcoming-events-scroll">
-                {upcomingEvents.length > 0 ? upcomingEvents.map((event, index) => (
-                  <motion.div
-                    key={event._id}
-                    className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300 border border-white/20"
-                    onClick={() => handleEventClick(event)}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + index * 0.1 }}
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-xl bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c]">
-                        {event.type === 'workshop' ? '🎨' : 
-                         event.type === 'performance' ? '🎵' : 
-                         event.type === 'exhibition' ? '🖼️' : '🎊'}
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-[#1D7C6F]">{event.title}</h4>
-                        <p className="text-sm text-gray-600">{event.location.city}, {event.location.state}</p>
-                        <p className="text-xs text-pink-600 font-medium">
-                          {new Date(event.date).toLocaleDateString('en-US', { 
-                            month: 'short', 
-                            day: 'numeric',
-                            year: 'numeric'
-                          })} • {event.time}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )) : (
-                  <p className="text-gray-500 text-center py-8">No upcoming events found.</p>
-                )}
-              </div>
               
-              {/* View All Events Button */}
+              {/* View All Events Button - Centered under calendar */}
               <motion.div
-                className="mt-6 text-center"
+                className="text-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
+                transition={{ delay: 0.6 }}
               >
                 <motion.button
                   onClick={() => navigate('/events')}
@@ -543,6 +547,81 @@ export default function PulsingEventsCalendar() {
                 >
                   View All Events →
                 </motion.button>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Column - Title, Description and Month Events */}
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              {/* Header */}
+              <motion.div
+                className="mb-8"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <h1 className="text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+                  What's Happening Around You?
+                </h1>
+                <p className="text-lg font-lora text-xl font-semibold text-[#E05264] leading-relaxed mb-10">
+                  Looking for your next cultural adventure? Explore upcoming events and workshops. Whether you're into music, dance, or crafts—there's always something new.
+                </p>
+              </motion.div>
+              
+              {/* Current Month Events - Under "What's Happening" */}
+              <motion.div
+                className="w-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                <h3 className="text-3xl font-bold text-[#134856] mb-6 font-lora">{months[selectedMonth]}'s Events</h3>
+                <div className="space-y-4 max-h-96 overflow-y-auto">
+                  {(() => {
+                    const monthEvents = events.filter(event => {
+                      const eventDate = new Date(event.date);
+                      return eventDate.getMonth() === selectedMonth;
+                    });
+                    
+                    return monthEvents.length > 0 ? monthEvents.map((event, index) => (
+                      <motion.div
+                        key={event._id}
+                        className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300 border border-white/20"
+                        onClick={() => handleEventClick(event)}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8 + index * 0.1 }}
+                        whileHover={{ scale: 1.02 }}
+                      >
+                        <div className="flex items-center space-x-4">
+                          <div className="w-12 h-12 rounded-full flex items-center justify-center text-xl bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c]">
+                            {event.type === 'workshop' ? '🎨' : 
+                             event.type === 'performance' ? '🎵' : 
+                             event.type === 'exhibition' ? '🖼️' : '🎊'}
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-[#1D7C6F]">{event.title}</h4>
+                            <p className="text-sm text-gray-600">{event.location.city}, {event.location.state}</p>
+                            <p className="text-xs text-pink-600 font-medium">
+                              {new Date(event.date).toLocaleDateString('en-US', { 
+                                month: 'short', 
+                                day: 'numeric',
+                                year: 'numeric'
+                              })} • {event.time}
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )) : (
+                      <p className="text-gray-500 text-center py-8">No events for {months[selectedMonth]}.</p>
+                    );
+                  })()
+                  }
+                </div>
               </motion.div>
             </motion.div>
           </div>

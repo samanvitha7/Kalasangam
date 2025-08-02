@@ -24,7 +24,7 @@ const ParallaxSection = () => {
         <img
           src="/assets/parallax.png"
           alt="Hero Background"
-          className="absolute inset-0 w-full h-full object-cover z-0 shadow-[inset_0_-80px_60px_-20px_rgba(0,0,0,0.5)]"
+          className="absolute top-0 left-0 w-full h-auto object-top z-0 shadow-[inset_0_-80px_60px_-20px_rgba(0,0,0,0.5)]"
         />
       
         <div 
@@ -35,7 +35,7 @@ const ParallaxSection = () => {
         <div
           className="absolute w-full text-center z-10 transition-all duration-[2s] ease-out"
           style={{
-            top: isLoaded ? '15vh' : '10vh',
+            top: isLoaded ? '20vh' : '15vh',
           }}
         >
           <h1 className="text-white text-[6vw] md:text-[5.5vw] lg:text-[5vw] xl:text-[4.5vw] 2xl:text-[4vw] 4xl:text-[3.5vw] 5xl:text-[3vw] ml-[2vw] font-dm-serif-display font-bold hover:font-extrabold drop-shadow-[0_0_2px_#F6A100] transition-all duration-300 ease-in-out"

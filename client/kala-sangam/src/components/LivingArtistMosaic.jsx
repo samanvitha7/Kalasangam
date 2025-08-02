@@ -4,6 +4,53 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import './LivingArtistMosaic.css';
 
+// Minimal floating particles - only small circles
+const FloatingParticles = () => {
+  const particles = Array.from({ length: 18 }, (_, i) => ({
+    id: i,
+    size: Math.random() * 4 + 3, // Small particles 3-7px
+    color: [
+      'rgba(19, 72, 86, 0.6)',
+      'rgba(224, 82, 100, 0.6)',
+      'rgba(29, 124, 111, 0.6)',
+    ][Math.floor(Math.random() * 3)],
+    initialX: Math.random() * 100,
+    initialY: Math.random() * 100,
+    animationDelay: Math.random() * 5,
+    animationDuration: 8 + Math.random() * 6,
+  }));
+
+  return (
+    <div className="absolute inset-0 pointer-events-none z-0">
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          className="absolute rounded-full"
+          style={{
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            backgroundColor: particle.color,
+            left: `${particle.initialX}%`,
+            top: `${particle.initialY}%`,
+          }}
+          animate={{
+            y: [0, -50, 0],
+            x: [0, 20, -20, 0],
+            opacity: [0.4, 0.7, 0.4],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: particle.animationDuration,
+            repeat: Infinity,
+            delay: particle.animationDelay,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const LivingArtistMosaic = () => {
     const [artists, setArtists] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -144,7 +191,7 @@ const LivingArtistMosaic = () => {
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="text-center mb-12">
                         <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
-                            Living Artists
+                            Makers of Heritage
                         </h1>
                         <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
                             Discover talented artists preserving India's rich cultural heritage through traditional arts.
@@ -336,75 +383,116 @@ const LivingArtistMosaic = () => {
     // Removed view mode toggle since we only have mosaic now
 
     return (
-    <div ref={containerRef} className="bg-[#F8E6DA] py-4 relative overflow-hidden min-h-screen w-full flex flex-col justify-center items-center">
+        <section className="relative bg-[#F8E6DA] py-8 overflow-hidden min-h-screen w-full flex flex-col justify-center items-center">
+            {/* Floating Particles */}
+            <FloatingParticles />
             
-            <div className="container mx-auto px-4 relative z-10 flex-1 flex flex-col justify-center">
-                {/* Header */}
-                <motion.div
-                    className="text-center mb-12"
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <motion.h1 
-                        className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
-                        animate={{
-                            textShadow: [
-                                '0 0 20px rgba(224, 82, 100, 0.3)',
-                                '0 0 40px rgba(224, 82, 100, 0.2)',
-                                '0 0 20px rgba(224, 82, 100, 0.3)'
-                            ]
-                        }}
-                        transition={{ duration: 3, repeat: Infinity }}
+            <div className="relative z-10 max-w-[100rem] mx-auto px-6">
+                <div className="grid lg:grid-cols-[1fr_2fr] gap-0 items-center min-h-[80vh]">
+                    {/* Left Column - Title, Description, and Buttons */}
+                    <motion.div
+                        className="flex flex-col justify-center h-full space-y-12 ml-32 max-w-2xl"
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
                     >
-                        Living Artists
-                    </motion.h1>
-                    <motion.p 
-                        className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3 }}
-                    >
-                        Meet the passionate guardians of India's artistic legacy, each brushstroke and creation telling stories of tradition, innovation, and cultural preservation.
-                    </motion.p>
-                </motion.div>
+                        {/* Header */}
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <h1 className="text-7xl font-dm-serif mb-8 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+                                Makers of Heritage
+                            </h1>
+                            <div className="max-w-3xl">
+                                <p className="text-lg font-lora text-xl font-semibold text-[#E05264] leading-relaxed mb-8">
+                                    Get to know the creators behind the craft—painters, weavers, dancers, and more—who are blending tradition with fresh ideas to keep India's artistic spirit alive.
+                                </p>
+                            </div>
+                        </motion.div>
+                        
+                        {/* Action Buttons with much more gap */}
+                        <motion.div
+                            className="flex flex-col gap-4 items-start mt-24"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 1.0 }}
+                        >
+                            <motion.button
+                                onClick={handleViewAllClick}
+                                className="px-8 py-3 bg-gradient-to-r from-[#134856] to-[#e05264] text-white rounded-full hover:from-[#0f3e4a] hover:to-[#d03e56] transition-all duration-300 shadow-lg font-semibold text-lg"
+                                whileHover={{ scale: 1.05, y: -2 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                Discover All Artists →
+                            </motion.button>
+                            <motion.button
+                                onClick={() => navigate('/art-wall')}
+                                className="px-8 py-3 bg-gradient-to-r from-[#134856] to-[#e05264] text-white rounded-full hover:from-[#0f3e4a] hover:to-[#d03e56] transition-all duration-300 shadow-lg font-semibold text-lg"
+                                whileHover={{ scale: 1.05, y: -2 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                Go to Art Wall ✨
+                            </motion.button>
+                        </motion.div>
+                    </motion.div>
 
-                {/* Artists Display - Mosaic Only */}
-                <motion.div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                >
-                    {artists.slice(0, 4).map((artist, index) => (
-                        <ArtistCard key={artist._id} artist={artist} index={index} />
-                    ))}
-                </motion.div>
-
-                {/* Action Buttons */}
-                <motion.div 
-                    className="flex flex-wrap gap-4 justify-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 }}
-                >
-                    <motion.button 
-                        onClick={handleViewAllClick}
-                        className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-8 py-4 rounded-full font-lora font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.95 }}
+                    {/* Right Column - Detailed Artist Profile Cards */}
+                    <motion.div
+                        className="flex flex-col items-center justify-center space-y-6 ml-12"
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
                     >
-                        Discover All Artists
-                    </motion.button>
-                    <motion.button 
-                        onClick={() => navigate('/art-wall')}
-                        className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-8 py-4 rounded-full font-lora font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        Explore Art Gallery
-                    </motion.button>
-                </motion.div>
+                        <div className="grid grid-cols-2 gap-8 max-w-3xl">
+                            {artists.slice(0, 4).map((artist, index) => (
+                                <motion.div
+                                    key={artist._id}
+                                    className="relative group cursor-pointer"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                                    whileHover={{ scale: 1.05, y: -5 }}
+                                    onClick={() => handleArtistClick(artist._id)}
+                                >
+                                    <div className="bg-white backdrop-blur-lg rounded-[2rem] border-2 border-white/50 shadow-2xl overflow-hidden aspect-square p-8 w-80 h-80">
+                                        <div className="flex flex-col items-center justify-center h-full text-center">
+                                            <div className="w-20 h-20 rounded-full flex items-center justify-center text-3xl bg-gradient-to-br from-[#134856] to-[#e05264] mb-5">
+                                                {artist.specialization?.includes('Sitar') ? '🎵' :
+                                                 artist.specialization?.includes('Painting') ? '🎨' :
+                                                 artist.specialization?.includes('Dance') ? '💃' :
+                                                 artist.specialization?.includes('Odissi') ? '🕺' : '🎭'}
+                                            </div>
+                                            <h3 className="font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent text-2xl mb-3">
+                                                {artist.name}
+                                            </h3>
+                                            <p className="text-[#134856]/70 font-lora text-base mb-4">
+                                                {artist.specialization}
+                                            </p>
+                                            <p className="text-[#134856]/60 font-lora text-sm leading-relaxed mb-4">
+                                                {artist.bio ? artist.bio.slice(0, 90) + '...' : 'Traditional artist preserving cultural heritage'}
+                                            </p>
+                                            <div className="flex flex-col items-center gap-2 text-base text-[#134856]/60">
+                                                <span>📍 {artist.location?.split(',')[0] || 'India'}</span>
+                                                <span className="bg-gradient-to-r from-[#134856]/10 to-[#e05264]/10 px-4 py-2 rounded-full">
+                                                    {artist.experience || '10+ years'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Hover overlay with deep teal text */}
+                                        <div className="absolute inset-0 bg-gradient-to-br from-[#134856]/20 to-[#e05264]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-[2rem]">
+                                            <span className="text-[#134856] font-lora font-bold text-xl text-center drop-shadow-lg">
+                                                Click to view profile
+                                            </span>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+                </div>
             </div>
 
             {/* Artist Detail Modal */}
@@ -471,7 +559,7 @@ const LivingArtistMosaic = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
+        </section>
     );
 };
 

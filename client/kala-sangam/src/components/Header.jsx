@@ -83,7 +83,7 @@ export default function Header({ scrolled, onMapClick }) {
     transition-all duration-500 ease-in-out font-lora
     ${scrolled
       ? "top-0 bg-blush-peach/95 backdrop-blur-md rounded-full shadow-2xl px-6 border border-vermilion/20"
-      : "top-[-20px] bg-transparent px-6 flex justify-between items-center"}
+      : "top-0 bg-transparent px-6 flex justify-between items-center"}
     h-16
   `}
   style={{ width: scrolled ? "97vw" : "100vw" }}
@@ -94,7 +94,7 @@ export default function Header({ scrolled, onMapClick }) {
  <div className="w-64 flex-shrink-0 flex items-center">
  <Link
   to="/home"
-  className={`no-underline block transition-all duration-500 ease-in-out ${!scrolled ? "relative top-4" : ""}`}
+  className={`no-underline block transition-all duration-500 ease-in-out ${!scrolled ? "relative top-2" : ""}`}
 >
   <img
     src="/assets/logo-header.png"
@@ -153,8 +153,10 @@ export default function Header({ scrolled, onMapClick }) {
             onClick={() => setShowDropdown(!showDropdown)}
           >
             Explore
-            <span className="ml-1 transform transition-transform duration-200">
-              {showDropdown ? "▲" : "▼"}
+            <span className={`ml-1 transform transition-transform duration-200 text-xs ${
+              showDropdown ? "rotate-90" : "rotate-0"
+            }`}>
+              ▸
             </span>
           </span>
 
@@ -218,8 +220,15 @@ export default function Header({ scrolled, onMapClick }) {
             >
               About
             </Link>
+
+            {/* Smart Search Component moved here */}
+            <div className={`transition-all duration-500 ease-in-out ${
+              !scrolled ? "relative top-3" : ""
+            }`}>
+              <HeaderSmartSearch scrolled={scrolled} />
+            </div>
           
-          {/* Notifications only in nav - search is in right section */}
+          {/* Notifications only in nav */}
           <div className={`flex items-center space-x-4 transition-all duration-500 ease-in-out ${!scrolled ? "relative top-3" : ""}`}>
             <div className="relative top-1">
               <NotificationsBell />
@@ -228,12 +237,10 @@ export default function Header({ scrolled, onMapClick }) {
           </div>
         </nav>
 
-        {/* Search, User Profile or Login/Signup buttons - Far Right */}
+        {/* User Profile or Login/Signup buttons - Far Right */}
         <div className={`hidden lg:flex w-64 items-center justify-end space-x-4 transition-all duration-500 ease-in-out ${
           !scrolled ? "relative top-3" : ""
         }`}>
-          {/* Search Component */}
-          <HeaderSmartSearch scrolled={scrolled} />
           {isAuthenticated ? (
             <>
               {user?.role === 'Admin' && (
@@ -393,10 +400,10 @@ export default function Header({ scrolled, onMapClick }) {
             <>
               <Link
             to="/login"
-            className={`px-5 py-2 rounded-full font-bold transition-all duration-500 ease-in-out ${
+            className={`px-5 py-2 rounded-full font-winky font-[500] transition-all duration-500 ease-in-out ${
               scrolled 
                 ? "text-base bg-gradient-to-r from-deep-teal to-coral-red text-white hover:from-coral-red hover:to-saffronglow" 
-                : "text-sm bg-blush-peach text-deep-teal hover:bg-blush-peach/80"
+                : "text-base bg-deep-teal text-white hover:bg-deep-teal/90"
              }`}
             >
               Login
@@ -404,10 +411,10 @@ export default function Header({ scrolled, onMapClick }) {
 
               <Link
                 to="/signup"
-                className={`px-5 py-2 rounded-full font-bold transition-all duration-500 ease-in-out ${
+                className={`px-5 py-2 rounded-full font-winky font-[500] transition-all duration-500 ease-in-out ${
                   scrolled 
                     ? "text-base bg-gradient-to-r from-deep-teal to-coral-red text-white hover:from-coral-red hover:to-saffronglow" 
-                    : "text-sm bg-blush-peach text-deep-teal hover:bg-blush-peach/80"
+                    : "text-base bg-deep-teal text-white hover:bg-deep-teal/90"
                   }`}
               >
                 Sign Up
@@ -416,197 +423,8 @@ export default function Header({ scrolled, onMapClick }) {
           )}
         </div>
 
-        {/* Mobile Menu Button - Visible on mobile only */}
-        <div className="lg:hidden flex items-center justify-end">
-          <button
-            onClick={() => setShowMobileMenu(!showMobileMenu)}
-            className={`p-2 rounded-lg transition-all duration-300 ${
-              scrolled
-                ? "bg-deep-teal/20 text-deep-teal hover:bg-deep-teal/30"
-                : "bg-white/10 text-deep-teal hover:bg-white/20"
-            }`}
-            data-mobile-menu-toggle
-          >
-            {showMobileMenu ? <FaTimes size={20} /> : <FaBars size={20} />}
-          </button>
-        </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      {showMobileMenu && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-40"
-          onClick={() => setShowMobileMenu(false)}
-        />
-      )}
-
-      {/* Mobile Menu */}
-      <div
-        ref={mobileMenuRef}
-        className={`lg:hidden fixed top-16 left-0 w-full bg-blush-peach/95 backdrop-blur-md border-t border-vermilion/20 transition-all duration-300 z-50 ${
-          showMobileMenu ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-      >
-        <div className="px-4 py-6 space-y-4">
-
-          {/* Navigation Links */}
-          <Link
-            to="/gallery"
-            className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-            onClick={() => setShowMobileMenu(false)}
-          >
-            Gallery
-          </Link>
-          
-          <Link
-            to="/art-wall"
-            className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-            onClick={() => setShowMobileMenu(false)}
-          >
-            Art Wall
-          </Link>
-          
-          <Link
-            to="/artists"
-            className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-            onClick={() => setShowMobileMenu(false)}
-          >
-            Artists
-          </Link>
-
-          {/* Explore Dropdown */}
-          <div className="border-t border-deep-teal/20 pt-4">
-            <div className="px-4 py-2 text-deep-teal font-winky font-[600] text-lg">
-              Explore
-            </div>
-            {[
-              { label: "Explore by State", key: "state" },
-              { label: "Explore Art", key: "art" },
-              { label: "Explore Dance", key: "dance" },
-              { label: "Explore Music", key: "music" },
-              { label: "Explore Crafts", key: "crafts" },
-            ].map((item) => (
-              <button
-                key={item.key}
-                className="block w-full text-left py-2 pl-8 pr-4 text-deep-teal/80 font-winky font-[400] text-base transition-colors hover:text-rosehover"
-                onClick={() => handleMobileExplore(item.key)}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
-          <Link
-            to="/map"
-            className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-            onClick={() => { setShowMobileMenu(false); onMapClick?.(); }}
-          >
-            Map
-          </Link>
-          
-          <Link
-            to="/events"
-            className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-            onClick={() => setShowMobileMenu(false)}
-          >
-            Events
-          </Link>
-          
-          <Link
-            to="/about"
-            className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-            onClick={() => setShowMobileMenu(false)}
-          >
-            About
-          </Link>
-
-          {/* Auth Section */}
-          <div className="border-t border-deep-teal/20 pt-6 mt-6">
-            {isAuthenticated ? (
-              <div className="space-y-3">
-                <div className="px-4 py-2 bg-deep-teal/10 rounded-lg">
-                  <div className="text-sm text-vermilion font-medium">Signed in as</div>
-                  <div className="text-deep-teal font-winky truncate">{user?.email}</div>
-                </div>
-                
-                {user?.role === 'Admin' && (
-                  <Link
-                    to="/admin"
-                    className="block py-3 px-4 bg-gradient-to-r from-coral-red to-saffronglow text-white rounded-lg font-winky font-[500] text-center transition-all hover:from-saffronglow hover:to-coral-red"
-                    onClick={() => setShowMobileMenu(false)}
-                  >
-                    ⚡ Admin Panel
-                  </Link>
-                )}
-                
-                <Link
-                  to="/profile"
-                  className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  Profile
-                </Link>
-                
-                <Link
-                  to="/profile"
-                  className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  My Artworks
-                </Link>
-                
-                <Link
-                  to="/profile"
-                  className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  My Events
-                </Link>
-                
-                <Link
-                  to="/profile"
-                  className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  Liked Posts
-                </Link>
-                
-                <Link
-                  to="/profile"
-                  className="block py-3 px-4 text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  Settings
-                </Link>
-                
-                <button
-                  onClick={() => { handleLogout(); setShowMobileMenu(false); }}
-                  className="block w-full py-3 px-4 text-left text-deep-teal font-winky font-[500] text-lg transition-colors hover:text-rosehover"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                <Link
-                  to="/login"
-                  className="block py-3 px-4 bg-gradient-to-r from-deep-teal to-coral-red text-white rounded-lg font-bold text-center transition-all hover:from-coral-red hover:to-saffronglow"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="block py-3 px-4 bg-gradient-to-r from-deep-teal to-coral-red text-white rounded-lg font-bold text-center transition-all hover:from-coral-red hover:to-saffronglow"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  Sign Up
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
     </header>
   );
 }

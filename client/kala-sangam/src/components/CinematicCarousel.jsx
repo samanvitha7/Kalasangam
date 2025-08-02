@@ -59,64 +59,83 @@ export default function CinematicCarousel() {
     const el = scrollRef.current;
     if (!el) return;
 
-    // Wait for content to be rendered before cloning
-    const timer = setTimeout(() => {
-      // Clone the track contents for seamless loop
-      const originalContent = el.innerHTML;
-      if (originalContent) {
-        el.innerHTML += originalContent;
-      }
-    }, 100);
+    let animationId;
+    let isUserInteracting = false;
 
-    const interval = setInterval(() => {
-      if (el.scrollWidth > 0) {
-        el.scrollLeft += 2;
-        if (el.scrollLeft >= el.scrollWidth / 2) {
+    // Check if user is interacting with the carousel
+    const handleInteractionStart = () => {
+      isUserInteracting = true;
+    };
+
+    const handleInteractionEnd = () => {
+      setTimeout(() => {
+        isUserInteracting = false;
+      }, 1000); // Resume auto-scroll after 1 second
+    };
+
+    // Smooth auto-scroll function
+    const autoScroll = () => {
+      if (!isUserInteracting && el.scrollWidth > 0) {
+        el.scrollLeft += 1;
+        
+        // Reset to beginning when reaching the end (accounting for duplicated content)
+        if (el.scrollLeft >= (el.scrollWidth - el.clientWidth) / 2) {
           el.scrollLeft = 0;
         }
       }
-    }, 20);
+      animationId = requestAnimationFrame(autoScroll);
+    };
+
+    // Add interaction listeners
+    el.addEventListener('mousedown', handleInteractionStart);
+    el.addEventListener('touchstart', handleInteractionStart);
+    el.addEventListener('mouseup', handleInteractionEnd);
+    el.addEventListener('touchend', handleInteractionEnd);
+    el.addEventListener('mouseleave', handleInteractionEnd);
+
+    // Start animation
+    animationId = requestAnimationFrame(autoScroll);
 
     return () => {
-      clearTimeout(timer);
-      clearInterval(interval);
+      cancelAnimationFrame(animationId);
+      el.removeEventListener('mousedown', handleInteractionStart);
+      el.removeEventListener('touchstart', handleInteractionStart);
+      el.removeEventListener('mouseup', handleInteractionEnd);
+      el.removeEventListener('touchend', handleInteractionEnd);
+      el.removeEventListener('mouseleave', handleInteractionEnd);
     };
   }, []);
 
   return (
-    <div className="cinema-wrapper bg-[#F8E6DA] min-h-screen flex flex-col">
-      {/* Hero Section - Exact ArtWall Match */}
-      <div className="text-center mb-12 container mx-auto px-4 pt-16">
-        <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
-          Art Showcase
-        </h1>
-        <p className="text-lg text-xl font-lora font-semibold text-coral-pink max-w-3xl mx-auto leading-relaxed mb-10">
-          Discover the vibrant tapestry of Indian art through our curated collection of traditional and contemporary masterpieces.
-        </p>
+    <>
+      <div className="cinema-wrapper bg-[#F8E6DA] min-h-screen">
+        <div className="cinema-track" ref={scrollRef} style={{marginTop: '4vh'}}>
+          {[...artworks, ...artworks].map((art, i) => (
+            <div key={i + art.image} className="cinema-slide">
+              <img src={art.image} alt="Artwork" className="cinema-image" />
+            </div>
+          ))}
+        </div>
+        
+        <div className="cinema-fade" />
+        
+        <div className="cinema-bottom-wrapper mt-4 mb-24 text-center">
+          <h1 className="text-5xl font-dm-serif mb-4 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+            Beyond the Frame
+          </h1>
+          <button 
+            className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-8 py-2 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 font-lora"
+            onClick={() => navigate("/gallery")}
+          >
+            Explore Gallery →
+          </button>
+        </div>
       </div>
       
-      <div className="cinema-track" ref={scrollRef}>
-        {[...artworks, ...artworks].map((art, i) => (
-          <div key={i + art.image} className="cinema-slide">
-            <img src={art.image} alt="Artwork" className="cinema-image" />
-          </div>
-        ))}
-      </div>
-      <div className="cinema-fade" />
-      
-      <div className="cinema-bottom-wrapper mb-8">
-        <button 
-          className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 font-dm-serif"
-          onClick={() => navigate("/gallery")}
-        >
-          Explore Gallery →
-        </button>
-      </div>
-      
-      {/* Full Width Footer */}
-      <div className="w-full mt-auto">
+      {/* Fixed Footer that overlays content */}
+      <div className="fixed bottom-0 left-0 w-full z-40">
         <Footer />
       </div>
-    </div>
+    </>
   );
 }
