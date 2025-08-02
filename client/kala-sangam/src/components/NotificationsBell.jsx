@@ -16,9 +16,14 @@ const NotificationsBell = () => {
   useEffect(() => {
     if (isAuthenticated) {
       fetchUnreadCount();
-      // Fetch unread count every 30 seconds
-      const interval = setInterval(fetchUnreadCount, 30000);
+      // Fetch unread count every 60 seconds (reduced frequency)
+      const interval = setInterval(fetchUnreadCount, 60000);
       return () => clearInterval(interval);
+    } else {
+      // Reset state when user logs out
+      setNotifications([]);
+      setUnreadCount(0);
+      setIsOpen(false);
     }
   }, [isAuthenticated]);
 
@@ -38,9 +43,14 @@ const NotificationsBell = () => {
       const response = await notificationsApi.getUnreadCount();
       if (response?.success) {
         setUnreadCount(response.unreadCount || 0);
+      } else {
+        setUnreadCount(0);
       }
     } catch (error) {
-      console.error('Error fetching unread count:', error);
+      // Only log errors in development, not in production
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching unread count:', error);
+      }
       setUnreadCount(0);
     }
   };
@@ -53,12 +63,17 @@ const NotificationsBell = () => {
       const response = await notificationsApi.getNotifications(1, 10);
       if (response?.success) {
         setNotifications(response.notifications || []);
+      } else {
+        setNotifications([]);
       }
     } catch (error) {
-      console.error('Error fetching notifications:', error);
+      // Only log errors in development
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching notifications:', error);
+      }
       setNotifications([]);
-      // Only show toast if user is actually trying to interact
-      if (isOpen) {
+      // Only show toast if user is actually trying to interact and it's a real error
+      if (isOpen && error.response?.status !== 404) {
         toast.error('Failed to load notifications');
       }
     } finally {
@@ -178,9 +193,10 @@ const NotificationsBell = () => {
                   Loading...
                 </div>
               ) : notifications.length === 0 ? (
-                <div className="p-4 text-center text-gray-500">
-                  <FaBell className="mx-auto mb-2 text-2xl text-gray-300" />
-                  No notifications yet
+                <div className="p-6 text-center text-gray-500">
+                  <FaBell className="mx-auto mb-3 text-3xl text-gray-300" />
+                  <p className="text-sm font-medium text-gray-600 mb-1">No notifications yet</p>
+                  <p className="text-xs text-gray-400">You'll see notifications here when other users interact with your content</p>
                 </div>
               ) : (
                 notifications.map((notification) => (

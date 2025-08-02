@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const NotificationHelper = require('../utils/notificationHelper');
 
 class FollowingController {
   /**
@@ -32,12 +33,11 @@ class FollowingController {
       followUser.followers.push(userId);
 
       // Create notification for the followed user
-      followUser.notifications.push({
-        type: 'follow',
-        from: userId,
-        message: `${user.name} started following you!`,
-        read: false
-      });
+      await NotificationHelper.createFollowNotification(
+        followId,
+        userId,
+        user.name
+      );
 
       await user.save();
       await followUser.save();
