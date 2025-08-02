@@ -24,7 +24,7 @@ const SignupCard = ({
     <div className="bg-white/100 backdrop-blur-xl p-6 rounded-xl shadow-xl w-full max-w-md border border-white/40 ring-1 ring-deep-teal/10 drop-shadow-lg">
       {/* Header */}
       <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold text-deep-teal mb-2 font-lora">
+        <h2 className="text-3xl font-bold text-deep-teal mb-2 font-dm-serif">
           Join as Artist
         </h2>
         <p className="text-gray-600">
