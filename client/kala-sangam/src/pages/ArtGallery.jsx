@@ -6,11 +6,7 @@ import ArtFormCard from "../components/ArtFormCard";
 import LazyImage from "../components/LazyImage";
 import FullBleedDivider from "../components/FullBleedDivider";
 import { FaSearch, FaFilter, FaTimes, FaMapMarkerAlt, FaPalette, FaGlobe, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import useHardReload from "../hooks/useHardReload";
-
 export default function ArtGallery() {
-  // Add hard reload functionality - DISABLED temporarily
-  // useHardReload();
   
   const navigate = useNavigate();
   const containerRef = useRef(null); // for scroll animations

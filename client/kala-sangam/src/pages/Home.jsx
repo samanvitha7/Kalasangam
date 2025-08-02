@@ -1,4 +1,3 @@
-import useHardReload from "../hooks/useHardReload";
 import StorytellingScroll from "../components/StorytellingScroll.jsx";
 import CinematicCarousel from "../components/CinematicCarousel.jsx";
 import IndiaMap from "../components/IndiaMap.jsx";
