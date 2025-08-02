@@ -5,7 +5,7 @@ const BackgroundImageGrid = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-   const [overlayOpacity, setOverlayOpacity] = useState(0.6);
+  const [overlayOpacity, setOverlayOpacity] = useState(0.4);
 
   // Define possible row spans to simulate variable height masonry
   const rowSpanOptions = [1, 2, 3]; // adjust to taste
@@ -78,7 +78,7 @@ const BackgroundImageGrid = () => {
     return (
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <div className="relative h-full">
-          <div className="grid grid-cols-5 gap-6 p-8 h-full">
+          <div className="grid grid-cols-5 gap-6 p-8 pt-20 h-full">
             {Array.from({ length: 30 }, (_, i) => (
               <div
                 key={i}
@@ -101,7 +101,7 @@ const BackgroundImageGrid = () => {
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden">
       <div className="relative h-full">
-        <div className="grid grid-cols-5 gap-6 p-8 h-full overflow-y-auto auto-rows-[160px]">
+        <div className="grid grid-cols-5 gap-6 p-8 pt-20 h-full overflow-y-auto auto-rows-[160px]">
           {images.map((image, index) => (
             <div
               key={index}
@@ -121,7 +121,7 @@ const BackgroundImageGrid = () => {
         <div
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none rounded-xl"
-          style={{ backgroundColor: 'rgba(0,0,0,0.3)' }}
+          style={{ backgroundColor: `rgba(0,0,0,${overlayOpacity})` }}
         />
       </div>
 
