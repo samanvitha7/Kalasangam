@@ -5,6 +5,7 @@ const BackgroundImageGrid = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [overlayOpacity, setOverlayOpacity] = useState(0.4);
 
   // Define possible row spans to simulate variable height masonry
   const rowSpanOptions = [1, 2, 3]; // adjust to taste
@@ -33,7 +34,6 @@ const BackgroundImageGrid = () => {
                   alt: `${artform.name || 'Traditional art'} from ${artform.origin || 'India'}`,
                   artformName: artform.name,
                   origin: artform.origin,
-                  // assign a random row span for staggered effect
                   rowSpan: rowSpanOptions[Math.floor(Math.random() * rowSpanOptions.length)]
                 });
               }
@@ -76,15 +76,23 @@ const BackgroundImageGrid = () => {
 
   if (loading) {
     return (
-      <div className="absolute inset-0 w-full h-full overflow-hidden bg-gradient-to-br from-blush-peach/20 to-coral-pink/10">
-        <div className="grid grid-cols-5 gap-6 p-8 h-full">
-          {Array.from({ length: 30 }, (_, i) => (
-            <div
-              key={i}
-              className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl animate-pulse"
-              style={{ gridRowEnd: `span ${[1, 2, 3][i % 3]}` }}
-            />
-          ))}
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <div className="relative h-full">
+          <div className="grid grid-cols-5 gap-6 p-8 pt-20 h-full">
+            {Array.from({ length: 30 }, (_, i) => (
+              <div
+                key={i}
+                className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl animate-pulse"
+                style={{ gridRowEnd: `span ${[1, 2, 3][i % 3]}` }}
+              />
+            ))}
+          </div>
+          {/* dark overlay over the placeholder grid */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none rounded-xl"
+            style={{ backgroundColor: `rgba(0,0,0,${overlayOpacity})` }}
+          />
         </div>
       </div>
     );
@@ -92,21 +100,29 @@ const BackgroundImageGrid = () => {
 
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden">
-      <div className="grid grid-cols-5 gap-6 p-8 h-full overflow-y-auto auto-rows-[160px]">
-        {images.map((image, index) => (
-          <div
-            key={index}
-            className={`relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer`}
-            style={{
-              backgroundImage: `url(${image.url})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              gridRowEnd: `span ${image.rowSpan || 1}`
-            }}
-            aria-label={image.alt}
-            title={`${image.artformName || 'Traditional Art'} - ${image.origin || 'India'}`}
-          />
-        ))}
+      <div className="relative h-full">
+        <div className="grid grid-cols-5 gap-6 p-8 pt-20 h-full overflow-y-auto auto-rows-[160px]">
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
+              style={{
+                backgroundImage: `url(${image.url})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                gridRowEnd: `span ${image.rowSpan || 1}`
+              }}
+              aria-label={image.alt}
+              title={`${image.artformName || 'Traditional Art'} - ${image.origin || 'India'}`}
+            />
+          ))}
+        </div>
+        {/* dark overlay on top of all images */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none rounded-xl"
+          style={{ backgroundColor: `rgba(0,0,0,${overlayOpacity})` }}
+        />
       </div>
 
       {images.length === 0 && (

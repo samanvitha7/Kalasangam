@@ -83,7 +83,7 @@ export default function Header({ scrolled, onMapClick }) {
     transition-all duration-500 ease-in-out font-lora
     ${scrolled
       ? "top-0 bg-blush-peach/95 backdrop-blur-md rounded-full shadow-2xl px-6 border border-vermilion/20"
-      : "top-[-20px] bg-transparent px-6 flex justify-between items-center"}
+      : "top-0 bg-transparent px-6 flex justify-between items-center"}
     h-16
   `}
   style={{ width: scrolled ? "97vw" : "100vw" }}
@@ -94,7 +94,7 @@ export default function Header({ scrolled, onMapClick }) {
  <div className="w-64 flex-shrink-0 flex items-center">
  <Link
   to="/home"
-  className={`no-underline block transition-all duration-500 ease-in-out ${!scrolled ? "relative top-4" : ""}`}
+  className={`no-underline block transition-all duration-500 ease-in-out ${!scrolled ? "relative top-0" : ""}`}
 >
   <img
     src="/assets/logo-header.png"
@@ -119,7 +119,7 @@ export default function Header({ scrolled, onMapClick }) {
            <Link
           to="/gallery"
           className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
-            !scrolled ? "relative top-3" : ""
+            !scrolled ? "relative top-0" : ""
           }`}
         >
           Gallery
@@ -128,7 +128,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/art-wall"
               className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
-            !scrolled ? "relative top-3" : ""
+            !scrolled ? "relative top-0" : ""
           }`}
             >
               Art Wall
@@ -137,7 +137,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/artists"
               className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
-            !scrolled ? "relative top-3" : ""
+            !scrolled ? "relative top-0" : ""
           }`}
             >
               Artists
@@ -148,7 +148,7 @@ export default function Header({ scrolled, onMapClick }) {
             className={`
               font-winky font-[500] text-deep-teal cursor-pointer flex items-center
               transition-all duration-500 ease-in-out hover:text-rosehover
-              ${!scrolled ? "relative top-3" : ""}
+              ${!scrolled ? "relative top-0" : ""}
             `}
             onClick={() => setShowDropdown(!showDropdown)}
           >
@@ -194,7 +194,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/map"
               className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
-                !scrolled ? "relative top-3" : ""
+                !scrolled ? "relative top-0" : ""
               }`}
               onClick={onMapClick}
             >
@@ -204,7 +204,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/events"
               className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
-                !scrolled ? "relative top-3" : ""
+                !scrolled ? "relative top-0" : ""
               }`}
             >
               Events
@@ -213,14 +213,15 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/about"
               className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
-                !scrolled ? "relative top-3" : ""
+                !scrolled ? "relative top-0" : ""
               }`}
             >
               About
             </Link>
           
-          {/* Notifications only in nav - search is in right section */}
-          <div className={`flex items-center space-x-4 transition-all duration-500 ease-in-out ${!scrolled ? "relative top-3" : ""}`}>
+          {/* Search and Notifications in nav */}
+          <div className={`flex items-center space-x-4 transition-all duration-500 ease-in-out ${!scrolled ? "relative top-0" : ""}`}>
+            <HeaderSmartSearch scrolled={scrolled} />
             <div className="relative top-1">
               <NotificationsBell />
             </div>
@@ -228,12 +229,10 @@ export default function Header({ scrolled, onMapClick }) {
           </div>
         </nav>
 
-        {/* Search, User Profile or Login/Signup buttons - Far Right */}
+        {/* User Profile or Login/Signup buttons - Far Right */}
         <div className={`hidden lg:flex w-64 items-center justify-end space-x-4 transition-all duration-500 ease-in-out ${
-          !scrolled ? "relative top-3" : ""
+          !scrolled ? "relative top-0" : ""
         }`}>
-          {/* Search Component */}
-          <HeaderSmartSearch scrolled={scrolled} />
           {isAuthenticated ? (
             <>
               {user?.role === 'Admin' && (

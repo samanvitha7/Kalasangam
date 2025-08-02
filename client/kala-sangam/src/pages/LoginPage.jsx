@@ -66,16 +66,16 @@ export default function LoginPage() {
       {/* Overlay gradient for better text readability */}
       <div className="absolute inset-0 bg-black/25"></div>
       
-      {/* Overlay text - positioned on the left */}
-      <div className="absolute left-12 top-1/2 -translate-y-1/2 z-10">
+      {/* Overlay text - moved closer to center */}
+      <div className="absolute left-32 top-1/2 -translate-y-1/2 z-10">
         <OverlayText />
       </div>
       
       {/* Login card background area for better visibility */}
       <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-black/40 to-transparent z-15"></div>
       
-      {/* Login card - positioned slightly left of center */}
-      <div className="absolute right-1/4 top-1/2 -translate-y-1/2 z-20">
+      {/* Login card - moved closer to center */}
+      <div className="absolute left-1/2 top-1/2 translate-x-16 -translate-y-1/2 z-20">
         <LoginCard
           form={form}
           handleChange={handleChange}
