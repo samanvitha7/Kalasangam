@@ -66,11 +66,11 @@ export default function Header({ scrolled, onMapClick }) {
   return (
    <header
   className={`
-    fixed top-0 left-1/2 -translate-x-1/2 w-full z-50
+    fixed left-1/2 -translate-x-1/2 w-full z-50
     transition-all duration-500 ease-in-out font-lora
     ${scrolled
-      ? "bg-blush-peach/95 backdrop-blur-md rounded-full shadow-2xl px-6 border border-vermilion/20"
-      : "bg-transparent px-6 flex justify-between items-center"}
+      ? "top-0 bg-blush-peach/95 backdrop-blur-md rounded-full shadow-2xl px-6 border border-vermilion/20"
+      : "top-[-20px] bg-transparent px-6 flex justify-between items-center"}
     h-16
   `}
   style={{ width: scrolled ? "97vw" : "100vw" }}
@@ -81,14 +81,14 @@ export default function Header({ scrolled, onMapClick }) {
  <div className="w-64 flex-shrink-0 flex items-center">
  <Link
   to="/home"
-  className={`no-underline block ${!scrolled ? "relative top-2" : ""}`}
+  className={`no-underline block transition-all duration-500 ease-in-out ${!scrolled ? "relative top-4" : ""}`}
 >
   <img
     src="/assets/logo-header.png"
     alt="KalaSangam Logo"
     className={`
       transition-all duration-500 ease-in-out
-      ${scrolled ? "h-20 scale-125" : "h-24 scale-150"}
+      ${scrolled ? "h-20 scale-125" : "h-24 scale-125"}
       hover:scale-[1.7]"
     `}
   />
@@ -105,7 +105,7 @@ export default function Header({ scrolled, onMapClick }) {
            
            <Link
           to="/gallery"
-          className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+          className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
             !scrolled ? "relative top-3" : ""
           }`}
         >
@@ -115,7 +115,7 @@ export default function Header({ scrolled, onMapClick }) {
 
             <Link
               to="/art-wall"
-              className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+              className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
             !scrolled ? "relative top-3" : ""
           }`}
             >
@@ -124,7 +124,7 @@ export default function Header({ scrolled, onMapClick }) {
 
             <Link
               to="/artists"
-              className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+              className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
             !scrolled ? "relative top-3" : ""
           }`}
             >
@@ -135,7 +135,7 @@ export default function Header({ scrolled, onMapClick }) {
   <span
    className={`
   font-winky font-[500] text-deep-teal cursor-pointer flex items-center
-  transition-all duration-300 ease-in-out hover:text-rosehover
+  transition-all duration-500 ease-in-out hover:text-rosehover
   ${!scrolled ? "relative top-3" : ""}
 `}
 
@@ -191,7 +191,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/map"
-           className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+           className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
             !scrolled ? "relative top-3" : ""
           }`}
 
@@ -203,7 +203,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/events"
-            className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+            className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
             !scrolled ? "relative top-3" : ""
           }`}
             
@@ -213,7 +213,7 @@ export default function Header({ scrolled, onMapClick }) {
 
           <Link
             to="/about"
-           className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
+           className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
             !scrolled ? "relative top-3" : ""
           }`}
           >
@@ -221,7 +221,7 @@ export default function Header({ scrolled, onMapClick }) {
           </Link>
           
           {/* Search and Notifications in nav */}
-          <div className={`flex items-center space-x-4 ${!scrolled ? "relative top-3" : ""}`}>
+          <div className={`flex items-center space-x-4 transition-all duration-500 ease-in-out ${!scrolled ? "relative top-3" : ""}`}>
             <HeaderSmartSearch scrolled={scrolled} />
             <div className="relative top-1">
               <NotificationsBell />
@@ -232,7 +232,7 @@ export default function Header({ scrolled, onMapClick }) {
         </nav>
 
         {/* User Profile or Login/Signup buttons - Far Right */}
-        <div className={`w-64 flex items-center justify-end space-x-4 ${
+        <div className={`w-64 flex items-center justify-end space-x-4 transition-all duration-500 ease-in-out ${
           !scrolled ? "relative top-3" : ""
         }`}>
           {isAuthenticated ? (
@@ -241,10 +241,10 @@ export default function Header({ scrolled, onMapClick }) {
               {user?.role === 'Admin' && (
                 <Link
                   to="/admin"
-                  className={`px-4 py-2 rounded-xl font-[550] font-winky text-[1rem] transition-all duration-300 ${
+                  className={`px-4 py-2 rounded-xl font-[550] font-winky transition-all duration-500 ease-in-out ${
                     scrolled
-                      ? "bg-gradient-to-r from-coral-red to-saffronglow text-white hover:from-saffronglow hover:to-coral-red"
-                      : "bg-gradient-to-r from-coral-red to-saffronglow text-white hover:from-saffronglow hover:to-coral-red"
+                      ? "text-[1rem] bg-gradient-to-r from-coral-red to-saffronglow text-white hover:from-saffronglow hover:to-coral-red"
+                      : "text-[0.85rem] bg-blush-peach text-deep-teal hover:bg-blush-peach/80"
                   }`}
                 >
                   <div className="flex items-center space-x-2">
@@ -259,23 +259,29 @@ export default function Header({ scrolled, onMapClick }) {
                 <div className="relative" ref={userDropdownRef}>
               <button
                 onClick={() => setShowUserDropdown(!showUserDropdown)}
-                 className={`group flex items-center space-x-2 px-4 py-2 rounded-full font-[550] font-winky text-[1rem] transition-all duration-300 ${
+                 className={`group flex items-center space-x-2 px-4 py-2 rounded-full font-[550] font-winky transition-all duration-500 ease-in-out ${
                   scrolled
-                    ? "bg-gradient-to-r from-deep-teal to-coral-red text-blush-peach hover:from-coral-red hover:to-saffronglow"
-                    : "hover:bg-gradient-to-r from-deep-teal to-coral-red  "}
+                    ? "text-[1rem] bg-gradient-to-r from-deep-teal to-coral-red text-blush-peach hover:from-coral-red hover:to-saffronglow"
+                    : "text-[0.85rem] bg-blush-peach text-deep-teal hover:bg-blush-peach/80"}
                 `}
 
               >
-                        <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
-            <span className={`text-base font-semibold transition-colors duration-300 ${
-              scrolled ? "text-blush-peach group-hover:text-white" : "text-deep-teal group-hover:text-white"
+                        <div className={`rounded-full bg-white/20 flex items-center justify-center transition-all duration-300 ${
+              scrolled ? "w-9 h-9" : "w-7 h-7"
+            }`}>
+            <span className={`font-semibold transition-all duration-300 ${
+              scrolled 
+                ? "text-base text-blush-peach group-hover:text-white" 
+                : "text-sm text-deep-teal group-hover:text-white"
             }`}>
               {user?.name?.charAt(0)?.toUpperCase() || "?"}
             </span>
           </div>
 
-          <span className={`text-[1.2rem] font-[500] tracking-wide transition-colors duration-300 ${
-            scrolled ? "text-blush-peach group-hover:text-white" : "text-deep-teal group-hover:text-white"
+          <span className={`font-[500] tracking-wide transition-all duration-300 ${
+            scrolled 
+              ? "text-[1.2rem] text-blush-peach group-hover:text-white" 
+              : "text-[1rem] text-deep-teal group-hover:text-white"
           }`}>
             {user?.name || "Artist"}
           </span>
@@ -429,18 +435,22 @@ export default function Header({ scrolled, onMapClick }) {
             <>
               <Link
             to="/login"
-            className="px-5 py-2 rounded-full font-bold transition-all duration-300 
-             bg-gradient-to-r from-deep-teal to-coral-red text-white
-             hover:from-coral-red hover:to-saffronglow"
+            className={`px-5 py-2 rounded-full font-bold transition-all duration-500 ease-in-out ${
+              scrolled 
+                ? "text-base bg-gradient-to-r from-deep-teal to-coral-red text-white hover:from-coral-red hover:to-saffronglow" 
+                : "text-sm bg-blush-peach text-deep-teal hover:bg-blush-peach/80"
+             }`}
             >
               Login
             </Link>
 
               <Link
                 to="/signup"
-                className="px-5 py-2 rounded-full font-bold transition-all duration-300 
-                  bg-gradient-to-r from-deep-teal to-coral-red text-white
-                  hover:from-coral-red hover:to-saffronglow"
+                className={`px-5 py-2 rounded-full font-bold transition-all duration-500 ease-in-out ${
+                  scrolled 
+                    ? "text-base bg-gradient-to-r from-deep-teal to-coral-red text-white hover:from-coral-red hover:to-saffronglow" 
+                    : "text-sm bg-blush-peach text-deep-teal hover:bg-blush-peach/80"
+                  }`}
               >
                 Sign Up
               </Link>
