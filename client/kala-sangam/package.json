@@ -7,9 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "build:render": "npm install && vite build",
+    "build:production": "NODE_ENV=production vite build",
+    "build:local": "NODE_ENV=development vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "tailwind:init": "tailwindcss init -p"
+    "preview:production": "NODE_ENV=production vite preview",
+    "tailwind:init": "tailwindcss init -p",
+    "debug:api": "node -e \"console.log('API URL:', process.env.VITE_API_URL || 'http://localhost:5050')\""
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
