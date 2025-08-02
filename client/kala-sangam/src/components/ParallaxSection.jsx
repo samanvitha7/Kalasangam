@@ -66,7 +66,7 @@ const ParallaxSection = () => {
           className="absolute w-full text-center z-10 transition-all duration-[2s] ease-out"
           style={{
             top: isLoaded ? '15vh' : '10vh',
-            transform: `translateY(${scrollY * 30}px)`,
+            transform: `translateY(${scrollY * 50}px)`,
           }}
         >
           <h1 className="text-white text-[6vw] md:text-[5.5vw] lg:text-[5vw] xl:text-[4.5vw] 2xl:text-[4vw] 4xl:text-[3.5vw] 5xl:text-[3vw] ml-[2vw] font-dm-serif-display font-bold hover:font-extrabold drop-shadow-[0_0_2px_#F6A100] transition-all duration-300 ease-in-out"
