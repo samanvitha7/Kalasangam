@@ -7,24 +7,28 @@ const SignupCard = ({
   handleChange, 
   handleSubmit, 
   error, 
-  fieldErrors,
+  fieldErrors = {},
   agreedToTerms,
   setAgreedToTerms,
   emailNotifications,
   setEmailNotifications,
   rememberMe,
   setRememberMe,
-  passwordRequirements,
+  passwordRequirements = {},
   loading 
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const handlePhoneLogin = () => {
+    navigate('/phone-signup'); // or adjust to your phone signup route
+  };
+
   return (
-    <div className="bg-white/100 backdrop-blur-xl p-6 rounded-xl shadow-xl w-full max-w-md border border-white/40 ring-1 ring-deep-teal/10 drop-shadow-lg">
+    <div className="bg-blush-peach/100 backdrop-blur-xl p-12 rounded-2xl shadow-2xl w-full max-w-6xl border-2 border-white/50 ring-2 ring-deep-teal/10 drop-shadow-2xl">
       {/* Header */}
       <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold text-deep-teal mb-2 font-lora">
+        <h2 className="text-3xl font-semibold text-deep-teal mb-2 font-lora">
           Join as Artist
         </h2>
         <p className="text-gray-600">
@@ -88,7 +92,7 @@ const SignupCard = ({
         </div>
 
         {/* Password Requirements */}
-        {form.password && (!passwordRequirements.minLength || !passwordRequirements.hasNumber || !passwordRequirements.hasSpecialChar) && (
+        {form.password && (
           <div className="mb-3 transition-all duration-300 ease-in-out">
             <p className="text-sm font-semibold text-gray-700 mb-2">Password Requirements:</p>
             <ul className="text-xs text-gray-600 space-y-1 ml-4">
@@ -158,7 +162,7 @@ const SignupCard = ({
                 <Link 
                   to="/terms-of-service" 
                   target="_blank" 
-                  className="text-deep-teal hover:text-coral-pink font-semibold hover:underline"
+                  className="text-coral-pink hover:text-deep-teal font-semibold hover:underline"
                 >
                   TOS and Privacy Policy
                 </Link>
@@ -181,7 +185,7 @@ const SignupCard = ({
                 className="mt-1 w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
               />
               <span className="text-gray-700 leading-relaxed">
-                <strong>Email Updates</strong> - Get notified when someone follows you
+                <strong className="text-coral-pink">Email Updates</strong> - Get notified when someone follows you
               </span>
             </label>
           </div>
@@ -196,7 +200,7 @@ const SignupCard = ({
                 className="mt-1 w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
               />
               <span className="text-gray-700 leading-relaxed">
-                <strong>Remember me</strong> - Stay logged in even after closing the browser
+                <strong className="text-coral-pink">Remember me</strong> - Stay logged in even after closing the browser
               </span>
             </label>
           </div>
@@ -212,15 +216,15 @@ const SignupCard = ({
           {loading ? 'Creating Account...' : 'Sign Up'}
         </button>
 
-
-        {/* Switch to phone signup */}
-        <div className="text-center mt-4">
+        {/* Phone signup as inline link */}
+        <div className="text-center">
+          <span className="text-sm text-gray-600 mr-1">Continue with</span>
           <button
             type="button"
-            onClick={() => navigate('/phone-signup')}
-            className="text-sm bg-gray-100 hover:bg-gray-200 text-deep-teal font-semibold py-2 px-4 rounded-lg border border-gray-300 transition-all"
+            onClick={handlePhoneLogin}
+            className="text-coral-pink font-semibold hover:text-deep-teal transition-colors text-sm"
           >
-            📱 Continue with Phone Number Instead
+            Phone Number
           </button>
         </div>
       </form>
@@ -231,7 +235,7 @@ const SignupCard = ({
           Already have an account?{' '}
           <Link 
             to="/login" 
-            className="font-semibold text-deep-teal hover:text-coral-pink transition-colors"
+            className="font-semibold text-coral-pink hover:text-deep-teal transition-colors"
           >
             Login
           </Link>

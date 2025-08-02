@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import api from "../utils/axios";
+import axios from "axios";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 // Enhanced floating visuals with dance-themed elements
 const floatingVisualsData = [
-  { id: 1, src: "/assets/traditional/1.png", size: "w-48 h-auto" },
-  { id: 2, src: "/assets/traditional/2.png", size: "w-40 h-auto" },
-  { id: 3, src: "/assets/traditional/3.png", size: "w-40 h-auto" },
-  { id: 4, src: "/assets/traditional/4.png", size: "w-40 h-auto"  },
-  { id: 5, src: "/assets/traditional/5.png", size: "w-40 h-auto"  },
+  { id: 1, src: "/assets/traditional/2.png", size: "w-40 h-auto" },
+  { id: 2, src: "/assets/traditional/1.png", size: "w-40 h-auto" },
+  { id: 3, src: "/assets/traditional/7.png", size: "w-40 h-auto" },
+  { id: 4, src: "/assets/traditional/5.png", size: "w-40 h-auto" },
+  { id: 5, src: "/assets/traditional/3.png", size: "w-40 h-auto" },
   { id: 6, src: "/assets/traditional/6.png", size: "w-40 h-auto" },
-  { id: 7, src: "/assets/traditional/7.png", size: "w-40 h-auto" },
-  { id: 7, src: "/assets/traditional/8.png", size: "w-40 h-auto" },
+  { id: 7, src: "/assets/traditional/4.png", size: "w-40 h-auto" },
+  { id: 8, src: "/assets/traditional/8.png", size: "w-40 h-auto" },
 ];
 
 const FloatingVisual = ({ src, size, side }) => {
@@ -25,15 +25,16 @@ const FloatingVisual = ({ src, size, side }) => {
     <motion.img
       src={src}
       alt="floating visual"
-      className={`${size} absolute opacity-100 select-none pointer-events-none`}
+      className={`${size} absolute opacity-70 select-none pointer-events-none`}
       style={{
         position: "absolute",
         top: positionStyle.top,
         [side]: positionStyle[side],
         transform: `translateY(${positionStyle.translateY})`,
       }}
-      animate={{ y: [0, -15, 0] }}
-      transition={{ duration: 5 + Math.random() * 3, repeat: Infinity, ease: "easeInOut" }}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 0.7, scale: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       draggable={false}
       loading="lazy"
     />
@@ -44,7 +45,9 @@ const DanceItem = ({ dance, index }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.4, triggerOnce: true });
   const isLeft = index % 2 === 0;
-  const visual = floatingVisualsData[index % floatingVisualsData.length];
+  
+  // Use the actual dance image from the API, with fallback to traditional images
+  const danceImage = dance.imageUrl || dance.image || dance.photoUrl?.[0] || floatingVisualsData[index % floatingVisualsData.length].src;
 
   useEffect(() => {
     if (inView) controls.start("visible");
@@ -76,7 +79,13 @@ const DanceItem = ({ dance, index }) => {
         transition={{ repeat: Infinity, duration: 2 }}
       />
 
-      <FloatingVisual src={visual.src} size={visual.size} side={isLeft ? "right" : "left"} />
+      {/* Use actual dance image as floating visual */}
+      <FloatingVisual 
+        src={danceImage} 
+        size="w-48 h-auto" 
+        side={isLeft ? "right" : "left"} 
+        alt={`${dance.name} dance form`}
+      />
 
       <motion.div
         className={`max-w-4xl bg-[#fff3f1] rounded-2xl p-12 shadow-lg font-lora text-[#134856] cursor-pointer ${
@@ -86,7 +95,6 @@ const DanceItem = ({ dance, index }) => {
           flex: "1 1 70%",
           boxShadow: "0 8px 24px rgba(244, 140, 140, 0.3), 0 0 12px rgba(244, 140, 140, 0.3)",
           filter: "drop-shadow(0 0 6px rgba(244, 140, 140, 0.3))",
-
         }}
         whileHover={{ 
           scale: 1.05, 
@@ -169,6 +177,8 @@ const FloatingParticles = () => {
 const DanceGallery = () => {
   const [danceForms, setDanceForms] = useState([]);
   const [pageReady, setPageReady] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -179,19 +189,36 @@ const DanceGallery = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get("/api/danceforms")
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          setDanceForms(res.data);
-
+    const fetchDanceForms = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
+        const response = await axios.get(`${API_URL}/api/danceforms`);
+        
+        // Handle the API response structure
+        if (response.data && response.data.success && Array.isArray(response.data.data)) {
+          setDanceForms(response.data.data);
+          console.log('Dance forms loaded successfully:', response.data.data.length);
+        } else if (Array.isArray(response.data)) {
+          // Fallback for direct array response
+          setDanceForms(response.data);
+          console.log('Dance forms loaded successfully:', response.data.length);
         } else {
-          console.error("Unexpected response format:", res.data);
+          console.error("Expected array but got:", response.data);
+          setError("Invalid data format received");
+          setDanceForms([]);
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error fetching dance forms:", err);
-      });
+        setError("Failed to load dance forms. Please try refreshing the page.");
+        setDanceForms([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDanceForms();
   }, []);
 
   return (
@@ -277,26 +304,61 @@ const DanceGallery = () => {
       </motion.section>
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Main Content Section */}
-        <motion.section
-          className="mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
-          transition={{ duration: 0.8, delay: 1 }}
-        >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 bg-gradient-to-b from-[#134856] to-[#e05264] h-full rounded-full z-0" />
+        {/* Loading State */}
+        {loading && (
+          <div className="flex justify-center items-center py-16">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-deep-teal mx-auto mb-4"></div>
+              <p className="text-lg text-gray-600 font-lora">Loading dance forms...</p>
+            </div>
+          </div>
+        )}
 
-          <motion.div
-            className="relative z-10"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+        {/* Error State */}
+        {error && (
+          <div className="flex justify-center items-center py-16">
+            <div className="text-center bg-red-50 border border-red-200 rounded-lg p-8 max-w-md">
+              <p className="text-red-600 font-lora text-lg mb-4">{error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="px-6 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition font-lora"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Main Content Section - Only show when not loading and no error */}
+        {!loading && !error && (
+          <motion.section
+            className="mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 1 }}
           >
-            {danceForms.map((dance, index) => (
-              <DanceItem dance={dance} index={index} key={dance._id || index} />
-            ))}
-          </motion.div>
-        </motion.section>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 bg-gradient-to-b from-[#134856] to-[#e05264] h-full rounded-full z-0" />
+
+            <motion.div
+              className="relative z-10"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {danceForms.length > 0 ? (
+                danceForms.map((dance, index) => (
+                  <DanceItem dance={dance} index={index} key={dance._id || index} />
+                ))
+              ) : (
+                <div className="text-center py-16">
+                  <p className="text-gray-600 font-lora text-lg">
+                    No dance forms available at the moment.
+                  </p>
+                </div>
+              )}
+            </motion.div>
+          </motion.section>
+        )}
       </div>
     </div>
   );

@@ -94,7 +94,7 @@ export default function Header({ scrolled, onMapClick }) {
  <div className="w-64 flex-shrink-0 flex items-center">
  <Link
   to="/home"
-  className={`no-underline block transition-all duration-500 ease-in-out ${!scrolled ? "relative top-2" : ""}`}
+  className={`no-underline block transition-all duration-500 ease-in-out ${!scrolled ? "relative top-4" : ""}`}
 >
   <img
     src="/assets/logo-header.png"
@@ -119,7 +119,7 @@ export default function Header({ scrolled, onMapClick }) {
            <Link
           to="/gallery"
           className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
-            !scrolled ? "relative top-3" : ""
+            !scrolled ? "relative top-0" : ""
           }`}
         >
           Gallery
@@ -128,7 +128,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/art-wall"
               className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
-            !scrolled ? "relative top-3" : ""
+            !scrolled ? "relative top-0" : ""
           }`}
             >
               Art Wall
@@ -137,7 +137,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/artists"
               className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
-            !scrolled ? "relative top-3" : ""
+            !scrolled ? "relative top-0" : ""
           }`}
             >
               Artists
@@ -148,7 +148,7 @@ export default function Header({ scrolled, onMapClick }) {
             className={`
               font-winky font-[500] text-deep-teal cursor-pointer flex items-center
               transition-all duration-500 ease-in-out hover:text-rosehover
-              ${!scrolled ? "relative top-3" : ""}
+              ${!scrolled ? "relative top-0" : ""}
             `}
             onClick={() => setShowDropdown(!showDropdown)}
           >
@@ -196,7 +196,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/map"
               className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
-                !scrolled ? "relative top-3" : ""
+                !scrolled ? "relative top-0" : ""
               }`}
               onClick={onMapClick}
             >
@@ -206,7 +206,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/events"
               className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
-                !scrolled ? "relative top-3" : ""
+                !scrolled ? "relative top-0" : ""
               }`}
             >
               Events
@@ -215,7 +215,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/about"
               className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
-                !scrolled ? "relative top-3" : ""
+                !scrolled ? "relative top-0" : ""
               }`}
             >
               About
@@ -239,7 +239,7 @@ export default function Header({ scrolled, onMapClick }) {
 
         {/* User Profile or Login/Signup buttons - Far Right */}
         <div className={`hidden lg:flex w-64 items-center justify-end space-x-4 transition-all duration-500 ease-in-out ${
-          !scrolled ? "relative top-3" : ""
+          !scrolled ? "relative top-0" : ""
         }`}>
           {isAuthenticated ? (
             <>
