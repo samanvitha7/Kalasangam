@@ -1,9 +1,22 @@
 services:
+  # Backend API Service
+  - type: web
+    name: traditional-arts-backend
+    env: node
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    
+  # Frontend Service
   - type: web
     name: traditional-arts-frontend
-    env: node
+    env: static
     buildCommand: cd client/kala-sangam && npm install && npm run build
-    publishDir: client/kala-sangam/dist
+    staticPublishPath: client/kala-sangam/dist
     routes:
       - type: rewrite
         source: /*
