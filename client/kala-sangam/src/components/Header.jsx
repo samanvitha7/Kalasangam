@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { HeaderSmartSearch } from "./SmartSearchComponent";
 import { FaBars, FaTimes } from "react-icons/fa";
-// import NotificationsBell from "./NotificationsBell";
+import NotificationsBell from "./NotificationsBell";
 
 export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -124,18 +124,6 @@ export default function Header({ scrolled, onMapClick }) {
         >
           Gallery
         </Link>
-
-        {/* Desktop Navigation - Hidden on mobile */}
-        <nav className="hidden lg:flex items-center justify-center flex-1 text-[1.35rem] font-bold tracking-wide transition-colors duration-500 ease-in-out text-deep-teal">
-          <div className="flex items-center justify-center space-x-8">
-            <Link
-              to="/gallery"
-              className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
-                !scrolled ? "relative top-3" : ""
-              }`}
-            >
-              Gallery
-            </Link>
 
             <Link
               to="/art-wall"
