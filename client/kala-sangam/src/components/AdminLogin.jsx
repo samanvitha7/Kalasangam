@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { adminApi } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const AdminLogin = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { loadUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,15 +34,19 @@ const AdminLogin = ({ onLogin }) => {
       const data = await adminApi.adminLogin(credentials);
       console.log('Admin login successful:', data);
       
+      // Store in localStorage first
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       localStorage.setItem('userRole', data.user.role);
+      
+      // Trigger AuthContext to load the user and update state
+      await loadUser();
       
       if (onLogin) {
         onLogin(data.user);
       }
       
-      navigate('/admin/panel');
+      navigate('/admin');
     } catch (err) {
       console.error('Admin login error:', err);
       

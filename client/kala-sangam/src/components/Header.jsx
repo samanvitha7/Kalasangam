@@ -237,7 +237,7 @@ export default function Header({ scrolled, onMapClick }) {
         }`}>
           {isAuthenticated ? (
             <>
-              {/* Admin Profile Button - Only for admins */}
+              {/* Test Admin Button - Only for admins */}
               {user?.role === 'Admin' && (
                 <Link
                   to="/admin"
@@ -248,14 +248,15 @@ export default function Header({ scrolled, onMapClick }) {
                   }`}
                 >
                   <div className="flex items-center space-x-2">
-                    <span>⚡</span>
-                    <span>Admin Panel</span>
+                    <span>🧪</span>
+                    <span>Test Admin</span>
                   </div>
                 </Link>
               )}
               
-              {/* Regular User Profile Dropdown */}
-              <div className="relative" ref={userDropdownRef}>
+              {/* Regular User Profile Dropdown - Only for non-admin users */}
+              {user?.role !== 'Admin' && (
+                <div className="relative" ref={userDropdownRef}>
               <button
                 onClick={() => setShowUserDropdown(!showUserDropdown)}
                  className={`group flex items-center space-x-2 px-4 py-2 rounded-full font-[550] font-winky text-[1rem] transition-all duration-300 ${
@@ -301,92 +302,108 @@ export default function Header({ scrolled, onMapClick }) {
                   </div>
                 </li>
 
-                  {/* Main Menu Items */}
-                  <li>
-                    <Link
-                      to="/profile"
-                      className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                        scrolled 
-                          ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow" 
-                          : "text-deep-teal hover:text-vermilion"
-                      }`}
-                      onClick={() => setShowUserDropdown(false)}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <span>Profile</span>
-                      </div>
-                    </Link>
-                  </li>
+                  {/* Main Menu Items - Only show profile links for non-admin users */}
+                  {user?.role !== 'Admin' && (
+                    <>
+                      <li>
+                        <Link
+                          to="/profile"
+                          className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                            scrolled 
+                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow" 
+                              : "text-deep-teal hover:text-vermilion"
+                          }`}
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span>Profile</span>
+                          </div>
+                        </Link>
+                      </li>
 
-                  <li>
-                    <Link
-                      to="/profile"
-                      className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                        scrolled 
-                          ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow" 
-                          : "text-deep-teal hover:text-vermilion"
-                      }`}
-                      onClick={() => setShowUserDropdown(false)}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <span>My Artworks</span>
-                      </div>
-                    </Link>
-                  </li>
+                      <li>
+                        <Link
+                          to="/profile"
+                          className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                            scrolled 
+                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow" 
+                              : "text-deep-teal hover:text-vermilion"
+                          }`}
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span>My Artworks</span>
+                          </div>
+                        </Link>
+                      </li>
+                    </>
+                  )}
                   
-                  <li>
-                    <Link
-                      to="/profile"
-                      className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                        scrolled 
-                          ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow" 
-                          : "text-deep-teal hover:text-vermilion"
-                      }`}
-                      onClick={() => setShowUserDropdown(false)}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <span>My Events</span>
-                      </div>
-                    </Link>
-                  </li>
+                  {/* Show additional profile links only for non-admin users */}
+                  {user?.role !== 'Admin' && (
+                    <>
+                      <li>
+                        <Link
+                          to="/profile"
+                          className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                            scrolled 
+                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow" 
+                              : "text-deep-teal hover:text-vermilion"
+                          }`}
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span>My Events</span>
+                          </div>
+                        </Link>
+                      </li>
+                      
+                      <li>
+                        <Link
+                          to="/profile"
+                          className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                            scrolled 
+                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow" 
+                              : "text-deep-teal hover:text-vermilion"
+                          }`}
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span>Liked Posts</span>
+                          </div>
+                        </Link>
+                      </li>
+                      
+                      {/* Divider */}
+                      <li className="mx-4 my-2">
+                        <div className={`h-px ${scrolled ? "bg-coral-red/20" : "bg-deep-teal/20"}`}></div>
+                      </li>
+                      
+                      {/* Account Menu Items */}
+                      <li>
+                        <Link
+                          to="/profile"
+                          className={`block px-4 py-3 rounded-md transition-all duration-300 ${
+                            scrolled 
+                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow" 
+                              : "text-deep-teal hover:text-vermilion"
+                          }`}
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span>Settings</span>
+                          </div>
+                        </Link>
+                      </li>
+                    </>
+                  )}
                   
-                  <li>
-                    <Link
-                      to="/profile"
-                      className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                        scrolled 
-                          ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow" 
-                          : "text-deep-teal hover:text-vermilion"
-                      }`}
-                      onClick={() => setShowUserDropdown(false)}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <span>Liked Posts</span>
-                      </div>
-                    </Link>
-                  </li>
-                  
-                  {/* Divider */}
-                  <li className="mx-4 my-2">
-                    <div className={`h-px ${scrolled ? "bg-coral-red/20" : "bg-deep-teal/20"}`}></div>
-                  </li>
-                  
-                  {/* Account Menu Items */}
-                  <li>
-                    <Link
-                      to="/profile"
-                      className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                        scrolled 
-                          ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow" 
-                          : "text-deep-teal hover:text-vermilion"
-                      }`}
-                      onClick={() => setShowUserDropdown(false)}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <span>Settings</span>
-                      </div>
-                    </Link>
-                  </li>
+                  {/* Add divider for admin users before logout */}
+                  {user?.role === 'Admin' && (
+                    <li className="mx-4 my-2">
+                      <div className={`h-px ${scrolled ? "bg-coral-red/20" : "bg-deep-teal/20"}`}></div>
+                    </li>
+                  )}
                   
                   <li>
                     <button
@@ -406,6 +423,7 @@ export default function Header({ scrolled, onMapClick }) {
                 </ul>
               )}
             </div>
+              )}
             </>
           ) : (
             <>

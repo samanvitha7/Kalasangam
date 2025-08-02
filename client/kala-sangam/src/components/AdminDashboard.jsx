@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
 import AdminPanel from './AdminPanel';
 import { adminApi } from '../services/api';
 import FullBleedDivider from './FullBleedDivider';
 import VerificationAdmin from './admin/VerificationAdmin';
+import { useAuth } from '../context/AuthContext';
 import { 
   FaHome, 
   FaUsers, 
@@ -46,6 +48,19 @@ const AdminDashboard = () => {
     recentUsers: [],
     systemStatus: 'operational'
   });
+  
+  // Admin settings state
+  const [adminPasswordForm, setAdminPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [adminDeleteForm, setAdminDeleteForm] = useState({
+    password: '',
+    confirmText: ''
+  });
+  const [showAdminDeleteConfirm, setShowAdminDeleteConfirm] = useState(false);
+  const [adminSettingsLoading, setAdminSettingsLoading] = useState(false);
   
   const navigate = useNavigate();
 
@@ -793,17 +808,258 @@ case 'settings':
     return null;
   };
 
+  // Admin settings functions
+  const handleAdminPasswordChange = async (e) => {
+    e.preventDefault();
+    
+    if (adminPasswordForm.newPassword !== adminPasswordForm.confirmPassword) {
+      toast.error('New passwords do not match');
+      return;
+    }
+
+    if (adminPasswordForm.newPassword.length < 6) {
+      toast.error('New password must be at least 6 characters');
+      return;
+    }
+
+    setAdminSettingsLoading(true);
+    try {
+      await adminApi.changePassword({
+        currentPassword: adminPasswordForm.currentPassword,
+        newPassword: adminPasswordForm.newPassword
+      });
+      
+      toast.success('Password changed successfully!');
+      setAdminPasswordForm({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
+    } catch (error) {
+      toast.error(error.message || 'Failed to change password');
+    } finally {
+      setAdminSettingsLoading(false);
+    }
+  };
+
+  const handleAdminDeleteAccount = async (e) => {
+    e.preventDefault();
+    
+    if (adminDeleteForm.confirmText !== 'DELETE MY ACCOUNT') {
+      toast.error('Please type "DELETE MY ACCOUNT" to confirm');
+      return;
+    }
+
+    setAdminSettingsLoading(true);
+    try {
+      await adminApi.deleteAccount({
+        password: adminDeleteForm.password
+      });
+      
+      toast.success('Account deleted successfully');
+      handleLogout();
+    } catch (error) {
+      toast.error(error.message || 'Failed to delete account');
+    } finally {
+      setAdminSettingsLoading(false);
+    }
+  };
+
   const renderSettings = () => (
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Account Settings</h3>
-        <p className="text-gray-600">Manage your admin account preferences and settings.</p>
-        <div className="mt-4">
-          <button className="px-4 py-2 bg-[#E05264] text-white rounded-lg hover:bg-[#E05264]/90 transition-colors">
-            Coming Soon
-          </button>
+    <div className="max-w-4xl mx-auto space-y-8">
+      {/* Password Change Section */}
+      <motion.div 
+        className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-2"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="bg-[#F8E6DA] rounded-2xl p-8">
+          <h2 className="text-3xl font-bold font-dm-serif mb-6 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+            Change Password
+          </h2>
+          
+          <form onSubmit={handleAdminPasswordChange} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium font-lora text-[#134856] mb-2">
+                Current Password
+              </label>
+              <input
+                type="password"
+                required
+                value={adminPasswordForm.currentPassword}
+                onChange={(e) => setAdminPasswordForm({...adminPasswordForm, currentPassword: e.target.value})}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E05264] focus:border-transparent font-lora"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium font-lora text-[#134856] mb-2">
+                New Password
+              </label>
+              <input
+                type="password"
+                required
+                minLength="6"
+                value={adminPasswordForm.newPassword}
+                onChange={(e) => setAdminPasswordForm({...adminPasswordForm, newPassword: e.target.value})}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E05264] focus:border-transparent font-lora"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium font-lora text-[#134856] mb-2">
+                Confirm New Password
+              </label>
+              <input
+                type="password"
+                required
+                minLength="6"
+                value={adminPasswordForm.confirmPassword}
+                onChange={(e) => setAdminPasswordForm({...adminPasswordForm, confirmPassword: e.target.value})}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E05264] focus:border-transparent font-lora"
+              />
+            </div>
+
+            <motion.button
+              type="submit"
+              disabled={adminSettingsLoading}
+              className="bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 font-dm-serif disabled:opacity-50"
+              whileHover={{ scale: adminSettingsLoading ? 1 : 1.05, y: adminSettingsLoading ? 0 : -2 }}
+              whileTap={{ scale: adminSettingsLoading ? 1 : 0.95 }}
+            >
+              {adminSettingsLoading ? 'Changing Password...' : 'Change Password'}
+            </motion.button>
+          </form>
         </div>
-      </div>
+      </motion.div>
+
+      {/* Danger Zone */}
+      <motion.div 
+        className="bg-gradient-to-br from-red-500 to-red-600 rounded-3xl shadow-2xl p-2"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <div className="bg-[#F8E6DA] rounded-2xl p-8 border-l-4 border-red-500">
+          <h2 className="text-3xl font-bold font-dm-serif text-red-600 mb-2">⚠️ Danger Zone</h2>
+          <p className="text-[#E05264] font-lora mb-6">
+            Once you delete your admin account, there is no going back. Please be certain.
+          </p>
+
+          {!showAdminDeleteConfirm ? (
+            <motion.button
+              onClick={() => setShowAdminDeleteConfirm(true)}
+              className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 font-dm-serif"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Delete My Admin Account
+            </motion.button>
+          ) : (
+            <div className="bg-red-50 rounded-2xl p-6 border border-red-200">
+              <h3 className="text-xl font-bold font-dm-serif text-red-800 mb-4">
+                🚨 Oh no! You're in dangerous territory!
+              </h3>
+              <p className="text-red-700 font-lora mb-4">
+                This action cannot be undone. This will permanently delete your admin account. 
+                Are you absolutely sure?
+              </p>
+              
+              <form onSubmit={handleAdminDeleteAccount} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium font-lora text-red-700 mb-2">
+                    Enter your password to confirm:
+                  </label>
+                  <input
+                    type="password"
+                    required
+                    value={adminDeleteForm.password}
+                    onChange={(e) => setAdminDeleteForm({...adminDeleteForm, password: e.target.value})}
+                    className="w-full px-4 py-3 border border-red-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent font-lora"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium font-lora text-red-700 mb-2">
+                    Type "DELETE MY ACCOUNT" to confirm:
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={adminDeleteForm.confirmText}
+                    onChange={(e) => setAdminDeleteForm({...adminDeleteForm, confirmText: e.target.value})}
+                    placeholder="DELETE MY ACCOUNT"
+                    className="w-full px-4 py-3 border border-red-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent font-lora"
+                  />
+                </div>
+
+                <div className="flex space-x-4">
+                  <motion.button
+                    type="submit"
+                    disabled={adminSettingsLoading}
+                    className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 font-dm-serif disabled:opacity-50"
+                    whileHover={{ scale: adminSettingsLoading ? 1 : 1.05, y: adminSettingsLoading ? 0 : -2 }}
+                    whileTap={{ scale: adminSettingsLoading ? 1 : 0.95 }}
+                  >
+                    {adminSettingsLoading ? 'Deleting Account...' : 'Yes, Delete My Admin Account'}
+                  </motion.button>
+                  
+                  <motion.button
+                    type="button"
+                    onClick={() => {
+                      setShowAdminDeleteConfirm(false);
+                      setAdminDeleteForm({ password: '', confirmText: '' });
+                    }}
+                    className="bg-white text-[#134856] border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all duration-300 font-dm-serif"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Cancel
+                  </motion.button>
+                </div>
+              </form>
+            </div>
+          )}
+        </div>
+      </motion.div>
+
+      {/* Account Information */}
+      <motion.div 
+        className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-2"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        <div className="bg-[#F8E6DA] rounded-2xl p-8">
+          <h2 className="text-3xl font-bold font-dm-serif mb-6 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+            Admin Account Information
+          </h2>
+          <div className="space-y-4 font-lora">
+            <div className="text-[#134856]">
+              <strong>Name:</strong> <span className="text-[#E05264]">{currentUser?.name}</span>
+            </div>
+            <div className="text-[#134856]">
+              <strong>Email:</strong> <span className="text-[#E05264]">{currentUser?.email}</span>
+            </div>
+            <div className="text-[#134856]">
+              <strong>Role:</strong> 
+              <span className="ml-2 px-3 py-1 bg-[#134856] text-white rounded-full text-sm font-semibold">
+                {currentUser?.role}
+              </span>
+            </div>
+            <div className="text-[#134856]">
+              <strong>Account Status:</strong> 
+              <span className="ml-2 px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
+                Active
+              </span>
+            </div>
+            <div className="text-[#134856]">
+              <strong>Admin Since:</strong> <span className="text-[#E05264]">{new Date(currentUser?.createdAt || Date.now()).toLocaleDateString()}</span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 
