@@ -1,9 +1,14 @@
 // src/pages/Signup.jsx
 import { useState, useEffect } from "react";
-import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isEmailValid, isPasswordStrong } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
+
+// Import the Pinterest-style components
+import BackgroundImageGrid from "../components/login/BackgroundImageGrid";
+import SignupOverlayText from "../components/signup/SignupOverlayText";
+import SignupCard from "../components/signup/SignupCard";
 
 export default function Signup() {
   const [searchParams] = useSearchParams();
@@ -156,202 +161,41 @@ export default function Signup() {
 
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
-      style={{ backgroundImage: `url('/assets/parallaximg.png')` }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        className="bg-[rgba(82,200,180,0.8)] 
-                  p-10 rounded-3xl max-w-md w-full shadow-xl border border-white/20 font-lora"
-      >
-        <h2 className="text-4xl font-bold text-center mb-3 text-slate-800">
-          Join as Artist
-        </h2>
-        <p className="text-center mb-6 text-base text-gray-200">
-          Start your artistic journey with us!
-        </p>
-
-        {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
-
-        <div className="mb-4">
-          <input
-            type="text"
-            name="name"
-            placeholder={fieldErrors.name ? fieldErrors.name : "Full Name"}
-            value={form.name}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className={`w-full px-4 py-3 rounded-xl bg-white/70 border ${
-              fieldErrors.name 
-                ? 'border-coral-red border-2 placeholder-coral-red' 
-                : 'border-coral-red/30'
-            } text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200`}
-          />
-          {fieldErrors.name && (
-            <p className="text-coral-red text-xs mt-1 ml-2 font-medium">
-              {fieldErrors.name}
-            </p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <input
-            type="email"
-            name="email"
-            placeholder={fieldErrors.email ? fieldErrors.email : "Email"}
-            value={form.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className={`w-full px-4 py-3 rounded-xl bg-white/70 border ${
-              fieldErrors.email 
-                ? 'border-coral-red border-2 placeholder-coral-red' 
-                : 'border-coral-red/30'
-            } text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200`}
-          />
-          {fieldErrors.email && (
-            <p className="text-coral-red text-xs mt-1 ml-2 font-medium">
-              {fieldErrors.email}
-            </p>
-          )}
-        </div>
-
-        {/* Password Requirements */}
-        {form.password && (!passwordRequirements.minLength || !passwordRequirements.hasNumber || !passwordRequirements.hasSpecialChar) && (
-          <div className="mb-3 transition-all duration-300 ease-in-out">
-            <p className="text-base font-semibold text-slate-800 mb-2">Password Requirements:</p>
-            <ul className="text-sm text-gray-200 space-y-1 ml-4">
-              <li className={`flex items-center ${passwordRequirements.minLength ? 'text-green-300' : 'text-gray-200'}`}>
-                <span className={`w-1 h-1 rounded-full mr-2 ${passwordRequirements.minLength ? 'bg-green-300' : 'bg-gray-200'}`}></span>
-                At least 6 characters long
-              </li>
-              <li className={`flex items-center ${passwordRequirements.hasNumber ? 'text-green-300' : 'text-gray-200'}`}>
-                <span className={`w-1 h-1 rounded-full mr-2 ${passwordRequirements.hasNumber ? 'bg-green-300' : 'bg-gray-200'}`}></span>
-                Contains at least one number
-              </li>
-              <li className={`flex items-center ${passwordRequirements.hasSpecialChar ? 'text-green-300' : 'text-gray-200'}`}>
-                <span className={`w-1 h-1 rounded-full mr-2 ${passwordRequirements.hasSpecialChar ? 'bg-green-300' : 'bg-gray-200'}`}></span>
-                Contains at least one special character
-              </li>
-            </ul>
-          </div>
-        )}
-
-        <div className="mb-4">
-          <input
-            type="password"
-            name="password"
-            placeholder={fieldErrors.password ? fieldErrors.password : "Password"}
-            value={form.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className={`w-full px-4 py-3 rounded-xl bg-white/70 border ${
-              fieldErrors.password 
-                ? 'border-coral-red border-2 placeholder-coral-red' 
-                : 'border-coral-red/30'
-            } text-[#284139] focus:ring-2 focus:ring-deep-teal outline-none transition-all duration-200`}
-          />
-          {fieldErrors.password && (
-            <p className="text-coral-red text-xs mt-1 ml-2 font-medium">
-              {fieldErrors.password}
-            </p>
-          )}
-        </div>
-
-        {/* Agreement Checkboxes */}
-        <div className="space-y-4 mb-6">
-          <div>
-            <label className="flex items-start gap-3 text-base cursor-pointer">
-              <input
-                type="checkbox"
-                checked={agreedToTerms}
-                onChange={(e) => handleCheckboxChange('terms', e.target.checked)}
-                className={`mt-1 w-4 h-4 text-deep-teal border ${
-                  fieldErrors.terms ? 'border-coral-red border-2' : 'border-gray-300'
-                } rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200`}
-              />
-              <span className="text-slate-800 leading-relaxed">
-                I agree to KalaSangam's{" "}
-                <Link 
-                  to="/terms-of-service" 
-                  target="_blank" 
-                  className="text-white hover:underline font-semibold hover:text-gray-200"
-                >
-                  TOS and Privacy Policy
-                </Link>
-              </span>
-            </label>
-            {fieldErrors.terms && (
-              <p className="text-coral-red text-xs mt-1 ml-7 font-medium">
-                {fieldErrors.terms}
-              </p>
-            )}
-          </div>
-          
-          
-          {/* Email Notifications Checkbox */}
-          <div>
-            <label className="flex items-start gap-3 text-base cursor-pointer">
-              <input
-                type="checkbox"
-                checked={emailNotifications}
-                onChange={(e) => setEmailNotifications(e.target.checked)}
-                className="mt-1 w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
-              />
-              <span className="text-slate-800 leading-relaxed">
-                <strong> Email Updates</strong> - Get notified when someone follows you
-              </span>
-            </label>
-            {/* <p className="text-xs text-teal-200 mt-1 ml-7">
-              You'll receive email notifications for new followers and important updates
-            </p> */}
-          </div>
-          
-          {/* Remember Me Checkbox */}
-          <div>
-            <label className="flex items-start gap-3 text-base cursor-pointer">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="mt-1 w-4 h-4 text-deep-teal border border-gray-300 rounded focus:ring-2 focus:ring-deep-teal transition-all duration-200"
-              />
-              <span className="text-slate-800 leading-relaxed">
-                <strong>Remember me</strong> - Stay logged in even after closing the browser
-              </span>
-            </label>
-            {/* <p className="text-xs text-teal-200 mt-1 ml-7">
-              If unchecked, you'll need to log in again when you close and reopen the website
-            </p> */}
-          </div>
-        </div>
-        
-
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-deep-teal hover:bg-coral-red text-off-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? "Creating Account..." : "Sign Up"}
-        </button>
-
-        {/* Switch to phone signup */}
-        <div className="text-center mt-4">
-          <button
-            type="button"
-            onClick={() => navigate('/phone-signup')}
-            className="text-sm bg-white/20 hover:bg-white/30 text-deep-teal font-semibold py-2 px-4 rounded-lg border border-deep-teal/30 transition-all"
-          >
-            📱 Continue with Phone Number Instead
-          </button>
-        </div>
-
-        <p className="text-center mt-6 text-base text-white font-medium">
-          Already have an account? <Link to="/login" className="underline font-semibold hover:text-coral-red">Login</Link>
-        </p>
-      </form>
-
+    <div className="relative w-full min-h-screen overflow-hidden">
+      {/* Full screen background image grid */}
+      <div className="absolute inset-0">
+        <BackgroundImageGrid />
+      </div>
+      
+      {/* Overlay gradient for better text readability */}
+      <div className="absolute inset-0 bg-black/25"></div>
+      
+      {/* Overlay text - positioned on the left */}
+      <div className="absolute left-12 top-1/2 -translate-y-1/2 z-10">
+        <SignupOverlayText />
+      </div>
+      
+      {/* Signup card background area for better visibility */}
+      <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-black/40 to-transparent z-15"></div>
+      
+      {/* Signup card - positioned slightly left of center */}
+      <div className="absolute right-1/4 top-1/2 -translate-y-1/2 z-20">
+        <SignupCard
+          form={form}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          error={error}
+          fieldErrors={fieldErrors}
+          agreedToTerms={agreedToTerms}
+          setAgreedToTerms={setAgreedToTerms}
+          emailNotifications={emailNotifications}
+          setEmailNotifications={setEmailNotifications}
+          rememberMe={rememberMe}
+          setRememberMe={setRememberMe}
+          passwordRequirements={passwordRequirements}
+          loading={loading}
+        />
+      </div>
     </div>
   );
 }

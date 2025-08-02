@@ -155,40 +155,158 @@ function Section({ title, description, bg, isVideo, exploreRoute, exploreText })
 
 // Main storytelling scroll component
 export default function StorytellingScroll() {
-  const containerRef = useRef(null);
-  const [progress, setProgress] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const intervalRef = useRef(null);
 
+  // Auto-rotate through sections every 8 seconds
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % sections.length);
+    }, 8000);
 
-    const onScroll = () => {
-      const scrollTop = container.scrollTop;
-      const scrollHeight = container.scrollHeight - container.clientHeight;
-      setProgress(scrollTop / scrollHeight);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
-
-    container.addEventListener("scroll", onScroll);
-    return () => container.removeEventListener("scroll", onScroll);
   }, []);
 
-  return (
-    <div className="flex h-screen">
-      {/* Vertical progress bar */}
-      <div className="relative w-4 bg-gray-300">
-        <motion.div
-          className="absolute left-0 top-0 w-4 bg-gradient-to-b from-[#134856] to-[#e05264] rounded-full"
-          style={{ height: `${progress * 100}%` }}
-        />
-      </div>
+  // Navigation functions
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev - 1 + sections.length) % sections.length);
+    // Reset the interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % sections.length);
+      }, 8000);
+    }
+  };
 
-      {/* Scrollable storytelling content */}
-      <div
-        ref={containerRef}
-        className="snap-y snap-mandatory h-screen overflow-y-scroll flex-1 storytelling-scroll"
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % sections.length);
+    // Reset the interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % sections.length);
+      }, 8000);
+    }
+  };
+
+  const currentSection = sections[currentIndex];
+
+  return (
+    <div className="relative w-full h-screen overflow-hidden">
+      {/* Background - either video or image */}
+      {currentSection.isVideo ? (
+        <iframe
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          src={currentSection.bg}
+          title={currentSection.title}
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          style={{
+            width: "100vw",
+            height: "100vh",
+            transform: "scale(1.2)", // Scale to hide borders and ensure full coverage
+            objectFit: "cover"
+          }}
+        />
+      ) : (
+        <div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            backgroundImage: `url(${currentSection.bg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      )}
+      
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20 z-10" />
+
+      {/* Content */}
+      <motion.div
+        key={currentIndex}
+        className="relative z-20 h-full flex items-center justify-center max-w-4xl mx-auto px-8 text-center text-white font-dm-serif"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
       >
-        {sections.map((section) => (
-          <Section key={section.id} {...section} />
+        <div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold mb-6 drop-shadow-lg">
+            {currentSection.title}
+          </h2>
+
+          <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl leading-relaxed drop-shadow-md mb-6">
+            {currentSection.description}
+          </p>
+
+          {/* Pink underline */}
+          <motion.div
+            className="mt-8 mx-auto w-16 h-1 bg-coral-pink rounded-full"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1, delay: 0.3 }}
+          />
+          
+          {/* Explore Button */}
+          <motion.button
+            onClick={() => window.open(currentSection.exploreRoute, '_self')}
+            className="mt-8 px-8 py-3 bg-gradient-to-r from-[#134856] to-[#e05264] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-lora"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {currentSection.exploreText}
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* Left Arrow */}
+      <button
+        onClick={goToPrevious}
+        className="absolute left-8 top-1/2 transform -translate-y-1/2 z-30 w-12 h-12 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white text-2xl font-bold transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+        aria-label="Previous section"
+      >
+        ←
+      </button>
+
+      {/* Right Arrow */}
+      <button
+        onClick={goToNext}
+        className="absolute right-8 top-1/2 transform -translate-y-1/2 z-30 w-12 h-12 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white text-2xl font-bold transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+        aria-label="Next section"
+      >
+        →
+      </button>
+
+      {/* Section indicators */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex space-x-2">
+        {sections.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              setCurrentIndex(index);
+              // Reset the interval
+              if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = setInterval(() => {
+                  setCurrentIndex((prev) => (prev + 1) % sections.length);
+                }, 8000);
+              }
+            }}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              currentIndex === index
+                ? 'bg-white scale-125'
+                : 'bg-white/50 hover:bg-white/75'
+            }`}
+            aria-label={`Go to section ${index + 1}`}
+          />
         ))}
       </div>
     </div>

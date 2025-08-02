@@ -336,9 +336,9 @@ const LivingArtistMosaic = () => {
     // Removed view mode toggle since we only have mosaic now
 
     return (
-        <div ref={containerRef} className="bg-[#F8E6DA] py-8 relative overflow-hidden">
+    <div ref={containerRef} className="bg-[#F8E6DA] py-4 relative overflow-hidden min-h-screen w-full flex flex-col justify-center items-center">
             
-            <div className="container mx-auto px-4 relative z-10">
+            <div className="container mx-auto px-4 relative z-10 flex-1 flex flex-col justify-center">
                 {/* Header */}
                 <motion.div
                     className="text-center mb-12"
