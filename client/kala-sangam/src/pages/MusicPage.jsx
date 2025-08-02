@@ -221,7 +221,7 @@ export default function MusicPage() {
             animate={{ opacity: pageReady ? 1 : 0, y: pageReady ? 0 : 20 }}
             transition={{ duration: 0.8, delay: 1 }}
           >
-            <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center max-w-6xl mx-auto">
               {instruments.map((instrument, index) => (
                 <motion.div
                   key={instrument.name}

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const SoundContext = createContext({
   soundEnabled: false,
@@ -198,10 +199,13 @@ export const SoundProvider = ({ children }) => {
     };
   }, [audioInitialized]);
 
+  const location = useLocation();
+
   useEffect(() => {
     if (!audioRef.current || !audioInitialized) return;
     
-    if (soundEnabled) {
+    // Check if the current page is the home page before playing
+    if (soundEnabled && (location.pathname === '/' || location.pathname === '/home')) {
       try {
         audioRef.current.currentTime = 0; // Always start from beginning
         const playPromise = audioRef.current.play();
@@ -243,7 +247,20 @@ export const SoundProvider = ({ children }) => {
         setIsPlaying(false);
       }
     }
-  }, [soundEnabled, audioInitialized, updateAudioData]);
+  }, [soundEnabled, audioInitialized, updateAudioData, location.pathname]);
+
+  // Stop audio when navigating away from home page
+  useEffect(() => {
+    if (audioRef.current && isPlaying && location.pathname !== '/' && location.pathname !== '/home') {
+      console.log('Navigated away from home, stopping audio');
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    }
+  }, [location.pathname, isPlaying]);
 
   // Update volume when volume state changes
   useEffect(() => {

@@ -5,6 +5,14 @@ const path=require("path");
 const eventbriteRoutes= require("./routes/eventbrite.js");
 require("dotenv").config();
 
+// Set BASE_URL dynamically based on environment
+process.env.BASE_URL = process.env.NODE_ENV === 'production' 
+  ? process.env.BASE_URL_PROD 
+  : process.env.BASE_URL_DEV;
+
+console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+console.log(`🔗 BASE_URL set to: ${process.env.BASE_URL}`);
+
 const app = express();
 
 // CORS configuration for development
@@ -42,8 +50,8 @@ const corsOptions = {
       return callback(null, true);
     }
     
-    // Allow Render frontend domain
-    if (origin && origin.includes('.onrender.com')) {
+    // Allow Render frontend domain and specific Kala Sangam domain
+    if (origin && (origin.includes('.onrender.com') || origin === 'https://kalasangam.onrender.com')) {
       console.log('Allowing Render domain:', origin);
       return callback(null, true);
     }

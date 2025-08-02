@@ -12,6 +12,7 @@ export default function Header({ scrolled, onMapClick }) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const dropdownRef = useRef();
   const userDropdownRef = useRef();
+  const mobileMenuRef = useRef();
   const navigate = useNavigate();
   const { user, logout, isAuthenticated } = useAuth();
 
