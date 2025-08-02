@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash, FaSpinner } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
 
 const LoginCard = ({ 
   form, 
@@ -14,10 +13,9 @@ const LoginCard = ({
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleGoogleLogin = () => {
-    // Placeholder for Google OAuth integration
-    console.log('Google login clicked');
-    // You can integrate with your existing Google OAuth logic here
+  const handlePhoneLogin = () => {
+    // Navigate to phone login page
+    navigate('/phone-login');
   };
 
   return (
@@ -43,9 +41,6 @@ const LoginCard = ({
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Email Field */}
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-            Email
-          </label>
           <input
             type="email"
             id="email"
@@ -60,9 +55,6 @@ const LoginCard = ({
 
         {/* Password Field */}
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-            Password
-          </label>
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -115,14 +107,14 @@ const LoginCard = ({
           </div>
         </div>
 
-        {/* Google Login Button */}
+        {/* Phone Login Button */}
         <button
           type="button"
-          onClick={handleGoogleLogin}
+          onClick={handlePhoneLogin}
           className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-all duration-200 font-medium text-gray-700 shadow-sm hover:shadow-md"
         >
-          <FcGoogle size={20} />
-          Continue with Google
+          📱
+          Continue with Phone Number
         </button>
       </form>
 

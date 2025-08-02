@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isEmailValid } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
+import BackgroundImageGrid from "../components/login/BackgroundImageGrid";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -38,45 +39,55 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
-      style={{ backgroundImage: `url('/images/bg-login.jpg')` }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        className="bg-[#fbebd8] p-10 rounded-3xl max-w-md w-full shadow-xl border border-yellow-200 backdrop-blur-sm"
-      >
-        <h2 className="text-3xl font-bold text-center mb-3 text-[#74404b]">Forgot Password?</h2>
-        <p className="text-center mb-6 text-sm text-[#74404b]">
-          Enter your email and we'll send a reset link
-        </p>
+    <div className="relative w-full min-h-screen overflow-hidden">
+      {/* Full screen background image grid */}
+      <div className="absolute inset-0">
+        <BackgroundImageGrid />
+      </div>
 
-        {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setError("");
-          }}
-          className="w-full mb-6 px-4 py-3 rounded-xl bg-white border border-yellow-300 placeholder-[#74404b] text-[#74404b] focus:ring-2 focus:ring-[#74404b] outline-none"
-        />
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-[#74404b] hover:bg-[#5f343d] text-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+      {/* Overlay gradient for better text readability */}
+      <div className="absolute inset-0 bg-black/25"></div>
+      
+      {/* Forgot Password card - centered */}
+      <div className="absolute inset-0 flex items-center justify-center z-20">
+      
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white/100 backdrop-blur-xl p-6 rounded-xl shadow-xl w-full max-w-md border border-white/40 ring-1 ring-deep-teal/10 drop-shadow-lg"
         >
-          {loading ? "Sending..." : "Send Reset Link"}
-        </button>
+          <h2 className="text-3xl font-bold text-deep-teal mb-3 font-lora text-center">Forgot Password?</h2>
+          <p className="text-center mb-6 text-sm text-gray-600">
+            Enter your email and we'll send a reset link.
+          </p>
 
-        <p className="text-center mt-6 text-sm text-[#74404b]">
-          <Link to="/login" className="underline font-semibold">Back to Login</Link>
-        </p>
-      </form>
+          {error && <p className="text-coral-red text-sm mb-4 text-center">{error}</p>}
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setError("");
+            }}
+            className="w-full mb-6 px-4 py-3 rounded-xl bg-white border border-gray-300 placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-deep-teal outline-none"
+            required
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-deep-teal hover:bg-lotus-green text-white font-semibold py-3 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Sending..." : "Send Reset Link"}
+          </button>
+
+          <p className="text-center mt-6 text-sm text-gray-600">
+            <Link to="/login" className="font-semibold text-deep-teal hover:text-coral-pink transition-colors">Back to Login</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
