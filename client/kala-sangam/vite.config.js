@@ -25,7 +25,8 @@ export default defineConfig({
       },
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
+          // Keep React and React-DOM together to avoid instance conflicts
+          'react-vendor': ['react', 'react-dom'],
           // Router chunk
           router: ['react-router-dom'],
           // Animation libraries
@@ -101,10 +102,18 @@ export default defineConfig({
     // CSS code splitting
     cssCodeSplit: true,
   },
-  // Optimize CSS
-  css: {
-    // Enable CSS source maps in development only
-    devSourcemap: process.env.NODE_ENV === 'development',
+  // Resolve React duplication issues
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+    alias: {
+      // Ensure single React instance
+      'react': 'react',
+      'react-dom': 'react-dom'
+    }
+  },
+  // Define global constants
+  define: {
+    global: 'globalThis',
   },
   // Optimize dependencies
   optimizeDeps: {
@@ -122,17 +131,5 @@ export default defineConfig({
     exclude: [
       // Exclude large dependencies that should be loaded separately
     ],
-  },
-  // Define constants for better tree shaking
-  define: {
-    __DEV__: process.env.NODE_ENV === 'development',
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
-  },
-  // Improve build performance
-  esbuild: {
-    // Remove console.log in production but keep console.error
-    drop: process.env.NODE_ENV === 'production' ? ['debugger'] : [],
-    // Enable legal comments
-    legalComments: 'none',
   },
 })
