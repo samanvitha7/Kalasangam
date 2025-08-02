@@ -3,7 +3,13 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const path=require("path");
 const eventbriteRoutes= require("./routes/eventbrite.js");
-require("dotenv").config();
+
+// Load environment variables based on NODE_ENV
+if (process.env.NODE_ENV === 'production') {
+  require("dotenv").config({ path: '.env.production' });
+} else {
+  require("dotenv").config();
+}
 
 // Set BASE_URL dynamically based on environment
 process.env.BASE_URL = process.env.NODE_ENV === 'production' 
@@ -78,7 +84,16 @@ app.use(cors(corsOptions));
 app.use(express.json());
 //serve atatic image files from /public
 app.use("/images",express.static(path.join(__dirname,'public')));
-require("dotenv").config();
+
+// Root route for basic health check
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Kalasangam Backend API is running',
+    environment: process.env.NODE_ENV || 'development',
+    timestamp: new Date().toISOString()
+  });
+});
 
 app.use('/api/eventbrite',eventbriteRoutes);
 
