@@ -35,7 +35,7 @@ export const SoundProvider = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.3);
-  const [audioData, setAudioData] = useState(new Array(128).fill(20)); // Start with some baseline data
+  const [audioData, setAudioData] = useState(new Array(128).fill(40)); // Start with better baseline data
   const audioRef = useRef(null);
   const [audioInitialized, setAudioInitialized] = useState(false);
   const audioContextRef = useRef(null);
@@ -56,17 +56,26 @@ export const SoundProvider = ({ children }) => {
       fallbackIntervalRef.current = setInterval(() => {
         if (isPlaying) {
           const fakeData = new Array(128).fill(0).map((_, index) => {
-            return Math.max(20, Math.random() * 120 + Math.sin(Date.now() * 0.005 + index * 0.1) * 40 + 60);
+            // Create smoother, less flickering bars
+            const time = Date.now() * 0.002; // Slower time progression
+            const bass = Math.sin(time + index * 0.1) * 40 + 80;
+            const mid = Math.sin(time * 0.8 + index * 0.15) * 30 + 70;
+            const high = Math.sin(time * 1.2 + index * 0.2) * 20 + 60;
+            const smoothRandom = Math.sin(time * 0.5 + index) * 25; // Smooth "random" component
+            
+            // Combine frequencies for smoother animation
+            const combined = (bass + mid + high + smoothRandom) / 4 + 60;
+            return Math.max(40, Math.min(200, combined));
           });
           setAudioData(fakeData);
         } else {
           // Even when not playing, show some baseline activity
           const baselineData = new Array(128).fill(0).map((_, index) => {
-            return Math.max(10, 20 + Math.sin(Date.now() * 0.002 + index * 0.2) * 10);
+            return Math.max(20, 35 + Math.sin(Date.now() * 0.001 + index * 0.3) * 12);
           });
           setAudioData(baselineData);
         }
-      }, 100);
+      }, 120);
     };
 
     startFallbackAnimation();

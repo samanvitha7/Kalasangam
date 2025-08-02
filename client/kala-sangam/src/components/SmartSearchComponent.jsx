@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaSearch, FaTimes, FaStar, FaClock, FaUser, FaPalette, FaHistory } from 'react-icons/fa';
+import { FaSearch, FaTimes, FaStar, FaClock, FaUser, FaPalette, FaHistory, FaExternalLinkAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 
@@ -58,6 +58,18 @@ const HeaderSmartSearch = ({ scrolled }) => {
   const [searchType, setSearchType] = useState('all'); // 'all', 'artists', 'artworks'
   const searchRef = useRef();
   const navigate = useNavigate();
+
+  // Handle navigation to specific items
+  const handleItemClick = (item, type) => {
+    if (type === 'artwork') {
+      // Navigate to art wall with specific artwork highlighted
+      navigate('/art-wall', { state: { highlightArtwork: item._id || item.id } });
+    } else if (type === 'artist') {
+      navigate(`/artist/${item._id || item.id}`);
+    } else if (type === 'event') {
+      navigate('/events', { state: { highlightEvent: item._id || item.id } });
+    }
+  };
 
   // Optimize initial load by removing API test
 
@@ -343,6 +355,19 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
   const [results, setResults] = useState({ artworks: [], events: [], artists: [] });
   const [loading, setLoading] = useState(false);
   const [insights, setInsights] = useState(null);
+  const navigate = useNavigate();
+
+  // Handle navigation to specific items
+  const handleItemClick = (item, type) => {
+    if (type === 'artwork') {
+      // Navigate to art wall with specific artwork highlighted
+      navigate('/art-wall', { state: { highlightArtwork: item._id || item.id } });
+    } else if (type === 'artist') {
+      navigate(`/artist/${item._id || item.id}`);
+    } else if (type === 'event') {
+      navigate('/events', { state: { highlightEvent: item._id || item.id } });
+    }
+  };
 
   useEffect(() => {
     if (searchTerm.length > 2) {
@@ -429,14 +454,23 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {results.artworks.map((artwork) => (
-                  <div key={artwork._id || artwork.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                    <img 
-                      src={artwork.imageUrl} 
-                      alt={artwork.title}
-                      className="w-full h-48 object-cover"
-                    />
+                  <div 
+                    key={artwork._id || artwork.id} 
+                    className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group transform hover:-translate-y-1"
+                    onClick={() => handleItemClick(artwork, 'artwork')}
+                  >
+                    <div className="relative overflow-hidden">
+                      <img 
+                        src={artwork.imageUrl} 
+                        alt={artwork.title}
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <FaExternalLinkAlt className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={20} />
+                      </div>
+                    </div>
                     <div className="p-4">
-                      <h4 className="font-bold text-deep-teal mb-2">{artwork.title}</h4>
+                      <h4 className="font-bold text-deep-teal mb-2 group-hover:text-coral-red transition-colors duration-200">{artwork.title}</h4>
                       <p className="text-gray-600 text-sm mb-2">{artwork.description?.substring(0, 100)}...</p>
                       <div className="flex items-center justify-between text-sm text-gray-500">
                         <span>{artwork.category || 'Art'}</span>
@@ -461,12 +495,19 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {results.events.map((event) => (
-                  <div key={event._id || event.id} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                    <h4 className="font-bold text-deep-teal mb-2">{event.title}</h4>
+                  <div 
+                    key={event._id || event.id} 
+                    className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 cursor-pointer group transform hover:-translate-y-1"
+                    onClick={() => handleItemClick(event, 'event')}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-bold text-deep-teal group-hover:text-coral-red transition-colors duration-200 flex-1">{event.title}</h4>
+                      <FaExternalLinkAlt className="text-gray-400 group-hover:text-coral-red transition-colors duration-200 ml-2 mt-1" size={14} />
+                    </div>
                     <p className="text-gray-600 text-sm mb-3">{event.description?.substring(0, 150)}...</p>
                     <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>{event.type || 'Event'}</span>
-                      <span>
+                      <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">{event.type || 'Event'}</span>
+                      <span className="text-xs">
                         {event.location ? (
                           typeof event.location === 'string' 
                             ? event.location
@@ -493,23 +534,28 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {results.artists.map((artist) => (
-                  <div key={artist._id || artist.id} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                  <div 
+                    key={artist._id || artist.id} 
+                    className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 cursor-pointer group transform hover:-translate-y-1"
+                    onClick={() => handleItemClick(artist, 'artist')}
+                  >
                     <div className="flex items-center gap-4 mb-3">
                       {artist.profilePicture ? (
-                        <img src={artist.profilePicture} alt={artist.username} className="w-12 h-12 rounded-full object-cover" />
+                        <img src={artist.profilePicture} alt={artist.username} className="w-12 h-12 rounded-full object-cover group-hover:ring-2 group-hover:ring-coral-red/50 transition-all duration-200" />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-deep-teal/20 flex items-center justify-center text-deep-teal font-bold">
+                        <div className="w-12 h-12 rounded-full bg-deep-teal/20 flex items-center justify-center text-deep-teal font-bold group-hover:bg-coral-red/20 group-hover:text-coral-red transition-all duration-200">
                           {artist.username?.charAt(0)?.toUpperCase()}
                         </div>
                       )}
-                      <div>
-                        <h4 className="font-bold text-deep-teal">{artist.username}</h4>
+                      <div className="flex-1">
+                        <h4 className="font-bold text-deep-teal group-hover:text-coral-red transition-colors duration-200">{artist.username}</h4>
                         <p className="text-gray-500 text-sm">{artist.specialization}</p>
                       </div>
+                      <FaExternalLinkAlt className="text-gray-400 group-hover:text-coral-red transition-colors duration-200" size={14} />
                     </div>
                     <p className="text-gray-600 text-sm mb-3">{artist.bio?.substring(0, 100)}...</p>
                     <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>{artist.location || 'Location not specified'}</span>
+                      <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">{artist.location || 'Location not specified'}</span>
                       {artist.relevanceScore && (
                         <span className="bg-coral-red/20 text-coral-red px-2 py-1 rounded-full text-xs font-medium">
                           {Math.round(artist.relevanceScore * 100)}% match

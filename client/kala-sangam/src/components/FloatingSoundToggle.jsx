@@ -19,30 +19,32 @@ export default function FloatingSoundToggle() {
 
   // Audio visualization bars
   const AudioVisualizer = () => {
-    // Ensure we always have 32 bars with fallback data
+    // Ensure we always have 24 bars with fallback data (fewer bars but larger)
     const bars = audioData && audioData.length > 0 
-      ? audioData.slice(0, 32) 
-      : new Array(32).fill(0).map(() => isPlaying ? Math.random() * 100 + 20 : 10);
+      ? audioData.slice(0, 24) 
+      : new Array(24).fill(0).map(() => isPlaying ? Math.random() * 100 + 20 : 10);
     
     return (
-      <div className="flex items-end justify-center gap-1 h-12 w-32">
+      <div className="flex items-end justify-center gap-1 h-20 w-40">
         {bars.map((value, index) => {
-          // Ensure minimum height and proper scaling
+          // Ensure minimum height and proper scaling with larger bars
           const normalizedValue = Math.max(value || 0, 0);
           const height = isPlaying 
-            ? Math.max(4, Math.min(48, (normalizedValue / 255) * 48 + Math.sin(Date.now() * 0.01 + index) * 8))
-            : Math.max(2, 8 + Math.sin(index) * 4);
+            ? Math.max(8, Math.min(80, (normalizedValue / 255) * 80 + Math.sin(Date.now() * 0.01 + index) * 12))
+            : Math.max(4, 12 + Math.sin(index) * 6);
           
           return (
             <div
               key={index}
-              className="bg-gradient-to-t from-deep-teal to-coral-red rounded-sm transition-all duration-150"
+              className="bg-gradient-to-t from-deep-teal to-coral-red rounded-sm transition-all duration-300 ease-out"
               style={{
-                width: '3px',
+                width: '6px', // Doubled the width
                 height: `${height}px`,
-                opacity: isPlaying ? 0.9 : 0.4,
+                opacity: isPlaying ? 0.95 : 0.5,
                 transform: `scaleY(${isPlaying ? 1 : 0.6})`,
-                boxShadow: isPlaying ? '0 0 4px rgba(30, 94, 117, 0.5)' : 'none'
+                boxShadow: isPlaying ? '0 0 6px rgba(30, 94, 117, 0.6)' : 'none',
+                willChange: 'height, transform', // Optimize for animations
+                transformOrigin: 'bottom' // Ensure bars grow from bottom
               }}
             />
           );
