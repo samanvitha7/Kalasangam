@@ -3,7 +3,21 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const path=require("path");
 const eventbriteRoutes= require("./routes/eventbrite.js");
-require("dotenv").config();
+
+// Load environment variables based on NODE_ENV
+if (process.env.NODE_ENV === 'production') {
+  require("dotenv").config({ path: '.env.production' });
+} else {
+  require("dotenv").config();
+}
+
+// Set BASE_URL dynamically based on environment
+process.env.BASE_URL = process.env.NODE_ENV === 'production' 
+  ? process.env.BASE_URL_PROD 
+  : process.env.BASE_URL_DEV;
+
+console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+console.log(`🔗 BASE_URL set to: ${process.env.BASE_URL}`);
 
 const app = express();
 
@@ -42,8 +56,8 @@ const corsOptions = {
       return callback(null, true);
     }
     
-    // Allow Render frontend domain
-    if (origin && origin.includes('.onrender.com')) {
+    // Allow Render frontend domain and specific Kala Sangam domain
+    if (origin && (origin.includes('.onrender.com') || origin === 'https://kalasangam.onrender.com')) {
       console.log('Allowing Render domain:', origin);
       return callback(null, true);
     }
@@ -70,7 +84,16 @@ app.use(cors(corsOptions));
 app.use(express.json());
 //serve atatic image files from /public
 app.use("/images",express.static(path.join(__dirname,'public')));
-require("dotenv").config();
+
+// Root route for basic health check
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Kalasangam Backend API is running',
+    environment: process.env.NODE_ENV || 'development',
+    timestamp: new Date().toISOString()
+  });
+});
 
 app.use('/api/eventbrite',eventbriteRoutes);
 

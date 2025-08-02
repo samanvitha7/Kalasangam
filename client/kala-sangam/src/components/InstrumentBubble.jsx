@@ -10,13 +10,14 @@ export default function InstrumentBubble({ name, image, sound, description, isPl
   };
 
   return (
-    <div className="relative flex flex-col items-center gap-4 pt-8 animate-bob">
+    <div className="relative flex flex-col items-center justify-start gap-4 pt-8 pb-8 h-full min-h-[400px]">
       {/* Gradient Border Container */}
       <motion.div
         className="relative p-1 rounded-full bg-gradient-to-r from-[#1d7c6f] to-[#f58c8c] shadow-2xl"
-        animate={{ y: [0, -12, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        whileHover={{ scale: 1.05 }}
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        whileHover={{ scale: 1.02, y: -5 }}
+        whileTap={{ scale: 0.98 }}
       >
         {/* Play/Stop Button */}
         <motion.button

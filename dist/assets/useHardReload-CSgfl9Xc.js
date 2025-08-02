@@ -1,0 +1,1 @@
+import{r as t}from"./index-D3qpkmvJ.js";const r=()=>{t.useEffect(()=>{const e=`hardReloaded_${window.location.pathname.replace(/\//g,"_")}`;sessionStorage.getItem(e)||(sessionStorage.setItem(e,"true"),setTimeout(()=>{window.location.reload(!0)},100))},[])};export{r as u};

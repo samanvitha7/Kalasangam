@@ -338,7 +338,7 @@ const forgotPassword = async (req, res) => {
     const resetToken = user.generatePasswordReset(); // assumes your User model has this method
     await user.save();
 
-    const resetURL = `http://localhost:5174/reset-password/${resetToken}`;
+    const resetURL = `${process.env.BASE_URL}/reset-password/${resetToken}`;
     const message = `Click to reset password: ${resetURL}`;
 
     await sendEmail({
@@ -484,7 +484,7 @@ const resendVerificationEmail = async (req, res) => {
     user.emailVerificationToken = emailVerificationToken;
     await user.save();
 
-    const verificationURL = `http://localhost:5174/verify-email/${emailVerificationToken}`;
+    const verificationURL = `${process.env.BASE_URL}/verify-email/${emailVerificationToken}`;
     const message = `Please verify your email by clicking the link: ${verificationURL}`;
 
     await sendEmail({
