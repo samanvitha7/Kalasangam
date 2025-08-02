@@ -39,19 +39,10 @@ export const useSmoothScroll = () => {
 
     const cleanup = optimizeScrolling();
 
-    // CSS optimizations for smoother scrolling
+    // CSS optimizations for smoother scrolling (less aggressive)
     const style = document.createElement('style');
     style.textContent = `
-      * {
-        /* Enable hardware acceleration for transforms */
-        transform: translateZ(0);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        -webkit-perspective: 1000;
-        perspective: 1000;
-      }
-      
-      /* Optimize scroll performance */
+      /* Basic smooth scrolling */
       .scroll-smooth {
         scroll-behavior: smooth;
       }
@@ -66,7 +57,7 @@ export const useSmoothScroll = () => {
         }
       }
       
-      /* Optimize rendering layers */
+      /* Optimize rendering layers only when needed */
       .will-change-transform {
         will-change: transform;
       }

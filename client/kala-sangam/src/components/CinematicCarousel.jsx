@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "./Footer";
 import "./CinematicCarousel.css";
 
 const artworks = [
@@ -83,9 +84,9 @@ export default function CinematicCarousel() {
   }, []);
 
   return (
-    <div className="cinema-wrapper bg-[#F8E6DA] py-16">
+    <div className="cinema-wrapper bg-[#F8E6DA] min-h-screen flex flex-col">
       {/* Hero Section - Exact ArtWall Match */}
-      <div className="text-center mb-12 container mx-auto px-4">
+      <div className="text-center mb-12 container mx-auto px-4 pt-16">
         <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
           Art Showcase
         </h1>
@@ -102,13 +103,19 @@ export default function CinematicCarousel() {
         ))}
       </div>
       <div className="cinema-fade" />
-      <div className="cinema-bottom-wrapper">
+      
+      <div className="cinema-bottom-wrapper mb-8">
         <button 
           className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 font-dm-serif"
           onClick={() => navigate("/gallery")}
         >
           Explore Gallery →
         </button>
+      </div>
+      
+      {/* Full Width Footer */}
+      <div className="w-full mt-auto">
+        <Footer />
       </div>
     </div>
   );
