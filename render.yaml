@@ -4,9 +4,9 @@ services:
     name: kalasangam-api
     env: node
     plan: free
-    buildCommand: cd server && npm ci --only=production
+    buildCommand: cd server && npm install --production
     startCommand: cd server && node server.js
-    healthCheckPath: /api/health
+    healthCheckPath: /
     autoDeploy: true
     envVars:
       - key: NODE_ENV
@@ -30,7 +30,7 @@ services:
     name: kalasangam-frontend
     env: static
     plan: free
-    buildCommand: cd client/kala-sangam && npm ci && npm run build:production
+    buildCommand: cd client/kala-sangam && npm install && npm run build:production
     staticPublishPath: client/kala-sangam/dist
     autoDeploy: true
     routes:

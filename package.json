@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
-    "build": "cd client/kala-sangam && npm ci && npm run build:production",
+    "build": "cd client/kala-sangam && npm install && npm run build:production",
     "build:local": "cd client/kala-sangam && npm install && npm run build",
     "dev": "cd client/kala-sangam && npm run dev",
     "preview": "cd client/kala-sangam && npm run preview",
