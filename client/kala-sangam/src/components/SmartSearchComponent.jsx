@@ -466,11 +466,13 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
             Smart Search
           </h1>
           <p className="text-lg font-lora font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
-            Discover India's artistic treasures with AI-powered search. Ask in natural language and find exactly what inspires you.
+            {initialQuery 
+              ? `Intelligent smart search results for "${initialQuery}"`
+              : "Discover India's artistic treasures with AI-powered search. Ask in natural language and find exactly what inspires you."
+            }
           </p>
         </motion.section>
 
-        <div className="w-full max-w-4xl mx-auto p-6 relative z-10">
         {/* Search Bar - Events Page Style */}
         <motion.div 
           className="bg-gradient-to-br from-[#134856] to-[#e05264] rounded-3xl shadow-2xl p-2 mb-8"
@@ -479,31 +481,31 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="bg-[#F8E6DA] rounded-2xl p-6">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            {/* Search Input */}
-            <div className="relative flex-1 max-w-md">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Ask me anything... 'show me beautiful odissi dance', 'find spiritual art from south india'"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-              />
-            </div>
-            
-            {/* AI Badge */}
-            <div className="flex gap-4">
-              <div className="flex items-center gap-2">
-                <FaStar className="text-gray-600" />
-                <span className="px-4 py-2 border border-gray-300 rounded-full bg-white text-gray-600 text-sm font-medium">
-                  AI Powered Search
-                </span>
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+              {/* Search Input */}
+              <div className="relative flex-1 max-w-md">
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder={initialQuery ? `Intelligent search results for "${initialQuery}"` : "Ask me anything... 'show me beautiful odissi dance', 'find spiritual art from south india'"}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                />
+              </div>
+              
+              {/* AI Badge */}
+              <div className="flex gap-4">
+                <div className="flex items-center gap-2">
+                  <FaStar className="text-gray-600" />
+                  <span className="px-4 py-2 border border-gray-300 rounded-full bg-white text-gray-600 text-sm font-medium">
+                    AI Powered Search
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
       {/* Search Insights */}
       {insights && (
@@ -668,7 +670,6 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           </div>
         </div>
       )}
-        </div>
       </div>
     </div>
   );
