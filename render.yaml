@@ -1,7 +1,7 @@
 services:
   # Backend API Service
   - type: web
-    name: kalasangam
+    name: Kala Sangam
     env: node
     plan: free
     buildCommand: cd server && npm install
@@ -26,7 +26,7 @@ services:
     
   # Frontend Service
   - type: web
-    name: kala-sangam
+    name: KalaSangam
     env: static
     buildCommand: cd client/kala-sangam && npm install && npm run build:production
     staticPublishPath: client/kala-sangam/dist
