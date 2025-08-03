@@ -36,10 +36,17 @@ const AdminLogin = ({ onLogin }) => {
       const data = await adminApi.adminLogin(credentials);
       console.log('Admin login successful:', data);
       
-      // Store in localStorage first
+      // Store in localStorage first - make sure user role is properly stored
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       localStorage.setItem('userRole', data.user.role);
+      
+      // Debug logging
+      console.log('Stored in localStorage:', {
+        token: data.token ? 'exists' : 'missing',
+        user: data.user,
+        userRole: data.user.role
+      });
       
       // Trigger AuthContext to load the user and update state
       await loadUser();

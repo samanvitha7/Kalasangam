@@ -126,6 +126,13 @@ export const AuthProvider = ({ children }) => {
       console.log('AuthContext loadUser response:', res.data);
       console.log('User data loaded:', res.data.user);
       console.log('User likes:', res.data.user?.likes);
+      
+      // Make sure role is stored in localStorage for ProtectedRoute
+      if (res.data.user && res.data.user.role) {
+        localStorage.setItem('userRole', res.data.user.role);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+      }
+      
       dispatch({
         type: 'USER_LOADED',
         payload: res.data.user
