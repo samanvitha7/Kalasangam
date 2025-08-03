@@ -141,21 +141,21 @@ app.get("/api/danceforms", async (req, res) => {
 });
 
 
-//connect to mongodb with better error handling and connection options
+//connect to mongodb with optimized settings for faster deployment
 const connectDB = async (retryCount = 0) => {
-  const maxRetries = 5;
-  const retryDelay = Math.min(1000 * Math.pow(2, retryCount), 30000); // Exponential backoff, max 30s
+  const maxRetries = 3; // Reduced retries
+  const retryDelay = Math.min(2000 * retryCount, 10000); // Faster retries
   
   try {
     console.log(`Attempting MongoDB connection (attempt ${retryCount + 1}/${maxRetries + 1})...`);
     
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 15000, // 15 second timeout
-      socketTimeoutMS: 45000, // 45 second socket timeout
-      connectTimeoutMS: 15000, // 15 second connection timeout
-      maxPoolSize: 10, // Maintain up to 10 socket connections
-      minPoolSize: 1, // Maintain a minimum of 1 socket connection
-      maxIdleTimeMS: 30000, // Close connections after 30 seconds of inactivity
+      serverSelectionTimeoutMS: 8000, // Faster timeout
+      socketTimeoutMS: 20000, // Reduced timeout
+      connectTimeoutMS: 8000, // Faster connection timeout
+      maxPoolSize: 5, // Reduced pool size
+      minPoolSize: 1,
+      maxIdleTimeMS: 20000, // Faster idle timeout
     });
     
     console.log(`✅ MongoDB connected successfully: ${conn.connection.host}`);

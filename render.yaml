@@ -4,9 +4,10 @@ services:
     name: KalaSangam
     env: node
     plan: free
-    buildCommand: cd server && npm install
-    startCommand: cd server && npm start
-    healthCheckPath: /api/health
+    buildCommand: cd server && npm ci --only=production
+    startCommand: cd server && node server.js
+    healthCheckPath: /
+    autoDeploy: false
     envVars:
       - key: NODE_ENV
         value: production
