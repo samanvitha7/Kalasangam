@@ -1,37 +1,31 @@
 services:
   # Backend API Service
   - type: web
-    name: kalasangam-api
+    name: kalasangam-backend
     env: node
     plan: free
-    buildCommand: cd server && npm install --production
-    startCommand: cd server && node server.js
-    healthCheckPath: /
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node server.js
     autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        fromService:
-          type: web
-          name: KalaSangam
-          property: port
       - key: MONGO_URI
         value: mongodb+srv://bolisettysamanvitha:XpFrzygY574FCLHf@cluster0.tohbv1j.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0
       - key: JWT_SECRET
         value: 4d62b08c4f0532c4d8e2b81e0ecb087a7060d431bb12ff3a3d94c842cbbba249
       - key: JWT_EXPIRE
         value: 30d
-      - key: BASE_URL_PROD
-        value: https://kalasangam.onrender.com
-    
+
   # Frontend Service
   - type: web
     name: kalasangam-frontend
     env: static
     plan: free
-    buildCommand: cd client/kala-sangam && npm install && npm run build:production
-    staticPublishPath: client/kala-sangam/dist
+    rootDir: client/kala-sangam
+    buildCommand: npm install && npm run build:production
+    staticPublishPath: dist
     autoDeploy: true
     routes:
       - type: rewrite
