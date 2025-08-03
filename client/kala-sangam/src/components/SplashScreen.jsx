@@ -139,11 +139,17 @@ export function SoundPrompt({ onContinue }) {
   const handleContinue = (withSound) => {
     setHidden(true);
     
+    // Set the sound state immediately
     if (withSound) {
+      console.log('Enabling sound from splash screen');
       enableSound();
     } else {
+      console.log('Disabling sound from splash screen');
       disableSound();
     }
+    
+    // Store the preference in sessionStorage for consistency
+    sessionStorage.setItem('soundPreference', withSound ? 'enabled' : 'disabled');
     
     setTimeout(() => {
       onContinue(withSound);

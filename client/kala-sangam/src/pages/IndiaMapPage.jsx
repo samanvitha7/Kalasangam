@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import IndiaMap from "../components/IndiaMap";
-import Lottie from "lottie-react";
-import oceanAnim from "../assets/ocean.json";
-import sunAnim from "../assets/sun.json";
 import FullBleedDivider from "../components/FullBleedDivider";
 
 // Enhanced floating particles - optimized count
 const FloatingParticles = () => {
-  const particles = Array.from({ length: 21 }, (_, i) => ({
+  const particles = Array.from({ length: 40 }, (_, i) => ({
     id: i,
     size: Math.random() * 8 + 6, // Bigger particles 6-14px
     color: [
