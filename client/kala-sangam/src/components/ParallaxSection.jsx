@@ -42,19 +42,10 @@ const ParallaxSection = () => {
           >
             KALA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SANGAM
           </h1>
-        </div>
-
-        {/* Lotus Overlay - Top layer that initially hides part of the text */}
-       {/* <img
-          src="/assets/lotus-hidden.png"
-          alt="Lotus"
-          className="absolute left-1/2 transform -translate-x-1/2 w-[85vw] max-w-[1200px] xl:w-[80vw] 2xl:w-[75vw] z-20 pointer-events-none lotus-responsive"
-        /> */}
-       
+        </div> 
       </section>
 
-      {/* Decorative Divider (flipped) */}
-      <div className="w-full h-24 bg-gradient-to-b from-deep-teal via-coral-red to-[#F8E6DA]" />
+      
     </>
   );
 };
