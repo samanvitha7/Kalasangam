@@ -241,7 +241,7 @@ const LivingArtistMosaic = () => {
                     
                     <div className="text-center py-16">
                         <div className="bg-white/80 backdrop-blur-lg rounded-3xl border-2 border-white/30 shadow-2xl p-12 max-w-md mx-auto">
-                            <div className="text-6xl mb-4">🎨</div>
+                            <div className="text-6xl mb-4"></div>
                             <p className="text-[#134856] text-lg font-lora mb-6">
                                 {error ? 'Please try again later' : 'Check back soon for amazing artists!'}
                             </p>
@@ -402,7 +402,7 @@ const LivingArtistMosaic = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <h1 className="text-7xl font-dm-serif mb-8 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+                            <h1 className="text-7xl font-dm-serif mb-8 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent leading-tight py-2">
                                 Makers of Heritage
                             </h1>
                             <div className="max-w-3xl">
@@ -433,7 +433,7 @@ const LivingArtistMosaic = () => {
                                 whileHover={{ scale: 1.05, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                Go to Art Wall ✨
+                                Go to Art Wall 
                             </motion.button>
                         </motion.div>
                     </motion.div>
@@ -458,12 +458,7 @@ const LivingArtistMosaic = () => {
                                 >
                                     <div className="bg-white backdrop-blur-lg rounded-[2rem] border-2 border-white/50 shadow-2xl overflow-hidden aspect-square p-8 w-80 h-80">
                                         <div className="flex flex-col items-center justify-center h-full text-center">
-                                            <div className="w-20 h-20 rounded-full flex items-center justify-center text-3xl bg-gradient-to-br from-[#134856] to-[#e05264] mb-5">
-                                                {artist.specialization?.includes('Sitar') ? '🎵' :
-                                                 artist.specialization?.includes('Painting') ? '🎨' :
-                                                 artist.specialization?.includes('Dance') ? '💃' :
-                                                 artist.specialization?.includes('Odissi') ? '🕺' : '🎭'}
-                                            </div>
+                                            
                                             <h3 className="font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent text-2xl mb-3">
                                                 {artist.name}
                                             </h3>
