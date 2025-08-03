@@ -527,7 +527,7 @@ export default function PulsingEventsCalendar() {
             >
               <CircularCalendar 
                 events={events} 
-                onEventClick={handleEventClick}
+                onEventClick={() => navigate('/events')}
                 selectedEvent={selectedEvent}
                 onMonthChange={handleMonthChange}
               />
@@ -564,60 +564,98 @@ export default function PulsingEventsCalendar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <h1 className="text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
-                  What's Happening Around You?
+                <h1 className="text-4xl font-dm-serif mb-4 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+                  What's Happening
                 </h1>
-                <p className="text-lg font-lora text-xl font-semibold text-[#E05264] leading-relaxed mb-10">
-                  Looking for your next cultural adventure? Explore upcoming events and workshops. Whether you're into music, dance, or crafts—there's always something new.
+                <p className="text-lg font-lora text-lg font-semibold text-[#E05264] leading-relaxed mb-8">
+                  Looking for your next cultural adventure? Explore upcoming events and workshops. There’s always something new.
                 </p>
               </motion.div>
               
-              {/* Current Month Events - Under "What's Happening" */}
+              {/* Current Month Events - Artist Card Style */}
               <motion.div
-                className="w-full"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+                className="flex flex-col items-center justify-center space-y-6 ml-12"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
               >
-                <h3 className="text-3xl font-bold text-[#134856] mb-6 font-lora">{months[selectedMonth]}'s Events</h3>
-                <div className="space-y-4 max-h-96 overflow-y-auto">
+                <div className="grid grid-cols-2 gap-20 max-w-6xl">
                   {(() => {
                     const monthEvents = events.filter(event => {
                       const eventDate = new Date(event.date);
                       return eventDate.getMonth() === selectedMonth;
                     });
                     
-                    return monthEvents.length > 0 ? monthEvents.map((event, index) => (
+                    const eventsToShow = monthEvents.slice(0, 4);
+                    
+                    return eventsToShow.length > 0 ? eventsToShow.map((event, index) => (
                       <motion.div
                         key={event._id}
-                        className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300 border border-white/20"
-                        onClick={() => handleEventClick(event)}
+                        className="relative group cursor-pointer"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8 + index * 0.1 }}
-                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                        whileHover={{ scale: 1.05, y: -5 }}
+                        onClick={() => navigate('/events')}
                       >
-                        <div className="flex items-center space-x-4">
-                          <div className="w-12 h-12 rounded-full flex items-center justify-center text-xl bg-gradient-to-br from-[#1D7C6F] to-[#F48c8c]">
-                            {event.type === 'workshop' ? '🎨' : 
-                             event.type === 'performance' ? '🎵' : 
-                             event.type === 'exhibition' ? '🖼️' : '🎊'}
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-semibold text-[#1D7C6F]">{event.title}</h4>
-                            <p className="text-sm text-gray-600">{event.location.city}, {event.location.state}</p>
-                            <p className="text-xs text-pink-600 font-medium">
-                              {new Date(event.date).toLocaleDateString('en-US', { 
-                                month: 'short', 
-                                day: 'numeric',
-                                year: 'numeric'
-                              })} • {event.time}
+                        <div className="bg-white backdrop-blur-lg rounded-[2rem] border-2 border-white/50 shadow-2xl overflow-hidden aspect-square p-8 w-80 h-80">
+                          <div className="flex flex-col items-center justify-center h-full text-center">
+                            
+                            
+                            <h3 className="font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent text-2xl mb-3">
+                              {event.title}
+                            </h3>
+                            <p className="text-[#134856]/70 font-lora text-base mb-4">
+                              {event.category.charAt(0).toUpperCase() + event.category.slice(1)} Event
                             </p>
+                            <p className="text-[#134856]/60 font-lora text-sm leading-relaxed mb-4">
+                              {event.description ? event.description.slice(0, 90) + '...' : 'Join us for this exciting cultural event'}
+                            </p>
+                            <div className="flex flex-col items-center gap-2 text-base text-[#134856]/60">
+                              <span>📍 {event.location.city}, {event.location.state}</span>
+                              <span className="bg-gradient-to-r from-[#134856]/10 to-[#e05264]/10 px-4 py-2 rounded-full">
+                                {new Date(event.date).toLocaleDateString('en-US', { 
+                                  month: 'short', 
+                                  day: 'numeric'
+                                })}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          {/* Hover overlay with deep teal text */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-[#134856]/20 to-[#e05264]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-[2rem]">
+                            <span className="text-[#134856] font-lora font-bold text-xl text-center drop-shadow-lg">
+                              Click for details
+                            </span>
                           </div>
                         </div>
                       </motion.div>
                     )) : (
-                      <p className="text-gray-500 text-center py-8">No events for {months[selectedMonth]}.</p>
+                      // Show placeholder cards when no events
+                      Array.from({ length: 4 }, (_, index) => (
+                        <motion.div
+                          key={`placeholder-${index}`}
+                          className="relative group"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                        >
+                          <div className="bg-white/50 backdrop-blur-lg rounded-[2rem] border-2 border-white/30 shadow-lg overflow-hidden aspect-square p-8 w-80 h-80">
+                            <div className="flex flex-col items-center justify-center h-full text-center">
+                              <div className="text-4xl mb-4 opacity-30">📅</div>
+                              <h3 className="font-dm-serif font-bold text-[#134856]/30 text-2xl mb-3">
+                                No Events
+                              </h3>
+                              <p className="text-[#134856]/30 font-lora text-base mb-4">
+                                {months[selectedMonth]}
+                              </p>
+                              <p className="text-[#134856]/30 font-lora text-sm leading-relaxed">
+                                Check other months or stay tuned for upcoming events!
+                              </p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))
                     );
                   })()
                   }
