@@ -6,9 +6,9 @@ const eventbriteRoutes= require("./routes/eventbrite.js");
 
 // Load environment variables based on NODE_ENV
 if (process.env.NODE_ENV === 'production') {
-  require("dotenv").config({ path: '.env.production' });
+  require("dotenv").config({ path: __dirname + '/.env.production' });
 } else {
-  require("dotenv").config();
+  require("dotenv").config({ path: __dirname + '/.env' });
 }
 
 // Set BASE_URL dynamically based on environment
@@ -156,10 +156,6 @@ const connectDB = async (retryCount = 0) => {
       maxPoolSize: 10, // Maintain up to 10 socket connections
       minPoolSize: 1, // Maintain a minimum of 1 socket connection
       maxIdleTimeMS: 30000, // Close connections after 30 seconds of inactivity
-      bufferMaxEntries: 0, // Disable mongoose buffering
-      bufferCommands: false, // Disable mongoose buffering
-      retryWrites: true,
-      retryReads: true,
     });
     
     console.log(`✅ MongoDB connected successfully: ${conn.connection.host}`);
