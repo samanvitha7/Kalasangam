@@ -142,22 +142,51 @@ app.get("/api/danceforms", async (req, res) => {
 
 
 //connect to mongodb with better error handling and connection options
-const connectDB = async () => {
+const connectDB = async (retryCount = 0) => {
+  const maxRetries = 5;
+  const retryDelay = Math.min(1000 * Math.pow(2, retryCount), 30000); // Exponential backoff, max 30s
+  
   try {
+    console.log(`Attempting MongoDB connection (attempt ${retryCount + 1}/${maxRetries + 1})...`);
+    
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 10000, // 10 second timeout
+      serverSelectionTimeoutMS: 15000, // 15 second timeout
       socketTimeoutMS: 45000, // 45 second socket timeout
+      connectTimeoutMS: 15000, // 15 second connection timeout
       maxPoolSize: 10, // Maintain up to 10 socket connections
-      minPoolSize: 5, // Maintain a minimum of 5 socket connections
+      minPoolSize: 1, // Maintain a minimum of 1 socket connection
       maxIdleTimeMS: 30000, // Close connections after 30 seconds of inactivity
       bufferMaxEntries: 0, // Disable mongoose buffering
       bufferCommands: false, // Disable mongoose buffering
+      retryWrites: true,
+      retryReads: true,
     });
-    console.log(`MongoDB connected: ${conn.connection.host}`);
+    
+    console.log(`✅ MongoDB connected successfully: ${conn.connection.host}`);
+    console.log(`📊 Database: ${conn.connection.name}`);
+    
+    // Handle connection events
+    mongoose.connection.on('error', (err) => {
+      console.error('❌ MongoDB connection error:', err.message);
+    });
+    
+    mongoose.connection.on('disconnected', () => {
+      console.warn('⚠️ MongoDB disconnected');
+    });
+    
+    mongoose.connection.on('reconnected', () => {
+      console.log('🔄 MongoDB reconnected');
+    });
+    
   } catch (error) {
-    console.error('MongoDB connection error:', error.message);
-    // Don't exit process, let server continue running
-    // process.exit(1);
+    console.error(`❌ MongoDB connection failed (attempt ${retryCount + 1}):`, error.message);
+    
+    if (retryCount < maxRetries) {
+      console.log(`⏳ Retrying in ${retryDelay / 1000} seconds...`);
+      setTimeout(() => connectDB(retryCount + 1), retryDelay);
+    } else {
+      console.error('🚨 Max MongoDB connection retries exceeded. Server will continue without database.');
+    }
   }
 };
 
