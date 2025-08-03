@@ -21,11 +21,149 @@ const ArtistsList = () => {
           setArtists(response.data);
         } else {
           console.error('No artists found in response:', response);
-          setArtists([]);
+          // Fallback mock data when API returns no data
+          const mockArtists = [
+            {
+              _id: '1',
+              name: 'Ravi Shankar',
+              specialization: 'Classical Sitar',
+              location: 'Varanasi, Uttar Pradesh',
+              experience: '25+ years',
+              bio: 'A master of classical Indian music, preserving the ancient traditions of sitar playing through generations of knowledge.',
+              followers: 1250,
+              artworks: ['artwork1', 'artwork2', 'artwork3'],
+              totalLikes: 450
+            },
+            {
+              _id: '2',
+              name: 'Meera Devi',
+              specialization: 'Madhubani Painting',
+              location: 'Mithila, Bihar',
+              experience: '15+ years',
+              bio: 'Renowned for her intricate Madhubani paintings that tell stories of Indian mythology and culture.',
+              followers: 890,
+              artworks: ['artwork1', 'artwork2'],
+              totalLikes: 320
+            },
+            {
+              _id: '3',
+              name: 'Arjun Kumar',
+              specialization: 'Kathak Dance',
+              location: 'Lucknow, Uttar Pradesh',
+              experience: '20+ years',
+              bio: 'A passionate Kathak dancer and teacher, dedicated to preserving this beautiful classical dance form.',
+              followers: 1540,
+              artworks: ['artwork1', 'artwork2', 'artwork3', 'artwork4'],
+              totalLikes: 680
+            },
+            {
+              _id: '4',
+              name: 'Lakshmi Nair',
+              specialization: 'Odissi',
+              location: 'Bhubaneswar, Odisha',
+              experience: '18+ years',
+              bio: 'Expert in Odissi, bringing ancient stories to life through graceful movements and sculpturesque poses.',
+              followers: 2100,
+              artworks: ['artwork1', 'artwork2', 'artwork3', 'artwork4', 'artwork5'],
+              totalLikes: 920
+            },
+            {
+              _id: '5',
+              name: 'Priya Sharma',
+              specialization: 'Warli Painting',
+              location: 'Mumbai, Maharashtra',
+              experience: '12+ years',
+              bio: 'Contemporary artist specializing in traditional Warli art, bringing tribal stories to modern canvases.',
+              followers: 750,
+              artworks: ['artwork1', 'artwork2', 'artwork3'],
+              totalLikes: 280
+            },
+            {
+              _id: '6',
+              name: 'Rajesh Patel',
+              specialization: 'Block Printing',
+              location: 'Jaipur, Rajasthan',
+              experience: '30+ years',
+              bio: 'Master craftsman in traditional Rajasthani block printing, creating exquisite textiles with ancestral techniques.',
+              followers: 1890,
+              artworks: ['artwork1', 'artwork2', 'artwork3', 'artwork4', 'artwork5', 'artwork6'],
+              totalLikes: 1200
+            }
+          ];
+          setArtists(mockArtists);
         }
       } catch (error) {
         console.error('Error fetching artists:', error);
-        setArtists([]);
+        // Fallback mock data with followers information
+        const mockArtists = [
+          {
+            _id: '1',
+            name: 'Ravi Shankar',
+            specialization: 'Classical Sitar',
+            location: 'Varanasi, Uttar Pradesh',
+            experience: '25+ years',
+            bio: 'A master of classical Indian music, preserving the ancient traditions of sitar playing through generations of knowledge.',
+            followers: 1250,
+            artworks: ['artwork1', 'artwork2', 'artwork3'],
+            totalLikes: 450
+          },
+          {
+            _id: '2',
+            name: 'Meera Devi',
+            specialization: 'Madhubani Painting',
+            location: 'Mithila, Bihar',
+            experience: '15+ years',
+            bio: 'Renowned for her intricate Madhubani paintings that tell stories of Indian mythology and culture.',
+            followers: 890,
+            artworks: ['artwork1', 'artwork2'],
+            totalLikes: 320
+          },
+          {
+            _id: '3',
+            name: 'Arjun Kumar',
+            specialization: 'Kathak Dance',
+            location: 'Lucknow, Uttar Pradesh',
+            experience: '20+ years',
+            bio: 'A passionate Kathak dancer and teacher, dedicated to preserving this beautiful classical dance form.',
+            followers: 1540,
+            artworks: ['artwork1', 'artwork2', 'artwork3', 'artwork4'],
+            totalLikes: 680
+          },
+          {
+            _id: '4',
+            name: 'Lakshmi Nair',
+            specialization: 'Odissi',
+            location: 'Bhubaneswar, Odisha',
+            experience: '18+ years',
+            bio: 'Expert in Odissi, bringing ancient stories to life through graceful movements and sculpturesque poses.',
+            followers: 2100,
+            artworks: ['artwork1', 'artwork2', 'artwork3', 'artwork4', 'artwork5'],
+            totalLikes: 920
+          },
+          {
+            _id: '5',
+            name: 'Priya Sharma',
+            specialization: 'Warli Painting',
+            location: 'Mumbai, Maharashtra',
+            experience: '12+ years',
+            bio: 'Contemporary artist specializing in traditional Warli art, bringing tribal stories to modern canvases.',
+            followers: 750,
+            artworks: ['artwork1', 'artwork2', 'artwork3'],
+            totalLikes: 280
+          },
+          {
+            _id: '6',
+            name: 'Rajesh Patel',
+            specialization: 'Block Printing',
+            location: 'Jaipur, Rajasthan',
+            experience: '30+ years',
+            bio: 'Master craftsman in traditional Rajasthani block printing, creating exquisite textiles with ancestral techniques.',
+            followers: 1890,
+            artworks: ['artwork1', 'artwork2', 'artwork3', 'artwork4', 'artwork5', 'artwork6'],
+            totalLikes: 1200
+          }
+        ];
+        setArtists(mockArtists);
       } finally {
         setLoading(false);
       }
@@ -185,7 +323,7 @@ const ArtistsList = () => {
                     className="px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   >
                     <option value="name">Sort by Name</option>
-                    <option value="followers">Sort by Followers</option>
+                    {/* <option value="followers">Sort by Followers</option> */}
                     <option value="artworks">Sort by Artworks</option>
                     <option value="likes">Sort by Likes</option>
                   </select>
@@ -246,15 +384,15 @@ const ArtistsList = () => {
                       </p>
 
                       {/* Stats */}
-                      <div className="grid grid-cols-3 gap-4 text-center mb-4">
+                      <div className="grid grid-cols-2 gap-4 text-center mb-4">
                         <div>
                           <div className="font-bold text-[#134856] text-lg">{artist.artworks ? artist.artworks.length : 0}</div>
                           <div className="text-xs text-gray-500 font-lora">Artworks</div>
                         </div>
-                        <div>
+                        {/* <div>
                           <div className="font-bold text-[#134856] text-lg">{artist.followers || 0}</div>
                           <div className="text-xs text-gray-500 font-lora">Followers</div>
-                        </div>
+                        </div> */}
                         <div>
                           <div className="font-bold text-[#134856] text-lg">{artist.totalLikes || 0}</div>
                           <div className="text-xs text-gray-500 font-lora">Likes</div>
