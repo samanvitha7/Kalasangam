@@ -448,13 +448,14 @@ const ArtWall = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8E6DA] pb-8 overflow-hidden">
-
+    <div className="min-h-screen bg-[#F8E6DA] overflow-hidden">
       <FullBleedDivider />
-      {/* Floating Particles Background */}
-      <FloatingParticles />
       
-      <div className="container mx-auto px-4 pt-10 relative z-10">
+      <div className="pt-10 pb-8">
+        {/* Floating Particles Background */}
+        <FloatingParticles />
+        
+        <div className="container mx-auto px-4 relative z-10">
         {/* Hero Section */}
         <motion.section 
           className="text-center mb-12"
@@ -712,6 +713,7 @@ const ArtWall = () => {
           onClose={() => setShowModal(false)}
           onSubmit={handleArtworkSubmit}
         />
+        </div>
       </div>
     </div>
   );
