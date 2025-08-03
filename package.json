@@ -3,11 +3,14 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
-    "build": "cd client/kala-sangam && npm install && npm run build && cp -r dist ../../",
+    "build": "cd client/kala-sangam && npm ci && npm run build:production",
+    "build:local": "cd client/kala-sangam && npm install && npm run build",
     "dev": "cd client/kala-sangam && npm run dev",
     "preview": "cd client/kala-sangam && npm run preview",
     "start": "cd server && npm install && npm start",
-    "server-dev": "cd server && npm run dev"
+    "server-dev": "cd server && npm run dev",
+    "install-all": "npm install && cd client/kala-sangam && npm install && cd ../../server && npm install",
+    "build-and-start": "npm run build && npm run start"
   },
   "engines": {
     "node": ">=18.0.0"
