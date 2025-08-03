@@ -3,11 +3,11 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 
-// Minimal floating particles - only small circles
+// Enhanced floating particles - optimized count
 const FloatingParticles = () => {
   const particles = Array.from({ length: 20 }, (_, i) => ({
     id: i,
-    size: Math.random() * 4 + 3, // Small particles 3-7px
+    size: Math.random() * 8 + 6, // Bigger particles 6-14px
     color: [
       'rgba(19, 72, 86, 0.6)',
       'rgba(224, 82, 100, 0.6)',

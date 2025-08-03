@@ -18,7 +18,7 @@ export default function PhoneLogin() {
 
   useEffect(() => {
     clearError();
-  }, [clearError]);
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });

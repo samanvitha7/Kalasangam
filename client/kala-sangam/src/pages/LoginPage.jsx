@@ -19,7 +19,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     clearError();
-  }, [clearError]);
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
