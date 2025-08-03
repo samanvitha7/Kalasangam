@@ -510,7 +510,7 @@ export default function PulsingEventsCalendar() {
   }
 
   return (
-    <section className="relative bg-[#F8E6DA] py-8 overflow-hidden min-h-screen w-full flex flex-col justify-center items-center">
+    <section className="relative bg-[#F8E6DA] pt-24 pb-8 overflow-hidden min-h-screen w-full flex flex-col justify-center items-center">
       {/* Floating Particles */}
       <FloatingParticles />
       
