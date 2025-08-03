@@ -66,13 +66,6 @@ const FollowingLists = ({ showFollowing = true, showFollowers = true, compact = 
       animate={{ opacity: 1, y: 0 }}
     >
       <div className="flex items-center gap-3">
-        <div className="relative">
-          <img
-            src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=134856&color=fff`}
-            alt={user.name}
-            className={`rounded-full object-cover ${compact ? 'w-10 h-10' : 'w-12 h-12'}`}
-          />
-        </div>
         
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">

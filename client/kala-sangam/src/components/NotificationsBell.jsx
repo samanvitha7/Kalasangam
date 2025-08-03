@@ -208,12 +208,6 @@ const NotificationsBell = () => {
                     onClick={() => !notification.read && markAsRead(notification._id)}
                   >
                     <div className="flex items-start gap-3">
-                      {/* Avatar */}
-                      <img
-                        src={notification.from?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(notification.from?.name || 'User')}&background=134856&color=fff`}
-                        alt={notification.from?.name}
-                        className="w-8 h-8 rounded-full flex-shrink-0"
-                      />
                       
                       {/* Content */}
                       <div className="flex-1 min-w-0">
