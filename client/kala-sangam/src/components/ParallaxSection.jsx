@@ -27,9 +27,6 @@ const ParallaxSection = () => {
           className="absolute top-0 left-0 w-full h-auto object-top z-0 shadow-[inset_0_-80px_60px_-20px_rgba(0,0,0,0.5)]"
         />
       
-        <div 
-          className="absolute bottom-0 w-full h-48 z-10 pointer-events-none bg-gradient-to-b from-transparent to-deep-teal" 
-        />
 
         {/* Animated Text - Positioned much higher on screen with responsive positioning */}
         <div
