@@ -120,7 +120,7 @@ export default function Header({ scrolled, onMapClick }) {
            <Link
           to="/gallery"
           className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
-            !scrolled ? "relative top-0" : ""
+            !scrolled ? "relative top-3" : ""
           }`}
         >
           Gallery
@@ -129,7 +129,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/art-wall"
               className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
-            !scrolled ? "relative top-0" : ""
+            !scrolled ? "relative top-3" : ""
           }`}
             >
               Art Wall
@@ -138,7 +138,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/artists"
               className={`font-winky font-[500] transition-all duration-500 ease-in-out hover:text-rosehover ${
-            !scrolled ? "relative top-0" : ""
+            !scrolled ? "relative top-3" : ""
           }`}
             >
               Artists
@@ -149,7 +149,7 @@ export default function Header({ scrolled, onMapClick }) {
             className={`
               font-winky font-[500] text-deep-teal cursor-pointer flex items-center
               transition-all duration-500 ease-in-out hover:text-rosehover
-              ${!scrolled ? "relative top-0" : ""}
+              ${!scrolled ? "relative top-3" : ""}
             `}
             onClick={() => setShowDropdown(!showDropdown)}
           >
@@ -197,7 +197,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/map"
               className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
-                !scrolled ? "relative top-0" : ""
+                !scrolled ? "relative top-3" : ""
               }`}
               onClick={onMapClick}
             >
@@ -207,7 +207,7 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/events"
               className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
-                !scrolled ? "relative top-0" : ""
+                !scrolled ? "relative top-3" : ""
               }`}
             >
               Events
@@ -216,212 +216,242 @@ export default function Header({ scrolled, onMapClick }) {
             <Link
               to="/about"
               className={`font-winky font-[500] transition-all duration-300 ease-in-out hover:text-rosehover ${
-                !scrolled ? "relative top-0" : ""
+                !scrolled ? "relative top-3" : ""
               }`}
             >
               About
             </Link>
 
-            {/* Smart Search Component moved here */}
-            <div className={`flex items-center transition-all duration-500 ease-in-out`}>
+            {/* Smart Search Component */}
+            <div className={`flex items-center transition-all duration-500 ease-in-out ${
+              !scrolled ? "relative top-3" : ""
+            }`}>
               <HeaderSmartSearch scrolled={scrolled} />
             </div>
           
-          {/* Notifications only in nav */}
-          <div className={`flex items-center space-x-4 transition-all duration-500 ease-in-out`}>
-            <div className="flex items-center">
-              <NotificationsBell />
+          {/* Notifications */}
+          {isAuthenticated && (
+            <div className={`flex items-center transition-all duration-500 ease-in-out ${
+              !scrolled ? "relative top-3" : ""
+            }`}>
+              <div className="flex items-center">
+                <NotificationsBell />
+              </div>
             </div>
-          </div>
+          )}
+
           </div>
         </nav>
 
-        {/* User Profile or Login/Signup buttons - Far Right */}
-        <div className={`hidden lg:flex w-64 items-center justify-end space-x-4 transition-all duration-500 ease-in-out`} style={{ marginTop: '8px' }}>
+        {/* Right side - Authentication/User */}
+        <div className="w-64 flex-shrink-0 flex items-center justify-end">
           {isAuthenticated ? (
-            <>
-              {user?.role === 'Admin' && (
-                <Link
-                  to="/admin"
-                  className={`px-4 py-2 rounded-xl font-[550] font-winky transition-all duration-500 ease-in-out ${
-                    scrolled
-                      ? "text-[1rem] bg-gradient-to-r from-coral-red to-saffronglow text-white hover:from-saffronglow hover:to-coral-red"
-                      : "text-[0.85rem] bg-blush-peach text-deep-teal hover:bg-blush-peach/80"
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <span>⚡</span>
-                    <span>Admin Panel</span>
-                  </div>
-                </Link>
-              )}
-              
-              {/* Regular User Profile Dropdown - Only for non-admin users */}
-              {user?.role !== 'Admin' && (
-                <div className="relative" ref={userDropdownRef}>
-                  <button
-                    onClick={() => setShowUserDropdown(!showUserDropdown)}
-                    className={`group flex items-center space-x-2 px-4 py-2 rounded-full font-[550] font-winky transition-all duration-500 ease-in-out ${
+            /* User is logged in - show user dropdown */
+            <div className="relative" ref={userDropdownRef}>
+              <button
+                onClick={() => setShowUserDropdown(!showUserDropdown)}
+                className={`flex items-center space-x-2 text-deep-teal hover:text-rosehover transition-all duration-300 ease-in-out ${
+                  !scrolled ? "relative top-3" : ""
+                }`}
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-coral-red to-vermilion flex items-center justify-center text-white font-bold text-sm">
+                  {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                </div>
+                <span className="font-winky font-[500] hidden md:block">
+                  {user?.name || 'User'}
+                </span>
+                <span className={`transform transition-transform duration-200 text-xs ${
+                  showUserDropdown ? "rotate-180" : "rotate-0"
+                }`}>
+                  ▼
+                </span>
+              </button>
+
+              {showUserDropdown && (
+                <div className={`absolute right-0 top-full mt-2 w-48 rounded-xl shadow-lg z-50 ${
+                  scrolled
+                    ? "bg-deep-teal text-blush-peach border border-coral-red/20"
+                    : "bg-blush-peach text-deep-teal border border-deep-teal/10"
+                }`}>
+                  <Link
+                    to={`/user/${user?._id}`}
+                    className={`block px-4 py-3 font-winky font-[500] transition-all duration-200 ${
                       scrolled
-                        ? "text-[1rem] bg-gradient-to-r from-deep-teal to-coral-red text-blush-peach hover:from-coral-red hover:to-saffronglow"
-                        : "text-[0.85rem] bg-blush-peach text-deep-teal hover:bg-blush-peach/80"
+                        ? "hover:bg-coral-red/20 hover:text-saffronglow"
+                        : "hover:text-vermilion"
+                    }`}
+                    onClick={() => setShowUserDropdown(false)}
+                  >
+                    My Profile
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className={`block w-full text-left px-4 py-3 font-winky font-[500] transition-all duration-200 ${
+                      scrolled
+                        ? "hover:bg-coral-red/20 hover:text-saffronglow"
+                        : "hover:text-vermilion"
                     }`}
                   >
-                    <div className={`rounded-full bg-white/20 flex items-center justify-center transition-all duration-300 ${
-                      scrolled ? "w-9 h-9" : "w-7 h-7"
-                    }`}>
-                      <span className={`font-semibold transition-all duration-300 ${
-                        scrolled 
-                          ? "text-base text-blush-peach group-hover:text-white" 
-                          : "text-sm text-deep-teal group-hover:text-white"
-                      }`}>
-                        {user?.name?.charAt(0)?.toUpperCase() || "?"}
-                      </span>
-                    </div>
-
-                    <span className={`font-[500] tracking-wide transition-all duration-300 ${
-                      scrolled 
-                        ? "text-[1.2rem] text-blush-peach group-hover:text-white" 
-                        : "text-[1rem] text-deep-teal group-hover:text-white"
-                    }`}>
-                      {user?.name || "Artist"}
-                    </span>
-
-                    <span className="text-xs text-deep-teal group-hover:text-white">▾</span>
+                    Logout
                   </button>
-
-{showUserDropdown && (
-                    <>
-                    <ul
-                      className={`absolute right-0 top-full mt-2 z-50 w-56 rounded-xl shadow-xl font-winky text-[1rem] font-[500] tracking-wide ${
-                        scrolled
-                          ? "bg-deep-teal text-white border border-coral-red/20"
-                          : "bg-blush-peach text-deep-teal shadow-md border border-deep-teal/10"
-                      }`}
-                    >
-                      <li className="px-4 py-3 border-b border-coral-red/10">
-                        <div className={`text-sm ${scrolled ? "text-saffronglow" : "text-vermilion"}`}>
-                          Signed in as
-                        </div>
-                        <div className={`font-normal truncate ${scrolled ? "text-blush-peach" : "text-deep-teal"}`}>
-                          {user?.email}
-                        </div>
-                      </li>
-                      <li>
-                        <Link
-                          to="/profile"
-                          className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                            scrolled
-                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow"
-                              : "text-deep-teal hover:text-vermilion"
-                          }`}
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          Profile
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/profile"
-                          className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                            scrolled
-                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow"
-                              : "text-deep-teal hover:text-vermilion"
-                          }`}
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          My Artworks
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/profile"
-                          className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                            scrolled
-                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow"
-                              : "text-deep-teal hover:text-vermilion"
-                          }`}
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          My Events
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/profile"
-                          className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                            scrolled
-                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow"
-                              : "text-deep-teal hover:text-vermilion"
-                          }`}
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          Liked Posts
-                        </Link>
-                      </li>
-                      <li className="mx-4 my-2">
-                        <div className={`h-px ${scrolled ? "bg-coral-red/20" : "bg-deep-teal/20"}`}></div>
-                      </li>
-                      <li>
-                        <Link
-                          to="/profile"
-                          className={`block px-4 py-3 rounded-md transition-all duration-300 ${
-                            scrolled
-                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow"
-                              : "text-deep-teal hover:text-vermilion"
-                          }`}
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          Settings
-                        </Link>
-                      </li>
-                      <li>
-                        <button
-                          onClick={handleLogout}
-                          className={`w-full text-left block px-4 py-3 rounded-md transition-all duration-300 ${
-                            scrolled
-                              ? "hover:bg-coral-red/20 text-blush-peach hover:text-saffronglow"
-                              : "text-deep-teal hover:text-vermilion"
-                          }`}
-                        >
-                          Logout
-                        </button>
-                      </li>
-</ul>
-                    </>
-                  )}
                 </div>
               )}
-            </>
+            </div>
           ) : (
-            <>
+            /* User is not logged in - show login/signup buttons */
+            <div className={`flex items-center space-x-4 transition-all duration-500 ease-in-out ${
+              !scrolled ? "relative top-3" : ""
+            }`}>
               <Link
-            to="/login"
-            className={`px-5 py-2 rounded-full font-winky font-[500] transition-all duration-500 ease-in-out ${
-              scrolled 
-                ? "text-base bg-gradient-to-r from-deep-teal to-coral-red text-white hover:from-coral-red hover:to-saffronglow" 
-                : "text-base bg-deep-teal text-white hover:bg-deep-teal/90"
-             }`}
-            >
-              Login
-            </Link>
-
+                to="/login"
+                className={`px-4 py-2 rounded-full font-winky font-[500] transition-all duration-300 ease-in-out ${
+                  scrolled
+                    ? "bg-coral-red text-white hover:bg-vermilion"
+                    : "bg-deep-teal text-blush-peach hover:bg-coral-red"
+                }`}
+              >
+                Login
+              </Link>
               <Link
                 to="/signup"
-                className={`px-5 py-2 rounded-full font-winky font-[500] transition-all duration-500 ease-in-out ${
-                  scrolled 
-                    ? "text-base bg-gradient-to-r from-deep-teal to-coral-red text-white hover:from-coral-red hover:to-saffronglow" 
-                    : "text-base bg-deep-teal text-white hover:bg-deep-teal/90"
-                  }`}
+                className={`px-4 py-2 rounded-full font-winky font-[500] transition-all duration-300 ease-in-out ${
+                  scrolled
+                    ? "bg-coral-red text-white hover:bg-vermilion"
+                    : "bg-deep-teal text-blush-peach hover:bg-coral-red"
+                }`}
               >
                 Sign Up
               </Link>
-            </>
+            </div>
           )}
         </div>
 
+        {/* Mobile menu button - completely hidden on desktop */}
+        <div className="hidden">
+          <button
+            data-mobile-menu-toggle
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            className={`text-2xl transition-all duration-300 ease-in-out ${
+              !scrolled ? "relative top-3 text-deep-teal" : "text-deep-teal"
+            }`}
+          >
+            {showMobileMenu ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
       </div>
 
+      {/* Mobile menu */}
+      {showMobileMenu && (
+        <div
+          ref={mobileMenuRef}
+          className="lg:hidden absolute top-full left-0 w-full bg-blush-peach shadow-lg z-40 rounded-b-2xl"
+        >
+          <div className="px-6 py-4 space-y-4">
+            <Link
+              to="/gallery"
+              className="block font-winky font-[500] text-deep-teal hover:text-rosehover transition-all duration-300"
+              onClick={() => setShowMobileMenu(false)}
+            >
+              Gallery
+            </Link>
+            <Link
+              to="/art-wall"
+              className="block font-winky font-[500] text-deep-teal hover:text-rosehover transition-all duration-300"
+              onClick={() => setShowMobileMenu(false)}
+            >
+              Art Wall
+            </Link>
+            <Link
+              to="/artists"
+              className="block font-winky font-[500] text-deep-teal hover:text-rosehover transition-all duration-300"
+              onClick={() => setShowMobileMenu(false)}
+            >
+              Artists
+            </Link>
+            <div className="space-y-2">
+              <div className="font-winky font-[500] text-deep-teal">Explore</div>
+              {[
+                { label: "Explore by State", key: "state" },
+                { label: "Explore Art", key: "art" },
+                { label: "Explore Dance", key: "dance" },
+                { label: "Explore Music", key: "music" },
+                { label: "Explore Crafts", key: "crafts" },
+              ].map((item) => (
+                <div
+                  key={item.key}
+                  className="pl-4 py-1 font-winky text-deep-teal/80 hover:text-rosehover cursor-pointer transition-all duration-200"
+                  onClick={() => handleMobileExplore(item.key)}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+            <Link
+              to="/map"
+              className="block font-winky font-[500] text-deep-teal hover:text-rosehover transition-all duration-300"
+              onClick={() => setShowMobileMenu(false)}
+            >
+              Map
+            </Link>
+            <Link
+              to="/events"
+              className="block font-winky font-[500] text-deep-teal hover:text-rosehover transition-all duration-300"
+              onClick={() => setShowMobileMenu(false)}
+            >
+              Events
+            </Link>
+            <Link
+              to="/about"
+              className="block font-winky font-[500] text-deep-teal hover:text-rosehover transition-all duration-300"
+              onClick={() => setShowMobileMenu(false)}
+            >
+              About
+            </Link>
+            
+            {/* Mobile auth buttons */}
+            {!isAuthenticated && (
+              <div className="flex space-x-4 pt-4 border-t border-deep-teal/20">
+                <Link
+                  to="/login"
+                  className="flex-1 text-center py-2 font-winky font-[500] text-deep-teal hover:text-rosehover transition-all duration-300"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="flex-1 text-center py-2 px-4 bg-deep-teal text-blush-peach rounded-full font-winky font-[500] hover:bg-coral-red transition-all duration-300"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+            
+            {/* Mobile user menu */}
+            {isAuthenticated && (
+              <div className="pt-4 border-t border-deep-teal/20">
+                <Link
+                  to={`/user/${user?._id}`}
+                  className="block py-2 font-winky font-[500] text-deep-teal hover:text-rosehover transition-all duration-300"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  My Profile
+                </Link>
+                <button
+                  onClick={() => {
+                    setShowMobileMenu(false);
+                    handleLogout();
+                  }}
+                  className="block w-full text-left py-2 font-winky font-[500] text-deep-teal hover:text-rosehover transition-all duration-300"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 }

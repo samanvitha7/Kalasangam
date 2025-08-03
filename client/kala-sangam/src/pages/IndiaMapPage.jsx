@@ -5,7 +5,7 @@ import FullBleedDivider from "../components/FullBleedDivider";
 
 // Enhanced floating particles - optimized count
 const FloatingParticles = () => {
-  const particles = Array.from({ length: 21 }, (_, i) => ({
+  const particles = Array.from({ length: 40 }, (_, i) => ({
     id: i,
     size: Math.random() * 8 + 6, // Bigger particles 6-14px
     color: [

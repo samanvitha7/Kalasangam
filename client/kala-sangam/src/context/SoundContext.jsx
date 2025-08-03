@@ -33,7 +33,11 @@ export const useSoundContext = () => {
 };
 
 export const SoundProvider = ({ children }) => {
-  const [soundEnabled, setSoundEnabled] = useState(false);
+  // Check for stored sound preference from splash screen
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    const storedPreference = sessionStorage.getItem('soundPreference');
+    return storedPreference === 'enabled';
+  });
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.3);
   const [audioData, setAudioData] = useState(new Array(128).fill(40)); // Start with better baseline data

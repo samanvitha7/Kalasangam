@@ -742,44 +742,40 @@ function EventsPage() {
   };
 
 
-  // Floating particles for background - matching ArtWall colors
+  // Enhanced floating particles - same as Crafts page
   const FloatingParticles = () => {
-    const particles = Array.from({ length: 15 }, (_, i) => ({
+    const particles = Array.from({ length: 21 }, (_, i) => ({
       id: i,
-      size: Math.random() * 4 + 2,
+      size: Math.random() * 8 + 6, // Bigger particles 6-14px
       color: [
         'rgba(19, 72, 86, 0.6)',
         'rgba(224, 82, 100, 0.6)',
-        'rgba(244, 140, 140, 0.6)',
         'rgba(29, 124, 111, 0.6)',
-        'rgba(255, 215, 0, 0.6)'
-      ][Math.floor(Math.random() * 5)],
+      ][Math.floor(Math.random() * 3)],
       initialX: Math.random() * 100,
       initialY: Math.random() * 100,
       animationDelay: Math.random() * 5,
-      animationDuration: 8 + Math.random() * 6
+      animationDuration: 8 + Math.random() * 6,
     }));
 
     return (
-      <div className="fixed inset-0 pointer-events-none z-0">
+      <div className="absolute inset-0 pointer-events-none z-0">
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
-            className="absolute rounded-full opacity-40"
+            className="absolute rounded-full"
             style={{
               width: `${particle.size}px`,
               height: `${particle.size}px`,
               backgroundColor: particle.color,
               left: `${particle.initialX}%`,
               top: `${particle.initialY}%`,
-              filter: 'blur(0.5px)',
-              boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`
             }}
             animate={{
-              y: [0, -80, 0],
-              x: [0, 25, -25, 0],
+              y: [0, -50, 0],
+              x: [0, 20, -20, 0],
               opacity: [0.4, 0.7, 0.4],
-              scale: [1, 1.3, 1]
+              scale: [1, 1.1, 1],
             }}
             transition={{
               duration: particle.animationDuration,
