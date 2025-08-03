@@ -22,7 +22,7 @@ services:
       - key: JWT_EXPIRE
         value: 30d
       - key: BASE_URL_PROD
-        value: https://kala-sangam.onrender.com
+        value: https://kalasangam.onrender.com
     
   # Frontend Service
   - type: web
