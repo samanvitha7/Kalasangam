@@ -91,7 +91,7 @@ useEffect(() => {
             const artistData = response.data;
             setArtist({
               ...artistData,
-              profileImage: artistData.avatar || '/assets/parallaximg.png',
+              profileImage: artistData.avatar || 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop&auto=format',
               coverImage: '/assets/parallaximg.png',
               specialties: artistData.specialization ? [artistData.specialization] : ['Traditional Arts'],
               totalLikes: artistData.likesCount || 0,
@@ -122,7 +122,7 @@ useEffect(() => {
             const artistData = foundArtist;
             setArtist({
               ...artistData,
-              profileImage: artistData.avatar || 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face',
+              profileImage: artistData.avatar || 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=400&h=400&fit=crop&auto=format',
               coverImage: '/assets/parallaximg.png',
               specialties: artistData.specialization ? [artistData.specialization] : ['Traditional Arts'],
               totalLikes: artistData.likesCount || 0,
@@ -257,20 +257,6 @@ useEffect(() => {
         {/* Profile info overlay */}
         <div className="absolute bottom-6 left-6 right-6">
           <div className="flex items-end gap-6">
-            <motion.div
-              className="relative"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <LazyImage
-                src={artist.profileImage}
-                alt={artist.name}
-                className="w-32 h-32 rounded-full border-4 border-white shadow-xl"
-                aspectRatio=""
-                placeholder="👤"
-              />
-            </motion.div>
             
             <motion.div
               className="text-white flex-1"
@@ -280,7 +266,7 @@ useEffect(() => {
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
-                  <h1 className="text-6xl font-dm-serif font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent drop-shadow-lg">{artist.name}</h1>
+                  <h1 className="text-6xl font-dm-serif font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent" style={{filter: 'drop-shadow(0 6px 4px rgb(255 127 127 / 0.3)) drop-shadow(0 2px 2px rgb(19 78 86 / 0.15))'}}>{artist.name}</h1>
                   <VerificationBadge isVerified={artist.isVerified} size="lg" />
                 </div>
                 <div className="flex items-center gap-3">

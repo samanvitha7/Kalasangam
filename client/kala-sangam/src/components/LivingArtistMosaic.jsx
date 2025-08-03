@@ -190,7 +190,7 @@ const LivingArtistMosaic = () => {
             <div className="min-h-screen bg-[#F8E6DA] py-16 relative overflow-hidden">
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="text-center mb-12">
-                        <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+                        <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-sm bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
                             Makers of Heritage
                         </h1>
                         <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
@@ -231,7 +231,7 @@ const LivingArtistMosaic = () => {
             <div className="min-h-screen bg-[#F8E6DA] py-16 relative overflow-hidden">
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="text-center mb-12">
-                        <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+                        <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-sm bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
                             Living Artists
                         </h1>
                         <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
@@ -402,7 +402,7 @@ const LivingArtistMosaic = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <h1 className="text-7xl font-dm-serif mb-8 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent leading-tight py-2">
+                            <h1 className="text-7xl font-dm-serif mb-8 drop-shadow-sm bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent leading-tight py-2">
                                 Makers of Heritage
                             </h1>
                             <div className="max-w-3xl">
