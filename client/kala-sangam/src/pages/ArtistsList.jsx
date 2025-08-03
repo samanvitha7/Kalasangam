@@ -231,14 +231,6 @@ const ArtistsList = () => {
                     )}
 
                     <div className="text-center">
-                      {/* Profile Image */}
-                      <div className="relative mb-6 mx-auto w-24 h-24 rounded-full overflow-hidden ring-4 ring-[#1D7C6F]/20 group-hover:ring-[#E05264]/40 transition-all">
-                        <LazyImage
-                          src={artist.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name)}&background=134856&color=ffffff&size=150`}
-                          alt={artist.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
 
                       {/* Artist Info */}
                       <h3 className="text-xl font-dm-serif font-bold text-[#134856] mb-2 group-hover:text-[#E05264] transition-colors">

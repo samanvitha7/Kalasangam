@@ -77,7 +77,7 @@ const LazyImage = ({
           transition={{ duration: 0.4, ease: "easeOut" }}
           loading="lazy"
           decoding="async"
-          fetchpriority="low"
+          fetchPriority="low"
         />
       )}
 

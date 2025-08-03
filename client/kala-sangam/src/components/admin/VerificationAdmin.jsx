@@ -86,11 +86,6 @@ const VerificationAdmin = () => {
       <div className="p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <img
-              src={request.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(request.name || 'User')}&background=134856&color=fff`}
-              alt={request.name}
-              className="w-12 h-12 rounded-full object-cover"
-            />
             <div>
               <h3 className="font-semibold text-gray-900">{request.name}</h3>
               <p className="text-sm text-gray-600">{request.email}</p>
@@ -241,11 +236,6 @@ const VerificationAdmin = () => {
 
             <div className="space-y-4 mb-6">
               <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                <img
-                  src={request.userId?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(request.userId?.name || 'User')}&background=134856&color=fff`}
-                  alt={request.userId?.name}
-                  className="w-16 h-16 rounded-full object-cover"
-                />
                 <div>
                   <h3 className="font-semibold text-lg">{request.userId?.name}</h3>
                   <p className="text-gray-600">{request.userId?.email}</p>

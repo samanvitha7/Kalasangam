@@ -282,9 +282,9 @@ export default function CraftsPage() {
   };
 
 
-  // Enhanced floating particles - same as map page
+  // Enhanced floating particles - same as IndiaMapPage
   const FloatingParticles = () => {
-    const particles = Array.from({ length: 24 }, (_, i) => ({
+    const particles = Array.from({ length: 40 }, (_, i) => ({
       id: i,
       size: Math.random() * 8 + 6, // Bigger particles 6-14px
       color: [

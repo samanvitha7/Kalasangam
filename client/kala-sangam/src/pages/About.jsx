@@ -92,16 +92,15 @@ export default function About() {
       <FloatingParticles />
       
       {/* Hero Section */}
-     <motion.section 
-        className="relative overflow-hidden pt-12 pb-10 bg-[#F8E6DA]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: pageReady ? 1 : 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-      >
-        {/* Content */}
-        <div className="relative container mx-auto px-4 text-center">
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.section 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
           <motion.h1 
-            className="inline-block text-6xl mt-10 font-dm-serif font-bold mb-8 pb-2 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
+            className="inline-block text-6xl pt-10 font-dm-serif mb-8 pb-2 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 50, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -111,16 +110,15 @@ export default function About() {
           </motion.h1>
 
           <motion.p 
-            className="text-xl max-w-3xl mx-auto leading-relaxed text-coral-pink font-semibold font-lora mb-4"
+            className="text-lg font-lora font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: pageReady ? 0 : 30, opacity: pageReady ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             Where ancient artistry meets modern innovation. A digital sanctuary preserving India's rich cultural heritage through technology.
           </motion.p>
-        </div>
-
-      </motion.section>
+        </motion.section>
+      </div>
 
       {/* Why We Built This - Enhanced */}
       <section className="relative py-12 px-6 bg-[#F8E6DA]">

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { FaSearch, FaTimes, FaStar, FaClock, FaUser, FaPalette, FaHistory, FaExternalLinkAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
@@ -401,29 +402,115 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
 
   const totalResults = (results.artworks?.length || 0) + (results.events?.length || 0) + (results.artists?.length || 0);
 
-  return (
-    <div className="w-full max-w-4xl mx-auto p-6">
-      {/* Search Bar */}
-      <div className="relative mb-8">
-        <div className="relative flex items-center">
-          <FaSearch className="absolute left-4 text-deep-teal/60" size={20} />
-          <input
-            type="text"
-            placeholder="Ask me anything... 'show me beautiful odissi dance', 'find spiritual art from south india'"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-14 pr-14 py-4 rounded-2xl bg-white border-2 border-deep-teal/20 focus:border-deep-teal focus:outline-none text-lg font-medium placeholder-gray-500 shadow-lg transition-all duration-300"
+  // Enhanced floating particles - same as Events page
+  const FloatingParticles = () => {
+    const particles = Array.from({ length: 21 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 8 + 6, // Bigger particles 6-14px
+      color: [
+        'rgba(19, 72, 86, 0.6)',
+        'rgba(224, 82, 100, 0.6)',
+        'rgba(29, 124, 111, 0.6)',
+      ][Math.floor(Math.random() * 3)],
+      initialX: Math.random() * 100,
+      initialY: Math.random() * 100,
+      animationDelay: Math.random() * 5,
+      animationDuration: 8 + Math.random() * 6,
+    }));
+
+    return (
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full"
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              backgroundColor: particle.color,
+              left: `${particle.initialX}%`,
+              top: `${particle.initialY}%`,
+            }}
+            animate={{
+              y: [0, -50, 0],
+              x: [0, 20, -20, 0],
+              opacity: [0.4, 0.7, 0.4],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: particle.animationDuration,
+              repeat: Infinity,
+              delay: particle.animationDelay,
+              ease: "easeInOut"
+            }}
           />
-          <FaStar className="absolute right-4 text-coral-red/60" size={20} />
-        </div>
+        ))}
       </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-[#F8E6DA] pb-8 overflow-hidden">
+      {/* Floating Particles Background */}
+      <FloatingParticles />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Hero Section */}
+        <motion.section 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="inline-block text-6xl pt-10 font-dm-serif mb-8 pb-2 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent" style={{ lineHeight: '1.2' }}>
+            Smart Search
+          </h1>
+          <p className="text-lg font-lora font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
+            Discover India's artistic treasures with AI-powered search. Ask in natural language and find exactly what inspires you.
+          </p>
+        </motion.section>
+
+        <div className="w-full max-w-4xl mx-auto p-6 relative z-10">
+        {/* Search Bar - Events Page Style */}
+        <motion.div 
+          className="bg-gradient-to-br from-[#134856] to-[#e05264] rounded-3xl shadow-2xl p-2 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="bg-[#F8E6DA] rounded-2xl p-6">
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+            {/* Search Input */}
+            <div className="relative flex-1 max-w-md">
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Ask me anything... 'show me beautiful odissi dance', 'find spiritual art from south india'"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              />
+            </div>
+            
+            {/* AI Badge */}
+            <div className="flex gap-4">
+              <div className="flex items-center gap-2">
+                <FaStar className="text-gray-600" />
+                <span className="px-4 py-2 border border-gray-300 rounded-full bg-white text-gray-600 text-sm font-medium">
+                  AI Powered Search
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
       {/* Search Insights */}
       {insights && (
-        <div className="mb-6 p-4 bg-gradient-to-r from-deep-teal/10 to-coral-red/10 rounded-xl border border-deep-teal/20">
+        <div className="mb-6 p-4 bg-gradient-to-r from-[#134856]/10 to-[#e05264]/10 rounded-xl border border-[#134856]/20">
           <div className="flex items-center gap-2 mb-2">
-            <FaStar className="text-coral-red" size={14} />
-            <span className="text-sm font-semibold text-deep-teal">AI Analysis</span>
+            <FaStar className="text-[#e05264]" size={14} />
+            <span className="text-sm font-semibold text-[#134856]">AI Analysis</span>
           </div>
           <div className="text-sm text-gray-700">
             <span className="font-medium">Intent:</span> {insights.queryAnalysis?.intent} • 
@@ -436,8 +523,8 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
       {/* Loading State */}
       {loading && (
         <div className="text-center py-12">
-          <div className="inline-flex items-center gap-3 text-deep-teal">
-            <div className="w-6 h-6 border-2 border-deep-teal/30 border-t-deep-teal rounded-full animate-spin"></div>
+          <div className="inline-flex items-center gap-3 text-[#134856]">
+            <div className="w-6 h-6 border-2 border-[#134856]/30 border-t-[#134856] rounded-full animate-spin"></div>
             <span className="text-lg font-medium">AI is searching...</span>
           </div>
         </div>
@@ -449,7 +536,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           {/* Artworks */}
           {results.artworks && results.artworks.length > 0 && (
             <div>
-              <h3 className="text-2xl font-bold text-deep-teal mb-4 flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-[#134856] mb-4 flex items-center gap-2 font-dm-serif">
                 🎨 Artworks ({results.artworks.length})
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -470,12 +557,12 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                       </div>
                     </div>
                     <div className="p-4">
-                      <h4 className="font-bold text-deep-teal mb-2 group-hover:text-coral-red transition-colors duration-200">{artwork.title}</h4>
+                      <h4 className="font-bold text-[#134856] mb-2 group-hover:text-[#e05264] transition-colors duration-200 font-dm-serif">{artwork.title}</h4>
                       <p className="text-gray-600 text-sm mb-2">{artwork.description?.substring(0, 100)}...</p>
                       <div className="flex items-center justify-between text-sm text-gray-500">
                         <span>{artwork.category || 'Art'}</span>
                         {artwork.relevanceScore && (
-                          <span className="bg-coral-red/20 text-coral-red px-2 py-1 rounded-full text-xs font-medium">
+                          <span className="bg-[#e05264]/20 text-[#e05264] px-2 py-1 rounded-full text-xs font-medium">
                             {Math.round(artwork.relevanceScore * 100)}% match
                           </span>
                         )}
@@ -490,7 +577,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           {/* Events */}
           {results.events && results.events.length > 0 && (
             <div>
-              <h3 className="text-2xl font-bold text-deep-teal mb-4 flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-[#134856] mb-4 flex items-center gap-2 font-dm-serif">
                 📅 Events ({results.events.length})
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -501,8 +588,8 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                     onClick={() => handleItemClick(event, 'event')}
                   >
                     <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-bold text-deep-teal group-hover:text-coral-red transition-colors duration-200 flex-1">{event.title}</h4>
-                      <FaExternalLinkAlt className="text-gray-400 group-hover:text-coral-red transition-colors duration-200 ml-2 mt-1" size={14} />
+                      <h4 className="font-bold text-[#134856] group-hover:text-[#e05264] transition-colors duration-200 flex-1 font-dm-serif">{event.title}</h4>
+                      <FaExternalLinkAlt className="text-gray-400 group-hover:text-[#e05264] transition-colors duration-200 ml-2 mt-1" size={14} />
                     </div>
                     <p className="text-gray-600 text-sm mb-3">{event.description?.substring(0, 150)}...</p>
                     <div className="flex items-center justify-between text-sm text-gray-500">
@@ -515,7 +602,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                         ) : 'Location TBD'}
                       </span>
                       {event.relevanceScore && (
-                        <span className="bg-coral-red/20 text-coral-red px-2 py-1 rounded-full text-xs font-medium">
+                        <span className="bg-[#e05264]/20 text-[#e05264] px-2 py-1 rounded-full text-xs font-medium">
                           {Math.round(event.relevanceScore * 100)}% match
                         </span>
                       )}
@@ -529,7 +616,7 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           {/* Artists */}
           {results.artists && results.artists.length > 0 && (
             <div>
-              <h3 className="text-2xl font-bold text-deep-teal mb-4 flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-[#134856] mb-4 flex items-center gap-2 font-dm-serif">
                 👥 Artists ({results.artists.length})
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -543,21 +630,21 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
                       {artist.profilePicture ? (
                         <img src={artist.profilePicture} alt={artist.username} className="w-12 h-12 rounded-full object-cover group-hover:ring-2 group-hover:ring-coral-red/50 transition-all duration-200" />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-deep-teal/20 flex items-center justify-center text-deep-teal font-bold group-hover:bg-coral-red/20 group-hover:text-coral-red transition-all duration-200">
+                        <div className="w-12 h-12 rounded-full bg-[#134856]/20 flex items-center justify-center text-[#134856] font-bold group-hover:bg-[#e05264]/20 group-hover:text-[#e05264] transition-all duration-200">
                           {artist.username?.charAt(0)?.toUpperCase()}
                         </div>
                       )}
                       <div className="flex-1">
-                        <h4 className="font-bold text-deep-teal group-hover:text-coral-red transition-colors duration-200">{artist.username}</h4>
+                        <h4 className="font-bold text-[#134856] group-hover:text-[#e05264] transition-colors duration-200 font-dm-serif">{artist.username}</h4>
                         <p className="text-gray-500 text-sm">{artist.specialization}</p>
                       </div>
-                      <FaExternalLinkAlt className="text-gray-400 group-hover:text-coral-red transition-colors duration-200" size={14} />
+                      <FaExternalLinkAlt className="text-gray-400 group-hover:text-[#e05264] transition-colors duration-200" size={14} />
                     </div>
                     <p className="text-gray-600 text-sm mb-3">{artist.bio?.substring(0, 100)}...</p>
                     <div className="flex items-center justify-between text-sm text-gray-500">
                       <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">{artist.location || 'Location not specified'}</span>
                       {artist.relevanceScore && (
-                        <span className="bg-coral-red/20 text-coral-red px-2 py-1 rounded-full text-xs font-medium">
+                        <span className="bg-[#e05264]/20 text-[#e05264] px-2 py-1 rounded-full text-xs font-medium">
                           {Math.round(artist.relevanceScore * 100)}% match
                         </span>
                       )}
@@ -581,6 +668,8 @@ const SmartSearchComponent = ({ initialQuery = '' }) => {
           </div>
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 };
