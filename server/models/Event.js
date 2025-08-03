@@ -62,6 +62,28 @@ const eventSchema = new mongoose.Schema({
   maxParticipants: {
     type: Number
   },
+  maxCapacity: {
+    type: Number
+  },
+  duration: {
+    type: String
+  },
+  currency: {
+    type: String,
+    default: 'INR'
+  },
+  language: {
+    type: String
+  },
+  ageLimit: {
+    type: String
+  },
+  organizer: {
+    type: String
+  },
+  registrationLink: {
+    type: String
+  },
   imageUrl: {
     type: String
   },

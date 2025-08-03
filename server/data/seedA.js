@@ -284,7 +284,7 @@ const galleryData = [
     name: "Terracotta",
     origin: "Chhattisgarh",
     photoUrl: [
-      "https://reincarnatingraipur.com/wp-content/uploads/2023/11/3d460763b7012dc53e54088a10f43425-758x505.jpg",
+      "https://i.pinimg.com/736x/a5/46/6f/a5466f249555a5e9c512b9cc3c8a1136.jpg",
 "https://srejonee.com/wp-content/uploads/2022/07/elephant-2-300x300.jpg",
 "https://www.dsource.in/sites/default/files/gallery/1389/1.jpg",
 "https://images.jdmagicbox.com/quickquotes/images_main/terracotta-lamp-diyas-for-home-decoration-set-of-six-oval-2022712522-h1eegsy5.jpg",
