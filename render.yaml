@@ -24,7 +24,7 @@ services:
     env: static
     plan: free
     rootDir: client/kala-sangam
-    buildCommand: npm install && npm run build:production
+    buildCommand: npm install && npm run build
     staticPublishPath: dist
     autoDeploy: true
     routes:
