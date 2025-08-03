@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import IndiaMap from "../components/IndiaMap";
-import Lottie from "lottie-react";
-import oceanAnim from "../assets/ocean.json";
-import sunAnim from "../assets/sun.json";
 import FullBleedDivider from "../components/FullBleedDivider";
 
 // Enhanced floating particles - optimized count
@@ -72,7 +69,7 @@ export default function IndiaMapPage({ onStateClick }) {
       <FloatingParticles />
 
       {/* ────── Top Heading ────── */}
-     <div className="relative z-10 container mx-auto px-4 pt-8 pb-4">
+     <div className="relative z-10 container mx-auto px-4 pt-10 pb-4">
       <div className={`transform transition-all duration-1000 ease-out ${
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
       }`}>
@@ -105,8 +102,6 @@ export default function IndiaMapPage({ onStateClick }) {
         </div>
       </div>
       
-      {/* Bottom padding to continue with ocean animation */}
-      <div className="relative z-10 h-16"></div>
     </main>
   );
 }

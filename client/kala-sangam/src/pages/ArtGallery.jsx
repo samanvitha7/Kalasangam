@@ -26,6 +26,7 @@ export default function ArtGallery() {
   const [sortBy, setSortBy] = useState('name');
   const [zoomImg, setZoomImg] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -92,13 +93,13 @@ export default function ArtGallery() {
     fetchArtforms();
   }, []);
 
-  // Enhanced filtering logic with category and state filters
+  // Enhanced filtering logic with category, state, and search filters
   const filteredArtforms = artforms
     .filter(art => {
       // State filter
       const matchesState = selectedState === '' || art.origin === selectedState;
       
-      // Art form category filter (you can expand this based on your categories)
+      // Art form category filter
       const matchesCategory = filterCategory === 'all' || 
         art.category?.toLowerCase() === filterCategory.toLowerCase() ||
         (filterCategory === 'painting' && (art.name?.toLowerCase().includes('painting') || art.title?.toLowerCase().includes('painting'))) ||
@@ -106,7 +107,13 @@ export default function ArtGallery() {
         (filterCategory === 'sculpture' && art.name?.toLowerCase().includes('carving')) ||
         (filterCategory === 'textile' && (art.name?.toLowerCase().includes('embroidery') || art.name?.toLowerCase().includes('shawl') || art.name?.toLowerCase().includes('phulkari')));
       
-      return matchesState && matchesCategory;
+      // Search filter
+      const matchesSearch = searchTerm === '' || 
+        (art.name || art.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (art.description || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (art.origin || '').toLowerCase().includes(searchTerm.toLowerCase());
+      
+      return matchesState && matchesCategory && matchesSearch;
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -135,7 +142,7 @@ export default function ArtGallery() {
   // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedState, filterCategory, sortBy]);
+  }, [selectedState, filterCategory, sortBy, searchTerm]);
 
   // Debug logging (only log important information)
   useEffect(() => {
@@ -276,7 +283,7 @@ export default function ArtGallery() {
         </div>
       )}
 
-          {/* Search and Filter Controls */}
+          {/* Search, Filter, and Main Controls */}
           <motion.div 
             className="bg-gradient-to-br from-[#1d7c6f] to-[#f58c8c] rounded-3xl shadow-2xl p-2 mb-8"
             initial={{ opacity: 0, y: 20 }}
@@ -286,6 +293,17 @@ export default function ArtGallery() {
             <div className="bg-[#F8E6DA] rounded-2xl p-6">
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 
+                {/* Search Bar */}
+                <div className="relative flex-1 max-w-md">
+                  <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search artworks, artists..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  />
+                </div>
 
                 {/* Filter and Sort */}
                 <div className="flex gap-4">
@@ -357,7 +375,7 @@ export default function ArtGallery() {
                   </p>
                 )}
               </div>
-              <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 auto-rows-auto transition-all duration-1000 delay-500 ${pageReady ? 'opacity-100' : 'opacity-0'}`}>
+              <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 auto-rows-auto transition-all duration-1000 delay-500 ${pageReady ? 'opacity-100' : 'opacity-0'}`}>
                 {filtered.map((art, index) => (
                   <div 
                     key={art._id} 
