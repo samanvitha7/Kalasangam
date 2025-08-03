@@ -15,7 +15,7 @@ const getApiUrl = () => {
     }
     
     // If deployed, use production backend
-    return 'https://traditional-arts-backend.onrender.com';
+    return 'https://kalasangam.onrender.com';
   }
   
   // Final fallback
