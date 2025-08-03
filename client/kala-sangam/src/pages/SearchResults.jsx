@@ -21,23 +21,6 @@ const SearchResults = () => {
       <FullBleedDivider />
       
       <div className="container mx-auto px-4 pt-20">
-        {/* Header */}
-        <motion.section 
-          className="text-center mb-8"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-5xl font-dm-serif font-bold mb-4 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
-            AI Search Results
-          </h1>
-          {query && (
-            <p className="text-lg font-lora text-[#E05264] max-w-2xl mx-auto">
-              Intelligent search results for: <span className="font-semibold">"{query}"</span>
-            </p>
-          )}
-        </motion.section>
-
         {/* Search Component */}
         <SmartSearchComponent initialQuery={query} />
       </div>
