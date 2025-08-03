@@ -11,113 +11,268 @@ import api from '../utils/axios';
 import { Link } from 'react-router-dom';
 import FullBleedDivider from "../components/FullBleedDivider";
 
-// Hardcoded event data with links - Updated dates for 2025
+// Your Custom Events - Add your own events here
 const HARDCODED_EVENTS = [
   {
-    _id: "1",
-    title: "Classical Kuchipudi Workshop",
-    description: "Learn the fundamentals of Kuchipudi dance from expert instructors. This workshop covers basic steps, expressions, and traditional choreography.",
-    category: "dance",
-    type: "workshop",
-    date: "2025-08-15",
-    time: "10:00 AM",
-    location: {
-      venue: "Cultural Heritage Center",
-      city: "Mumbai"
-    },
-    price: 1500,
-    instructor: "Guru Priya Sharma",
-    registrationRequired: true,
-    link: "https://example.com/kuchipudi-workshop"
-  },
-  {
-    _id: "2",
-    title: "Sitar Recital - Raag Yaman",
-    description: "Experience the mesmerizing sounds of classical Indian music with a traditional sitar performance featuring Raag Yaman.",
-    category: "music",
-    type: "performance",
-    date: "2025-08-20",
-    time: "7:00 PM",
-    location: {
-      venue: "Music Academy Auditorium",
-      city: "Delhi"
-    },
-    price: 500,
-    instructor: "Pandit Ravi Kumar",
-    registrationRequired: true,
-    link: "https://example.com/sitar-recital"
-  },
-  {
-    _id: "3",
-    title: "Madhubani Painting Exhibition",
-    description: "Explore the vibrant world of Madhubani art through this comprehensive exhibition featuring works from renowned artists.",
-    category: "art",
-    type: "exhibition",
-    date: "2025-08-25",
-    time: "11:00 AM",
-    location: {
-      venue: "National Art Gallery",
-      city: "Kolkata"
-    },
-    price: 0,
-    registrationRequired: false,
-    link: "https://example.com/madhubani-exhibition"
-  },
-  {
     _id: "4",
-    title: "Pottery Making Workshop",
-    description: "Hands-on pottery workshop where you'll learn traditional clay molding techniques and create your own masterpiece.",
-    category: "crafts",
-    type: "workshop",
-    date: "2025-09-01",
-    time: "2:00 PM",
+    title: "Kesariya Navratri 3.0 - Grand Celebration",
+    description: "Join the most spectacular Navratri celebration of the year! Experience traditional Garba and Dandiya with live music, authentic Gujarati food, and vibrant cultural performances. Dance the night away in traditional attire and celebrate the divine feminine energy.",
+    category: "dance",
+    type: "event",
+    date: "2025-10-01",
+    time: "7:00 PM",
+    duration: "5 hours",
     location: {
-      venue: "Artisan's Studio",
-      city: "Jaipur"
+      venue: "Grand Celebration Grounds",
+      city: "Ahmedabad",
+      state: "Gujarat"
     },
-    price: 800,
-    instructor: "Master Craftsman Ramesh",
+    price: 499,
+    currency: "INR",
+    language: "Gujarati/Hindi/English",
+    ageLimit: "All ages",
+    instructor: "Live Musicians & Dandiya Masters",
     registrationRequired: true,
-    link: "https://example.com/pottery-workshop"
+    maxCapacity: 2000,
+    organizer: "Kesariya Events",
+    tags: ["navratri", "garba", "dandiya", "festival", "traditional", "gujarati", "dance"],
+    registrationLink: "https://in.bookmyshow.com/activities/kesariya-navratri-3-0/ET00453920"
   },
   {
     _id: "5",
-    title: "Folk Dance Festival",
-    description: "Celebrate India's diverse folk traditions with performances from various states including Bhangra, Garba, and Kuchipudi.",
-    category: "dance",
-    type: "event",
-    date: "2025-09-05",
-    time: "6:00 PM",
+    title: "Mandala Art Workshop - Sacred Geometry & Meditation",
+    description: "Discover the therapeutic art of Mandala creation in this immersive workshop. Learn traditional techniques of sacred geometry while experiencing the meditative benefits of this ancient art form. Create your own beautiful mandala artwork to take home.",
+    category: "art",
+    type: "workshop",
+    date: "2025-09-28",
+    time: "10:00 AM",
+    duration: "3 hours",
     location: {
-      venue: "Open Air Theatre",
-      city: "Bangalore"
+      venue: "Art Center Studio",
+      city: "Bangalore",
+      state: "Karnataka"
     },
-    price: 300,
+    price: 899,
+    currency: "INR",
+    language: "English/Hindi",
+    ageLimit: "12yrs +",
+    instructor: "Master Artist Priya Sharma",
     registrationRequired: true,
-    link: "https://example.com/folk-dance-festival"
+    maxCapacity: 30,
+    organizer: "Mandala Art Academy",
+    tags: ["mandala", "art", "meditation", "sacred-geometry", "workshop", "therapeutic"],
+    registrationLink: "https://in.bookmyshow.com/events/mandala-art/ET00450258"
   },
   {
     _id: "6",
-    title: "Traditional Jewelry Making",
-    description: "Learn the ancient art of traditional jewelry making using authentic techniques and materials.",
+    title: "Mandala - A Kuchipudi Dance & Classical Vocal Performance",
+    description: "Experience the divine fusion of Kuchipudi dance and Carnatic classical vocals in this mesmerizing performance. Witness the artistic storytelling through graceful movements and melodious ragas, presenting traditional tales through the sacred art of dance and music.",
+    category: "dance",
+    type: "performance",
+    date: "2025-08-09",
+    time: "7:00 PM",
+    duration: "2.5 hours",
+    location: {
+      venue: "Cultural Arts Center",
+      city: "Hyderabad",
+      state: "Telangana"
+    },
+    price: 750,
+    currency: "INR",
+    language: "Telugu/Sanskrit/English",
+    ageLimit: "All ages",
+    instructor: "Dr. Lakshmi Narayana Shastri & Ensemble",
+    registrationRequired: true,
+    maxCapacity: 250,
+    organizer: "Kuchipudi Cultural Foundation",
+    tags: ["kuchipudi", "classical-dance", "carnatic-music", "classical-vocal", "performance", "traditional", "mandala"],
+    registrationLink: "https://in.bookmyshow.com/events/mandala-a-kuchipudi-dance-and-classical-vocal/ET00456479"
+  },
+  {
+    _id: "7",
+    title: "Classical Crossover by Kshitij Tarey - Fusion Concert",
+    description: "Experience the magical blend of Indian classical music with contemporary sounds in this extraordinary crossover concert. Renowned artist Kshitij Tarey presents a unique musical journey that bridges traditional ragas with modern melodies, creating an unforgettable sonic experience.",
+    category: "music",
+    type: "performance",
+    date: "2025-08-24",
+    time: "8:00 PM",
+    duration: "2.5 hours",
+    location: {
+      venue: "Phoenix Marketcity Arena",
+      city: "Mumbai",
+      state: "Maharashtra"
+    },
+    price: 1200,
+    currency: "INR",
+    language: "Hindi/English",
+    ageLimit: "All ages",
+    instructor: "Kshitij Tarey & Musical Ensemble",
+    registrationRequired: true,
+    maxCapacity: 500,
+    organizer: "Classical Fusion Productions",
+    tags: ["classical", "crossover", "fusion", "contemporary", "kshitij-tarey", "concert", "music"],
+    registrationLink: "https://in.bookmyshow.com/events/classical-crossover-by-kshitij-tarey/ET00455729"
+  },
+  {
+    _id: "8",
+    title: "Krishna Music Bliss and Beyond - Devotional Concert",
+    description: "Immerse yourself in divine melodies celebrating Lord Krishna through classical ragas and devotional songs. Experience spiritual bliss through soul-stirring performances of bhajans, kirtans, and classical compositions dedicated to the beloved Lord Krishna.",
+    category: "music",
+    type: "performance",
+    date: "2025-08-24",
+    time: "6:30 PM",
+    duration: "2 hours",
+    location: {
+      venue: "Sacred Arts Auditorium",
+      city: "Vrindavan",
+      state: "Uttar Pradesh"
+    },
+    price: 650,
+    currency: "INR",
+    language: "Sanskrit/Hindi/English",
+    ageLimit: "All ages",
+    instructor: "Pandit Vishnu Mohan Bhatt & Devotional Ensemble",
+    registrationRequired: true,
+    maxCapacity: 300,
+    organizer: "Krishna Cultural Foundation",
+    tags: ["krishna", "devotional", "classical", "bhajan", "kirtan", "spiritual", "concert"],
+    registrationLink: "https://in.bookmyshow.com/events/krishna-music-bliss-and-beyond/ET00438839"
+  },
+  {
+    _id: "9",
+    title: "Lippan Art Workshop - Traditional Mirror Work",
+    description: "Discover the beautiful folk art of Lippan from Gujarat in this hands-on workshop. Learn the ancient technique of mirror work and mud relief art that adorns the walls of traditional Kutchi homes. Create your own stunning Lippan artwork using clay, mirrors, and natural pigments.",
+    category: "art",
+    type: "workshop",
+    date: "2025-09-07",
+    time: "11:00 AM",
+    duration: "4 hours",
+    location: {
+      venue: "Craft Heritage Center",
+      city: "Ahmedabad",
+      state: "Gujarat"
+    },
+    price: 1500,
+    currency: "INR",
+    language: "Gujarati/Hindi/English",
+    ageLimit: "16yrs +",
+    instructor: "Master Craftsman Kiran Patel & Team",
+    registrationRequired: true,
+    maxCapacity: 20,
+    organizer: "Gujarat Folk Art Foundation",
+    tags: ["lippan", "mirror-work", "gujarati", "folk-art", "traditional", "kutch", "workshop", "clay-art"],
+    registrationLink: "https://in.bookmyshow.com/events/lippan-art-workshop/ET00446024"
+  },
+  {
+    _id: "10",
+    title: "Bare Hand Pottery - Traditional Clay Crafting",
+    description: "Experience the ancient art of pottery making using only your hands and traditional techniques. Learn to shape clay into beautiful vessels and decorative items without the use of modern pottery wheels. Connect with the earth through this timeless craft that has been practiced for thousands of years.",
     category: "crafts",
     type: "workshop",
-    date: "2025-09-10",
-    time: "10:30 AM",
+    date: "2025-08-24",
+    time: "2:00 PM",
+    duration: "3 hours",
     location: {
-      venue: "Craft Village",
-      city: "Chennai"
+      venue: "Traditional Crafts Studio",
+      city: "Jaipur",
+      state: "Rajasthan"
     },
-    price: 2000,
-    instructor: "Artisan Meera Devi",
+    price: 950,
+    currency: "INR",
+    language: "Hindi/English",
+    ageLimit: "12yrs +",
+    instructor: "Master Potter Gopal Sharma",
     registrationRequired: true,
-    link: "https://example.com/jewelry-workshop"
+    maxCapacity: 15,
+    organizer: "Rajasthan Pottery Guild",
+    tags: ["pottery", "clay", "traditional", "handmade", "crafts", "ceramic", "workshop", "bare-hand"],
+    registrationLink: "https://in.bookmyshow.com/events/bare-hand-pottery/ET00445004"
+  },
+  {
+    _id: "12",
+    title: "Madhubani Painting Art Workshop - Mumbai Edition",
+    description: "Immerse yourself in the vibrant world of Madhubani art in Mumbai! Learn the ancient folk painting tradition from Bihar, featuring intricate patterns, mythological themes, and natural pigments. Create your own masterpiece using traditional techniques passed down through generations of women artists.",
+    category: "art",
+    type: "workshop",
+    date: "2025-09-13",
+    time: "2:00 PM",
+    duration: "4 hours",
+    location: {
+      venue: "Mumbai Art Studio",
+      city: "Mumbai",
+      state: "Maharashtra"
+    },
+    price: 1350,
+    currency: "INR",
+    language: "Hindi/English/Marathi",
+    ageLimit: "14yrs +",
+    instructor: "Master Artist Kamala Devi & Mumbai Art Collective",
+    registrationRequired: true,
+    maxCapacity: 22,
+    organizer: "Mumbai Folk Art Society",
+    tags: ["madhubani", "folk-art", "painting", "traditional", "workshop", "bihar", "mumbai", "women-artists"],
+    registrationLink: "https://in.bookmyshow.com/events/madhubani-painting-art-mumbai/ET00454265"
+  },
+  {
+    _id: "13",
+    title: "Terracotta Bead Painting Workshop - Mumbai Crafts",
+    description: "Explore the ancient art of terracotta bead painting in this unique workshop! Learn to create and paint beautiful terracotta beads using traditional techniques and natural earth pigments. Discover the timeless craft of pottery and painting combined, creating wearable art pieces you can take home.",
+    category: "crafts",
+    type: "workshop",
+    date: "2025-08-31",
+    time: "3:00 PM",
+    duration: "3.5 hours",
+    location: {
+      venue: "Mumbai Pottery & Crafts Center",
+      city: "Mumbai",
+      state: "Maharashtra"
+    },
+    price: 1100,
+    currency: "INR",
+    language: "Hindi/English/Marathi",
+    ageLimit: "12yrs +",
+    instructor: "Pottery Master Ravi Kulkarni & Crafts Team",
+    registrationRequired: true,
+    maxCapacity: 18,
+    organizer: "Mumbai Traditional Crafts Society",
+    tags: ["terracotta", "bead-painting", "pottery", "crafts", "traditional", "mumbai", "workshop", "wearable-art"],
+    registrationLink: "https://in.bookmyshow.com/events/terracotta-bead-painting-mumbai/ET00455155"
+  },
+  {
+    _id: "14",
+    title: "Pottery Painting Date - Couples Creative Workshop",
+    description: "Experience a romantic and creative pottery painting session perfect for couples! Learn traditional pottery techniques while painting beautiful ceramic pieces together. Create lasting memories and take home personalized pottery as a symbol of your shared creativity and love.",
+    category: "crafts",
+    type: "workshop",
+    date: "2025-08-17",
+    time: "4:00 PM",
+    duration: "2.5 hours",
+    location: {
+      venue: "Creative Arts Studio",
+      city: "Mumbai",
+      state: "Maharashtra"
+    },
+    price: 1250,
+    currency: "INR",
+    language: "Hindi/English/Marathi",
+    ageLimit: "16yrs +",
+    instructor: "Pottery Artists & Creative Team",
+    registrationRequired: true,
+    maxCapacity: 20,
+    organizer: "Mumbai Creative Arts Center",
+    tags: ["pottery", "painting", "couples", "date", "creative", "mumbai", "workshop", "romantic", "ceramic"],
+    registrationLink: "https://in.bookmyshow.com/events/pottery-painting-date-mumbai/ET00453954"
   }
+  // Add more events here by copying the template above
+  // Remember to:
+  // 1. Increment the _id ("4", "5", "6", etc.)
+  // 2. Add a comma after each event except the last one
+  // 3. Use "registrationLink" for working booking URLs
 ];
 
 function EventsPage() {
   const [pageReady, setPageReady] = useState(false);
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(HARDCODED_EVENTS);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState('calendar'); // 'calendar' or 'list'
   const [filters, setFilters] = useState({
@@ -130,7 +285,10 @@ function EventsPage() {
   const [editingEvent, setEditingEvent] = useState(null);
   const { user, isAuthenticated } = useAuth();
 
-  // Initialize page animations and fetch events
+// Initialize page animations and fetch events
+  useEffect(() => {
+    console.log('Events:', HARDCODED_EVENTS);
+  }, []);
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageReady(true);
@@ -196,15 +354,29 @@ function EventsPage() {
     try {
       setLoading(true);
       const response = await api.get('/api/events');
-      if (response.data.success) {
-        setEvents(response.data.data);
+      if (response.data.success && response.data.data && response.data.data.length > 0) {
+        // Check if the backend events have the necessary registration link fields
+        const backendEvents = response.data.data;
+        const hasRegistrationLinks = backendEvents.some(event => 
+          event.registrationLink || event.link
+        );
+        
+        if (hasRegistrationLinks) {
+          console.log('Using backend events with registration links');
+          setEvents(backendEvents);
+        } else {
+          console.log('Backend events missing registration links, using hardcoded events');
+          setEvents(HARDCODED_EVENTS);
+        }
       } else {
-        // Fallback to hardcoded events if backend fails
+        // Fallback to hardcoded events if backend fails or returns empty data
+        console.log('Backend returned no events, using hardcoded events');
         setEvents(HARDCODED_EVENTS);
       }
     } catch (error) {
       console.error('Error fetching events:', error);
       // Fallback to hardcoded events
+      console.log('Backend error, using hardcoded events');
       setEvents(HARDCODED_EVENTS);
       toast.error('Failed to load events from server, showing sample events');
     } finally {
@@ -238,9 +410,17 @@ function EventsPage() {
 
   const getEventsForDate = (date) => {
     const filteredEvents = getFilteredEvents();
-    return filteredEvents.filter(event => 
-      new Date(event.date).toDateString() === date.toDateString()
-    );
+    
+    const matchingEvents = filteredEvents.filter(event => {
+      // Parse the event date as a local date to avoid timezone issues
+      const eventDateParts = event.date.split('-');
+      const eventDate = new Date(parseInt(eventDateParts[0]), parseInt(eventDateParts[1]) - 1, parseInt(eventDateParts[2]));
+      const eventDateString = eventDate.toDateString();
+      const selectedDateString = date.toDateString();
+      return eventDateString === selectedDateString;
+    });
+    
+    return matchingEvents;
   };
 
   const getUpcomingEvents = () => {
@@ -248,16 +428,34 @@ function EventsPage() {
     const now = new Date();
     const upcoming = filteredEvents
       .filter(event => {
-        const eventDate = new Date(event.date);
+        // Parse the event date as a local date to avoid timezone issues
+        const eventDateParts = event.date.split('-');
+        const eventDate = new Date(parseInt(eventDateParts[0]), parseInt(eventDateParts[1]) - 1, parseInt(eventDateParts[2]));
         return eventDate >= now;
       })
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .sort((a, b) => {
+        const aDateParts = a.date.split('-');
+        const bDateParts = b.date.split('-');
+        const aDate = new Date(parseInt(aDateParts[0]), parseInt(aDateParts[1]) - 1, parseInt(aDateParts[2]));
+        const bDate = new Date(parseInt(bDateParts[0]), parseInt(bDateParts[1]) - 1, parseInt(bDateParts[2]));
+        return aDate - bDate;
+      })
       .slice(0, 6);
     return upcoming;
   };
 
   const handleRegisterClick = (link) => {
-    window.open(link, '_blank');
+    console.log('Register button clicked, link:', link);
+    console.log('Link type:', typeof link);
+    console.log('Link === "#":', link === '#');
+    console.log('!link:', !link);
+    if (link && link !== '#') {
+      console.log('Opening link:', link);
+      window.open(link, '_blank');
+    } else {
+      console.error('No valid registration link found, link value:', link);
+      alert('No registration link available for this event');
+    }
   };
 
   // Generate Google Calendar URL for an event
@@ -324,6 +522,11 @@ function EventsPage() {
   const renderEventCard = (event) => {
     // Event data is already normalized since it's hardcoded
     const normalizedEvent = event;
+    console.log('Rendering event card for:', normalizedEvent.title);
+    console.log('Full Event object:', JSON.stringify(normalizedEvent, null, 2));
+    console.log('Event object keys:', Object.keys(normalizedEvent));
+    console.log('registrationLink:', normalizedEvent.registrationLink);
+    console.log('link:', normalizedEvent.link);
 
     return (
 
@@ -401,10 +604,10 @@ function EventsPage() {
             </button>
             
             <button 
-              onClick={() => handleRegisterClick(normalizedEvent.link || '#')}
+              onClick={() => handleRegisterClick(normalizedEvent.registrationLink || normalizedEvent.link || '#')}
               className="bg-gradient-to-r from-[#134856] to-[#e05264] text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-md hover:shadow-lg"
             >
-              {normalizedEvent.registrationRequired ? 'Register' : 'Learn More'}
+              {normalizedEvent.registrationRequired ? 'Book Now' : 'Learn More'}
             </button>
           </div>
         </div>
