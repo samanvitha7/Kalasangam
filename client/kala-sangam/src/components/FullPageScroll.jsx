@@ -30,6 +30,22 @@ const FullPageScroll = ({ children, className = "" }) => {
     if (!container) return;
 
     const handleWheel = (e) => {
+      // Check if the target element is within a scrollable area
+      const target = e.target;
+      const scrollableElement = target.closest('.overflow-y-auto, .overflow-auto');
+      
+      // If we're in a scrollable area, allow normal scrolling
+      if (scrollableElement) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollableElement;
+        const isAtTop = scrollTop === 0;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+        
+        // Only prevent default and handle full-page scroll if we're at the boundaries
+        if ((e.deltaY > 0 && !isAtBottom) || (e.deltaY < 0 && !isAtTop)) {
+          return; // Allow normal scrolling within the element
+        }
+      }
+      
       e.preventDefault();
       
       if (isScrolling) return;

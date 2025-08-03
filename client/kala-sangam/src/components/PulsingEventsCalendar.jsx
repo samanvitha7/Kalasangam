@@ -97,10 +97,7 @@ const PulsingHeart = ({ event, onClick, isActive }) => {
 
   return (
     <motion.div
-      className={`relative cursor-pointer group ${isActive ? 'z-20' : 'z-10'}`}
-      onClick={() => onClick(event)}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
+      className={`relative group ${isActive ? 'z-20' : 'z-10'}`}
     >
       <motion.div
         className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 ${getEventColor(event.category)} ${pulse ? 'shadow-lg shadow-current' : ''}`}
@@ -458,8 +455,8 @@ export default function PulsingEventsCalendar() {
     fetchEvents();
   }, []);
 
-  const handleEventClick = (event) => {
-    setSelectedEvent(event);
+const handleEventClick = () => {
+    // No action needed; events are static
   };
 
   const closeEventDetails = () => {
@@ -590,8 +587,7 @@ export default function PulsingEventsCalendar() {
                     return monthEvents.length > 0 ? monthEvents.map((event, index) => (
                       <motion.div
                         key={event._id}
-                        className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300 border border-white/20"
-                        onClick={() => handleEventClick(event)}
+className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg transition-all duration-300 border border-white/20"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.8 + index * 0.1 }}
