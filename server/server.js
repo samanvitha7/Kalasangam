@@ -57,7 +57,7 @@ const corsOptions = {
     }
     
     // Allow Render frontend domain and specific Kala Sangam domain
-    if (origin && (origin.includes('.onrender.com') || origin === 'https://kalasangam.onrender.com')) {
+    if (origin && (origin.includes('.onrender.com') || origin === 'https://kalasangam.onrender.com' || origin === 'https://traditional-arts-frontend.onrender.com')) {
       console.log('Allowing Render domain:', origin);
       return callback(null, true);
     }
@@ -82,7 +82,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-//serve atatic image files from /public
+//serve static image files from /public
 app.use("/images",express.static(path.join(__dirname,'public')));
 
 // Root route for basic health check
