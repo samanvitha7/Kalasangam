@@ -113,8 +113,9 @@ export default function Header({ scrolled, onMapClick }) {
         <nav
             className={`hidden lg:flex items-center justify-center flex-1 text-[1.35rem] font-bold tracking-wide transition-colors duration-500 ease-in-out
               ${scrolled ? "text-deep-teal" : "text-deep-teal"}`}
+            style={{ display: 'flex', alignItems: 'center' }}
           >
-          <div className="flex items-center justify-center space-x-8">
+          <div className="flex items-center justify-center space-x-8" style={{ marginTop: '8px' }}>
            
            <Link
           to="/gallery"
@@ -222,15 +223,13 @@ export default function Header({ scrolled, onMapClick }) {
             </Link>
 
             {/* Smart Search Component moved here */}
-            <div className={`transition-all duration-500 ease-in-out ${
-              !scrolled ? "relative top-3" : ""
-            }`}>
+            <div className={`flex items-center transition-all duration-500 ease-in-out`}>
               <HeaderSmartSearch scrolled={scrolled} />
             </div>
           
           {/* Notifications only in nav */}
-          <div className={`flex items-center space-x-4 transition-all duration-500 ease-in-out ${!scrolled ? "relative top-3" : ""}`}>
-            <div className="relative top-1">
+          <div className={`flex items-center space-x-4 transition-all duration-500 ease-in-out`}>
+            <div className="flex items-center">
               <NotificationsBell />
             </div>
           </div>
@@ -238,9 +237,7 @@ export default function Header({ scrolled, onMapClick }) {
         </nav>
 
         {/* User Profile or Login/Signup buttons - Far Right */}
-        <div className={`hidden lg:flex w-64 items-center justify-end space-x-4 transition-all duration-500 ease-in-out ${
-          !scrolled ? "relative top-0" : ""
-        }`}>
+        <div className={`hidden lg:flex w-64 items-center justify-end space-x-4 transition-all duration-500 ease-in-out`} style={{ marginTop: '8px' }}>
           {isAuthenticated ? (
             <>
               {user?.role === 'Admin' && (
