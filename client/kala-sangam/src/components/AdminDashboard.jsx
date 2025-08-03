@@ -658,7 +658,7 @@ case 'settings':
           <p>Select what you'd like to manage:</p>
           <div className="content-actions">
             <button 
-              className="btn btn-primary"
+              className="btn btn-secondary"
               onClick={() => setContentView('artworks')}
             >
               Manage Artworks

@@ -53,11 +53,7 @@ const SignupCard = ({
             name="name"
             value={form.name}
             onChange={handleChange}
-            className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white ${
-              fieldErrors.name 
-                ? 'border-coral-red border-2' 
-                : 'border-gray-300'
-            }`}
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white"
             placeholder="Enter your full name"
             required
           />
@@ -76,11 +72,7 @@ const SignupCard = ({
             name="email"
             value={form.email}
             onChange={handleChange}
-            className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white ${
-              fieldErrors.email 
-                ? 'border-coral-red border-2' 
-                : 'border-gray-300'
-            }`}
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white"
             placeholder="Enter your email"
             required
           />
@@ -121,11 +113,7 @@ const SignupCard = ({
               name="password"
               value={form.password}
               onChange={handleChange}
-              className={`w-full px-4 py-3 pr-12 border rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white/50 ${
-                fieldErrors.password 
-                  ? 'border-coral-red border-2' 
-                  : 'border-gray-300'
-              }`}
+              className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white"
               placeholder="Enter your password"
               required
             />

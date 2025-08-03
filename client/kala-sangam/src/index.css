@@ -548,6 +548,24 @@ input[type="range"]::-moz-range-thumb:hover {
   color: var(--text-deep-teal);
 }
 
+/* Autofill Styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: var(--text-deep-teal) !important;
+  border: 1px solid #d1d5db !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Firefox autofill */
+input:-moz-autofill {
+  background-color: white !important;
+  color: var(--text-deep-teal) !important;
+  border: 1px solid #d1d5db !important;
+}
+
 .bg-blush-peach {
   background-color: var(--background-blush-peach);
 }

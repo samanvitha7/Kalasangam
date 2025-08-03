@@ -55,7 +55,7 @@ const LoginCard = ({
               name="password"
               value={form.password}
               onChange={handleChange}
-              className="w-full px-5 py-4 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white/50 text-lg"
+            className="w-full px-5 py-4 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white text-lg"
               placeholder="Enter your password"
               required
             />

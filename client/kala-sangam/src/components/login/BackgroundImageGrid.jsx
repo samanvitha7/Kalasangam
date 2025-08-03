@@ -50,9 +50,23 @@ const BackgroundImageGrid = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [overlayOpacity, setOverlayOpacity] = useState(0.4);
+  const [preloadedImages, setPreloadedImages] = useState(new Set());
 
   // Define possible row spans to simulate variable height masonry
   const rowSpanOptions = [1, 2, 3]; // adjust to taste
+
+  // Preload images for better performance
+  const preloadImage = (url) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        setPreloadedImages(prev => new Set([...prev, url]));
+        resolve(url);
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
+  };
 
   useEffect(() => {
     const fetchArtformImages = async () => {
@@ -90,6 +104,15 @@ const BackgroundImageGrid = () => {
           .slice(0, 40); // adjust count as needed
 
         setImages(shuffledImages);
+        
+        // Preload first 20 images for better performance
+        const imagesToPreload = shuffledImages.slice(0, 20);
+        Promise.allSettled(
+          imagesToPreload.map(img => preloadImage(img.url))
+        ).then(() => {
+          console.log('First batch of images preloaded');
+        });
+        
       } catch (err) {
         console.error('Error fetching artform images:', err);
         setError(err.message);
@@ -206,12 +229,35 @@ const BackgroundImageGrid = () => {
     );
   }
 
-  // Group images by columns
+  // Group images by columns with better distribution
   const groupImagesByColumns = () => {
     const columns = [[], [], [], [], []];
+    const minImagesPerColumn = 12; // Ensure each column has at least 12 images
+    
+    // First, distribute images evenly
     images.forEach((image, index) => {
       columns[index % 5].push(image);
     });
+    
+    // Fill shorter columns by repeating images to ensure seamless loop
+    columns.forEach((column, columnIndex) => {
+      while (column.length < minImagesPerColumn) {
+        // Add more images by cycling through available ones
+        const sourceImages = images.length > 0 ? images : [
+          {
+            url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=400&fit=crop',
+            alt: 'Traditional art',
+            rowSpan: 2
+          }
+        ];
+        const randomImage = sourceImages[Math.floor(Math.random() * sourceImages.length)];
+        column.push({
+          ...randomImage,
+          rowSpan: [1, 2, 3][Math.floor(Math.random() * 3)] // Randomize row spans
+        });
+      }
+    });
+    
     return columns;
   };
 
@@ -223,36 +269,37 @@ const BackgroundImageGrid = () => {
         {`
           @keyframes scrollUpColumn {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-100%); }
+            100% { transform: translateY(-50%); }
           }
 
           .column-container {
             overflow: hidden;
             position: relative;
+            height: 100vh;
           }
 
           .column-scroll {
-            animation: scrollUpColumn 45s linear infinite;
+            animation: scrollUpColumn 60s linear infinite;
           }
 
           .column-scroll-delay-1 {
-            animation: scrollUpColumn 50s linear infinite;
-            animation-delay: -10s;
+            animation: scrollUpColumn 65s linear infinite;
+            animation-delay: -13s;
           }
 
           .column-scroll-delay-2 {
-            animation: scrollUpColumn 55s linear infinite;
-            animation-delay: -20s;
+            animation: scrollUpColumn 70s linear infinite;
+            animation-delay: -26s;
           }
 
           .column-scroll-delay-3 {
-            animation: scrollUpColumn 48s linear infinite;
-            animation-delay: -30s;
+            animation: scrollUpColumn 58s linear infinite;
+            animation-delay: -39s;
           }
 
           .column-scroll-delay-4 {
-            animation: scrollUpColumn 52s linear infinite;
-            animation-delay: -40s;
+            animation: scrollUpColumn 63s linear infinite;
+            animation-delay: -52s;
           }
 
           .image-item {
@@ -281,7 +328,7 @@ const BackgroundImageGrid = () => {
       </style>
       <div className="relative h-full">
         <div className="flex gap-6 p-8 pt-20 h-full">
-          {columnImages.map((columnImgs, columnIndex) => {
+        {columnImages.map((columnImgs, columnIndex) => {
             const animationClass = [
               'column-scroll',
               'column-scroll-delay-1', 
@@ -290,19 +337,24 @@ const BackgroundImageGrid = () => {
               'column-scroll-delay-4'
             ][columnIndex];
             
-            // Double the images to create seamless loop
-            const loopedImages = [...columnImgs, ...columnImgs];
+            // Create seamless loop with enough images to cover the full animation cycle
+            const loopedImages = [
+              ...columnImgs, 
+              ...columnImgs, 
+              ...columnImgs, 
+              ...columnImgs.slice(0, Math.ceil(columnImgs.length / 2))
+            ];
             
             return (
               <div key={columnIndex} className="flex-1 column-container">
-                <div className={`flex flex-col gap-6 ${animationClass}`}>
+                <div className={`flex flex-col ${animationClass}`}>
                   {loopedImages.map((image, imageIndex) => (
                     <OptimizedImage
                       key={`${columnIndex}-${imageIndex}`}
                       src={image.url}
                       alt={image.alt}
                       title={`${image.artformName || 'Traditional Art'} - ${image.origin || 'India'}`}
-                      className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer flex-shrink-0"
+                      className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer flex-shrink-0 mb-6"
                       style={{
                         height: `${(image.rowSpan || 1) * 160 + (image.rowSpan - 1) * 24}px`
                       }}
