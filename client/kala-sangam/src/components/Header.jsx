@@ -274,7 +274,7 @@ export default function Header({ scrolled, onMapClick }) {
                     : "bg-blush-peach text-deep-teal border border-deep-teal/10"
                 }`}>
                   <Link
-                    to={`/user/${user?._id}`}
+                    to={user?.role === 'Admin' ? '/admin' : '/profile'}
                     className={`block px-4 py-3 font-winky font-[500] transition-all duration-200 ${
                       scrolled
                         ? "hover:bg-coral-red/20 hover:text-saffronglow"
@@ -432,7 +432,7 @@ export default function Header({ scrolled, onMapClick }) {
             {isAuthenticated && (
               <div className="pt-4 border-t border-deep-teal/20">
                 <Link
-                  to={`/user/${user?._id}`}
+                  to={user?.role === 'Admin' ? '/admin' : '/profile'}
                   className="block py-2 font-winky font-[500] text-deep-teal hover:text-rosehover transition-all duration-300"
                   onClick={() => setShowMobileMenu(false)}
                 >
