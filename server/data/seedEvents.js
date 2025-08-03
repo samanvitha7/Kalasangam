@@ -5,26 +5,50 @@ require('dotenv').config();
 
 const sampleEvents = [
   {
-    title: "Bharatanatyam Workshop for Beginners",
-    description: "Learn the fundamentals of Bharatanatyam, one of India's oldest classical dance forms. This workshop covers basic postures, hand gestures (mudras), and simple choreography.",
-    type: "workshop",
+    title: "MANDALA - A KUCHIPUDI DANCE AND CLASSICAL VOCAL",
+    description: "Experience the mesmerizing fusion of traditional Kuchipudi dance and classical vocal music. This enchanting performance showcases the depth and beauty of Indian classical arts, featuring graceful movements and soulful melodies in perfect harmony.",
+    type: "performance",
     category: "dance",
-    date: new Date("2025-08-15T09:00:00.000Z"),
-    time: "10:00 AM - 12:00 PM",
+    date: new Date("2025-08-09T19:00:00.000Z"),
+    time: "7:00 PM",
     location: {
-      venue: "Cultural Heritage Center",
-      address: "123 Arts Street",
-      city: "Chennai",
-      state: "Tamil Nadu"
+      venue: "Rajasthan International Center",
+      address: "Rajasthan International Center",
+      city: "Jaipur",
+      state: "Rajasthan"
     },
-    instructor: "Priya Sharma",
-    price: 500,
-    maxParticipants: 20,
-    imageUrl: "https://example.com/bharatanatyam-workshop.jpg",
+    instructor: "Kuchipudi Artists & Classical Vocalists",
+    price: 99,
+    maxParticipants: 150,
+    imageUrl: "https://example.com/mandala-kuchipudi.jpg",
     registrationRequired: true,
+    registrationLink: 'https://in.bookmyshow.com/events/mandala-a-kuchipudi-dance-and-classical-vocal/ET00456479',
     contactEmail: "events@kalasangam.com",
     contactPhone: "+91 9876543210",
-    tags: ["bharatanatyam", "classical dance", "beginner", "traditional"]
+    tags: ["kuchipudi", "dance", "classical", "vocal", "mandala", "traditional"]
+  },
+  {
+    title: "Classical Kuchipudi Workshop",
+    description: "Learn the fundamentals of Kuchipudi dance from expert instructors. This workshop covers basic steps, expressions, and traditional choreography.",
+    type: "workshop",
+    category: "dance",
+    date: new Date("2025-08-15T10:00:00.000Z"),
+    time: "10:00 AM",
+    location: {
+      venue: "Cultural Heritage Center",
+      address: "Cultural Heritage Center",
+      city: "Mumbai",
+      state: "Maharashtra"
+    },
+    instructor: "Guru Priya Sharma",
+    price: 1500,
+    maxParticipants: 20,
+    imageUrl: "https://example.com/kuchipudi-workshop.jpg",
+    registrationRequired: true,
+    registrationLink: 'https://example.com/kuchipudi-workshop',
+    contactEmail: "events@kalasangam.com",
+    contactPhone: "+91 9876543210",
+    tags: ["kuchipudi", "classical dance", "workshop", "traditional"]
   },
   {
     title: "Warli Art Exhibition",
