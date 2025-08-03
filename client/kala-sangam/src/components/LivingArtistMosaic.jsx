@@ -190,7 +190,7 @@ const LivingArtistMosaic = () => {
             <div className="min-h-screen bg-[#F8E6DA] py-16 relative overflow-hidden">
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="text-center mb-12">
-                        <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-sm bg-gradient-to-r from-[#ff6b35] to-[#f7931e] bg-clip-text text-transparent">
+                        <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-sm bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
                             Makers of Heritage
                         </h1>
                         <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
@@ -231,7 +231,7 @@ const LivingArtistMosaic = () => {
             <div className="min-h-screen bg-[#F8E6DA] py-16 relative overflow-hidden">
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="text-center mb-12">
-                        <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-sm bg-gradient-to-r from-[#ff6b35] to-[#f7931e] bg-clip-text text-transparent">
+                        <h1 className="inline-block text-6xl font-dm-serif mb-6 drop-shadow-sm bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
                             Living Artists
                         </h1>
                         <p className="text-lg font-lora font-semibold text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
@@ -320,7 +320,7 @@ const LivingArtistMosaic = () => {
                         <div className="flex justify-between items-start mb-4">
                             <div className="flex-1">
                                 <motion.h3 
-                                    className="font-dm-serif font-bold bg-gradient-to-r from-[#ff6b35] to-[#f7931e] bg-clip-text text-transparent text-xl"
+                                    className="font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent text-xl"
                                     animate={{
                                         scale: isHovered ? 1.05 : 1
                                     }}
@@ -402,7 +402,7 @@ const LivingArtistMosaic = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <h1 className="text-7xl font-dm-serif mb-8 drop-shadow-sm bg-gradient-to-r from-[#ff6b35] to-[#f7931e] bg-clip-text text-transparent leading-tight py-2">
+                            <h1 className="text-7xl font-dm-serif mb-8 drop-shadow-sm bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent leading-tight py-2">
                                 Makers of Heritage
                             </h1>
                             <div className="max-w-3xl">
@@ -459,7 +459,7 @@ const LivingArtistMosaic = () => {
                                     <div className="bg-white backdrop-blur-lg rounded-[2rem] border-2 border-white/50 shadow-2xl overflow-hidden aspect-square p-8 w-80 h-80">
                                         <div className="flex flex-col items-center justify-center h-full text-center">
                                             
-                                            <h3 className="font-dm-serif font-bold bg-gradient-to-r from-[#ff6b35] to-[#f7931e] bg-clip-text text-transparent text-2xl mb-3">
+                                            <h3 className="font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent text-2xl mb-3">
                                                 {artist.name}
                                             </h3>
                                             <p className="text-[#134856]/70 font-lora text-base mb-4">
@@ -510,7 +510,7 @@ const LivingArtistMosaic = () => {
                             <div className="p-8">
                                 <div className="flex justify-between items-start mb-6">
                                     <div>
-                                        <h2 className="text-3xl font-dm-serif font-bold bg-gradient-to-r from-[#ff6b35] to-[#f7931e] bg-clip-text text-transparent">
+                                        <h2 className="text-3xl font-dm-serif font-bold bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
                                             {selectedArtist.name}
                                         </h2>
                                         <p className="text-[#134856]/70 font-lora mt-2">{selectedArtist.specialization}</p>
