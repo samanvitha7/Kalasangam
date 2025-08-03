@@ -71,21 +71,22 @@ const HARDCODED_EVENTS = [
     type: "performance",
     date: "2025-08-09",
     time: "7:00 PM",
-    duration: "2.5 hours",
+    duration: "1 hour 15 minutes",
     location: {
-      venue: "Cultural Arts Center",
-      city: "Hyderabad",
-      state: "Telangana"
+      venue: "Rajasthan International Center",
+      address: "Rajasthan International Center",
+      city: "Jaipur",
+      state: "Rajasthan"
     },
-    price: 750,
+    price: 99,
     currency: "INR",
-    language: "Telugu/Sanskrit/English",
-    ageLimit: "All ages",
-    instructor: "Dr. Lakshmi Narayana Shastri & Ensemble",
+    language: "Hindi",
+    ageLimit: "12yrs +",
+    instructor: "Classical Artists Ensemble",
     registrationRequired: true,
     maxCapacity: 250,
-    organizer: "Kuchipudi Cultural Foundation",
-    tags: ["kuchipudi", "classical-dance", "carnatic-music", "classical-vocal", "performance", "traditional", "mandala"],
+    organizer: "Classical Arts Foundation",
+    tags: ["kuchipudi", "classical-dance", "carnatic-music", "classical-vocal", "performance", "traditional", "classical"],
     registrationLink: "https://in.bookmyshow.com/events/mandala-a-kuchipudi-dance-and-classical-vocal/ET00456479"
   },
   {
@@ -96,16 +97,17 @@ const HARDCODED_EVENTS = [
     type: "performance",
     date: "2025-08-24",
     time: "8:00 PM",
-    duration: "2.5 hours",
+    duration: "1 hour 30 minutes",
     location: {
-      venue: "Phoenix Marketcity Arena",
+      venue: "The Studio Theatre",
+      address: "NMACC",
       city: "Mumbai",
       state: "Maharashtra"
     },
-    price: 1200,
+    price: 750,
     currency: "INR",
-    language: "Hindi/English",
-    ageLimit: "All ages",
+    language: "Hindi",
+    ageLimit: "5yrs +",
     instructor: "Kshitij Tarey & Musical Ensemble",
     registrationRequired: true,
     maxCapacity: 500,
@@ -120,22 +122,23 @@ const HARDCODED_EVENTS = [
     category: "music",
     type: "performance",
     date: "2025-08-24",
-    time: "6:30 PM",
-    duration: "2 hours",
+    time: "4:00 PM",
+    duration: "2 Hours",
     location: {
-      venue: "Sacred Arts Auditorium",
-      city: "Vrindavan",
-      state: "Uttar Pradesh"
+      venue: "Marwad International Center",
+      address: "Jodhpur",
+      city: "Jodhpur",
+      state: "Rajasthan"
     },
-    price: 650,
+    price: 549,
     currency: "INR",
-    language: "Sanskrit/Hindi/English",
+    language: "English/Gujarati/Hindi/Sanskrit/Marathi",
     ageLimit: "All ages",
     instructor: "Pandit Vishnu Mohan Bhatt & Devotional Ensemble",
     registrationRequired: true,
     maxCapacity: 300,
     organizer: "Krishna Cultural Foundation",
-    tags: ["krishna", "devotional", "classical", "bhajan", "kirtan", "spiritual", "concert"],
+    tags: ["krishna", "devotional", "classical", "bhajan", "kirtan", "spiritual", "concert", "contemporary", "folk", "fusion"],
     registrationLink: "https://in.bookmyshow.com/events/krishna-music-bliss-and-beyond/ET00438839"
   },
   {
@@ -170,17 +173,18 @@ const HARDCODED_EVENTS = [
     category: "crafts",
     type: "workshop",
     date: "2025-08-24",
-    time: "2:00 PM",
-    duration: "3 hours",
+    time: "12:00 PM",
+    duration: "2 Hours",
     location: {
-      venue: "Traditional Crafts Studio",
-      city: "Jaipur",
-      state: "Rajasthan"
+      venue: "Lifafa Cafe and Bistro",
+      address: "Hyderabad",
+      city: "Hyderabad",
+      state: "Telangana"
     },
-    price: 950,
+    price: 899,
     currency: "INR",
-    language: "Hindi/English",
-    ageLimit: "12yrs +",
+    language: "English/Hindi",
+    ageLimit: "All age groups",
     instructor: "Master Potter Gopal Sharma",
     registrationRequired: true,
     maxCapacity: 15,
@@ -246,17 +250,18 @@ const HARDCODED_EVENTS = [
     type: "workshop",
     date: "2025-08-17",
     time: "4:00 PM",
-    duration: "2.5 hours",
+    duration: "1 hour 30 minutes",
     location: {
-      venue: "Creative Arts Studio",
+      venue: "Third Wave Coffee",
+      address: "Santacruz West",
       city: "Mumbai",
       state: "Maharashtra"
     },
-    price: 1250,
+    price: 1299,
     currency: "INR",
-    language: "Hindi/English/Marathi",
-    ageLimit: "16yrs +",
-    instructor: "Pottery Artists & Creative Team",
+    language: "Bengali/English/Hindi/Kannada/Malayalam",
+    ageLimit: "All age groups",
+    instructor: "Creative Workshop Artists",
     registrationRequired: true,
     maxCapacity: 20,
     organizer: "Mumbai Creative Arts Center",
@@ -567,7 +572,7 @@ function EventsPage() {
           </div>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 bg-gradient-to-r from-[#134856] to-[#e05264] rounded-full"></span>
-            <span><strong>Location:</strong> {normalizedEvent.location.venue}, {normalizedEvent.location.city}</span>
+            <span><strong>Location:</strong> {normalizedEvent.location.venue}, {normalizedEvent.location.city}, {normalizedEvent.location.state}</span>
           </div>
           {normalizedEvent.price > 0 && (
             <div className="flex items-center gap-2">
