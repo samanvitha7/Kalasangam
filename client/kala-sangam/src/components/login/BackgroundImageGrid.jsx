@@ -1,6 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Optimized Image Component
+const OptimizedImage = ({ src, alt, className, style, title, onLoad, onError }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const handleLoad = () => {
+    setImageLoaded(true);
+    if (onLoad) onLoad();
+  };
+
+  const handleError = () => {
+    setImageError(true);
+    if (onError) onError();
+  };
+
+  return (
+    <div className={`${className} image-item`} style={style} title={title}>
+      {!imageLoaded && !imageError && (
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-xl" />
+      )}
+      {imageError ? (
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center rounded-xl">
+          <div className="text-gray-500 text-2xl">🎨</div>
+        </div>
+      ) : (
+        <>
+          <img
+            src={src}
+            alt={alt}
+            onLoad={handleLoad}
+            onError={handleError}
+            className="absolute inset-0 w-full h-full object-cover rounded-xl"
+            loading="lazy"
+            decoding="async"
+          />
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-xl" />
+          )}
+        </>
+      )}
+    </div>
+  );
+};
+
 const BackgroundImageGrid = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -162,95 +206,113 @@ const BackgroundImageGrid = () => {
     );
   }
 
+  // Group images by columns
+  const groupImagesByColumns = () => {
+    const columns = [[], [], [], [], []];
+    images.forEach((image, index) => {
+      columns[index % 5].push(image);
+    });
+    return columns;
+  };
+
+  const columnImages = groupImagesByColumns();
+
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden">
       <style>
         {`
-          @keyframes moveUp {
+          @keyframes scrollUpColumn {
             0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
           }
-          
-          @keyframes moveDown {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(20px); }
-            100% { transform: translateY(0); }
+
+          .column-container {
+            overflow: hidden;
+            position: relative;
           }
-          
-          .animate-move-up {
-            animation: moveUp 8s ease-in-out infinite;
+
+          .column-scroll {
+            animation: scrollUpColumn 45s linear infinite;
           }
-          
-          .animate-move-down {
-            animation: moveDown 8s ease-in-out infinite;
+
+          .column-scroll-delay-1 {
+            animation: scrollUpColumn 50s linear infinite;
+            animation-delay: -10s;
           }
-          
-          .animate-move-up-delayed {
-            animation: moveUp 8s ease-in-out infinite;
-            animation-delay: 2s;
+
+          .column-scroll-delay-2 {
+            animation: scrollUpColumn 55s linear infinite;
+            animation-delay: -20s;
           }
-          
-          .animate-move-down-delayed {
-            animation: moveDown 8s ease-in-out infinite;
-            animation-delay: 2s;
+
+          .column-scroll-delay-3 {
+            animation: scrollUpColumn 48s linear infinite;
+            animation-delay: -30s;
           }
-          
-          .animate-move-up-delayed-2 {
-            animation: moveUp 8s ease-in-out infinite;
-            animation-delay: 4s;
+
+          .column-scroll-delay-4 {
+            animation: scrollUpColumn 52s linear infinite;
+            animation-delay: -40s;
+          }
+
+          .image-item {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: all 0.3s ease;
+          }
+
+          .image-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.3) 100%);
+            pointer-events: none;
+            z-index: 1;
+          }
+
+          .image-item:hover::before {
+            background: linear-gradient(135deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.2) 100%);
           }
         `}
       </style>
       <div className="relative h-full">
-        <div className="grid grid-cols-5 gap-6 p-8 pt-20 h-full overflow-y-auto auto-rows-[160px]">
-          {images.map((image, index) => {
-            const columnIndex = index % 5;
-            let animationClass = '';
+        <div className="flex gap-6 p-8 pt-20 h-full">
+          {columnImages.map((columnImgs, columnIndex) => {
+            const animationClass = [
+              'column-scroll',
+              'column-scroll-delay-1', 
+              'column-scroll-delay-2',
+              'column-scroll-delay-3',
+              'column-scroll-delay-4'
+            ][columnIndex];
             
-            // Alternate animation for each column
-            switch (columnIndex) {
-              case 0:
-                animationClass = 'animate-move-up';
-                break;
-              case 1:
-                animationClass = 'animate-move-down';
-                break;
-              case 2:
-                animationClass = 'animate-move-up-delayed';
-                break;
-              case 3:
-                animationClass = 'animate-move-down-delayed';
-                break;
-              case 4:
-                animationClass = 'animate-move-up-delayed-2';
-                break;
-              default:
-                animationClass = '';
-            }
+            // Double the images to create seamless loop
+            const loopedImages = [...columnImgs, ...columnImgs];
             
             return (
-              <div
-                key={index}
-                className={`relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer ${animationClass}`}
-                style={{
-                  backgroundImage: `url(${image.url})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  gridRowEnd: `span ${image.rowSpan || 1}`
-                }}
-                aria-label={image.alt}
-                title={`${image.artformName || 'Traditional Art'} - ${image.origin || 'India'}`}
-              />
+              <div key={columnIndex} className="flex-1 column-container">
+                <div className={`flex flex-col gap-6 ${animationClass}`}>
+                  {loopedImages.map((image, imageIndex) => (
+                    <OptimizedImage
+                      key={`${columnIndex}-${imageIndex}`}
+                      src={image.url}
+                      alt={image.alt}
+                      title={`${image.artformName || 'Traditional Art'} - ${image.origin || 'India'}`}
+                      className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer flex-shrink-0"
+                      style={{
+                        height: `${(image.rowSpan || 1) * 160 + (image.rowSpan - 1) * 24}px`
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
             );
           })}
         </div>
-        {/* dark overlay on top of all images */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 pointer-events-none rounded-xl"
-          style={{ backgroundColor: `rgba(0,0,0,${overlayOpacity})` }}
-        />
       </div>
 
       {images.length === 0 && (
