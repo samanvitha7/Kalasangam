@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { adminApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import BackgroundImageGrid from './login/BackgroundImageGrid';
@@ -9,6 +9,7 @@ const AdminLogin = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { loadUser } = useAuth();
 
@@ -123,16 +124,23 @@ const AdminLogin = ({ onLogin }) => {
               />
             </div>
 
-            <div>
+            <div className="relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Admin Password"
                 value={credentials.password}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white"
+                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-deep-teal focus:border-deep-teal outline-none transition-all duration-200 bg-white"
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-deep-teal transition-colors duration-200 p-1"
+              >
+                {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+              </button>
             </div>
 
             <button

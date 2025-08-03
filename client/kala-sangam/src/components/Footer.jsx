@@ -59,8 +59,8 @@ export default function Footer() {
         </div>
 
         {/* Contact Form */}
-        <div className="mt-4">
-          <h2 className="text-xl font-bold font-dm-serif-display mb-3 text-deep-teal text-center">Get in Touch</h2>
+        <div>
+          <h2 className="text-xl font-bold font-dm-serif-display mb-3 text-deep-teal">Get in Touch</h2>
           <form onSubmit={handleSubmit} className="space-y-4 max-w-xs mx-auto">
             <input
               type="email"

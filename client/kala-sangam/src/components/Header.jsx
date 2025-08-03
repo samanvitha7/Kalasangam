@@ -181,8 +181,8 @@ export default function Header({ scrolled, onMapClick }) {
                   key={item.key}
                   className={`px-4 py-2 cursor-pointer transition-all duration-200 ${
                     scrolled
-                      ? "hover:bg-coral-red/20 hover:text-saffronglow"
-                      : "hover:text-vermilion"
+                      ? "hover:bg-soft-coral/30 hover:text-coral-pink"
+                      : "hover:bg-soft-coral/30 hover:text-coral-pink"
                   }`}
                   onClick={() => handleExplore(item.key)}
                 >
@@ -277,8 +277,8 @@ export default function Header({ scrolled, onMapClick }) {
                     to={user?.role === 'Admin' ? '/admin' : '/profile'}
                     className={`block px-4 py-3 font-winky font-[500] transition-all duration-200 ${
                       scrolled
-                        ? "hover:bg-coral-red/20 hover:text-saffronglow"
-                        : "hover:text-vermilion"
+                        ? "hover:bg-soft-coral/30 hover:text-coral-pink"
+                        : "hover:bg-soft-coral/30 hover:text-coral-pink"
                     }`}
                     onClick={() => setShowUserDropdown(false)}
                   >
@@ -288,8 +288,8 @@ export default function Header({ scrolled, onMapClick }) {
                     onClick={handleLogout}
                     className={`block w-full text-left px-4 py-3 font-winky font-[500] transition-all duration-200 ${
                       scrolled
-                        ? "hover:bg-coral-red/20 hover:text-saffronglow"
-                        : "hover:text-vermilion"
+                        ? "hover:bg-soft-coral/30 hover:text-coral-pink"
+                        : "hover:bg-soft-coral/30 hover:text-coral-pink"
                     }`}
                   >
                     Logout

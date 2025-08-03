@@ -163,15 +163,15 @@ export default function Signup() {
       <div className="absolute inset-0 bg-black/25"></div>
       
       {/* Overlay text */}
-      <div className="absolute left-48 top-1/2 -translate-y-1/2 z-10">
+      <div className="absolute left-1/4 top-1/2 -translate-y-1/2 z-10">
         <SignupOverlayText />
       </div>
       
       {/* Signup card background area for better visibility */}
-      <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-black/40 to-transparent z-[15]" />
+      <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-black/40 to-transparent z-[15]" />
       
       {/* Signup card */}
-      <div className="absolute right-48 top-1/2 -translate-y-1/2 z-20">
+      <div className="absolute left-[60%] top-1/2 -translate-y-1/2 z-20">
         <SignupCard
           form={form}
           handleChange={handleChange}
