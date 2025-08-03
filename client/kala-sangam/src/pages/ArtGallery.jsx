@@ -219,12 +219,14 @@ export default function ArtGallery() {
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] pb-8 overflow-hidden">
+    <div ref={containerRef} className="min-h-screen bg-[#F8E6DA] overflow-hidden">
       <FullBleedDivider />
-      {/* Floating Particles Background */}
-      <FloatingParticles />
       
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="pt-10 pb-8">
+        {/* Floating Particles Background */}
+        <FloatingParticles />
+        
+        <div className="container mx-auto px-4 relative z-10">
         {/* Full Bleed Divider */}
         
         
@@ -246,7 +248,7 @@ export default function ArtGallery() {
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           
-          <h1 className="inline-block text-6xl pt-10 font-dm-serif font-bold mb-8 pb-2 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent" style={{ lineHeight: '1.2' }}>
+          <h1 className="inline-block text-6xl font-dm-serif font-bold mb-8 pb-2 drop-shadow-lg bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent" style={{ lineHeight: '1.2' }}>
             Art Gallery
           </h1>
           <p className="text-lg font-lora font-semibold text-xl text-[#E05264] max-w-3xl mx-auto leading-relaxed mb-10">
@@ -497,6 +499,7 @@ export default function ArtGallery() {
         >
           ← Back to India Map
         </motion.button>
+      </div>
       </div>
       </div>
     </div>

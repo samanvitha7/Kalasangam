@@ -95,7 +95,10 @@ const LivingArtistMosaic = () => {
                             specialization: 'Classical Sitar',
                             location: 'Varanasi, Uttar Pradesh',
                             experience: '25+ years',
-                            bio: 'A master of classical Indian music, preserving the ancient traditions of sitar playing through generations of knowledge.'
+                            bio: 'A master of classical Indian music, preserving the ancient traditions of sitar playing through generations of knowledge.',
+                            followers: 1250,
+                            artworks: ['artwork1', 'artwork2', 'artwork3'],
+                            totalLikes: 450
                         },
                         {
                             _id: '2',
@@ -103,7 +106,10 @@ const LivingArtistMosaic = () => {
                             specialization: 'Madhubani Painting',
                             location: 'Mithila, Bihar',
                             experience: '15+ years',
-                            bio: 'Renowned for her intricate Madhubani paintings that tell stories of Indian mythology and culture.'
+                            bio: 'Renowned for her intricate Madhubani paintings that tell stories of Indian mythology and culture.',
+                            followers: 890,
+                            artworks: ['artwork1', 'artwork2'],
+                            totalLikes: 320
                         },
                         {
                             _id: '3',
@@ -111,7 +117,10 @@ const LivingArtistMosaic = () => {
                             specialization: 'Kathak Dance',
                             location: 'Lucknow, Uttar Pradesh',
                             experience: '20+ years',
-                            bio: 'A passionate Kathak dancer and teacher, dedicated to preserving this beautiful classical dance form.'
+                            bio: 'A passionate Kathak dancer and teacher, dedicated to preserving this beautiful classical dance form.',
+                            followers: 1540,
+                            artworks: ['artwork1', 'artwork2', 'artwork3', 'artwork4'],
+                            totalLikes: 680
                         },
                         {
                             _id: '4',
@@ -119,7 +128,10 @@ const LivingArtistMosaic = () => {
                             specialization: 'Odissi',
                             location: 'Bhubaneswar, Odisha',
                             experience: '18+ years',
-                            bio: 'Expert in Odissi, bringing ancient stories to life through graceful movements and sculpturesque poses.'
+                            bio: 'Expert in Odissi, bringing ancient stories to life through graceful movements and sculpturesque poses.',
+                            followers: 2100,
+                            artworks: ['artwork1', 'artwork2', 'artwork3', 'artwork4', 'artwork5'],
+                            totalLikes: 920
                         }
                     ];
                     setArtists(mockArtists);
@@ -135,7 +147,10 @@ const LivingArtistMosaic = () => {
                         specialization: 'Classical Sitar',
                         location: 'Varanasi, Uttar Pradesh',
                         experience: '25+ years',
-                        bio: 'A master of classical Indian music, preserving the ancient traditions of sitar playing through generations of knowledge.'
+                        bio: 'A master of classical Indian music, preserving the ancient traditions of sitar playing through generations of knowledge.',
+                        followers: 1250,
+                        artworks: ['artwork1', 'artwork2', 'artwork3'],
+                        totalLikes: 450
                     },
                     {
                         _id: '2',
@@ -143,7 +158,10 @@ const LivingArtistMosaic = () => {
                         specialization: 'Madhubani Painting',
                         location: 'Mithila, Bihar',
                         experience: '15+ years',
-                        bio: 'Renowned for her intricate Madhubani paintings that tell stories of Indian mythology and culture.'
+                        bio: 'Renowned for her intricate Madhubani paintings that tell stories of Indian mythology and culture.',
+                        followers: 890,
+                        artworks: ['artwork1', 'artwork2'],
+                        totalLikes: 320
                     },
                     {
                         _id: '3',
@@ -151,7 +169,10 @@ const LivingArtistMosaic = () => {
                         specialization: 'Kathak Dance',
                         location: 'Lucknow, Uttar Pradesh',
                         experience: '20+ years',
-                        bio: 'A passionate Kathak dancer and teacher, dedicated to preserving this beautiful classical dance form.'
+                        bio: 'A passionate Kathak dancer and teacher, dedicated to preserving this beautiful classical dance form.',
+                        followers: 1540,
+                        artworks: ['artwork1', 'artwork2', 'artwork3', 'artwork4'],
+                        totalLikes: 680
                     },
                     {
                         _id: '4',
@@ -159,7 +180,10 @@ const LivingArtistMosaic = () => {
                         specialization: 'Odissi',
                         location: 'Bhubaneswar, Odisha',
                         experience: '18+ years',
-                        bio: 'Expert in Odissi, bringing ancient stories to life through graceful movements and sculpturesque poses.'
+                        bio: 'Expert in Odissi, bringing ancient stories to life through graceful movements and sculpturesque poses.',
+                        followers: 2100,
+                        artworks: ['artwork1', 'artwork2', 'artwork3', 'artwork4', 'artwork5'],
+                        totalLikes: 920
                     }
                 ];
                 setArtists(mockArtists);
