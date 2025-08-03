@@ -57,7 +57,7 @@ const corsOptions = {
     }
     
     // Allow Render frontend domain and specific Kala Sangam domain
-    if (origin && (origin.includes('.onrender.com') || origin === 'https://kalasangam.onrender.com' || origin === 'https://traditional-arts-frontend.onrender.com')) {
+    if (origin && (origin.includes('.onrender.com') || origin === 'https://kalasangam.onrender.com' || origin === 'https://kala-sangam.onrender.com')) {
       console.log('Allowing Render domain:', origin);
       return callback(null, true);
     }
