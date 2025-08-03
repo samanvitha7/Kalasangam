@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowLeft, FaHeart, FaEye, FaMapMarkerAlt, FaCalendarAlt, FaBookmark } from 'react-icons/fa';
+import { FaArrowLeft, FaHeart, FaEye, FaMapMarkerAlt, FaCalendarAlt, FaBookmark, FaUsers } from 'react-icons/fa';
 import LazyImage from '../components/LazyImage';
 import useSmoothScroll from '../hooks/useSmoothScroll';
 import { api } from '../services/api';
@@ -331,6 +331,13 @@ useEffect(() => {
                       <span className="font-lora">Views</span>
                     </div>
                     <span className="text-[#134856] font-dm-serif font-bold text-xl">{views}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-[#134856]">
+                      <FaUsers className="text-blue-500" />
+                      <span className="font-lora">Followers</span>
+                    </div>
+                    <span className="text-[#134856] font-dm-serif font-bold text-xl">{artist.followers ? artist.followers.length : 0}</span>
                   </div>
                 </div>
               </div>

@@ -77,15 +77,79 @@ const BackgroundImageGrid = () => {
   if (loading) {
     return (
       <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <style>
+          {`
+            @keyframes moveUp {
+              0% { transform: translateY(0); }
+              50% { transform: translateY(-20px); }
+              100% { transform: translateY(0); }
+            }
+            
+            @keyframes moveDown {
+              0% { transform: translateY(0); }
+              50% { transform: translateY(20px); }
+              100% { transform: translateY(0); }
+            }
+            
+            .animate-move-up {
+              animation: moveUp 8s ease-in-out infinite;
+            }
+            
+            .animate-move-down {
+              animation: moveDown 8s ease-in-out infinite;
+            }
+            
+            .animate-move-up-delayed {
+              animation: moveUp 8s ease-in-out infinite;
+              animation-delay: 2s;
+            }
+            
+            .animate-move-down-delayed {
+              animation: moveDown 8s ease-in-out infinite;
+              animation-delay: 2s;
+            }
+            
+            .animate-move-up-delayed-2 {
+              animation: moveUp 8s ease-in-out infinite;
+              animation-delay: 4s;
+            }
+          `}
+        </style>
         <div className="relative h-full">
           <div className="grid grid-cols-5 gap-6 p-8 pt-20 h-full">
-            {Array.from({ length: 30 }, (_, i) => (
-              <div
-                key={i}
-                className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl animate-pulse"
-                style={{ gridRowEnd: `span ${[1, 2, 3][i % 3]}` }}
-              />
-            ))}
+            {Array.from({ length: 30 }, (_, i) => {
+              const columnIndex = i % 5;
+              let animationClass = '';
+              
+              // Alternate animation for each column
+              switch (columnIndex) {
+                case 0:
+                  animationClass = 'animate-move-up';
+                  break;
+                case 1:
+                  animationClass = 'animate-move-down';
+                  break;
+                case 2:
+                  animationClass = 'animate-move-up-delayed';
+                  break;
+                case 3:
+                  animationClass = 'animate-move-down-delayed';
+                  break;
+                case 4:
+                  animationClass = 'animate-move-up-delayed-2';
+                  break;
+                default:
+                  animationClass = '';
+              }
+              
+              return (
+                <div
+                  key={i}
+                  className={`bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl animate-pulse ${animationClass}`}
+                  style={{ gridRowEnd: `span ${[1, 2, 3][i % 3]}` }}
+                />
+              );
+            })}
           </div>
           {/* dark overlay over the placeholder grid */}
           <div
@@ -100,22 +164,86 @@ const BackgroundImageGrid = () => {
 
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden">
+      <style>
+        {`
+          @keyframes moveUp {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+          }
+          
+          @keyframes moveDown {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(20px); }
+            100% { transform: translateY(0); }
+          }
+          
+          .animate-move-up {
+            animation: moveUp 8s ease-in-out infinite;
+          }
+          
+          .animate-move-down {
+            animation: moveDown 8s ease-in-out infinite;
+          }
+          
+          .animate-move-up-delayed {
+            animation: moveUp 8s ease-in-out infinite;
+            animation-delay: 2s;
+          }
+          
+          .animate-move-down-delayed {
+            animation: moveDown 8s ease-in-out infinite;
+            animation-delay: 2s;
+          }
+          
+          .animate-move-up-delayed-2 {
+            animation: moveUp 8s ease-in-out infinite;
+            animation-delay: 4s;
+          }
+        `}
+      </style>
       <div className="relative h-full">
         <div className="grid grid-cols-5 gap-6 p-8 pt-20 h-full overflow-y-auto auto-rows-[160px]">
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
-              style={{
-                backgroundImage: `url(${image.url})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                gridRowEnd: `span ${image.rowSpan || 1}`
-              }}
-              aria-label={image.alt}
-              title={`${image.artformName || 'Traditional Art'} - ${image.origin || 'India'}`}
-            />
-          ))}
+          {images.map((image, index) => {
+            const columnIndex = index % 5;
+            let animationClass = '';
+            
+            // Alternate animation for each column
+            switch (columnIndex) {
+              case 0:
+                animationClass = 'animate-move-up';
+                break;
+              case 1:
+                animationClass = 'animate-move-down';
+                break;
+              case 2:
+                animationClass = 'animate-move-up-delayed';
+                break;
+              case 3:
+                animationClass = 'animate-move-down-delayed';
+                break;
+              case 4:
+                animationClass = 'animate-move-up-delayed-2';
+                break;
+              default:
+                animationClass = '';
+            }
+            
+            return (
+              <div
+                key={index}
+                className={`relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer ${animationClass}`}
+                style={{
+                  backgroundImage: `url(${image.url})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  gridRowEnd: `span ${image.rowSpan || 1}`
+                }}
+                aria-label={image.alt}
+                title={`${image.artformName || 'Traditional Art'} - ${image.origin || 'India'}`}
+              />
+            );
+          })}
         </div>
         {/* dark overlay on top of all images */}
         <div
