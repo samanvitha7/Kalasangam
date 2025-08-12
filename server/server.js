@@ -80,6 +80,20 @@ const corsOptions = {
   credentials: true // Allow cookies and credentials
 };
 
+// Request logging middleware to capture IP addresses
+const requestLogger = (req, res, next) => {
+  const log = {
+    method: req.method,
+    url: req.originalUrl,
+    ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress,
+    userAgent: req.headers['user-agent'],
+    timestamp: new Date().toISOString()
+  };
+  // Log to console for immediate viewing
+  console.log('REQUEST:', JSON.stringify(log));
+  next();
+};
+
 app.use(cors(corsOptions));
 app.use(express.json());
 //serve atatic image files from /public
