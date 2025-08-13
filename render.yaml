@@ -1,12 +1,11 @@
 services:
-  # Backend API Service
+  # Full Stack Service (Frontend + Backend)
   - type: web
-    name: kalasangam-backend
+    name: kalasangam
     env: node
     plan: free
-    rootDir: server
-    buildCommand: npm install
-    startCommand: node server.js
+    buildCommand: cd client/kala-sangam && npm install && npm run build && cd ../../ && cp -r client/kala-sangam/dist ./ && cd server && npm install
+    startCommand: cd server && node server.js
     autoDeploy: true
     envVars:
       - key: NODE_ENV
@@ -17,17 +16,19 @@ services:
         value: 4d62b08c4f0532c4d8e2b81e0ecb087a7060d431bb12ff3a3d94c842cbbba249
       - key: JWT_EXPIRE
         value: 30d
-
-  # Frontend Service
-  - type: web
-    name: kalasangam-frontend
-    env: static
-    plan: free
-    rootDir: client/kala-sangam
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    autoDeploy: true
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
+      - key: BASE_URL_PROD
+        value: https://kalasangam.onrender.com
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_EMAIL
+        value: nefariamordeath@gmail.com
+      - key: SMTP_PASSWORD
+        value: qgyg jgsc qxxa wdoe
+      - key: FROM_NAME
+        value: KALASANGAM
+      - key: FROM_EMAIL
+        value: nefariamordeath@gmail.com
+      - key: EVENTBRITE_TOKEN
+        value: 2SJGH6KHAC74J6QOKKW3
