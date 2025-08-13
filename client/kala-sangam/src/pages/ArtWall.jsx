@@ -9,8 +9,6 @@ import { Link } from 'react-router-dom';
 import { api } from '../services/api';
 import FullBleedDivider from '../components/FullBleedDivider';
 import { globalEvents, ARTWORK_EVENTS } from '../utils/eventEmitter';
-import DiagnosticComponent from '../debug/DiagnosticComponent';
-import MutationDetector from '../debug/MutationDetector';
 
 const ArtWall = () => {
   const { user, isAuthenticated, updateUser } = useAuth();
@@ -783,12 +781,6 @@ const ArtWall = () => {
           onClose={() => setShowModal(false)}
           onSubmit={handleArtworkSubmit}
         />
-        
-        {/* Diagnostic Component - Remove this after debugging */}
-        {isAuthenticated && <DiagnosticComponent />}
-        
-        {/* Mutation Detector - Remove this after debugging */}
-        <MutationDetector artworks={artworks} />
         </div>
       </div>
     </div>
