@@ -232,7 +232,7 @@ export default function Header({ scrolled, onMapClick }) {
           {/* Notifications */}
           {isAuthenticated && (
             <div className={`flex items-center transition-all duration-500 ease-in-out ${
-              !scrolled ? "relative top-4" : ""
+              !scrolled ? "relative top-3" : ""
             }`}>
               <NotificationsBell />
             </div>

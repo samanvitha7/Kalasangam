@@ -1,0 +1,1 @@
+import{j as e}from"./index-CsZtmyam.js";const s=()=>e.jsx("div",{className:"text-left pointer-events-none max-w-5xl",children:e.jsx("div",{className:"p-14",children:e.jsxs("h1",{className:"text-5xl xl:text-6xl font-semibold text-white mb-6 font-dm-serif leading-[1.2]",children:["Log in to get",e.jsx("br",{}),"your ideas"]})})});export{s as O};

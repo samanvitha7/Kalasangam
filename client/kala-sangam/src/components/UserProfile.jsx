@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import api from "../utils/axios";
 import ProfilePictureUpload from "./ProfilePictureUpload";
 import RecentActivity from "./RecentActivity";
+import UserEvents from "./UserEvents";
 import { globalEvents, ARTWORK_EVENTS } from "../utils/eventEmitter";
 
 export default function UserProfile({ profile, stats, onProfileUpdate }) {
@@ -345,11 +346,26 @@ export default function UserProfile({ profile, stats, onProfileUpdate }) {
         </motion.div>
 
 
-        {/* Recent Activity */}
+        {/* User Events */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <h3 className="text-2xl font-bold font-dm-serif mb-6 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
+            My Events & Workshops
+          </h3>
+          <div className="h-px bg-gradient-to-r from-[#134856]/30 via-[#e05264]/30 to-[#134856]/30 mb-8"></div>
+          <div className="bg-gray-50/80 border-2 border-[#e05264]/20 shadow-[0_0_20px_rgba(224,82,100,0.2)] rounded-2xl p-6">
+            <UserEvents userId={profile?.id} />
+          </div>
+        </motion.div>
+
+        {/* Recent Activity */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
         >
           <h3 className="text-2xl font-bold font-dm-serif mb-6 bg-gradient-to-r from-[#134856] to-[#e05264] bg-clip-text text-transparent">
             Recent Activity

@@ -1,9 +1,10 @@
 // src/components/UserEvents.jsx
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { api } from "../services/api";
+import api from "../utils/axios";
 import EventModal from "./EventModal";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
 
 export default function UserEvents({ userId }) {
   const [events, setEvents] = useState([]);
@@ -12,42 +13,42 @@ export default function UserEvents({ userId }) {
   const [showEventModal, setShowEventModal] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState({ show: false, eventId: null, eventTitle: '' });
+  const { user } = useAuth();
 
   useEffect(() => {
-    loadEvents();
-  }, [userId]);
+    if (user?.id) {
+      loadEvents();
+    }
+  }, [userId, user?.id]);
 
   const loadEvents = async () => {
     try {
-      // Get current user first to get their ID
-      const currentUser = await api.getCurrentUser();
-      if (!currentUser || !currentUser.user) {
-        throw new Error('Failed to get current user');
-      }
+      console.log('Loading events for user:', user?.id);
       
-      const currentUserId = currentUser.user.id;
-      console.log('Loading events for user:', currentUserId);
+      // Fetch all events first
+      const response = await api.get('/api/events');
+      console.log('API response:', response);
       
-      // Fetch events organized by the current user
-      const response = await api.getEvents({ organizer: currentUserId });
-      const eventsData = response?.data || response || [];
+      // Extract events from response
+      const allEvents = response.data?.data || response.data || [];
+      console.log('All events:', allEvents);
       
-      console.log('Loaded events:', eventsData);
-      
-      // Ensure we only show events created by this user
-      const userEvents = Array.isArray(eventsData) 
-        ? eventsData.filter(event => 
-            event.organizer === currentUserId || 
-            event.organizerId === currentUserId ||
-            (event.createdBy && event.createdBy === currentUserId)
-          )
+      // Filter events created by the current user
+      const userEvents = Array.isArray(allEvents) 
+        ? allEvents.filter(event => {
+            const eventCreatorId = event.createdBy?._id || event.createdBy;
+            const currentUserId = user?.id;
+            console.log('Comparing:', eventCreatorId, 'with', currentUserId);
+            return eventCreatorId === currentUserId;
+          })
         : [];
       
+      console.log('User events:', userEvents);
       setEvents(userEvents);
     } catch (error) {
       console.error('Failed to load events:', error);
-      toast.error('Failed to load events');
-      setEvents([]); // Set empty array on error
+      toast.error('Failed to load your events');
+      setEvents([]);
     } finally {
       setLoading(false);
     }
@@ -55,58 +56,65 @@ export default function UserEvents({ userId }) {
 
   const handleCreateEvent = async (eventData) => {
     try {
-      // Since there's no specific create event API, we'll add it locally for now
-      // In a real implementation, you'd need a backend endpoint for creating events
-      const newEvent = {
-        id: Date.now(), // Temporary ID
-        ...eventData,
-        createdAt: new Date().toISOString(),
-        organizer: userId
-      };
-      setEvents(prev => [newEvent, ...prev]);
-      toast.success('Event created successfully!');
-      setShowEventModal(false);
+      console.log('Creating event:', eventData);
+      const response = await api.post('/api/events', eventData);
+      
+      if (response.data?.success) {
+        toast.success('Event created successfully!');
+        setShowEventModal(false);
+        // Reload events to get the new one
+        loadEvents();
+      } else {
+        toast.error('Failed to create event');
+      }
     } catch (error) {
-      toast.error('Failed to create event');
+      console.error('Error creating event:', error);
+      toast.error(error.response?.data?.message || 'Failed to create event');
     }
   };
 
   const handleUpdateEvent = async (eventData) => {
     try {
-      // Since there's no specific update event API, we'll update it locally for now
-      // In a real implementation, you'd need a backend endpoint for updating events
-      const updatedEvent = {
-        ...editingEvent,
-        ...eventData,
-        updatedAt: new Date().toISOString()
-      };
-      setEvents(prev => prev.map(event => 
-        event.id === editingEvent.id ? updatedEvent : event
-      ));
-      toast.success('Event updated successfully!');
-      setEditingEvent(null);
+      console.log('Updating event:', editingEvent._id, eventData);
+      const response = await api.put(`/api/events/${editingEvent._id}`, eventData);
+      
+      if (response.data?.success) {
+        toast.success('Event updated successfully!');
+        setEditingEvent(null);
+        // Reload events to get the updated one
+        loadEvents();
+      } else {
+        toast.error('Failed to update event');
+      }
     } catch (error) {
-      toast.error('Failed to update event');
+      console.error('Error updating event:', error);
+      toast.error(error.response?.data?.message || 'Failed to update event');
     }
   };
 
   const showDeleteConfirmation = (event) => {
     setDeleteConfirmation({
       show: true,
-      eventId: event.id,
+      eventId: event._id,
       eventTitle: event.title
     });
   };
 
   const handleDeleteEvent = async () => {
     try {
-      // Use the proper delete event API from the service
-      await api.deleteEvent(deleteConfirmation.eventId);
-      setEvents(prev => prev.filter(e => e.id !== deleteConfirmation.eventId));
-      toast.success("Event deleted successfully");
+      console.log('Deleting event:', deleteConfirmation.eventId);
+      const response = await api.delete(`/api/events/${deleteConfirmation.eventId}`);
+      
+      if (response.data?.success) {
+        toast.success("Event deleted successfully");
+        // Reload events to get the updated list
+        loadEvents();
+      } else {
+        toast.error("Failed to delete event");
+      }
     } catch (error) {
       console.error('Delete event error:', error);
-      toast.error("Failed to delete event");
+      toast.error(error.response?.data?.message || "Failed to delete event");
     } finally {
       setDeleteConfirmation({ show: false, eventId: null, eventTitle: '' });
     }
@@ -208,7 +216,7 @@ export default function UserEvents({ userId }) {
             const isUpcoming = eventDate >= new Date();
             
             return (
-              <div key={event.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+              <div key={event._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                 <div className="relative">
                   {event.imageUrl ? (
                     <img 
