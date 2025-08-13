@@ -99,8 +99,11 @@ app.use(express.json());
 //serve static image files from /public
 app.use("/images",express.static(path.join(__dirname,'public')));
 
-// Root route for basic health check
-app.get('/', (req, res) => {
+// Serve static files from the React app build
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// API health check route
+app.get('/api/health', (req, res) => {
   res.json({
     success: true,
     message: 'Kalasangam Backend API is running',
@@ -156,6 +159,15 @@ app.get("/api/danceforms", async (req, res) => {
   }
 });
 
+// Catch-all handler: send back React's index.html file for any non-API routes
+app.get('*', (req, res) => {
+  // Don't serve index.html for API routes
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API route not found' });
+  }
+  
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
 
 //connect to mongodb with optimized settings for faster deployment
 const connectDB = async (retryCount = 0) => {
