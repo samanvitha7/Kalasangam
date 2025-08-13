@@ -660,9 +660,12 @@ const getArtists = async (req, res) => {
     const artistsWithExtras = await Promise.all(artists.map(async (artist) => {
       const artistObj = artist.toObject();
       
-      // Count actual artworks for this artist from the Artwork collection
+      // Count actual artworks for this artist from the database
       const artworkCount = await Artwork.countDocuments({ userId: artist._id, isActive: true });
       console.log(`🎨 Artist ${artist.name} (${artist._id}): Found ${artworkCount} artworks`);
+      
+      // Use user's artworks array length as it's already synced
+      const artworksArray = artist.artworks || [];
       
       // Count followers
       const followersCount = await User.countDocuments({ following: artist._id });
@@ -671,7 +674,7 @@ const getArtists = async (req, res) => {
         ...artistObj,
         isNew: artist.createdAt > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days
         followersCount,
-        artworks: Array(artworkCount).fill(null), // Create array with proper length for compatibility
+        artworks: artworksArray, // Use the actual artworks array from user
         artworkCount,
         signatureWork: artist.avatar || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop'
       };
