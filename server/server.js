@@ -127,6 +127,7 @@ const verificationRoutes = require('./routes/verificationRoutes');
 const followingRoutes = require('./routes/followingRoutes');
 const notificationsRoutes = require('./routes/notificationsRoutes');
 const healthRoutes = require('./routes/health');
+const fixEventLinksRoutes = require('./routes/fixEventLinks');
 app.use("/api/artforms", artformRoutes);
 app.use("/api/auth",authRoutes);
 app.use("/api/users",userRoutes);
@@ -141,6 +142,7 @@ app.use('/api/smart-search', smartSearchRoutes);
 app.use('/api/verification', verificationRoutes);
 app.use('/api/following', followingRoutes);
 app.use('/api/notifications', notificationsRoutes);
+app.use('/api/fix-event-links', fixEventLinksRoutes);
 app.use('/api', healthRoutes);
 
 const DanceForm = require("./models/DanceForm");
