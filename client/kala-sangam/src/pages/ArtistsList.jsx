@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import LazyImage from '../components/LazyImage';
@@ -14,13 +14,24 @@ const ArtistsList = () => {
 
   // Fetch artists from API
   useEffect(() => {
+    console.log('🎯 ArtistsList: useEffect triggered, fetching artists...');
     const fetchArtists = async () => {
       try {
+        console.log('📞 ArtistsList: Making API call to getArtists');
         const response = await api.getArtists();
-        if (response.success && response.data) {
-          setArtists(response.data);
+        console.log('📊 ArtistsList: API response received:', response);
+        if (response.success && response.data && response.data.length > 0) {
+          console.log('✅ ArtistsList: Setting artists data:', response.data.length, 'artists');
+          // Use the artworkCount field from backend instead of artworks.length for consistency
+          const processedArtists = response.data.map(artist => ({
+            ...artist,
+            // Ensure artworks array matches artworkCount for consistency
+            artworks: Array(artist.artworkCount || 0).fill(null)
+          }));
+          setArtists(processedArtists);
         } else {
-          console.error('No artists found in response:', response);
+          console.error('❌ ArtistsList: No artists found in response:', response);
+          console.log('🔄 ArtistsList: Using fallback mock data');
           // Fallback mock data when API returns no data
           const mockArtists = [
             {
@@ -193,9 +204,9 @@ const ArtistsList = () => {
       }
     });
 
-  // Floating particles for background
-  const FloatingParticles = () => {
-    const particles = Array.from({ length: 15 }, (_, i) => ({
+  // Generate particles once and memoize them
+  const particles = useMemo(() => 
+    Array.from({ length: 15 }, (_, i) => ({
       id: i,
       size: Math.random() * 4 + 2,
       color: [
@@ -209,8 +220,11 @@ const ArtistsList = () => {
       initialY: Math.random() * 100,
       animationDelay: Math.random() * 5,
       animationDuration: 8 + Math.random() * 6
-    }));
+    })), []
+  );
 
+  // Floating particles for background
+  const FloatingParticles = memo(() => {
     return (
       <div className="fixed inset-0 pointer-events-none z-0">
         {particles.map((particle) => (
@@ -242,7 +256,7 @@ const ArtistsList = () => {
         ))}
       </div>
     );
-  };
+  });
 
   if (loading) {
     return (
