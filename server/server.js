@@ -160,13 +160,20 @@ app.get("/api/danceforms", async (req, res) => {
 });
 
 // Catch-all handler: send back React's index.html file for any non-API routes
-app.get('*', (req, res) => {
+// Use try-catch to prevent path-to-regexp errors
+app.use((req, res, next) => {
   // Don't serve index.html for API routes
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'API route not found' });
   }
   
-  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+  // For all non-API routes, serve the React app
+  try {
+    res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+  } catch (error) {
+    console.error('Error serving index.html:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 //connect to mongodb with optimized settings for faster deployment
