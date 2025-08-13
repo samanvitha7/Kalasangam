@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const team = [
   {
@@ -8,7 +9,9 @@ const team = [
     image: "/images/naina1.jpg",
     funFact: "Wrote her first JavaScript app before learning to ride a bike.",
     color: "from-[#4bb5a5] to-[#1D7C6F]",
-    skills: ["React", "UI/UX", "Animation"]
+    skills: ["React", "UI/UX", "Animation"],
+    linkedin: "https://linkedin.com/in/naina-profile",
+    github: "https://github.com/naina-profile"
   },
   {
     name: "SAMANVITHA",
@@ -16,15 +19,19 @@ const team = [
     image: "/images/sam.jpg",
     funFact: "Has a playlist for debugging — and it actually works!",
     color: "from-[#5a8fa0] to-[#134856]",
-    skills: ["Node.js", "MongoDB", "APIs"]
+    skills: ["Node.js", "MongoDB", "APIs"],
+    linkedin: "https://linkedin.com/in/samanvitha-profile",
+    github: "https://github.com/samanvitha-profile"
   },
   {
     name: "SHREYA",
     role: "Full Stack Developer",
     image: "/images/shreya.jpg",
-    funFact: "Built a design system while eating pani puri — didn’t spill a byte.",
+    funFact: "Built a design system while eating pani puri — didn't spill a byte.",
     color: "from-[#f17887] to-[#E05264]",
-    skills: ["React", "Animation", "Node.js"]
+    skills: ["React", "Animation", "Node.js"],
+    linkedin: "https://linkedin.com/in/shreya-profile",
+    github: "https://github.com/shreya-profile"
   },
   {
     name: "VAISHALI",
@@ -32,7 +39,9 @@ const team = [
     image: "/images/Vaishalii.jpg",
     funFact: "Her debug sessions are so calm, even the console errors feel shy.",
     color: "from-[#f7b7bb] to-[#F48C8C]",
-    skills: ["Tailwindcss", "Research", "UI/UX"]
+    skills: ["Tailwindcss", "Research", "UI/UX"],
+    linkedin: "https://linkedin.com/in/vaishali-profile",
+    github: "https://github.com/vaishali-profile"
   }
 ];
 
@@ -144,6 +153,32 @@ function MeetTheTeam() {
                       {skill}
                     </motion.span>
                   ))}
+                </div>
+
+                {/* Social Icons */}
+                <div className="flex justify-center gap-4 mt-5">
+                  <motion.a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-10 h-10 rounded-full bg-gradient-to-r ${member.color} flex items-center justify-center text-white shadow-md transition-all duration-300 hover:shadow-lg`}
+                    whileHover={{ scale: 1.2, y: -2 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={(e) => e.stopPropagation()} // Prevent card flip when clicking social icons
+                  >
+                    <FaLinkedin size={20} />
+                  </motion.a>
+                  <motion.a
+                    href={member.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-10 h-10 rounded-full bg-gradient-to-r ${member.color} flex items-center justify-center text-white shadow-md transition-all duration-300 hover:shadow-lg`}
+                    whileHover={{ scale: 1.2, y: -2 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={(e) => e.stopPropagation()} // Prevent card flip when clicking social icons
+                  >
+                    <FaGithub size={20} />
+                  </motion.a>
                 </div>
 
                 {/* Hint */}
