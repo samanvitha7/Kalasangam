@@ -221,23 +221,19 @@ const connectDB = async (retryCount = 0) => {
   }
 };
 
-// db.js or in server.js near mongoose.connect
+// Remove duplicate MongoDB connection - using connectDB function instead
 
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log("✅ MongoDB connected");
-  console.log("📊 Connected DB name:", mongoose.connection.name); // <-- prints 'kalasangam'
-})
-.catch((err) => {
-  console.error("❌ MongoDB connection error:", err);
+// Start server
+const PORT = process.env.PORT || 5050;
+const server = app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🔗 API Health Check: http://localhost:${PORT}/api/health`);
+  
+  // Connect to MongoDB after server starts
+  connectDB();
 });
-
-
-
 
 // Handle server shutdown gracefully
 process.on('SIGTERM', () => {
@@ -247,7 +243,5 @@ process.on('SIGTERM', () => {
     mongoose.connection.close();
   });
 });
-
-
 
 
