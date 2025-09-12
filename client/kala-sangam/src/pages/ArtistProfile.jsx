@@ -403,13 +403,6 @@ useEffect(() => {
                     </div>
                     <span className="text-[#134856] font-dm-serif font-bold text-xl">{views}</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-[#134856]">
-                      <FaUsers className="text-blue-500" />
-                      <span className="font-lora">Followers</span>
-                    </div>
-                    <span className="text-[#134856] font-dm-serif font-bold text-xl">{artist.followers ? artist.followers.length : 0}</span>
-                  </div>
                 </div>
               </div>
 

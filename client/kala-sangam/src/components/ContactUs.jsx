@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react"; // 👈 combine useState + useEffect
+import { useState, useEffect } from "react"; 
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useLocation } from "react-router-dom"; // 👈 useLocation imported
+import { useLocation } from "react-router-dom"; 
 
 function ContactUsSection() {
   const location = useLocation(); // ✅ moved inside the function
@@ -136,7 +136,7 @@ function ContactUsSection() {
           >
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-[#1D7C6F] rounded-full"></div>
-              <span className="text-lg bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">Email: contact@kalasangam.com</span>
+              <span className="text-lg bg-gradient-to-r from-[#1D7C6F] to-[#F48C8C] bg-clip-text text-transparent">Email: ourkalasangam2025@gmail.com</span>
             </div>
 
             <div className="flex items-center gap-3">

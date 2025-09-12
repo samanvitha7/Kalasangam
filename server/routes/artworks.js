@@ -194,6 +194,14 @@ router.post("/", auth, async (req, res) => {
 
     const savedArtwork = await newArtwork.save();
 
+    // Update user's artworks array
+    await User.findByIdAndUpdate(
+      req.user.id,
+      { $push: { artworks: savedArtwork._id } }
+    );
+    
+    console.log(`✅ Added artwork "${savedArtwork.title}" to user ${user.name}'s artworks array`);
+
     // Transform response
     const transformedArtwork = {
       id: savedArtwork._id,
@@ -298,6 +306,14 @@ router.delete("/:id", auth, async (req, res) => {
     // Soft delete by setting isActive to false
     artwork.isActive = false;
     await artwork.save();
+    
+    // Remove artwork from user's artworks array
+    await User.findByIdAndUpdate(
+      artwork.userId,
+      { $pull: { artworks: artwork._id } }
+    );
+    
+    console.log(`✅ Removed artwork "${artwork.title}" from user's artworks array`);
 
     res.json({ success: true, message: "Artwork deleted successfully" });
 

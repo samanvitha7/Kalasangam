@@ -1,0 +1,1 @@
+import{r as o}from"./chunk-Bdcpd3Jy.js";const s=()=>{o.useEffect(()=>{const o="hardReloaded_"+window.location.pathname.replace(/\//g,"_");sessionStorage.getItem(o)||(sessionStorage.setItem(o,"true"),setTimeout(()=>{window.location.reload(!0)},100))},[])};export{s as u};

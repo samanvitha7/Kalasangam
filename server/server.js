@@ -221,13 +221,23 @@ const connectDB = async (retryCount = 0) => {
   }
 };
 
-// Start server first, then connect to database
-const PORT = process.env.PORT || 5050;
-const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${PORT}`);
-  // Connect to MongoDB after server is running
-  connectDB();
+// db.js or in server.js near mongoose.connect
+
+
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log("✅ MongoDB connected");
+  console.log("📊 Connected DB name:", mongoose.connection.name); // <-- prints 'kalasangam'
+})
+.catch((err) => {
+  console.error("❌ MongoDB connection error:", err);
 });
+
+
+
 
 // Handle server shutdown gracefully
 process.on('SIGTERM', () => {

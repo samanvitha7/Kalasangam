@@ -374,13 +374,19 @@ const seedDatabase = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ Connected to MongoDB");
 
-    // Clear existing data
-    console.log("🧹 Clearing existing data...");
-    await User.deleteMany({});
-    await Artwork.deleteMany({});  
-    await Event.deleteMany({});
-    await ArtForm.deleteMany({});
-    console.log("✅ Cleared existing data");
+    // Check if seeded artists already exist to prevent duplicates
+    const existingArtists = await User.find({ 
+      email: { $in: artistsData.filter(a => a.email).map(a => a.email) }
+    });
+    
+    if (existingArtists.length > 0) {
+      console.log(`⚠️ Found ${existingArtists.length} existing seeded artists. Skipping seeding to prevent duplicates.`);
+      console.log('Existing artists:', existingArtists.map(a => a.name).join(', '));
+      console.log('✅ Database already seeded with sample artists');
+      process.exit(0);
+    }
+    
+    console.log("✅ No existing seeded artists found. Proceeding with seeding...");
 
     // Seed art forms first
     console.log("🎨 Seeding art forms...");
