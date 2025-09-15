@@ -6,6 +6,8 @@ import { HeaderSmartSearch } from "./SmartSearchComponent";
 import { FaBars, FaTimes } from "react-icons/fa";
 import NotificationsBell from "./NotificationsBell";
 
+
+
 export default function Header({ scrolled, onMapClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
@@ -15,6 +17,8 @@ export default function Header({ scrolled, onMapClick }) {
   const mobileMenuRef = useRef();
   const navigate = useNavigate();
   const { user, logout, isAuthenticated } = useAuth();
+
+
 
   useEffect(() => {
     function handleClickOutside(event) {

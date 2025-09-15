@@ -10,8 +10,8 @@ const team = [
     funFact: "Wrote her first JavaScript app before learning to ride a bike.",
     color: "from-[#4bb5a5] to-[#1D7C6F]",
     skills: ["React", "UI/UX", "Animation"],
-    linkedin: "https://linkedin.com/in/naina-profile",
-    github: "https://github.com/naina-profile"
+    linkedin: "https://www.linkedin.com/in/naina-jain-777811331/]",
+    github: "https://github.com/NainaJain-AI"
   },
   {
     name: "SAMANVITHA",
@@ -20,8 +20,8 @@ const team = [
     funFact: "Has a playlist for debugging — and it actually works!",
     color: "from-[#5a8fa0] to-[#134856]",
     skills: ["Node.js", "MongoDB", "APIs"],
-    linkedin: "https://linkedin.com/in/samanvitha-profile",
-    github: "https://github.com/samanvitha-profile"
+    linkedin: "https://www.linkedin.com/in/samanvitha-bolisetty-465a02326/]",
+    github: "https://github.com/samanvitha7"
   },
   {
     name: "SHREYA",
@@ -30,8 +30,8 @@ const team = [
     funFact: "Built a design system while eating pani puri — didn't spill a byte.",
     color: "from-[#f17887] to-[#E05264]",
     skills: ["React", "Animation", "Node.js"],
-    linkedin: "https://linkedin.com/in/shreya-profile",
-    github: "https://github.com/shreya-profile"
+    linkedin: "https://www.linkedin.com/in/shreya-ashar-18a027191/",
+    github: "https://github.com/ShreyaSVNIT"
   },
   {
     name: "VAISHALI",
@@ -40,8 +40,8 @@ const team = [
     funFact: "Her debug sessions are so calm, even the console errors feel shy.",
     color: "from-[#f7b7bb] to-[#F48C8C]",
     skills: ["Tailwindcss", "Research", "UI/UX"],
-    linkedin: "https://linkedin.com/in/vaishali-profile",
-    github: "https://github.com/vaishali-profile"
+    linkedin: "https://www.linkedin.com/in/vaishali-dak/]",
+    github: "https://github.com/vaishali09dak"
   }
 ];
 

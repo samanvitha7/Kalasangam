@@ -13,6 +13,8 @@ import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { SoundProvider } from "./context/SoundContext.jsx";
 
+
+
 // Lazy load all pages
 const Art = lazy(() => import("./pages/ArtGallery.jsx"));
 const Home = lazy(() => import("./pages/Home.jsx"));
