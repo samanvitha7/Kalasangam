@@ -6,6 +6,7 @@
     "build": "cd client/kala-sangam && npm install && npm run build:production",
     "build:local": "cd client/kala-sangam && npm install && npm run build",
     "build:production": "node build-production.js",
+    "build:render": "cd client/kala-sangam && npm ci && npm run build:production && cd ../.. && mkdir -p dist && cp -r client/kala-sangam/dist/* ./ && cd server && npm ci",
     "dev": "cd client/kala-sangam && npm run dev",
     "preview": "cd client/kala-sangam && npm run preview",
     "start": "cd server && npm install && npm start",
@@ -16,6 +17,6 @@
     "test:build": "npm run build && cd client/kala-sangam && npm run preview"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   }
 }
