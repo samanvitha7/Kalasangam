@@ -544,21 +544,47 @@ export const api = {
     if (filters.sortBy) queryParams.append('sortBy', filters.sortBy);
     if (filters.sortOrder) queryParams.append('sortOrder', filters.sortOrder);
 
-    const url = `${API_URL}/api/users/artists${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    const primaryUrl = `${API_URL}/api/users/artists${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    const fallbackUrl = `${API_URL}/api/artists${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
 
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    try {
+      console.log('Fetching artists from:', primaryUrl);
+      const response = await fetch(primaryUrl, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-    if (!response.ok) {
-      const errorData = await response.text();
-      throw new Error(`Failed to fetch artists: ${response.status} - ${errorData}`);
+      if (!response.ok) {
+        const errorData = await response.text();
+        console.warn('Primary artists endpoint failed:', response.status, errorData);
+        throw new Error(`Primary failed: ${response.status}`);
+      }
+
+      return response.json();
+    } catch (primaryError) {
+      console.log('Trying fallback artists endpoint:', fallbackUrl);
+      try {
+        const fbResp = await fetch(fallbackUrl, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!fbResp.ok) {
+          const fbText = await fbResp.text();
+          throw new Error(`Fallback failed: ${fbResp.status} - ${fbText}`);
+        }
+
+        const fbData = await fbResp.json();
+        // Normalize to the same shape expected by frontend
+        const normalized = Array.isArray(fbData)
+          ? { success: true, data: fbData }
+          : fbData;
+        return normalized;
+      } catch (fbError) {
+        console.error('Artists fetch failed on both endpoints:', fbError);
+        throw fbError;
+      }
     }
-
-    return response.json();
   },
 
   // Fetch single artist by ID
