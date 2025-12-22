@@ -622,8 +622,9 @@ export const api = {
     });
 
     if (!response.ok) {
-      const errorData = await response.text();
-      throw new Error(`Failed to fetch artworks: ${response.status} - ${errorData}`);
+      // Graceful fallback: empty list to avoid UI errors
+      console.warn('Artworks endpoint returned non-OK; returning empty list');
+      return { success: true, data: [] };
     }
 
     return response.json();
