@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../services/api";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
@@ -188,7 +189,6 @@ const DanceGallery = () => {
       try {
         setLoading(true);
         setError(null);
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
         const response = await axios.get(`${API_URL}/api/danceforms`);
         
         // Handle the API response structure

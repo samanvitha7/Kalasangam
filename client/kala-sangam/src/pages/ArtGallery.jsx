@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import { API_URL } from "../services/api";
 import ArtFormCard from "../components/ArtFormCard";
 import LazyImage from "../components/LazyImage";
 import FullBleedDivider from "../components/FullBleedDivider";
@@ -65,7 +66,6 @@ export default function ArtGallery() {
       try {
         setLoading(true);
         setError(null);
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
         const response = await axios.get(`${API_URL}/api/artforms?limit=200`);
         
         // Handle the API response structure

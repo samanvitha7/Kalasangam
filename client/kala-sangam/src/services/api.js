@@ -1,32 +1,34 @@
 // Smart API URL detection with fallback
-const getApiUrl = () => {
+export const getApiUrl = () => {
   // Use environment variable first
-  if (import.meta.env.VITE_API_URL) {
+  if (import.meta.env?.VITE_API_URL) {
     return import.meta.env.VITE_API_URL;
   }
-  
+
   // Fallback logic based on current hostname
   if (typeof window !== 'undefined') {
     const hostname = window.location.hostname;
-    
+
     // If running on localhost, use local backend
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
       return 'http://localhost:5050';
     }
-    
-    // If deployed, use production backend
+
+    // Default to the same origin as the deployed frontend
+    if (window.location.origin) {
+      return window.location.origin;
+    }
+
+    // Final network fallback
     return 'https://kalasangam.onrender.com';
   }
-  
-  // Final fallback
-  return 'http://localhost:5050';
+
+  // Final fallback for non-browser contexts
+  return 'https://kalasangam.onrender.com';
 };
 
-const API_URL = getApiUrl();
+export const API_URL = getApiUrl();
 console.log(`🔗 API URL resolved to: ${API_URL}`);
-
-// Export the API URL for debugging
-export { API_URL };
 
 // Admin API functions
 export const adminApi = {

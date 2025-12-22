@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../services/api';
 
 // Optimized Image Component
 const OptimizedImage = ({ src, alt, className, style, title, onLoad, onError }) => {
@@ -72,7 +73,6 @@ const BackgroundImageGrid = () => {
     const fetchArtformImages = async () => {
       try {
         setLoading(true);
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
         const response = await axios.get(`${API_URL}/api/artforms?limit=50`);
         
         let artforms = [];
