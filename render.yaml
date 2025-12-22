@@ -17,29 +17,20 @@ services:
           type: web
           name: kalasangam
           property: port
-      - key: MONGO_URI
-        value: mongodb+srv://bolisettysamanvitha:XpFrzygY574FCLHf@cluster0.tohbv1j.mongodb.net/kalasangamdb?retryWrites=true&w=majority&appName=Cluster0
-      - key: JWT_SECRET
-        value: 4d62b08c4f0532c4d8e2b81e0ecb087a7060d431bb12ff3a3d94c842cbbba249
-      - key: JWT_EXPIRE
-        value: 30d
       - key: BASE_URL_PROD
         value: https://https-kalasangam-app-onrender-com.onrender.com
       - key: BASE_URL_DEV
         value: http://localhost:5173
-      - key: SMTP_HOST
-        value: smtp.gmail.com
-      - key: SMTP_PORT
-        value: 587
-      - key: SMTP_EMAIL
-        value: nefariamordeath@gmail.com
-      - key: SMTP_PASSWORD
-        value: qgyg jgsc qxxa wdoe
-      - key: FROM_NAME
-        value: KALASANGAM
-      - key: FROM_EMAIL
-        value: nefariamordeath@gmail.com
-      - key: EVENTBRITE_TOKEN
-        value: 2SJGH6KHAC74J6QOKKW3
-      - key: GOOGLE_TRANSLATE_API_KEY
-        value: your_google_translate_api_key_here
+      # IMPORTANT: Set the following sensitive env vars in Render Dashboard,
+      # NOT in source control to avoid public exposure.
+      # MONGO_URI
+      # JWT_SECRET
+      # JWT_EXPIRE
+      # SMTP_HOST
+      # SMTP_PORT
+      # SMTP_EMAIL
+      # SMTP_PASSWORD
+      # FROM_NAME
+      # FROM_EMAIL
+      # EVENTBRITE_TOKEN
+      # GOOGLE_TRANSLATE_API_KEY
