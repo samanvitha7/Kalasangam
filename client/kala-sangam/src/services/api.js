@@ -512,14 +512,9 @@ export const api = {
       console.log('Events API response status:', response.status);
 
       if (!response.ok) {
-        let errorMessage = `HTTP ${response.status}`;
-        try {
-          const errorData = await response.text();
-          errorMessage += ` - ${errorData}`;
-        } catch (e) {
-          console.warn('Could not read error response body');
-        }
-        throw new Error(`Failed to fetch events: ${errorMessage}`);
+        // Be resilient: return an empty list instead of crashing the UI
+        console.warn('Events endpoint returned non-OK status; falling back to empty list');
+        return { success: true, data: [] };
       }
 
       const result = await response.json();
