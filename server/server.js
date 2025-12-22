@@ -4,6 +4,11 @@ const mongoose = require("mongoose");
 const path=require("path");
 const eventbriteRoutes= require("./routes/eventbrite.js");
 
+// Force production mode on Render (check for common Render env indicators)
+if (process.env.RENDER || process.env.RAILWAY || process.env.HEROKU_APP_NAME) {
+  process.env.NODE_ENV = 'production';
+}
+
 // Load environment variables based on NODE_ENV
 if (process.env.NODE_ENV === 'production') {
   require("dotenv").config({ path: __dirname + '/.env.production' });
